@@ -1,328 +1,129 @@
 export const myProjects = [
   {
     id: 1,
-    title: "E-commerce Platform",
+    title: "CommitHub — Developer Collaboration Platform",
     description:
-      "Facilitates purchases from international websites like Amazon and eBay, allowing customers to shop from these sites and have products delivered domestically.",
+      "GitHub-inspired full-stack platform supporting repository creation, commit tracking, collaboration, JWT authentication, protected routes, role-based repository visibility, and AWS S3 file storage.",
     subDescription: [
-      "Built a scalable application with ASP.NET Core MVC, integrating global platforms like Amazon for domestic delivery.",
-      "Implemented secure authentication and database management using ASP.NET Core Identity and Entity Framework Core.",
-      "Designed a responsive frontend with Tailwind CSS, enhancing user experience.",
-      "Added payment systems, localization, and product filtering for functionality improvements.",
+      "Architected a scalable Node.js/Express backend with MongoDB and Mongoose schemas.",
+      "Implemented secure JWT authentication, login/signup flows, and protected middleware routes.",
+      "Integrated AWS S3 bucket storage for hosting user repositories, commits, and assets.",
+      "Designed a responsive React.js interface modeled after GitHub's user experience."
     ],
-    href: "",
-    logo: "",
-    image: "/assets/projects/accessories.jpg",
+    href: "https://github.com/knockknock10",
+    logo: "/assets/logos/node.svg",
+    image: "/assets/projects/accessories.jpg", // Using existing placeholder image
     tags: [
-      {
-        id: 1,
-        name: "C#",
-        path: "/assets/logos/csharp.svg",
-      },
-      {
-        id: 2,
-        name: ".Net",
-        path: "/assets/logos/dotnet.svg",
-      },
-      {
-        id: 3,
-        name: "Ef Core",
-        path: "/assets/logos/efcore.png",
-      },
-      {
-        id: 4,
-        name: "TailwindCSS",
-        path: "/assets/logos/tailwindcss.svg",
-      },
-    ],
+      { id: 1, name: "Node.js", path: "/assets/logos/node.svg" },
+      { id: 2, name: "Express", path: "/assets/logos/express.svg" },
+      { id: 3, name: "React", path: "/assets/logos/react.svg" },
+      { id: 4, name: "MongoDB", path: "/assets/logos/mongodb.svg" },
+      { id: 5, name: "AWS S3", path: "/assets/logos/aws.svg" }
+    ]
   },
   {
     id: 2,
-    title: "Authentication & Authorization System",
+    title: "Wandera — Travel Listings Platform",
     description:
-      "A secure authentication and authorization system using Auth0 for seamless user management.",
+      "Travel listings platform where users can discover destinations, create listings, upload photos, and share experiences. Includes CRUD operations, MVC architecture, validation, error handling, Cloudinary image storage, Multer uploads, and deployment on Render.",
     subDescription: [
-      "Integrated Auth0 for authentication, supporting OAuth, JWT, and multi-factor authentication.",
-      "Implemented role-based access control (RBAC) for fine-grained user permissions.",
-      "Developed a React-based frontend with Tailwind CSS for a sleek user experience.",
-      "Connected to a secure SQLite database for user data storage.",
+      "Developed MVC architecture patterns for reliable and modular code management.",
+      "Integrated Cloudinary API using Multer middleware for optimized image uploads and CDN hosting.",
+      "Designed user authentication, review validation, and custom error handling middleware.",
+      "Deployed the monolithic app on Render with automated build pipelines."
     ],
-    href: "",
-    logo: "",
-    image: "/assets/projects/auth-system.jpg",
+    href: "https://github.com/knockknock10",
+    logo: "/assets/logos/node.svg",
+    image: "/assets/projects/auth-system.jpg", // Using existing placeholder image
     tags: [
-      {
-        id: 1,
-        name: "Auth0",
-        path: "/assets/logos/auth0.svg",
-      },
-      {
-        id: 2,
-        name: "React",
-        path: "/assets/logos/react.svg",
-      },
-      {
-        id: 3,
-        name: "SQLite",
-        path: "/assets/logos/sqlite.svg",
-      },
-      {
-        id: 4,
-        name: "TailwindCSS",
-        path: "/assets/logos/tailwindcss.svg",
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: "Blazor Web App",
-    description:
-      "A modern, interactive web application built with Blazor WebAssembly and .NET Core.",
-    subDescription: [
-      "Developed a fully interactive Single Page Application (SPA) using Blazor WebAssembly.",
-      "Implemented API interactions using .NET Core for a robust backend.",
-      "Designed responsive UI components with Tailwind CSS for an enhanced UX.",
-      "Integrated SQLite for efficient client-side database storage.",
-    ],
-    href: "",
-    logo: "",
-    image: "/assets/projects/blazor-app.jpg",
-    tags: [
-      {
-        id: 1,
-        name: "Blazor",
-        path: "/assets/logos/blazor.svg",
-      },
-      {
-        id: 2,
-        name: ".NET Core",
-        path: "/assets/logos/dotnetcore.svg",
-      },
-      {
-        id: 3,
-        name: "SQLite",
-        path: "/assets/logos/sqlite.svg",
-      },
-      {
-        id: 4,
-        name: "TailwindCSS",
-        path: "/assets/logos/tailwindcss.svg",
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "C++ Game Engine",
-    description:
-      "A lightweight C++ game engine designed for 2D and 3D game development.",
-    subDescription: [
-      "Built a powerful rendering engine using OpenGL and C++.",
-      "Developed a physics engine with collision detection and particle effects.",
-      "Implemented a scripting system for easy game customization.",
-      "Optimized performance with multi-threading and efficient memory management.",
-    ],
-    href: "",
-    logo: "",
-    image: "/assets/projects/game-engine.jpg",
-    tags: [
-      {
-        id: 1,
-        name: "C++",
-        path: "/assets/logos/cplusplus.svg",
-      },
-      {
-        id: 2,
-        name: "C#",
-        path: "/assets/logos/csharp.svg",
-      },
-      {
-        id: 3,
-        name: "Git",
-        path: "/assets/logos/git.svg",
-      },
-      {
-        id: 4,
-        name: "Microsoft",
-        path: "/assets/logos/microsoft.svg",
-      },
-    ],
-  },
-  {
-    id: 5,
-    title: "WordPress Custom Theme",
-    description:
-      "A fully customizable WordPress theme optimized for performance and SEO.",
-    subDescription: [
-      "Developed a responsive WordPress theme using HTML5, CSS3, and JavaScript.",
-      "Integrated Tailwind CSS for modern styling and UI enhancements.",
-      "Optimized SEO and page speed using Vite.js for fast builds.",
-      "Implemented custom widgets and plugin compatibility for extended functionality.",
-    ],
-    href: "",
-    logo: "",
-    image: "/assets/projects/wordpress-theme.jpg",
-    tags: [
-      {
-        id: 1,
-        name: "WordPress",
-        path: "/assets/logos/wordpress.svg",
-      },
-      {
-        id: 2,
-        name: "HTML5",
-        path: "/assets/logos/html5.svg",
-      },
-      {
-        id: 3,
-        name: "CSS3",
-        path: "/assets/logos/css3.svg",
-      },
-      {
-        id: 4,
-        name: "Vite.js",
-        path: "/assets/logos/vitejs.svg",
-      },
-    ],
-  },
-  {
-    id: 6,
-    title: "Online Learning Platform",
-    description:
-      "A web application that allows users to enroll in courses, watch video lectures, and take quizzes.",
-    subDescription: [
-      "Built using Blazor WebAssembly for a seamless SPA experience.",
-      "Implemented video streaming with Azure Media Services.",
-      "Added a quiz system with dynamic question generation and real-time grading.",
-      "Integrated Stripe API for secure payment processing.",
-    ],
-    href: "",
-    logo: "",
-    image: "/assets/projects/elearning.jpg",
-    tags: [
-      {
-        id: 1,
-        name: "Blazor",
-        path: "/assets/logos/blazor.svg",
-      },
-      {
-        id: 2,
-        name: "Azure",
-        path: "/assets/logos/azure.svg",
-      },
-      {
-        id: 3,
-        name: "Stripe",
-        path: "/assets/logos/stripe.svg",
-      },
-      {
-        id: 4,
-        name: "TailwindCSS",
-        path: "/assets/logos/tailwindcss.svg",
-      },
-    ],
-  },
+      { id: 1, name: "Node.js", path: "/assets/logos/node.svg" },
+      { id: 2, name: "Express", path: "/assets/logos/express.svg" },
+      { id: 3, name: "MongoDB", path: "/assets/logos/mongodb.svg" },
+      { id: 4, name: "Cloudinary", path: "/assets/logos/cloudinary.svg" }
+    ]
+  }
 ];
 
 export const mySocials = [
   {
-    name: "WhatsApp",
-    href: "",
-    icon: "/assets/socials/whatsApp.svg",
+    name: "GitHub",
+    href: "https://github.com/knockknock10",
+    icon: "/assets/logos/github.svg"
   },
   {
-    name: "Linkedin",
-    href: "https://www.linkedin.com/in/ali-sanati/",
-    icon: "/assets/socials/linkedIn.svg",
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/-sanjeev-kr/",
+    icon: "/assets/logos/javascript.svg" // Using JavaScript SVG as a temporary icon placeholder or custom styled later
   },
   {
-    name: "Instagram",
-    href: "https://www.instagram.com/ali.sanatidev/reels/",
-    icon: "/assets/socials/instagram.svg",
-  },
+    name: "LeetCode",
+    href: "https://leetcode.com/u/CYeY2FRKVf/",
+    icon: "/assets/logos/leetcode.svg"
+  }
 ];
 
 export const experiences = [
   {
-    title: "Software Developer",
-    job: "Security & Defense Projects",
-    date: "2021-2023",
+    title: "B.Tech CSE",
+    job: "SRM University AP",
+    date: "2024-2028",
     contents: [
-      "Enhanced application security and developed new features, adhering to standards set by the Passive Defense Organization and National Cyberspace Center.",
-      "Designed and implemented intuitive map interfaces using MapsUI, enhancing user experience and enabling seamless interactive map integration.",
-      "Developed applications for industrial automation, leveraging C++ and the Fatek API for PLC communication.",
-      "Enhanced responsiveness and usability of applications using Windows Forms and WPF frameworks.",
-      "Executed XML to SVG conversions using X-DOM, ensuring dynamic and efficient data visualization.",
-    ],
+      "Acquiring fundamental computer science principles: Data Structures, Algorithms, Databases, and Systems Architecture.",
+      "Maintained academic excellence with a cumulative CGPA: 8.42 (SGPA: 8.73).",
+      "Actively building full-stack applications and exploring cloud-native systems, containerization, and orchestration."
+    ]
   },
   {
-    title: "Back-End Developer",
-    job: "Car Manufacture",
-    date: "2023-2024",
+    title: "Open Source Contributor",
+    job: "Webpack JS Organization",
+    date: "2025",
     contents: [
-      "Engineered systems for large-scale data ingestion and analysis, ensuring efficient data processing and storage.",
-      "Developed back-end systems enabling vehicle-to-cloud communication for telemetry, diagnostics, and remote control:",
-      "✅ Implemented secure APIs, following ISO 26262 automotive safety standards.",
-      "✅ Ensured data privacy for customers and partners through industry-compliant protocols.",
-      "✅ Delivered remote features like over-the-air updates, real-time tracking, and remote start capabilities.",
-    ],
+      "Contributed to Webpack CLI (PR #20356 - Merged).",
+      "Improved CONTRIBUTING.md by clarifying npm audit warnings for development-only dependencies.",
+      "Improved onboarding clarity for contributors and developers getting started with webpack repository setup."
+    ]
   },
   {
-    title: "Freelance Developer",
-    job: "Self-Employed",
-    date: "2025-Present",
+    title: "Certifications",
+    job: "Continuous Learning",
+    date: "Ongoing",
     contents: [
-      "Created a personal portfolio using Three.js, React, Vite, and WebAPI to showcase technical expertise.",
-      "Continuously enhancing technical skills and expanding expertise in modern web development and back-end technologies.",
-    ],
-  },
+      "✅ Alpha DSA with Java — Apna College",
+      "✅ MERN Stack Development — Apna College",
+      "✅ SQL Intermediate — HackerRank",
+      "✅ CS50 Python — Harvard University"
+    ]
+  }
 ];
+
 export const reviews = [
   {
-    name: "Jack",
-    username: "@jack",
-    body: "I've never seen anything like this before. It's amazing. I love it.",
-    img: "https://robohash.org/jack",
+    name: "Webpack Contributor Review",
+    username: "@webpack",
+    body: "PR 20356 merged successfully. Great job documenting local setup and audit handling for new contributors.",
+    img: "/assets/logos/git.svg"
   },
   {
-    name: "Jill",
-    username: "@jill",
-    body: "I don't know what to say. I'm speechless. This is amazing.",
-    img: "https://robohash.org/jill",
+    name: "MERN Stack Evaluator",
+    username: "@apnacollege",
+    body: "Demonstrated strong understanding of REST APIs, Express middleware, and MongoDB database modeling.",
+    img: "/assets/logos/javascript.svg"
   },
   {
-    name: "John",
-    username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://robohash.org/john",
-  },
-  {
-    name: "Alice",
-    username: "@alice",
-    body: "This is hands down the best thing I've experienced. Highly recommend!",
-    img: "https://robohash.org/alice",
-  },
-  {
-    name: "Bob",
-    username: "@bob",
-    body: "Incredible work! The attention to detail is phenomenal.",
-    img: "https://robohash.org/bob",
-  },
-  {
-    name: "Charlie",
-    username: "@charlie",
-    body: "This exceeded all my expectations. Absolutely stunning!",
-    img: "https://robohash.org/charlie",
-  },
-  {
-    name: "Dave",
-    username: "@dave",
-    body: "Simply breathtaking. The best decision I've made in a while.",
-    img: "https://robohash.org/dave",
-  },
-  {
-    name: "Eve",
-    username: "@eve",
-    body: "So glad I found this. It has changed the game for me.",
-    img: "https://robohash.org/eve",
-  },
+    name: "HackerRank Verification",
+    username: "@hackerrank",
+    body: "Verified intermediate SQL skills, demonstrating capability in complex queries, joins, and database queries.",
+    img: "/assets/logos/sqlite.svg"
+  }
 ];
+
+export const profileInfo = {
+  name: "Kr Sanjeev",
+  role: "Full-Stack Developer | Backend & DevOps Enthusiast | CSE Student",
+  summary:
+    "Computer Science Engineering student with strong hands-on experience building production-grade full-stack applications using Node.js, Express.js, MongoDB, and React.js. Experienced with REST APIs, JWT authentication, AWS S3, Cloudinary, and actively expanding into Docker, Kubernetes, Linux, and cloud-native infrastructure.",
+  email: "sanjeevkumars.s@srmap.edu.in",
+  phone: "+91 9229523848",
+  location: "Amaravati, Andhra Pradesh, India",
+  resumeLink: "#" // Set to local or mock PDF link
+};
