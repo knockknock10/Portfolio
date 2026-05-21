@@ -57,29 +57,31 @@ const HeroText = () => {
       {/* Main Heading with dynamic word cycle loop */}
       <motion.h1 
         variants={itemVariants}
-        className="text-4xl sm:text-5xl md:text-[52px] font-extrabold text-neutral-100 tracking-tight leading-[1.15] mb-6 flex flex-col items-center md:items-start w-full"
+        className="text-4xl sm:text-5xl md:text-[56px] font-extrabold text-neutral-100 tracking-tight leading-[1.1] mb-8 flex flex-col items-center md:items-start w-full"
       >
-        <span className="text-xl sm:text-2xl md:text-3xl font-medium text-purple-400 mb-4 font-mono">
+        <span className="text-xl sm:text-2xl md:text-3xl font-medium text-purple-400 mb-6 font-mono block">
           Hi, I'm Kr Sanjeev
         </span>
-        <span className="text-neutral-100 mb-2">
-          Building
-        </span>
-        <span className="relative inline-block w-full h-[1.4em] py-0.5 overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={currentWordIndex}
-              initial={{ y: 15, opacity: 0, filter: "blur(4px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              exit={{ y: -15, opacity: 0, filter: "blur(4px)" }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="absolute left-0 top-0 w-full text-center md:text-left block text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-purple-400 drop-shadow-[0_2px_12px_rgba(168,85,247,0.45)] font-extrabold"
-            >
-              {words[currentWordIndex]}
-            </motion.span>
-          </AnimatePresence>
-        </span>
-        <span className="text-lg sm:text-xl md:text-2xl font-normal mt-4 tracking-normal text-neutral-400 font-sans">
+        <div className="flex flex-col items-center md:items-start w-full leading-[1.1]">
+          <span className="text-neutral-100 mb-2">
+            Building
+          </span>
+          <span className="relative inline-block w-full h-[1.3em] overflow-visible">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={currentWordIndex}
+                initial={{ y: 20, opacity: 0, filter: "blur(8px)" }}
+                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                exit={{ y: -20, opacity: 0, filter: "blur(8px)" }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="absolute left-0 top-0 w-full text-center md:text-left block text-transparent bg-clip-text bg-gradient-to-r from-[#ffffff] via-[#f8f9fa] to-[#d1d5db] drop-shadow-[0_2px_15px_rgba(255,255,255,0.2)] font-extrabold tracking-tight"
+              >
+                {words[currentWordIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+        </div>
+        <span className="text-lg sm:text-xl md:text-2xl font-normal mt-6 tracking-normal text-neutral-400 font-sans block">
           for modern engineering teams.
         </span>
       </motion.h1>

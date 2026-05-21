@@ -134,7 +134,7 @@ const Projects = () => {
   return (
     <section 
       id="projects" 
-      className="w-full py-32 sm:py-40 bg-bg-primary border-b border-border-card relative"
+      className="w-full py-40 sm:py-48 bg-bg-primary border-b border-border-card relative"
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12 relative z-10">
         
@@ -157,7 +157,7 @@ const Projects = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12"
+          className="grid grid-cols-1 gap-16 sm:gap-24"
         >
           {projects.map((proj, idx) => (
             <motion.div
@@ -166,7 +166,7 @@ const Projects = () => {
               className="rounded-2xl border border-neutral-850 bg-bg-card hover:border-purple-500/25 transition-all duration-300 flex flex-col overflow-hidden hover:shadow-[0_16px_48px_rgba(0,0,0,0.45)] group h-full"
             >
               {/* Top Banner Image / Preview Area */}
-              <div className="relative h-64 sm:h-72 overflow-hidden border-b border-neutral-900 bg-neutral-950 flex-shrink-0">
+              <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden border-b border-neutral-900 bg-neutral-950 flex-shrink-0">
                 <img
                   src={proj.image}
                   alt={proj.title}
@@ -181,7 +181,7 @@ const Projects = () => {
               </div>
 
               {/* Card Body */}
-              <div className="p-8 flex-grow flex flex-col justify-between">
+              <div className="p-10 sm:p-12 md:p-16 flex-grow flex flex-col justify-between">
                 <div>
                   <h3 className="text-2xl font-bold text-neutral-100 group-hover:text-purple-300 transition-colors duration-300 leading-tight mb-3">
                     {proj.title}

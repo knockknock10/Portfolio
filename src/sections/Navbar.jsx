@@ -85,10 +85,10 @@ const Navbar = ({ openQuickView }) => {
   };
 
   return (
-    <div className={`fixed inset-x-0 top-0 z-40 w-full transition-all duration-300 ${
+    <header className={`fixed inset-x-0 top-0 z-40 w-full transition-all duration-300 ${
       isScrolled 
-        ? "backdrop-blur-md bg-bg-primary/75 border-b border-purple-500/10 shadow-[0_4px_30px_rgba(0,0,0,0.3)]" 
-        : "backdrop-blur-none bg-transparent border-b border-transparent shadow-none"
+        ? "backdrop-blur-md bg-[#050508]/35 border-b border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.25)]" 
+        : "backdrop-blur-[2px] bg-transparent border-b border-transparent shadow-none"
     }`}>
       <div className="max-w-7xl mx-auto px-6 sm:px-12 w-full">
         <div className="flex items-center justify-between py-4">
@@ -139,7 +139,7 @@ const Navbar = ({ openQuickView }) => {
           </nav>
         </motion.div>
       )}
-    </div>
+    </header>
   );
 };
 
