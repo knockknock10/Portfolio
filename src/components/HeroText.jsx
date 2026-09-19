@@ -118,10 +118,10 @@ const HeroText = () => {
         </a>
 
         <a
-          href="#console"
+          href="/Kr_Sanjeev_Resume.pdf"
           className="px-6 py-3 rounded-lg border border-neutral-850 bg-gradient-to-b from-bg-card to-bg-darker hover:from-bg-card-hover hover:to-bg-card text-neutral-300 hover:text-white font-medium transition-all duration-300 hover:-translate-y-0.5 backdrop-blur-md cursor-pointer text-xs uppercase mono-font shadow-[0_4px_15px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] hover:shadow-[0_4px_25px_rgba(255,255,255,0.1),inset_0_1px_0_rgba(255,255,255,0.08)]"
         >
-          Open Console
+          Download Résumé
         </a>
       </motion.div>
     </motion.div>

@@ -3,13 +3,13 @@ import { motion } from "framer-motion";
 
 const sectionIds = ["home", "about", "skills", "projects", "contact"];
 
-function Navigation({ openQuickView, closeMenu, theme, toggleTheme, activeSection, setActiveSection }) {
+function Navigation({ closeMenu, theme, toggleTheme, activeSection }) {
   const links = [
     { name: "Home", href: "#home" },
     { name: "Journey", href: "#about" },
     { name: "Skills", href: "#skills" },
     { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" }
+    { name: "Contact", href: "#contact" },
   ];
 
   return (
@@ -52,25 +52,14 @@ function Navigation({ openQuickView, closeMenu, theme, toggleTheme, activeSectio
             </svg>
           )}
         </button>
-        <button
-          onClick={() => {
-            openQuickView();
-            if (closeMenu) closeMenu();
-          }}
-          className="px-4 py-1.5 text-[11px] border border-purple-500/30 text-purple-400 rounded-md hover:bg-purple-500/10 hover:border-purple-500/50 transition-all duration-200 font-semibold uppercase tracking-wider mono-font cursor-pointer whitespace-nowrap"
-          >
-          Quick View
-          </button>
       </li>
     </ul>
   );
 }
 
-const Navbar = ({ openQuickView }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const sectionRefs = useRef({});
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("portfolio-theme") || "dark";
@@ -85,17 +74,13 @@ const Navbar = ({ openQuickView }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scroll-spy: determine active section from element positions
+  // Scroll-spy
   useEffect(() => {
     const handleActiveSection = () => {
       const scrollPos = window.scrollY + 120;
@@ -113,16 +98,16 @@ const Navbar = ({ openQuickView }) => {
     return () => window.removeEventListener("scroll", handleActiveSection);
   }, []);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
+  const toggleTheme = () => setTheme((prev) => (prev === "dark" ? "light" : "dark"));
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-40 w-full transition-all duration-300 ${
-      isScrolled 
-        ? "backdrop-blur-md bg-[#050508]/35 border-b border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.25)]" 
-        : "backdrop-blur-[2px] bg-transparent border-b border-transparent shadow-none"
-    }`}>
+    <header
+      className={`fixed inset-x-0 top-0 z-40 w-full transition-all duration-300 ${
+        isScrolled
+          ? "backdrop-blur-md bg-[#050508]/35 border-b border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
+          : "backdrop-blur-[2px] bg-transparent border-b border-transparent shadow-none"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-6 sm:px-12 w-full">
         <div className="flex items-center justify-between py-4">
           <a
@@ -131,13 +116,13 @@ const Navbar = ({ openQuickView }) => {
           >
             kr_sanjeev:<span className="text-purple-400">~</span>$
           </a>
-          
+
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="flex cursor-pointer text-neutral-400 hover:text-white focus:outline-none sm:hidden"
             aria-label="Toggle Menu"
           >
-            {isOpen ? (
+            {isMenuOpen ? (
               <svg className="w-6 h-6 fill-none stroke-current" strokeWidth="2.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -147,20 +132,19 @@ const Navbar = ({ openQuickView }) => {
               </svg>
             )}
           </button>
-          
+
           <nav className="hidden sm:flex">
             <Navigation
-              openQuickView={openQuickView}
+              closeMenu={() => setIsMenuOpen(false)}
               theme={theme}
               toggleTheme={toggleTheme}
               activeSection={activeSection}
-              setActiveSection={setActiveSection}
             />
           </nav>
         </div>
       </div>
 
-      {isOpen && (
+      {isMenuOpen && (
         <motion.div
           className="block overflow-hidden text-center sm:hidden bg-bg-primary border-b border-neutral-850/40"
           initial={{ opacity: 0, height: 0 }}
@@ -170,12 +154,10 @@ const Navbar = ({ openQuickView }) => {
         >
           <nav className="py-6 px-4">
             <Navigation
-              openQuickView={openQuickView}
-              closeMenu={() => setIsOpen(false)}
+              closeMenu={() => setIsMenuOpen(false)}
               theme={theme}
               toggleTheme={toggleTheme}
               activeSection={activeSection}
-              setActiveSection={setActiveSection}
             />
           </nav>
         </motion.div>

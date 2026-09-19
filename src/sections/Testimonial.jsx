@@ -1,42 +1,30 @@
-import { twMerge } from "tailwind-merge";
-import Marquee from "../components/Marquee";
 import { testimonials } from "../data/profile";
 
-const firstRow = testimonials.slice(0, Math.ceil(testimonials.length / 2));
-const secondRow = testimonials.slice(Math.ceil(testimonials.length / 2));
-
-const ReviewCard = ({ img, name, username, body }) => {
-  return (
-    <figure
-      className={twMerge(
-        "relative h-full w-80 cursor-pointer overflow-hidden rounded-xl border p-6 border-neutral-850 bg-bg-card backdrop-blur-md transition-all duration-300 hover:border-purple-500/25 select-none shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
-      )}
-    >
-      <div className="flex flex-row items-center gap-3">
-        <img
-          className="rounded-full bg-bg-darker border border-neutral-850 p-1.5 size-10 object-contain"
-          alt={name}
-          src={img}
-        />
-        <div className="flex flex-col">
-          <figcaption className="text-sm font-bold text-neutral-200">
-            {name}
-          </figcaption>
+const VerificationCard = ({ name, username, body }) => (
+  <div className="flex flex-col justify-between p-6 rounded-2xl border border-neutral-850 bg-bg-card hover:border-purple-500/25 transition-all duration-300 h-full">
+    <div>
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 rounded-full bg-bg-darker border border-neutral-850 p-1.5 flex items-center justify-center">
+          <svg className="w-5 h-5 text-neutral-400" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+        </div>
+        <div>
+          <p className="text-sm font-bold text-neutral-200">{name}</p>
           <p className="text-[10px] font-semibold text-purple-400 mono-font">{username}</p>
         </div>
       </div>
-      <blockquote className="mt-4 text-xs sm:text-sm text-neutral-400 leading-relaxed font-medium">
-        "{body}"
+      <blockquote className="text-xs sm:text-sm text-neutral-400 leading-relaxed font-medium">
+        &ldquo;{body}&rdquo;
       </blockquote>
-    </figure>
-  );
-};
+    </div>
+  </div>
+);
 
-export default function Testimonial() {
+export default function Verifications() {
   return (
-    <section id="verifications" className="w-full py-32 sm:py-40 bg-bg-primary border-b border-border-card relative overflow-hidden">
+    <section id="verifications" className="w-full py-32 sm:py-40 bg-bg-primary border-b border-border-card relative">
       <div className="max-w-7xl mx-auto px-6 sm:px-12">
-        {/* Title */}
         <div className="mb-24 text-center max-w-2xl mx-auto">
           <span className="inline-block px-3 py-1 rounded-full border border-purple-500/10 bg-purple-500/5 text-purple-400 text-xs font-semibold tracking-wider uppercase mono-font mb-4">
             Verifications & Certifications
@@ -49,23 +37,10 @@ export default function Testimonial() {
           </p>
         </div>
 
-        {/* Scrolling Marquees */}
-        <div className="relative flex flex-col items-center justify-center w-full mt-10 overflow-hidden">
-          <Marquee pauseOnHover className="[--duration:28s] py-2">
-            {firstRow.map((review) => (
-              <ReviewCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          {secondRow.length > 0 && (
-            <Marquee reverse pauseOnHover className="[--duration:28s] py-2">
-              {secondRow.map((review) => (
-                <ReviewCard key={review.username} {...review} />
-              ))}
-            </Marquee>
-          )}
-          {/* Side Gradients using CSS variable fallback */}
-          <div className="absolute inset-y-0 left-0 w-1/5 pointer-events-none bg-gradient-to-r from-bg-primary via-bg-primary/80 to-transparent"></div>
-          <div className="absolute inset-y-0 right-0 w-1/5 pointer-events-none bg-gradient-to-l from-bg-primary via-bg-primary/80 to-transparent"></div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          {testimonials.map((item) => (
+            <VerificationCard key={item.username} {...item} />
+          ))}
         </div>
       </div>
     </section>
