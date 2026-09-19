@@ -132,8 +132,8 @@ export const projects = [
       "Integrated AWS S3 bucket storage for hosting user repositories, commits, and assets.",
       "Designed a responsive React.js interface modeled after GitHub's user experience."
     ],
-    github: "https://github.com/knockknock10",
-    live: "https://github.com/knockknock10",
+    github: "https://github.com/knockknock10/CommitHub",
+    live: "https://kr-sanjeev.netlify.app/commithub",
     image: "/assets/projects/accessories.jpg",
     tags: ["React", "Node.js", "Express", "MongoDB", "AWS S3"]
   },
@@ -149,8 +149,8 @@ export const projects = [
       "Designed user authentication, review validation, and custom error handling middleware.",
       "Deployed the monolithic app on Render with automated build pipelines."
     ],
-    github: "https://github.com/knockknock10",
-    live: "https://github.com/knockknock10",
+    github: "https://github.com/knockknock10/Wandera",
+    live: null,
     image: "/assets/projects/auth-system.jpg",
     tags: ["Node.js", "Express", "MongoDB", "Cloudinary", "MVC"]
   },
@@ -166,9 +166,9 @@ export const projects = [
       "Developed a complete GitHub Actions workflow executing automated linting, unit testing, and registry pushes.",
       "Established centralized logging and basic health-check monitoring for service reliability."
     ],
-    github: "https://github.com/knockknock10",
-    live: "https://github.com/knockknock10",
-    image: "/assets/projects/accessories.jpg", // Using standard visual placeholder
+    github: "https://github.com/knockknock10/E_Com",
+    live: null,
+    image: "/assets/projects/accessories.jpg",
     tags: ["Docker", "Kubernetes", "GitHub Actions", "Node.js", "CI/CD"]
   },
   {
@@ -183,9 +183,9 @@ export const projects = [
       "Built dynamic search, filtering, and tag systems for fast project exploration.",
       "Optimized query performance for fetching complex relations (Teams, Projects, Judges)."
     ],
-    github: "https://github.com/knockknock10",
-    live: "https://github.com/knockknock10",
-    image: "/assets/projects/auth-system.jpg", // Using standard visual placeholder
+    github: "https://github.com/knockknock10/NOVAFEST",
+    live: null,
+    image: "/assets/projects/auth-system.jpg",
     tags: ["React", "Node.js", "Express", "MongoDB", "Tailwind"]
   }
 ];
@@ -230,51 +230,21 @@ export const experienceInfo = [
 
 export const testimonials = [
   {
-    name: "Webpack Contributor Review",
-    username: "@webpack/webpack-cli",
-    body: "PR #20356 merged successfully. Great contribution — clarified npm audit warnings for local devDependencies. Helps new contributors onboard faster.",
+    name: "Webpack CLI Maintainers",
+    username: "webpack/webpack-cli — PR #20356",
+    body: "PR merged: clarified npm audit warnings for local devDependencies in CONTRIBUTING.md. Helps new contributors onboard without getting blocked by security scanner output during local setup.",
     img: "/assets/logos/git.svg"
   },
   {
-    name: "MERN Stack Evaluator",
-    username: "@apnacollege",
-    body: "Strong understanding of REST APIs, Express middleware chains, JWT flows, and MongoDB aggregation pipelines. Production-grade knowledge.",
-    img: "/assets/logos/javascript.svg"
-  },
-  {
-    name: "HackerRank Verification",
-    username: "@hackerrank",
-    body: "Intermediate SQL certification verified — complex JOIN queries, window functions, and query optimization all demonstrated competently.",
+    name: "HackerRank SQL Certification",
+    username: "Intermediate SQL — Verified",
+    body: "Intermediate SQL certification completed — complex JOIN queries, window functions, and query optimization assessed and verified.",
     img: "/assets/logos/sqlite.svg"
   },
   {
-    name: "Docker & Containers",
-    username: "@docker-community",
-    body: "Multi-stage build optimization, volume mounting, and docker-compose orchestration applied cleanly in production-grade configurations.",
-    img: "/assets/logos/docker.svg"
-  },
-  {
-    name: "GitHub Academic Evaluator",
-    username: "@github-education",
-    body: "Active contributor with structured commit history, semantic branching, and fully automated GitHub Actions CI/CD pipelines.",
-    img: "/assets/logos/github.svg"
-  },
-  {
-    name: "SRM University AP",
-    username: "@srmap-cse-faculty",
-    body: "Exceptional academic performance in Data Structures, Operating Systems, and Database Management. CGPA 8.42 with consistent improvement each semester.",
+    name: "CS50 — Harvard University",
+    username: "CS50P — Introduction to Programming with Python",
+    body: "Completed Harvard's CS50 Introduction to Programming with Python — covering functions, loops, conditionals, libraries, unit testing, and file I/O.",
     img: "/assets/logos/javascript.svg"
-  },
-  {
-    name: "Node.js Architecture Review",
-    username: "@nodejs-community",
-    body: "Solid command of asynchronous patterns, event loop design, and middleware architecture in Express — applied across multiple production applications.",
-    img: "/assets/logos/node.svg"
-  },
-  {
-    name: "AWS S3 Integration",
-    username: "@aws-community",
-    body: "Correctly configured S3 bucket policies, IAM scoped permissions, and Node.js SDK integration for secure file storage across projects.",
-    img: "/assets/logos/aws.svg"
   }
 ];

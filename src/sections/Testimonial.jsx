@@ -42,10 +42,10 @@ export default function Testimonial() {
             Endorsements
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mt-1">
-            Verifications & Peer Reviews
+            Verifications & Certifications
           </h2>
           <p className="text-base text-neutral-400 mt-4 leading-relaxed">
-            Real feedback and technical validations from open source and platform assessments.
+            Independently verifiable credentials and open-source contributions.
           </p>
         </div>
 

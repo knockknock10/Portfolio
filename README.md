@@ -1,122 +1,120 @@
-# 🌐 [Website](https://kr-sanjeev.netlify.app/)
+# Sanjeev Kumar — Portfolio
 
-<p align="center">
-  <a href="https://kr-sanjeev.netlify.app/">
-    <img src="https://github.com/user-attachments/assets/9b0ed20e-074e-4f2a-81d8-20c9da751e9e" alt="Portfolio Screenshot" />
-  </a>
-</p>
-
-<p align="center">
-  <b>Click the image to visit the portfolio </b>
-</p>
+> Full-Stack Developer · Webpack CLI Contributor · B.Tech CSE @ SRM University AP
 
 ---
 
-## 📚 Table of Contents
+## 🌐 Live Site
 
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Assets](#-assets)
-- [Contact Me](#-contact-me)
-- [Suggestions or Feedback](#-suggestions-or-feedback)
-- [Like This Project?](#-like-this-project)
+**https://kr-sanjeev.netlify.app/**
 
----
-
-## ✨ Features
-
-- 🔥 3D visuals powered by **React Three Fiber** and **Drei**
-- ⚡ Smooth transitions and scroll-based animations using **Framer Motion**
-- 🎨 Clean, responsive UI with **TailwindCSS**
-- 💌 Working contact form using **EmailJS**
-- 🧱 Beautiful UI enhancements with **Aceternity UI** and **Magic UI**
-- 🚀 Lightning-fast development with **Vite**
+A personal portfolio showcasing my projects, open-source contribution, and engineering work.
 
 ---
 
 ## 🛠 Tech Stack
 
-| Tech              | Description                           |
-|-------------------|---------------------------------------|
-| React             | Front-end JavaScript library          |
-| Vite              | Fast bundler and dev environment      |
-| TailwindCSS       | Utility-first CSS framework           |
-| React Three Fiber | 3D rendering with Three.js in React   |
-| Drei              | Helpers and abstractions for R3F      |
-| Framer Motion     | Animation library for React           |
-| EmailJS           | Form handling and email integration   |
-| Aceternity UI     | Custom UI components                  |
-| Magic UI          | Prebuilt UI elements and design extras|
+Built with **React 18**, **Vite**, and **Tailwind CSS**. Animated with **Framer Motion**. 3D elements via **React Three Fiber** and **Drei**.
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | React 18 + Vite |
+| Styling | Tailwind CSS 3 + custom CSS variables |
+| Animation | Framer Motion |
+| 3D | React Three Fiber + Drei |
+| Deployment | Netlify |
 
 ---
 
 ## 📁 Project Structure
 
-```bash
-├── public/
-│   ├── assets/             # Images, textures, models
-│   ├── models/             # 3D Astronaut model
-│   └── vite.svg
-├── src/
-│   ├── components/         # Reusable components
-│   ├── constants/          # Reusable datas
-│   ├── sections/           # Portfolio sections (Hero, About, etc.)
-│   ├── App.jsx             # Main app file
-│   ├── index.css           # Tailwind css
-│   └── main.jsx            # Entry point
-├── tailwind.config.js
-└── vite.config.js
 ```
+├── public/
+│   ├── assets/             # Project images, logos, resume
+│   ├── models/             # 3D assets
+│   └── vite.svg            # Favicon
+├── src/
+│   ├── components/         # Reusable UI components
+│   ├── sections/           # Page sections (Hero, About, Projects, etc.)
+│   ├── data/
+│   │   └── profile.js      # All portfolio content (projects, socials, timeline)
+│   ├── App.jsx             # Root component, section orchestration
+│   ├── main.jsx            # React entry point
+│   └── index.css           # Tailwind directives + custom properties + utilities
+├── index.html
+├── package.json
+├── tailwind.config.js
+├── vite.config.js
+└── README.md
+```
+
+---
+
+## ✨ Features
+
+- **Hero** — 3D astronaut (React Three Fiber) with mouse-tracking camera, floating particles, and parallax mountain background
+- **Terminal Console** — Animated terminal-style introduction with typewriter effect
+- **About** — Timeline-based engineering journey (schooling → SRM → projects → DevOps → open source)
+- **Skills** — Categorized skill matrix (Backend, Frontend, Database, DevOps & Cloud, Tools) with level indicators
+- **Projects** — Expandable project cards with architecture descriptions, tech tags, and links to code
+- **Open Source** — Webpack CLI PR #20356 showcase with contribution impact details
+- **Testimonials** — Peer review marquee (Endorsements section)
+- **Contact** — Contact form with alert feedback
+- **Quick View Modal** — Recruiter summary modal (profile snapshot, skills, resume download)
+- **Theme Toggle** — Dark/light mode persisted to localStorage
 
 ---
 
 ## 🚀 Getting Started
-1. Clone the Repository
+
 ```bash
-git clone https://github.com/Ali-Sanati/Portfolio.git
+# Clone this repository
+git clone https://github.com/knockknock10/Portfolio.git
 cd Portfolio
-```
-2. Install Dependencies
-```bash
+
+# Install dependencies
 npm install
-```
-3. Run the Development Server
-```bash
+
+# Start development server
 npm run dev
 ```
-The app will be available at http://localhost:5173.
+
+The app will be available at **http://localhost:5173**.
 
 ---
 
-## 🔗 Assets
-Assets used in the project can be found [here](https://github.com/user-attachments/files/19820923/public.zip)
+## 🎨 Design
+
+Dark-first UI with a muted gold accent (`#d9a74a`). Light mode is supported via a `data-theme` attribute on `<html>`, toggled from the navbar. Custom scrollbar, selection color, and focus-visible outlines are included. The design prioritizes readable typography (Inter + JetBrains Mono) and restrained motion.
 
 ---
 
-## 📬 Contact Me
-[![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://www.instagram.com/ali.sanatidev/reels/) 
-[![Static Badge](https://img.shields.io/badge/Youtube-%23FF0033?style=flat&logo=youtube)](https://www.youtube.com/channel/UCZhtUWTtk3bGJiMPN9T4HWA)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ali-sanati/) 
+## 📬 Contact
+
+- **Email:** sanjeevkumars.s@srmap.edu.in
+- **GitHub:** https://github.com/knockknock10
+- **LinkedIn:** https://www.linkedin.com/in/-sanjeev-kr/
+- **LeetCode:** https://leetcode.com/u/CYeY2FRKVf/
 
 ---
 
-## 💡 Suggestions or Feedback?
-Leave a comment on the [YouTube video](https://youtu.be/S9UQItTpwUQ) or open an issue here on GitHub.<br/>
-👉 What should I build next?
+## 📄 Resume
 
-- A beautiful Landing Page
-
-- A complete E-commerce site
-
-- A fun App Clone (YouTube, Netflix, etc.)
-
-Or another interactive Portfolio
-
-Let me know!
+A resume PDF is served at `public/Kr_Sanjeev_Resume.pdf` and linked from the Recruiter Summary modal.
 
 ---
 
-## ⭐ Like This Project?
-Star the repo and [subscribe](https://www.youtube.com/channel/UCZhtUWTtk3bGJiMPN9T4HWA??sub_confirmation=1) to the YouTube channel for more dev content!
+## 🔗 External Links
+
+- **Webpack CLI PR #20356 (merged):** https://github.com/webpack/webpack-cli/pull/20356
+- **LeetCode profile:** https://leetcode.com/u/CYeY2FRKVf/
+
+---
+
+## 📝 Notes
+
+This portfolio is a personal project. All project descriptions, skills, and timeline entries reflect my actual work and learning. The Webpack contribution (PR #20356) is a real merged pull request to the webpack-cli repository.
+
+---
+
+Built with React, Vite, and Tailwind CSS.
