@@ -45,9 +45,9 @@ function Navigation({ openQuickView, closeMenu, theme, toggleTheme }) {
             if (closeMenu) closeMenu();
           }}
           className="px-4 py-1.5 text-[11px] border border-purple-500/30 text-purple-400 rounded-md hover:bg-purple-500/10 hover:border-purple-500/50 transition-all duration-200 font-semibold uppercase tracking-wider mono-font cursor-pointer whitespace-nowrap"
-        >
-          Recruiter Summary
-        </button>
+          >
+          Quick View
+          </button>
       </li>
     </ul>
   );
