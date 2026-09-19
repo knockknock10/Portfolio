@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sanjeev Kumar — Resume</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #0f1115;
+    color: #f3f4f6;
+    padding: 48px 64px;
+    max-width: 780px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  h1 { font-size: 34px; font-weight: 600; letter-spacing: -0.025em; margin-bottom: 4px; color: #ffffff; }
+  .subtitle { color: #d9a74a; font-size: 14px; font-weight: 500; margin-bottom: 24px; letter-spacing: 0.01em; }
+  .meta { display: flex; gap: 28px; flex-wrap: wrap; font-size: 13px; color: #9ca3af; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #6b7280; font-family: 'JetBrains Mono', monospace; }
+  .meta-value { color: #d1d5db; }
+  .meta-value a { color: #d9a74a; text-decoration: none; }
+  h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #d9a74a;
+    margin: 28px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(217,167,74,0.15);
+  }
+  .entry { margin-bottom: 18px; }
+  .entry-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; gap: 12px; }
+  .entry-title { font-weight: 600; font-size: 15px; color: #ffffff; }
+  .entry-context { color: #9ca3af; font-size: 12.5px; }
+  .entry-period { color: #6b7280; font-size: 12px; font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+  .entry-description { font-size: 13px; color: #d1d5db; padding-left: 14px; }
+  .entry-description ul { padding-left: 14px; margin: 0; }
+  .entry-description li { margin-bottom: 5px; }
+  .skills-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; }
+  .skill-category { margin-bottom: 10px; }
+  .skill-cat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #6b7280; margin-bottom: 6px; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-tag { font-size: 11.5px; padding: 3px 10px; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; color: #d1d5db; background: rgba(255,255,255,0.02); font-family: 'JetBrains Mono', monospace; }
+  .skill-tag.proficient { border-color: rgba(217,167,74,0.3); color: #d9a74a; background: rgba(217,167,74,0.05); }
+  .verification-row { display: flex; gap: 14px; margin-top: 8px; }
+  .verification-card { flex: 1; padding: 14px 16px; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; background: rgba(255,255,255,0.015); }
+  .verification-card h3 { font-size: 13.5px; font-weight: 600; color: #ffffff; margin-bottom: 4px; }
+  .verification-source { font-size: 10.5px; color: #d9a74a; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; word-break: break-all; }
+  .verification-card p { font-size: 12px; color: #9ca3af; margin: 0; }
+  .verification-card a { color: #d9a74a; text-decoration: none; }
+  .footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 11px; color: #6b7280; text-align: center; }
+  .code-inline { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 2px; color: #d9a74a; }
+  @media print {
+    body { background: #ffffff; color: #111111; padding: 40px 50px; }
+    h1 { color: #111; }
+    .subtitle { color: #888; }
+    .meta { color: #555; border-bottom-color: #ccc; }
+    .meta-value { color: #333; }
+    .meta-value a { color: #0066cc; }
+    h2 { color: #555; border-bottom-color: #ddd; }
+    .entry-title { color: #222; }
+    .entry-context, .entry-period { color: #777; }
+    .entry-description { color: #444; }
+    .skill-tag { border-color: #ccc; color: #333; background: #f9f9f9; }
+    .skill-tag.proficient { border-color: #bbb; color: #555; background: #f4f4f4; }
+    .verification-card { border-color: #ddd; background: #fafafa; }
+    .verification-card h3 { color: #222; }
+    .verification-source { color: #777; }
+    .verification-card p { color: #555; }
+    .verification-card a { color: #0066cc; }
+    .footer { color: #888; border-top-color: #ddd; }
+    .code-inline { color: #555; background: #eee; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Sanjeev Kumar</h1>
+<p class="subtitle">Full-Stack Developer &middot; Backend Engineering &middot; DevOps &amp; Cloud Infrastructure</p>
+
+<div class="meta">
+  <div class="meta-item">
+    <span class="meta-label">Email</span>
+    <span class="meta-value">sanjeevkumars.s@srmap.edu.in</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Location</span>
+    <span class="meta-value">Amaravati, Andhra Pradesh, India</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">GitHub</span>
+    <span class="meta-value"><a href="https://github.com/knockknock10">github.com/knockknock10</a></span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">LinkedIn</span>
+    <span class="meta-value"><a href="https://www.linkedin.com/in/-sanjeev-kr/">linkedin.com/in/-sanjeev-kr</a></span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">LeetCode</span>
+    <span class="meta-value"><a href="https://leetcode.com/u/CYeY2FRKVf/">leetcode.com/u/CYeY2FRKVf</a></span>
+  </div>
+</div>
+
+<h2>Education</h2>
+<div class="entry">
+  <div class="entry-header">
+    <span class="entry-title">B.Tech Computer Science Engineering</span>
+    <span class="entry-period">2024 – 2028</span>
+  </div>
+  <div class="entry-context">SRM University AP &middot; CGPA 8.42 / 10.0 (SGPA 8.73)</div>
+  <div class="entry-description">
+    <ul>
+      <li>Focus areas: Data Structures &amp; Algorithms, Operating Systems, Database Management Systems, Distributed Systems, Computer Networks.</li>
+      <li>Consistent academic performance — strong grades in core systems and theory courses.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Technical Skills</h2>
+<div class="skills-container">
+  <div class="skill-category">
+    <div class="skill-cat-label">Backend</div>
+    <div class="skill-tags">
+      <span class="skill-tag proficient">Node.js</span>
+      <span class="skill-tag proficient">Express.js</span>
+      <span class="skill-tag proficient">REST APIs</span>
+      <span class="skill-tag proficient">JWT Authentication</span>
+      <span class="skill-tag proficient">Mongoose / MongoDB</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <div class="skill-cat-label">Frontend</div>
+    <div class="skill-tags">
+      <span class="skill-tag proficient">React</span>
+      <span class="skill-tag proficient">JavaScript (ES6+)</span>
+      <span class="skill-tag proficient">HTML5 / CSS3</span>
+      <span class="skill-tag proficient">Tailwind CSS</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <div class="skill-cat-label">DevOps &amp; Cloud</div>
+    <div class="skill-tags">
+      <span class="skill-tag">Docker</span>
+      <span class="skill-tag">GitHub Actions</span>
+      <span class="skill-tag">AWS S3</span>
+      <span class="skill-tag">Cloudinary</span>
+      <span class="skill-tag">Render Deployment</span>
+      <span class="skill-tag">Kubernetes (basic)</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <div class="skill-cat-label">Tools &amp; Fundamentals</div>
+    <div class="skill-tags">
+      <span class="skill-tag proficient">Git / GitHub</span>
+      <span class="skill-tag proficient">Linux / Bash</span>
+      <span class="skill-tag">SQL</span>
+      <span class="skill-tag proficient">Postman</span>
+      <span class="skill-tag proficient">Data Structures</span>
+      <span class="skill-tag proficient">Algorithms</span>
+    </div>
+  </div>
+</div>
+
+<h2>Experience &amp; Projects</h2>
+
+<div class="entry">
+  <div class="entry-header">
+    <span class="entry-title">CommitHub — Developer Collaboration Platform</span>
+    <span class="entry-period">2025 – 2026</span>
+  </div>
+  <div class="entry-context">Full-Stack Developer &middot; <a href="https://github.com/knockknock10/CommitHub">github.com/knockknock10/CommitHub</a> &middot; 5 stars</div>
+  <div class="entry-description">
+    <ul>
+      <li>Built a GitHub-inspired collaboration platform: repository creation, commit tracking, role-based repository visibility, and JWT-secured authentication flows.</li>
+      <li>Architected a Node.js / Express REST API with Mongoose schemas modeling Users, Repositories, Commits, and Collaborators — with protected middleware routes enforcing access control.</li>
+      <li>Integrated AWS S3 for artifact and asset storage, decoupling persistent storage from the application server.</li>
+      <li>React frontend modeled on GitHub's UX patterns — responsive, accessible, and deployment-ready.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="entry-header">
+    <span class="entry-title">Wandera — Travel Listings Platform</span>
+    <span class="entry-period">2025</span>
+  </div>
+  <div class="entry-context">Full-Stack Developer &middot; <a href="https://github.com/knockknock10/Wandera">github.com/knockknock10/Wandera</a> &middot; 4 stars</div>
+  <div class="entry-description">
+    <ul>
+      <li>Built a travel listings platform with full CRUD, user authentication, review validation, and custom error-handling middleware.</li>
+      <li>MVC architecture with clear separation: routes &rarr; controllers &rarr; models.</li>
+      <li>Integrated Cloudinary + Multer for image uploads served through a CDN — never blocking the application server.</li>
+      <li>Deployed on Render with automated build pipelines.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="entry-header">
+    <span class="entry-title">E-Commerce Platform with CI/CD Pipeline</span>
+    <span class="entry-period">2025</span>
+  </div>
+  <div class="entry-context">DevOps &amp; Infrastructure &middot; <a href="https://github.com/knockknock10/E_Com">github.com/knockknock10/E_Com</a></div>
+  <div class="entry-description">
+    <ul>
+      <li>Containerized Express microservices using multi-stage Docker builds to minimize image sizes.</li>
+      <li>Configured Kubernetes manifests (Deployments, Services, ConfigMaps) for local cluster orchestration.</li>
+      <li>Built GitHub Actions workflows for automated linting, unit testing, and container registry pushes.</li>
+      <li>Established centralized logging and health-check monitoring for service reliability.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="entry-header">
+    <span class="entry-title">NOVAFEST — Project Showcase &amp; Management Hub</span>
+    <span class="entry-period">2025</span>
+  </div>
+  <div class="entry-context">Full-Stack Developer &middot; <a href="https://github.com/knockknock10/NOVAFEST">github.com/knockknock10/NOVAFEST</a></div>
+  <div class="entry-description">
+    <ul>
+      <li>Built a hackathon project management platform with role-based access control, submission verification, voting systems, and dynamic project filtering.</li>
+      <li>React frontend + Express / MongoDB backend — optimized queries for complex relations (Teams, Projects, Judges).</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Open Source</h2>
+<div class="entry">
+  <div class="entry-header">
+    <span class="entry-title">Webpack CLI — PR #20356 (Merged)</span>
+    <span class="entry-period">2025</span>
+  </div>
+  <div class="entry-context">Contributor &middot; <a href="https://github.com/webpack/webpack-cli">webpack/webpack-cli</a></div>
+  <div class="entry-description">
+    <ul>
+      <li>Improved <span class="code-inline">CONTRIBUTING.md</span> by clarifying how contributors should handle <span class="code-inline">npm audit</span> warnings for development-only dependencies.</li>
+      <li>Unblocks new contributors who were confused by security scanner output during local setup — webpack-cli serves 28M+ weekly downloads.</li>
+      <li>Followed strict contribution guidelines including CLA verification and structured commit requirements.</li>
+      <li>Merged pull request: <a href="https://github.com/webpack/webpack-cli/pull/20356">github.com/webpack/webpack-cli/pull/20356</a></li>
+    </ul>
+  </div>
+</div>
+
+<h2>DSA &amp; Competitive Programming</h2>
+<div class="entry">
+  <div class="entry-header">
+    <span class="entry-title">LeetCode / NeetCode Problem Solutions</span>
+    <span class="entry-period">Ongoing</span>
+  </div>
+  <div class="entry-context">github.com/knockknock10/DSA &middot; 7 stars &middot; <a href="https://leetcode.com/u/CYeY2FRKVf/">LeetCode profile</a></div>
+  <div class="entry-description">
+    <ul>
+      <li>Working Java solutions organized by topic — arrays, trees, graphs, dynamic programming, heaps, backtracking.</li>
+      <li>Each solution includes the approach and time/space complexity — written for clarity and whiteboard discussion, not code golf.</li>
+      <li>Active practice — last updated within the week.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Certifications &amp; Coursework</h2>
+<div class="entry">
+  <div class="entry-description">
+    <ul>
+      <li><strong>CS50: Introduction to Programming with Python</strong> — Harvard University (CS50P). Covers functions, loops, conditionals, libraries, unit testing, file I/O, regular expressions, and object-oriented programming.</li>
+      <li><strong>HackerRank: Intermediate SQL</strong> — Verified certification. Complex JOINs, window functions, subqueries, and query optimization.</li>
+      <li><strong>MERN Stack Development</strong> — Apna College. Full-stack project work with Node.js, Express, MongoDB, and React.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Experience</h2>
+<div class="entry">
+  <div class="entry-header">
+    <span class="entry-title">Digital Marketing Intern</span>
+    <span class="entry-period">May 2024 – July 2024</span>
+  </div>
+  <div class="entry-context">IRHS (Institute of Research in Humanities &amp; Science)</div>
+  <div class="entry-description">
+    <ul>
+      <li>Built automated reporting scripts to track performance across multi-platform ad campaign analytics, reducing manual dashboard tracking time.</li>
+      <li>Optimized lead-funnel analytics to track conversion KPIs, providing data-driven recommendations that enhanced outreach efficiency.</li>
+      <li>Collaborated with developers to align landing page structures with analytics tag managers for precise user event tracking.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="verification-row">
+  <div class="verification-card">
+    <h3>Webpack CLI PR #20356</h3>
+    <div class="verification-source">github.com/webpack/webpack-cli/pull/20356</div>
+    <p>Merged contribution — independently verifiable on GitHub. Clarified npm audit handling in CONTRIBUTING.md for 28M+ weekly download project.</p>
+  </div>
+  <div class="verification-card">
+    <h3>HackerRank SQL — Intermediate</h3>
+    <div class="verification-source">HackerRank Certification</div>
+    <p>Verified certification: complex JOINs, window functions, subqueries, and query optimization.</p>
+  </div>
+  <div class="verification-card">
+    <h3>CS50P — Harvard University</h3>
+    <div class="verification-source">cs50.harvard.edu</div>
+    <p>Completed: Python fundamentals, unit testing, file I/O, regular expressions, object-oriented programming.</p>
+  </div>
+</div>
+
+<div class="footer">
+  Sanjeev Kumar &middot; Full-Stack Developer &middot; github.com/knockknock10<br>
+  sanjeevkumars.s@srmap.edu.in &middot; Amaravati, India
+</div>
+
+</body>
+</html>

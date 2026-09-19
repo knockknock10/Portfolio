@@ -1,13 +1,25 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { skillsData } from "../data/profile";
+
+const levelWidth = (level) => {
+  if (level === "Advanced") return 100;
+  if (level === "Intermediate") return 50;
+  return 25; // Basic
+};
+
+const levelColor = (level) => {
+  if (level === "Advanced") return "bg-accent";
+  if (level === "Intermediate") return "bg-purple-500/60";
+  return "bg-neutral-600";
+};
 
 const categoryDescriptions = {
   Backend: "Building high-performance APIs, secure authentication systems, and scalable server-side architectures.",
   Database: "Designing relational & non-relational database schemas, indexes, and optimized query paths.",
   "DevOps & Cloud": "Containerizing applications, building automated CI/CD pipelines, and managing cloud infrastructure.",
   Frontend: "Developing clean, interactive, and responsive user interfaces with modern client-side technologies.",
-  Tools: "Managing version control systems, testing endpoints, and maintaining efficient developer workflows."
+  Tools: "Managing version control systems, testing endpoints, and maintaining efficient developer workflows.",
 };
 
 const categoryIcons = {
@@ -36,7 +48,7 @@ const categoryIcons = {
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
     </svg>
-  )
+  ),
 };
 
 const Skills = () => {
@@ -45,35 +57,17 @@ const Skills = () => {
     { key: "Database", title: "Databases & Cache" },
     { key: "DevOps & Cloud", title: "DevOps & Infrastructure" },
     { key: "Frontend", title: "Frontend Development" },
-    { key: "Tools", title: "Tools & Systems" }
+    { key: "Tools", title: "Tools & Systems" },
   ];
 
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.08
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { type: "spring", stiffness: 80, damping: 15 } 
-    }
-  };
-
   return (
-    <section 
-      id="skills" 
+    <section
+      id="skills"
       className="w-full py-40 sm:py-48 bg-bg-primary border-b border-border-card relative overflow-hidden"
     >
-      {/* High tech subtle grid canvas background */}
+      {/* Subtle grid canvas */}
       <div className="absolute inset-0 bg-[radial-gradient(#1e1e24_1px,transparent_1px)] [background-size:24px_24px] opacity-20 pointer-events-none" />
-      
+
       <div className="max-w-7xl mx-auto px-6 sm:px-12 relative z-10">
         <div className="mb-24 text-center max-w-2xl mx-auto">
           <span className="inline-block px-3 py-1 rounded-full border border-purple-500/10 bg-purple-500/5 text-purple-400 text-xs font-semibold tracking-wider uppercase mono-font mb-4">
@@ -87,84 +81,79 @@ const Skills = () => {
           </p>
         </div>
 
-        {/* Clean, interactive grid */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-12 lg:gap-14"
-        >
-          {categories.map((cat, idx) => {
+        {/* Interactive grid — each card fades/slides in on scroll */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-12 lg:gap-14">
+          {categories.map((cat) => {
             const data = skillsData[cat.key] || [];
-            return (
-              <motion.div
-                key={idx}
-                variants={cardVariants}
-                className="p-10 sm:p-12 rounded-2xl border border-neutral-850 bg-bg-card transition-all duration-300 hover:border-purple-500/25 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)] flex flex-col justify-between"
-              >
-                <div>
-                  {/* Card Header */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-4">
-                      <div className="p-4 rounded-xl bg-bg-darker/60 border border-neutral-850">
-                        {categoryIcons[cat.key]}
-                      </div>
-                      <h3 className="text-base font-bold uppercase tracking-wider text-neutral-200 mono-font">
-                        {cat.title}
-                      </h3>
-                    </div>
-                    <span className="text-xs text-purple-400 font-bold px-2.5 py-0.5 rounded bg-purple-500/5 border border-purple-500/10 mono-font">
-                      {data.length} skills
-                    </span>
-                  </div>
+            const ref = useRef(null);
+            const inView = useInView(ref, { once: true, margin: "-50px" });
 
-                  {/* Description */}
-                  <p className="text-sm text-neutral-450 leading-relaxed mb-8 font-sans">
-                    {categoryDescriptions[cat.key]}
-                  </p>
+            return (
+              <div key={cat.key} ref={ref} className="p-10 sm:p-12 rounded-2xl border border-neutral-850 bg-bg-card transition-all duration-300 hover:border-purple-500/25 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)] flex flex-col justify-between">
+                {/* Card Header */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-4 rounded-xl bg-bg-darker/60 border border-neutral-850">
+                      {categoryIcons[cat.key]}
+                    </div>
+                    <h3 className="text-base font-bold uppercase tracking-wider text-neutral-200 mono-font">
+                      {cat.title}
+                    </h3>
+                  </div>
+                  <span className="text-xs text-purple-400 font-bold px-2.5 py-0.5 rounded bg-purple-500/5 border border-purple-500/10 mono-font">
+                    {data.length} skills
+                  </span>
                 </div>
 
-                {/* Skills Pills */}
-                <div className="flex flex-wrap gap-2.5 pt-6 border-t border-neutral-900/60">
-                  {data.map((skill, sIdx) => {
-                    let logoSrc = skill.logo;
-                    if (skill.name.toLowerCase() === "tailwind css" || skill.name.toLowerCase() === "tailwind") {
-                      logoSrc = "/assets/logos/tailwindcss.svg";
-                    } else if (skill.name.toLowerCase() === "vite") {
-                      logoSrc = "/assets/logos/vitejs.svg";
-                    } else if (skill.name.toLowerCase() === "c++") {
-                      logoSrc = "/assets/logos/cplusplus.svg";
-                    } else if (["java", "python", "sql", "bash"].includes(skill.name.toLowerCase())) {
-                      logoSrc = null;
-                    }
+                {/* Description */}
+                <p className="text-sm text-neutral-450 leading-relaxed mb-6 font-sans">
+                  {categoryDescriptions[cat.key]}
+                </p>
 
+                {/* Skill items with animated proficiency bars */}
+                <div className="space-y-4 pt-4 border-t border-neutral-900/60 flex-1">
+                  {data.map((skill, sIdx) => {
+                    const logoSrc = skill.logo;
                     return (
-                      <div
-                        key={sIdx}
-                        className="px-3.5 py-1.5 rounded-lg border border-neutral-850 bg-bg-darker/60 hover:bg-bg-card-hover text-xs font-semibold mono-font text-neutral-300 hover:text-purple-400 transition-all duration-200 flex items-center gap-2 hover:border-purple-500/20 hover:scale-[1.02] cursor-default select-none"
-                      >
-                        {logoSrc ? (
-                          <img
-                            src={logoSrc}
-                            alt={skill.name}
-                            className="w-4 h-4 object-contain opacity-70 transition-opacity"
-                            onError={(e) => {
-                              e.target.style.display = "none";
-                            }}
+                      <div key={sIdx} className="group">
+                        {/* Label row */}
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center gap-2">
+                            {logoSrc ? (
+                              <img
+                                src={logoSrc}
+                                alt={skill.name}
+                                className="w-3.5 h-3.5 object-contain opacity-70"
+                                onError={(e) => { e.target.style.display = "none"; }}
+                              />
+                            ) : (
+                              <span className="w-1.5 h-1.5 rounded-full bg-purple-500/60" />
+                            )}
+                            <span className="text-xs font-medium text-neutral-300">{skill.name}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-[9px] text-neutral-600 font-mono uppercase">{skill.level}</span>
+                            <span className="text-[9px] text-purple-400 font-mono">→</span>
+                            <span className="text-[9px] text-neutral-500 font-mono">{levelWidth(skill.level)}%</span>
+                          </div>
+                        </div>
+                        {/* Progress bar track */}
+                        <div className="h-1.5 w-full bg-bg-darker/80 rounded-full overflow-hidden">
+                          <motion.div
+                            className={levelColor(skill.level)}
+                            initial={{ width: 0 }}
+                            animate={inView ? { width: `${levelWidth(skill.level)}%` } : { width: 0 }}
+                            transition={{ duration: 0.8, ease: "easeOut", delay: sIdx * 0.08 }}
                           />
-                        ) : (
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-500/60" />
-                        )}
-                        <span>{skill.name}</span>
+                        </div>
                       </div>
                     );
                   })}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

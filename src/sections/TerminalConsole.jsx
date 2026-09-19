@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { profileInfo, skillsData, projects, openSourceInfo } from "../data/profile";
 
@@ -34,6 +34,12 @@ const TerminalConsole = () => {
       scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
     }
   }, [history]);
+
+  // Auto-demo: run neofetch once on mount so recruiters see the terminal in action
+  useEffect(() => {
+    const t = setTimeout(() => executeCommand("neofetch"), 900);
+    return () => clearTimeout(t);
+  }, []);
 
   const focusInput = () => {
     inputRef.current?.focus({ preventScroll: true });

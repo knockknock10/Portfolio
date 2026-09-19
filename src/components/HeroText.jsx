@@ -1,16 +1,36 @@
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { profileInfo } from "../data/profile";
 
 const HeroText = () => {
-  const words = ["Backend Systems", "Cloud Workflows", "Developer Tools", "Full-Stack Products", "Open Source"];
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  // Typewriter sentence — your actual stack, not generic cycling words
+  const fullSentence = `${profileInfo.subheading} — building production-grade systems with Node.js, React, and MongoDB.`;
+  const [typed, setTyped] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+  const typingRef = useRef(null);
+  const doneTyping = useRef(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentWordIndex((prev) => (prev + 1) % words.length);
-    }, 2800);
-    return () => clearInterval(timer);
+    if (doneTyping.current) return;
+    doneTyping.current = true;
+
+    let i = 0;
+    const chars = fullSentence.split("");
+    const interval = setInterval(() => {
+      if (i < chars.length) {
+        setTyped((prev) => prev + chars[i]);
+        // Blink cursor every 530ms
+        setShowCursor((prev) => !prev);
+        i++;
+      } else {
+        clearInterval(interval);
+        // Keep cursor blinking after typing completes
+        const blink = setInterval(() => setShowCursor((p) => !p), 530);
+        return () => clearInterval(blink);
+      }
+    }, 28);
+
+    return () => clearInterval(interval);
   }, []);
 
   const containerVariants = {
@@ -26,8 +46,8 @@ const HeroText = () => {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 25 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { type: "spring", stiffness: 100, damping: 16 }
     }
@@ -54,8 +74,8 @@ const HeroText = () => {
         </span>
       </motion.div>
 
-      {/* Main Heading with dynamic word cycle loop */}
-      <motion.h1 
+      {/* Main Heading — typewriter writes your actual stack */}
+      <motion.h1
         variants={itemVariants}
         className="text-4xl sm:text-5xl md:text-[56px] font-extrabold text-neutral-100 tracking-tight leading-[1.1] mb-8 flex flex-col items-center md:items-start w-full"
       >
@@ -64,21 +84,12 @@ const HeroText = () => {
         </span>
         <div className="flex flex-col items-center md:items-start w-full leading-[1.1]">
           <span className="text-neutral-100 mb-2">
-            Building
-          </span>
-          <span className="relative inline-block w-full h-[1.3em] overflow-visible">
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={currentWordIndex}
-                initial={{ y: 20, opacity: 0, filter: "blur(8px)" }}
-                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                exit={{ y: -20, opacity: 0, filter: "blur(8px)" }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                className="absolute left-0 top-0 w-full text-center md:text-left block text-transparent bg-clip-text bg-gradient-to-r from-[#ffffff] via-[#f8f9fa] to-[#d1d5db] drop-shadow-[0_2px_15px_rgba(255,255,255,0.2)] font-extrabold tracking-tight"
-              >
-                {words[currentWordIndex]}
-              </motion.span>
-            </AnimatePresence>
+            {typed}
+            <motion.span
+              animate={{ opacity: showCursor ? 1 : 0 }}
+              className="inline-block w-1.5 h-7 bg-accent rounded-sm ml-0.5 align-middle"
+              transition={{ duration: 0.1 }}
+            />
           </span>
         </div>
         <span className="text-lg sm:text-xl md:text-2xl font-normal mt-6 tracking-normal text-neutral-400 font-sans block">

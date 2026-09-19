@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-function Navigation({ openQuickView, closeMenu, theme, toggleTheme }) {
+const sectionIds = ["home", "about", "skills", "projects", "contact"];
+
+function Navigation({ openQuickView, closeMenu, theme, toggleTheme, activeSection, setActiveSection }) {
   const links = [
     { name: "Home", href: "#home" },
     { name: "Journey", href: "#about" },
@@ -15,11 +17,22 @@ function Navigation({ openQuickView, closeMenu, theme, toggleTheme }) {
       {links.map((link) => (
         <li key={link.name} className="nav-li flex items-center justify-center">
           <a
-            className="nav-link text-neutral-400 hover:text-purple-400 transition-colors duration-200 text-sm font-medium mono-font"
+            className={`nav-link text-sm font-medium mono-font transition-colors duration-200 ${
+              activeSection === link.name
+                ? "text-accent font-semibold"
+                : "text-neutral-400 hover:text-purple-400"
+            }`}
             href={link.href}
             onClick={closeMenu}
           >
             {link.name}
+            {activeSection === link.name && (
+              <motion.span
+                layoutId="activeNavIndicator"
+                className="inline-block w-1 h-4 ml-1.5 bg-accent rounded-full"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              />
+            )}
           </a>
         </li>
       ))}
@@ -56,6 +69,8 @@ function Navigation({ openQuickView, closeMenu, theme, toggleTheme }) {
 const Navbar = ({ openQuickView }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const sectionRefs = useRef({});
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("portfolio-theme") || "dark";
@@ -78,6 +93,24 @@ const Navbar = ({ openQuickView }) => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Scroll-spy: determine active section from element positions
+  useEffect(() => {
+    const handleActiveSection = () => {
+      const scrollPos = window.scrollY + 120;
+      let current = "home";
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollPos) {
+          current = id;
+        }
+      }
+      setActiveSection(current);
+    };
+    window.addEventListener("scroll", handleActiveSection, { passive: true });
+    handleActiveSection();
+    return () => window.removeEventListener("scroll", handleActiveSection);
   }, []);
 
   const toggleTheme = () => {
@@ -116,11 +149,17 @@ const Navbar = ({ openQuickView }) => {
           </button>
           
           <nav className="hidden sm:flex">
-            <Navigation openQuickView={openQuickView} theme={theme} toggleTheme={toggleTheme} />
+            <Navigation
+              openQuickView={openQuickView}
+              theme={theme}
+              toggleTheme={toggleTheme}
+              activeSection={activeSection}
+              setActiveSection={setActiveSection}
+            />
           </nav>
         </div>
       </div>
-      
+
       {isOpen && (
         <motion.div
           className="block overflow-hidden text-center sm:hidden bg-bg-primary border-b border-neutral-850/40"
@@ -135,6 +174,8 @@ const Navbar = ({ openQuickView }) => {
               closeMenu={() => setIsOpen(false)}
               theme={theme}
               toggleTheme={toggleTheme}
+              activeSection={activeSection}
+              setActiveSection={setActiveSection}
             />
           </nav>
         </motion.div>

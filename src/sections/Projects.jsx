@@ -123,12 +123,21 @@ const Projects = () => {
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 25 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { type: "spring", stiffness: 80, damping: 16 } 
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 80, damping: 16 }
+    },
+    hover: {
+      scale: 1.01,
+      transition: { duration: 0.2 }
     }
+  };
+
+  const tagsHover = {
+    hidden: { opacity: 0, y: 4 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.2 } }
   };
 
   return (
@@ -163,7 +172,8 @@ const Projects = () => {
             <motion.div
               key={proj.id}
               variants={cardVariants}
-              className="rounded-2xl border border-neutral-850 bg-bg-card hover:border-purple-500/25 transition-all duration-300 flex flex-col overflow-hidden hover:shadow-[0_16px_48px_rgba(0,0,0,0.45)] group h-full"
+              whileHover="hover"
+              className="rounded-2xl border border-neutral-850 bg-bg-card transition-all duration-300 hover:border-purple-500/25 hover:shadow-[0_16px_48px_rgba(0,0,0,0.45)] group h-full"
             >
               {/* Top Banner Image / Preview Area */}
               <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden border-b border-neutral-900 bg-neutral-950 flex-shrink-0">
@@ -173,7 +183,7 @@ const Projects = () => {
                   className="w-full h-full object-cover opacity-75 group-hover:scale-[1.02] group-hover:opacity-90 transition-all duration-500 pointer-events-none"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-card via-transparent to-transparent" />
-                
+
                 {/* Badge Number */}
                 <div className="absolute top-6 left-6 px-3 py-1 rounded bg-bg-darker/90 border border-neutral-850 text-[10px] font-bold tracking-wider mono-font text-purple-400 uppercase">
                   Project 0{idx + 1}
@@ -203,16 +213,16 @@ const Projects = () => {
 
                 {/* Tags and Footer */}
                 <div>
-                  {/* Tech stack tags */}
+                  {/* Tech stack tags — glow on hover */}
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {proj.tags.map((tag, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="px-2.5 py-1 rounded text-[10px] text-neutral-400 bg-bg-darker/60 border border-neutral-850 mono-font uppercase"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                   {proj.tags.map((tag, tIdx) => (
+                     <span
+                       key={tIdx}
+                       className="px-2.5 py-1 rounded text-[10px] text-neutral-400 bg-bg-darker/60 border border-neutral-850 mono-font uppercase group-hover:border-purple-500/30 group-hover:text-purple-300 transition-all duration-300"
+                     >
+                       {tag}
+                     </span>
+                   ))}
                   </div>
 
                   {/* Footer Actions */}
