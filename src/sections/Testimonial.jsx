@@ -39,7 +39,7 @@ export default function Testimonial() {
         {/* Title */}
         <div className="mb-24 text-center max-w-2xl mx-auto">
           <span className="inline-block px-3 py-1 rounded-full border border-purple-500/10 bg-purple-500/5 text-purple-400 text-xs font-semibold tracking-wider uppercase mono-font mb-4">
-            Endorsements
+            Verifications & Certifications
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mt-1">
             Verifications & Certifications
