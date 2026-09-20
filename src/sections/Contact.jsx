@@ -1,112 +1,53 @@
-import { useState } from "react";
 import { profileInfo } from "../data/profile";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const submittedEmail = formData.email;
-    // In production, replace with your own email API endpoint.
-    // For now, log the submission and show a confirmation.
-    console.log("Contact form submitted:", formData);
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setIsLoading(false);
-    setFormData({ name: "", email: "", message: "" });
-    alert("Thanks for reaching out! Your message has been logged and I'll respond to " + submittedEmail + " soon.");
-  };
-
   return (
-    <section className="relative w-full py-32 sm:py-40 bg-bg-primary border-b border-border-card flex items-center justify-center overflow-hidden" id="contact">
-      <div className="flex flex-col items-center justify-center w-full max-w-lg p-8 sm:p-10 mx-6 border border-neutral-850 bg-bg-card/75 backdrop-blur-md rounded-2xl shadow-[0_12px_40_rgba(0,0,0,0.4)] relative z-10 hover:border-purple-500/20 transition-all duration-500">
-        <div className="flex flex-col items-start w-full gap-3 mb-8">
-          <span className="inline-block px-2.5 py-0.5 rounded-full border border-purple-500/20 bg-purple-500/5 text-purple-400 text-[10px] font-semibold tracking-wider uppercase mono-font">
-            Connection Link
-          </span>
-          <h2 className="text-3xl font-extrabold text-white mt-1">Let's Connect</h2>
-          <p className="text-sm text-neutral-400 leading-relaxed mt-2">
-            Whether you are looking to collaborate on a backend project, discuss systems design, or explore internship opportunities, feel free to reach out.
-          </p>
-        </div>
+    <section id="contact" className="w-full py-24 sm:py-32 bg-bg-primary border-t border-border-card">
+      <div className="max-w-3xl mx-auto px-6 sm:px-12 text-center">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-purple-400 mono-font mb-4">
+          Contact
+        </p>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+          Get In Touch
+        </h2>
+        <p className="text-neutral-500 text-sm sm:text-base max-w-lg mx-auto mb-12 leading-relaxed">
+          Whether it&apos;s about a project, collaboration, or an opportunity —
+          I&apos;d like to hear from you.
+        </p>
 
-        <form className="w-full space-y-5" onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="name" className="field-label text-xs text-neutral-400 font-bold mb-1.5 block uppercase tracking-wider mono-font">
-              Full Name
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              className="w-full px-4 py-3 rounded-lg bg-bg-darker/60 border border-neutral-850 text-neutral-200 placeholder-neutral-600 text-xs focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 outline-none transition-all duration-300 backdrop-blur-sm"
-              placeholder="John Doe"
-              autoComplete="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="field-label text-xs text-neutral-400 font-bold mb-1.5 block uppercase tracking-wider mono-font">
-              Email Address
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              className="w-full px-4 py-3 rounded-lg bg-bg-darker/60 border border-neutral-850 text-neutral-200 placeholder-neutral-600 text-xs focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 outline-none transition-all duration-300 backdrop-blur-sm"
-              placeholder="johndoe@email.com"
-              autoComplete="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="message" className="field-label text-xs text-neutral-400 font-bold mb-1.5 block uppercase tracking-wider mono-font">
-              Message Payload
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows="4"
-              className="w-full px-4 py-3 rounded-lg bg-bg-darker/60 border border-neutral-850 text-neutral-200 placeholder-neutral-600 text-xs focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 outline-none transition-all duration-300 backdrop-blur-sm"
-              placeholder="Share details about your project or role..."
-              autoComplete="off"
-              value={formData.message}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-3.5 text-xs font-bold text-center rounded-lg cursor-pointer bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-[0_4px_20px_rgba(139,92,246,0.25)] hover:shadow-[0_4px_25px_rgba(139,92,246,0.4)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 mono-font uppercase tracking-wider disabled:opacity-50"
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
+          <a
+            href={`mailto:${profileInfo.email}`}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-black font-semibold text-sm hover:bg-neutral-200 transition-colors duration-200"
           >
-            {isLoading ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin h-4.5 w-4.5 text-white" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                Deploying Message...
-              </span>
-            ) : (
-              "Send Message"
-            )}
-          </button>
-        </form>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5A2.25 2.25 0 012.25 17.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5H4.5a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+            </svg>
+            {profileInfo.email}
+          </a>
+          <a
+            href="https://github.com/knockknock10"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-neutral-700 text-neutral-300 font-medium text-sm hover:border-neutral-500 hover:text-white transition-all duration-200"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            GitHub
+          </a>
+          <a
+            href="/Kr_Sanjeev_Resume.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-neutral-700 text-neutral-400 font-medium text-sm hover:border-neutral-500 hover:text-neutral-200 transition-all duration-200"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+            </svg>
+            Resume
+          </a>
+        </div>
       </div>
     </section>
   );

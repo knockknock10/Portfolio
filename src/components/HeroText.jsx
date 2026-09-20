@@ -1,127 +1,94 @@
-import { motion, AnimatePresence } from "framer-motion";
-import React, { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
 import { profileInfo } from "../data/profile";
 
 const HeroText = () => {
-  // Typewriter sentence — your actual stack, not generic cycling words
-  const fullSentence = `${profileInfo.subheading} — building production-grade systems with Node.js, React, and MongoDB.`;
-  const [typed, setTyped] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
-  const typingRef = useRef(null);
-  const doneTyping = useRef(false);
-
-  useEffect(() => {
-    if (doneTyping.current) return;
-    doneTyping.current = true;
-
-    let i = 0;
-    const chars = fullSentence.split("");
-    const interval = setInterval(() => {
-      if (i < chars.length) {
-        setTyped((prev) => prev + chars[i]);
-        // Blink cursor every 530ms
-        setShowCursor((prev) => !prev);
-        i++;
-      } else {
-        clearInterval(interval);
-        // Keep cursor blinking after typing completes
-        const blink = setInterval(() => setShowCursor((p) => !p), 530);
-        return () => clearInterval(blink);
-      }
-    }, 28);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.15
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 25 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "spring", stiffness: 100, damping: 16 }
-    }
-  };
-
   return (
-    <motion.div 
-      className="z-10 text-center md:text-left flex flex-col items-center md:items-start max-w-2xl px-4 md:px-0"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="max-w-3xl"
     >
-      {/* Intro Badge */}
-      <motion.div 
-        variants={itemVariants}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-500/20 bg-purple-500/5 text-purple-400 mb-6 shadow-[0_0_15px_rgba(139,92,246,0.05)]"
+      {/* Eyebrow */}
+      <motion.p
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.15 }}
+        className="text-[10px] font-semibold uppercase tracking-[0.2em] text-purple-400 mono-font mb-6"
       >
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
-        </span>
-        <span className="text-[10px] font-semibold uppercase tracking-wider mono-font">
-          Full-Stack Developer • Backend Engineering • DevOps Enthusiast
-        </span>
-      </motion.div>
-
-      {/* Main Heading — typewriter writes your actual stack */}
-      <motion.h1
-        variants={itemVariants}
-        className="text-4xl sm:text-5xl md:text-[56px] font-extrabold text-neutral-100 tracking-tight leading-[1.1] mb-8 flex flex-col items-center md:items-start w-full"
-      >
-        <span className="text-xl sm:text-2xl md:text-3xl font-medium text-purple-400 mb-6 font-mono block">
-          Hi, I'm Kr Sanjeev
-        </span>
-        <div className="flex flex-col items-center md:items-start w-full leading-[1.1]">
-          <span className="text-neutral-100 mb-2">
-            {typed}
-            <motion.span
-              animate={{ opacity: showCursor ? 1 : 0 }}
-              className="inline-block w-1.5 h-7 bg-accent rounded-sm ml-0.5 align-middle"
-              transition={{ duration: 0.1 }}
-            />
-          </span>
-        </div>
-        <span className="text-lg sm:text-xl md:text-2xl font-normal mt-6 tracking-normal text-neutral-400 font-sans block">
-          for modern engineering teams.
-        </span>
-      </motion.h1>
-
-      {/* Supporting Text */}
-      <motion.p 
-        variants={itemVariants}
-        className="text-neutral-400 text-sm sm:text-base leading-relaxed mb-8 max-w-xl text-pretty"
-      >
-        {profileInfo.supportingText}
+        B.Tech CSE · SRM University AP
       </motion.p>
 
-      {/* Action Buttons */}
-      <motion.div 
-        variants={itemVariants}
-        className="flex flex-wrap gap-4 items-center justify-center md:justify-start"
+      {/* Name */}
+      <motion.h1
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.25 }}
+        className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-[1.05] mb-6"
+      >
+        Sanjeev Kumar
+      </motion.h1>
+
+      {/* Positioning statement — typewriter */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.35 }}
+        className="text-2xl sm:text-3xl md:text-4xl text-neutral-300 font-light leading-relaxed mb-8"
+      >
+        Building backend systems and
+        <br />
+        the infrastructure around them.
+      </motion.div>
+
+      {/* One-line context */}
+      <motion.p
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.45 }}
+        className="text-base sm:text-lg text-neutral-500 max-w-xl leading-relaxed mb-10"
+      >
+        Computer Science student focused on backend engineering, distributed systems,
+        and open source. Contributor to webpack-cli.
+      </motion.p>
+
+      {/* CTAs */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.55 }}
+        className="flex flex-wrap items-center gap-4"
       >
         <a
           href="#projects"
-          className="px-6 py-3 rounded-lg border border-purple-500/30 bg-gradient-to-b from-purple-500/15 to-purple-500/5 hover:from-purple-500/25 hover:to-purple-500/10 text-purple-400 hover:text-purple-300 font-bold tracking-wide transition-all duration-300 shadow-[0_4px_20px_rgba(139,92,246,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_4px_30px_rgba(139,92,246,0.25),inset_0_1px_0_rgba(255,255,255,0.2)] hover:-translate-y-0.5 backdrop-blur-md cursor-pointer flex items-center gap-2 text-xs uppercase mono-font"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-black font-semibold text-sm hover:bg-neutral-200 transition-colors duration-200"
         >
-          View Projects
+          View Work
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
         </a>
-
         <a
-          href="/Kr_Sanjeev_Resume.pdf"
-          className="px-6 py-3 rounded-lg border border-neutral-850 bg-gradient-to-b from-bg-card to-bg-darker hover:from-bg-card-hover hover:to-bg-card text-neutral-300 hover:text-white font-medium transition-all duration-300 hover:-translate-y-0.5 backdrop-blur-md cursor-pointer text-xs uppercase mono-font shadow-[0_4px_15px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] hover:shadow-[0_4px_25px_rgba(255,255,255,0.1),inset_0_1px_0_rgba(255,255,255,0.08)]"
+          href="https://github.com/knockknock10"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-neutral-700 text-neutral-300 font-medium text-sm hover:border-neutral-500 hover:text-white transition-all duration-200"
         >
-          Download Résumé
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+          GitHub
+        </a>
+        <a
+          href="/Kr_Sanjeev_Resume.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-neutral-700 text-neutral-400 font-medium text-sm hover:border-neutral-500 hover:text-neutral-200 transition-all duration-200 ml-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+          </svg>
+          Resume
         </a>
       </motion.div>
     </motion.div>
