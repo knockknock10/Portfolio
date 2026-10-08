@@ -11,28 +11,26 @@
 
 import { cached, GitHubError } from './cache.js'
 import { ghRest, ghGraphQL, hasToken } from './client.js'
-import { CONTRIBUTIONS_QUERY } from './queries.js'
 import {
+  CONTRIBUTIONS_QUERY,
   ORG_DISCOVERY_QUERY,
   ORG_PRS_QUERY,
   ORG_ISSUES_QUERY,
   CONTRIBUTION_TIMELINE_QUERY,
   ORG_DETAIL_QUERY,
-} from './queries-phase4.js'
+} from './queries.js'
 import {
   toActivityModels,
   toContributionModel,
   toProfileModel,
   toRepositoryModels,
-} from './transformers.js'
-import {
   toOrganizations,
   toOrganizationDetail,
   toContributionPRModel,
   toContributionIssueModel,
   toTimelineEvents,
   toSummaryCounts,
-} from './transformers-phase4.js'
+} from './transformers.js'
 import { resolveGithubUsername, rankRepositories, githubDisplay } from '../../shared/github-config.js'
 
 const TTL = {
@@ -165,7 +163,7 @@ async function loadOrganizationDetail(username, orgLogin) {
   return { data, fetchedAt, stale }
 }
 
-async function loadOrgPRs(username, orgLogin, params) {
+async function loadOrgPRs(username, orgLogin) {
   if (!hasToken()) {
     throw new GitHubError('unavailable', 'Organization PRs require server-side GitHub auth', 503)
   }
@@ -186,7 +184,7 @@ async function loadOrgPRs(username, orgLogin, params) {
   return { data, fetchedAt, stale }
 }
 
-async function loadOrgIssues(username, orgLogin, params) {
+async function loadOrgIssues(username, orgLogin) {
   if (!hasToken()) {
     throw new GitHubError('unavailable', 'Organization issues require server-side GitHub auth', 503)
   }
@@ -195,7 +193,7 @@ async function loadOrgIssues(username, orgLogin, params) {
     cacheKey,
     TTL.orgIssues,
     async () => {
-      const result = await ghGraphQL(ORG_ISSUES_QUERY, { login: username, org: orgLogin, first: 100 })
+      const result = await ghGraphQL(ORG_ISSUES_QUERY, { login: username, first: 100 })
       if (!result?.user) throw new GitHubError('not_found', 'GitHub account not found', 404)
       // Filter to only issues in this organization
       const issues = (result.user?.issues?.nodes ?? []).filter(
@@ -250,9 +248,9 @@ const LOADERS = {
   organization: (username, params) =>
     loadOrganizationDetail(username, params.get('org')),
   'org-prs': (username, params) =>
-    loadOrgPRs(username, params.get('org'), params),
+    loadOrgPRs(username, params.get('org')),
   'org-issues': (username, params) =>
-    loadOrgIssues(username, params.get('org'), params),
+    loadOrgIssues(username, params.get('org')),
   timeline: (username) => loadTimeline(username),
   summary: (username) => loadSummary(username),
 }
