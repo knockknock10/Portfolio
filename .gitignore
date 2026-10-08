@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+*.log
+
+# Environment files — server-side secrets (GITHUB_TOKEN) must never be committed
+.env
+.env.*
+!.env.example
