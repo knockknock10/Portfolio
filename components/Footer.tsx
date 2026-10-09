@@ -7,12 +7,12 @@ export type FooterSocial = {
 
 type FooterProps = {
   name: string | null
+  copyrightName: string | null
   email: string | null
   socials: FooterSocial[]
 }
 
-export function Footer({ name, email, socials }: FooterProps) {
-  const copyrightName = name
+export function Footer({ name, copyrightName, email, socials }: FooterProps) {
   const year = new Date().getFullYear()
 
   return (
@@ -34,8 +34,13 @@ export function Footer({ name, email, socials }: FooterProps) {
         {socials.length > 0 ? (
           <nav className="footer-socials" aria-label="Social links">
             {socials.map((social) => (
-              <a key={social.platform} href={social.url} target="_blank" rel="noreferrer">
-                {social.platform}
+              <a
+                key={social.platform}
+                href={social.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {social.platform.replace(/ profile$/i, "")}
               </a>
             ))}
           </nav>

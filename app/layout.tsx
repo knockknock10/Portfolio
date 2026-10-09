@@ -32,12 +32,20 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SmoothScrollProvider>
           <Nav
             name={brandName}
-            githubUrl={socialLinks.find((social) => social.platform === "GitHub")?.url ?? null}
+            githubUrl={
+              socialLinks.find((social) => /^GitHub(?: profile)?$/i.test(social.platform))?.url ??
+              null
+            }
           />
           <div className="site-shell">
             <RouteTransition>{children}</RouteTransition>
           </div>
-          <Footer name={brandName} email={content.contact.email} socials={socialLinks} />
+          <Footer
+            name={brandName}
+            copyrightName={content.identity.professionalName}
+            email={content.contact.email}
+            socials={socialLinks}
+          />
         </SmoothScrollProvider>
       </body>
     </html>
