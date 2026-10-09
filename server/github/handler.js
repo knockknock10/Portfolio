@@ -89,6 +89,84 @@ function yearWindow(year) {
   return { from: from.toISOString(), to: to.toISOString() }
 }
 
+function restRepoName(item) {
+  const prefix = 'https://api.github.com/repos/'
+  return item?.repository_url?.startsWith(prefix)
+    ? item.repository_url.slice(prefix.length)
+    : null
+}
+
+function restIssueTime(item) {
+  return item?.pull_request?.merged_at || item?.closed_at || item?.updated_at || item?.created_at || null
+}
+
+function restPRModel(item) {
+  const repoName = restRepoName(item)
+  const mergedAt = item?.pull_request?.merged_at || null
+  return {
+    id: (repoName || 'repository') + '#' + item.number,
+    repoName,
+    repoOwner: repoName?.split('/')[0] || null,
+    number: item.number,
+    title: item.title || 'Untitled pull request',
+    state: mergedAt ? 'MERGED' : String(item.state || 'open').toUpperCase(),
+    isDraft: item.draft === true,
+    createdAt: item.created_at || null,
+    updatedAt: item.updated_at || null,
+    mergedAt,
+    closedAt: item.closed_at || null,
+    url: item.html_url,
+    author: item.user?.login || null,
+    labels: (item.labels || []).map((label) => label.name).filter(Boolean),
+  }
+}
+
+function restIssueModel(item, username) {
+  const repoName = restRepoName(item)
+  return {
+    id: (repoName || 'repository') + '#' + item.number,
+    repoName,
+    repoOwner: repoName?.split('/')[0] || null,
+    number: item.number,
+    title: item.title || 'Untitled issue',
+    state: String(item.state || 'open').toUpperCase(),
+    myRole: item.user?.login === username ? 'opened' : 'commented',
+    createdAt: item.created_at || null,
+    updatedAt: item.updated_at || null,
+    closedAt: item.closed_at || null,
+    url: item.html_url,
+    author: item.user?.login || null,
+    assignees: (item.assignees || []).map((assignee) => assignee.login).filter(Boolean),
+    labels: (item.labels || []).map((label) => label.name).filter(Boolean),
+  }
+}
+
+function restTimelineModel(item, isPR) {
+  const repoName = restRepoName(item)
+  const mergedAt = item?.pull_request?.merged_at || null
+  const state = mergedAt ? 'MERGED' : String(item.state || 'open').toUpperCase()
+  return {
+    id: (repoName || 'repository') + '#' + item.number,
+    type: isPR ? 'PULL_REQUEST' : 'ISSUE',
+    repoName,
+    org: repoName?.split('/')[0] || null,
+    number: item.number,
+    title: item.title || (isPR ? 'Untitled pull request' : 'Untitled issue'),
+    state,
+    isDraft: item.draft === true,
+    date: restIssueTime(item),
+    url: item.html_url,
+    action: isPR
+      ? mergedAt ? 'Merged pull request' : item.draft ? 'Draft pull request' : state === 'CLOSED' ? 'Closed pull request' : 'Opened pull request'
+      : 'Opened issue',
+  }
+}
+
+async function searchAuthored(username, qualifiers, perPage = 100) {
+  const query = encodeURIComponent('author:' + username + ' ' + qualifiers)
+  return ghRest('/search/issues?q=' + query + '&per_page=' + perPage + '&sort=updated&order=desc')
+}
+
 async function loadProfile(username) {
   const { data, fetchedAt, stale } = await cached(`profile:${username}`, TTL.profile, () =>
     ghRest(`/users/${encodeURIComponent(username)}`),
@@ -131,115 +209,246 @@ async function loadContributions(username, year) {
 // Phase 4 loaders
 
 async function loadOrganizations(username) {
-  if (!hasToken()) {
-    throw new GitHubError('unavailable', 'Organization discovery requires server-side GitHub auth', 503)
-  }
   const { data, fetchedAt, stale } = await cached(
-    `organizations:${username}`,
+    'organizations:' + username,
     TTL.organizations,
     async () => {
-      const result = await ghGraphQL(ORG_DISCOVERY_QUERY, { login: username, first: 100 })
-      if (!result?.user) throw new GitHubError('not_found', 'GitHub account not found', 404)
-      return toOrganizations(result, username)
+      if (hasToken()) {
+        try {
+          const result = await ghGraphQL(ORG_DISCOVERY_QUERY, { login: username, first: 100 })
+          if (result?.user) return toOrganizations(result, username)
+        } catch {
+          // The public REST fallback still provides useful, verifiable PR data.
+        }
+      }
+
+      const search = await searchAuthored(username, 'is:pr')
+      const groups = new Map()
+
+      for (const item of search.items || []) {
+        const repoName = restRepoName(item)
+        if (!repoName) continue
+        const [login] = repoName.split('/')
+        if (!login || login.toLowerCase() === username.toLowerCase()) continue
+
+        const date = restIssueTime(item)
+        let group = groups.get(login)
+        if (!group) {
+          group = { login, repos: new Set(), prCount: 0, latestActivity: null }
+          groups.set(login, group)
+        }
+        group.prCount += 1
+        group.repos.add(repoName)
+        if (date && (!group.latestActivity || new Date(date) > new Date(group.latestActivity))) {
+          group.latestActivity = date
+        }
+      }
+
+      // Confirm each owner is a GitHub organization; never guess from a repo name.
+      const candidates = Array.from(groups.values())
+        .sort((a, b) => {
+          if (b.prCount !== a.prCount) return b.prCount - a.prCount
+          return new Date(b.latestActivity || 0) - new Date(a.latestActivity || 0)
+        })
+        .slice(0, 16)
+
+      const profiles = await Promise.allSettled(
+        candidates.map((group) => ghRest('/orgs/' + encodeURIComponent(group.login))),
+      )
+
+      return profiles
+        .map((result) => {
+          if (result.status !== 'fulfilled') return null
+          const organization = result.value
+          const group = groups.get(organization.login)
+          if (!group) return null
+          return {
+            login: organization.login,
+            name: organization.name || organization.login,
+            avatarUrl: organization.avatar_url || null,
+            description: organization.description || null,
+            url: organization.html_url || ('https://github.com/' + organization.login),
+            contributionCount: group.prCount,
+            prCount: group.prCount,
+            issueCount: 0,
+            repoCount: group.repos.size,
+            repositories: Array.from(group.repos).sort(),
+            latestActivity: group.latestActivity,
+          }
+        })
+        .filter(Boolean)
+        .sort((a, b) => {
+          const dateDifference = new Date(b.latestActivity || 0) - new Date(a.latestActivity || 0)
+          return dateDifference || b.prCount - a.prCount
+        })
     },
   )
   return { data, fetchedAt, stale }
 }
 
 async function loadOrganizationDetail(username, orgLogin) {
-  if (!hasToken()) {
-    throw new GitHubError('unavailable', 'Organization detail requires server-side GitHub auth', 503)
-  }
-  const cacheKey = `orgDetail:${username}:${orgLogin}`
+  const cacheKey = 'orgDetail:' + username + ':' + orgLogin
   const { data, fetchedAt, stale } = await cached(
     cacheKey,
     TTL.orgDetail,
     async () => {
-      const result = await ghGraphQL(ORG_DETAIL_QUERY, { login: orgLogin })
-      if (!result?.organization) throw new GitHubError('not_found', 'Organization not found', 404)
-      return toOrganizationDetail(result)
+      if (hasToken()) {
+        try {
+          const result = await ghGraphQL(ORG_DETAIL_QUERY, { login: orgLogin })
+          if (result?.organization) return toOrganizationDetail(result)
+        } catch {
+          // Public organization and repository metadata is available through REST.
+        }
+      }
+
+      const organization = await ghRest('/orgs/' + encodeURIComponent(orgLogin))
+      const repoResponse = await ghRest(
+        '/orgs/' + encodeURIComponent(orgLogin) + '/repos?per_page=100&type=public&sort=pushed',
+      ).catch(() => [])
+
+      const repositories = (Array.isArray(repoResponse) ? repoResponse : [])
+        .map((repo) => ({
+          name: repo.name,
+          nameWithOwner: repo.full_name,
+          description: repo.description || null,
+          language: repo.language || null,
+          languageColor: null,
+          stars: repo.stargazers_count ?? 0,
+          forks: repo.forks_count ?? 0,
+          updatedAt: repo.updated_at || null,
+          url: repo.html_url,
+        }))
+
+      return {
+        login: organization.login,
+        name: organization.name || organization.login,
+        avatarUrl: organization.avatar_url || null,
+        description: organization.description || null,
+        url: organization.html_url || ('https://github.com/' + organization.login),
+        publicRepos: repositories,
+      }
     },
   )
   return { data, fetchedAt, stale }
 }
 
 async function loadOrgPRs(username, orgLogin, params) {
-  if (!hasToken()) {
-    throw new GitHubError('unavailable', 'Organization PRs require server-side GitHub auth', 503)
-  }
-  const cacheKey = `orgPRs:${username}:${orgLogin}`
+  const cacheKey = 'orgPRs:' + username + ':' + orgLogin
   const { data, fetchedAt, stale } = await cached(
     cacheKey,
     TTL.orgPRs,
     async () => {
-      const result = await ghGraphQL(ORG_PRS_QUERY, { login: username, first: 100 })
-      if (!result?.user) throw new GitHubError('not_found', 'GitHub account not found', 404)
-      // Filter to only PRs in this organization
-      const prs = (result.user?.pullRequests?.nodes ?? []).filter(
-        (pr) => pr && pr.repository?.owner?.login === orgLogin,
-      )
-      return toContributionPRModel(prs)
+      if (hasToken()) {
+        try {
+          const result = await ghGraphQL(ORG_PRS_QUERY, { login: username, first: 100 })
+          if (result?.user) {
+            const prs = (result.user?.pullRequests?.nodes ?? []).filter(
+              (pr) => pr && pr.repository?.owner?.login === orgLogin,
+            )
+            return toContributionPRModel(prs)
+          }
+        } catch {
+          // Fall back to the public issue-search endpoint below.
+        }
+      }
+      const result = await searchAuthored(username, 'org:' + orgLogin + ' is:pr')
+      return (result.items || []).map(restPRModel)
     },
   )
   return { data, fetchedAt, stale }
 }
 
 async function loadOrgIssues(username, orgLogin, params) {
-  if (!hasToken()) {
-    throw new GitHubError('unavailable', 'Organization issues require server-side GitHub auth', 503)
-  }
-  const cacheKey = `orgIssues:${username}:${orgLogin}`
+  const cacheKey = 'orgIssues:' + username + ':' + orgLogin
   const { data, fetchedAt, stale } = await cached(
     cacheKey,
     TTL.orgIssues,
     async () => {
-      const result = await ghGraphQL(ORG_ISSUES_QUERY, { login: username, first: 100 })
-      if (!result?.user) throw new GitHubError('not_found', 'GitHub account not found', 404)
-      // Filter to only issues in this organization
-      const issues = (result.user?.issues?.nodes ?? []).filter(
-        (issue) => issue && issue.repository?.owner?.login === orgLogin,
-      )
-      return toContributionIssueModel(issues, username)
+      if (hasToken()) {
+        try {
+          const result = await ghGraphQL(ORG_ISSUES_QUERY, { login: username, first: 100 })
+          if (result?.user) {
+            const issues = (result.user?.issues?.nodes ?? []).filter(
+              (issue) => issue && issue.repository?.owner?.login === orgLogin,
+            )
+            return toContributionIssueModel(issues, username)
+          }
+        } catch {
+          // Fall back to public issues authored by this user in the organization.
+        }
+      }
+      const result = await searchAuthored(username, 'org:' + orgLogin + ' is:issue')
+      return (result.items || []).map((item) => restIssueModel(item, username))
     },
   )
   return { data, fetchedAt, stale }
 }
 
 async function loadTimeline(username) {
-  if (!hasToken()) {
-    throw new GitHubError('unavailable', 'Timeline requires server-side GitHub auth', 503)
-  }
   const { data, fetchedAt, stale } = await cached(
-    `timeline:${username}`,
+    'timeline:' + username,
     TTL.timeline,
     async () => {
-      const result = await ghGraphQL(CONTRIBUTION_TIMELINE_QUERY, { login: username, first: 30 })
-      if (!result?.user) throw new GitHubError('not_found', 'GitHub account not found', 404)
-      return toTimelineEvents(result, username)
+      if (hasToken()) {
+        try {
+          const result = await ghGraphQL(CONTRIBUTION_TIMELINE_QUERY, { login: username, first: 30 })
+          if (result?.user) return toTimelineEvents(result, username)
+        } catch {
+          // Use real public PR/issue records if authenticated GraphQL is unavailable.
+        }
+      }
+
+      const [prs, issues] = await Promise.all([
+        searchAuthored(username, 'is:pr', 30),
+        searchAuthored(username, 'is:issue', 30),
+      ])
+      return [
+        ...(prs.items || []).map((item) => restTimelineModel(item, true)),
+        ...(issues.items || []).map((item) => restTimelineModel(item, false)),
+      ]
+        .filter((event) => event.url && event.date && event.repoName)
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 30)
     },
   )
   return { data, fetchedAt, stale }
 }
 
 async function loadSummary(username) {
-  if (!hasToken()) {
-    throw new GitHubError('unavailable', 'Summary requires server-side GitHub auth', 503)
-  }
   const { data, fetchedAt, stale } = await cached(
-    `summary:${username}`,
+    'summary:' + username,
     TTL.summary,
     async () => {
-      // Two queries: timeline for PR/issue counts, org discovery so the
-      // `organizations` count matches the organization grid exactly
-      // (both use ORG_DISCOVERY_QUERY → toOrganizations).
-      const [timelineResult, orgResult] = await Promise.all([
-        ghGraphQL(CONTRIBUTION_TIMELINE_QUERY, { login: username, first: 100 }),
-        ghGraphQL(ORG_DISCOVERY_QUERY, { login: username, first: 100 }),
+      if (hasToken()) {
+        try {
+          const [timelineResult, orgResult] = await Promise.all([
+            ghGraphQL(CONTRIBUTION_TIMELINE_QUERY, { login: username, first: 100 }),
+            ghGraphQL(ORG_DISCOVERY_QUERY, { login: username, first: 100 }),
+          ])
+          if (timelineResult?.user) {
+            const summary = toSummaryCounts(timelineResult, username)
+            summary.organizations = toOrganizations(orgResult, username).length
+            return summary
+          }
+        } catch {
+          // Count only values the public search API can verify.
+        }
+      }
+
+      const [allPRs, mergedPRs, openPRs, draftPRs, openedIssues] = await Promise.all([
+        searchAuthored(username, 'is:pr', 1),
+        searchAuthored(username, 'is:pr is:merged', 1),
+        searchAuthored(username, 'is:pr is:open', 1),
+        searchAuthored(username, 'is:pr is:draft', 1),
+        searchAuthored(username, 'is:issue', 1),
       ])
-      if (!timelineResult?.user) throw new GitHubError('not_found', 'GitHub account not found', 404)
-      const summary = toSummaryCounts(timelineResult, username)
-      summary.organizations = toOrganizations(orgResult, username).length
-      return summary
+      return {
+        totalPRs: allPRs.total_count ?? 0,
+        mergedPRs: mergedPRs.total_count ?? 0,
+        openPRs: openPRs.total_count ?? 0,
+        draftPRs: draftPRs.total_count ?? 0,
+        openedIssues: openedIssues.total_count ?? 0,
+      }
     },
   )
   return { data, fetchedAt, stale }
