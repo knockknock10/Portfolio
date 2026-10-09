@@ -34,34 +34,30 @@ export default function ProofSection() {
         <div>
           <p className="text-xs font-medium tracking-wider text-muted uppercase">GitHub activity</p>
           {contributions.data ? (
-            <>
-              <p className="mt-1 text-2xl font-medium tracking-tight text-fg md:text-3xl">
-                {totalContributions.toLocaleString()} contributions in {year}
-              </p>
-            </>
-          ) : contributions.error ? (
-            <p className="mt-1 text-2xl font-medium tracking-tight text-fg md:text-3xl">
-              Contribution totals are temporarily unavailable.
+            <p className="mt-2 text-2xl font-medium tracking-tight text-fg md:text-3xl">
+              {totalContributions.toLocaleString()} contributions in {year}
             </p>
           ) : (
-            <p className="mt-1 text-2xl font-medium tracking-tight text-muted md:text-3xl" role="status">
-              Loading contribution totals…
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-muted" role="status">
+              Public repositories and recent activity load below. The daily contribution calendar requires GitHub&apos;s authenticated contribution API.
             </p>
           )}
         </div>
 
         {/* Contribution Calendar */}
-        <div className="relative max-w-full overflow-x-auto" aria-label="Contribution calendar wrapper">
-          <ContributionCalendar
-          data={contributions.data}
-          year={year}
-          onYearChange={setYear}
-          availableYears={availableYears}
-          error={contributions.error}
-          loading={contributions.loading}
-          stale={contributions.stale}
-        />
-        </div>
+        {contributions.data && (
+          <div className="relative max-w-full overflow-x-auto" aria-label="Contribution calendar wrapper">
+            <ContributionCalendar
+              data={contributions.data}
+              year={year}
+              onYearChange={setYear}
+              availableYears={availableYears}
+              error={contributions.error}
+              loading={contributions.loading}
+              stale={contributions.stale}
+            />
+          </div>
+        )}
 
         {/* Profile Snapshot */}
         <div className="border-t border-line pt-6">
