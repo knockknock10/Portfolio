@@ -37,7 +37,7 @@ export const navigation = [
 export const hero = {
   status: 'Open to software engineering internships',
   statement:
-    'I build useful software, contribute upstream, and turn research ideas into working systems.',
+    'I work on backend engineering, open-source contributions, and audio ML research.',
   primaryCta: { label: 'View my work', href: '/#work' },
   secondaryCta: { label: 'GitHub', href: profile.links.github },
   currently: [
@@ -57,21 +57,21 @@ export const sections = [
     index: '01',
     title: 'Selected Work',
     intent:
-      'Systems I designed and built end to end — case studies covering the problem, architecture, and engineering decisions.',
+      'Projects with source code and technical case studies.',
     pending: null,
   },
   {
     id: 'proof',
     index: '02',
     title: 'Proof of Work',
-    intent: 'Direct links to the evidence behind the work — repositories, code, and results.',
+    intent: 'Repositories, recent public activity, and links to the original work.',
     pending: null,
   },
   {
     id: 'open-source',
     index: '03',
     title: 'Open Source',
-    intent: 'Contributions to codebases that exist outside my laptop — with links to the exact PRs and issues.',
+    intent: 'Pull requests and issues across external projects.',
     pending: null,
   },
   {
@@ -79,14 +79,14 @@ export const sections = [
     index: '04',
     title: 'Research',
     intent:
-      'SemBind-Audio — a semantic-aware zero-trust audio watermarking framework: transformer-based representation with cryptographic binding.',
+      'SemBind-Audio: audio watermarking guided by HuBERT representations, with SHA-256 payload binding.',
     pending: null,
   },
   {
     id: 'problem-solving',
     index: '05',
     title: 'Problem Solving',
-    intent: 'Problem-solving practice and platform activity, presented as data rather than claims.',
+    intent: 'LeetCode profile and verified statistics when available.',
     pending: null,
   },
   {
@@ -104,7 +104,7 @@ export const sections = [
 ]
 
 export const contact = {
-  body: 'The fastest way to reach me is email — I read everything. For code, the repositories below are the honest version of what I can do.',
+  body: 'Email is the best way to reach me. I’m happy to talk about software engineering, open source, or applied AI.',
   primaryCta: { label: 'Email me', href: 'mailto:sanjeevkumar_s@srmap.edu.in' },
 }
 
