@@ -435,18 +435,12 @@ async function loadSummary(username) {
         }
       }
 
-      const [allPRs, mergedPRs, openPRs, draftPRs, openedIssues] = await Promise.all([
+      const [allPRs, openedIssues] = await Promise.all([
         searchAuthored(username, 'is:pr', 1),
-        searchAuthored(username, 'is:pr is:merged', 1),
-        searchAuthored(username, 'is:pr is:open', 1),
-        searchAuthored(username, 'is:pr is:draft', 1),
         searchAuthored(username, 'is:issue', 1),
       ])
       return {
         totalPRs: allPRs.total_count ?? 0,
-        mergedPRs: mergedPRs.total_count ?? 0,
-        openPRs: openPRs.total_count ?? 0,
-        draftPRs: draftPRs.total_count ?? 0,
         openedIssues: openedIssues.total_count ?? 0,
       }
     },
