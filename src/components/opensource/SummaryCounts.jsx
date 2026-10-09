@@ -1,48 +1,36 @@
 /**
- * Verified summary metrics for the open-source page.
- * Only displays metrics that can be accurately computed from GitHub data.
+ * Summary values returned by GitHub. Missing values are not inferred.
  */
-
 const METRICS = [
-  { key: 'organizations', label: 'Organizations', singular: 'organization' },
-  { key: 'repositories', label: 'Repositories', singular: 'repository' },
-  { key: 'totalPRs', label: 'Pull Requests', singular: 'pull request' },
-  { key: 'mergedPRs', label: 'Merged PRs', singular: 'merged PR' },
-  { key: 'openPRs', label: 'Open PRs', singular: 'open PR' },
-  { key: 'draftPRs', label: 'Draft PRs', singular: 'draft PR' },
-  { key: 'totalIssues', label: 'Issues', singular: 'issue' },
-  { key: 'assignedIssues', label: 'Assigned Issues', singular: 'assigned issue' },
-  { key: 'openedIssues', label: 'Opened Issues', singular: 'opened issue' },
-  { key: 'totalReviews', label: 'Code Reviews', singular: 'code review' },
+  { key: 'organizations', label: 'Organizations' },
+  { key: 'repositories', label: 'Repositories' },
+  { key: 'totalPRs', label: 'Pull requests' },
+  { key: 'mergedPRs', label: 'Merged PRs' },
+  { key: 'openPRs', label: 'Open PRs' },
+  { key: 'draftPRs', label: 'Draft PRs' },
+  { key: 'totalIssues', label: 'Issues' },
+  { key: 'assignedIssues', label: 'Assigned issues' },
+  { key: 'openedIssues', label: 'Issues opened' },
+  { key: 'totalReviews', label: 'Code reviews' },
 ]
 
 export default function SummaryCounts({ counts }) {
   if (!counts || Object.keys(counts).length === 0) return null
 
-  const items = METRICS.map(({ key, label, singular }) => {
-    const value = counts[key] ?? 0
-    if (value === 0) return null
-    return (
-      <div key={key} className="flex items-baseline gap-2">
-        <span className="font-medium text-fg">{value.toLocaleString()}</span>
-        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-dim">
-          {value === 1 ? singular : label}
-        </span>
-      </div>
-    )
-  }).filter(Boolean)
+  const items = METRICS
+    .filter(({ key }) => Number.isFinite(counts[key]) && counts[key] > 0)
+    .map(({ key, label }) => ({ key, label, value: counts[key] }))
+
+  if (items.length === 0) return null
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="list" aria-label="Open source summary">
-      {items.map((item, i) => (
-        <div
-          key={i}
-          className="rounded-xl bg-panel p-4"
-          style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
-        >
-          {item}
+    <dl className="summary-metrics" aria-label="Open-source summary">
+      {items.map(({ key, label, value }) => (
+        <div key={key} className="summary-metric">
+          <dd>{value.toLocaleString()}</dd>
+          <dt>{label}</dt>
         </div>
       ))}
-    </div>
+    </dl>
   )
 }
