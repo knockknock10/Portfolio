@@ -85,7 +85,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 px-3 sm:px-6 pt-4 pb-2 transition-all duration-300 w-full">
       <div
         onPointerMove={handleCapsulePointerMove}
-        className={`glass-nav mx-auto max-w-6xl rounded-full px-4 sm:px-5 py-2 sm:py-2.5 ${capsuleClass}`}
+        className={`glass-nav mx-auto max-w-6xl ${open ? 'rounded-3xl' : 'rounded-full'} px-4 sm:px-5 py-2 sm:py-2.5 ${capsuleClass}`}
       >
         <div className="flex items-center justify-between gap-3 sm:gap-6">
           {/* Compact wordmark badge */}
@@ -100,10 +100,10 @@ export default function Navbar() {
           {/* Desktop nav links */}
           <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
             {navigation.map((item) => {
-              const isActive =
-                item.href === '/'
-                  ? location.pathname === '/'
-                  : location.pathname.startsWith(item.href)
+              const isHashLink = item.href.startsWith('/#')
+              const isActive = isHashLink
+                ? location.pathname === '/' && location.hash === item.href.slice(1)
+                : location.pathname === item.href || location.pathname.startsWith(`${item.href}/`)
               return (
                 <Link
                   key={item.href}
@@ -162,10 +162,10 @@ export default function Navbar() {
           >
             <div className="flex flex-col gap-1">
               {navigation.map((item) => {
-                const isActive =
-                  item.href === '/'
-                    ? location.pathname === '/'
-                    : location.pathname.startsWith(item.href)
+                const isHashLink = item.href.startsWith('/#')
+                const isActive = isHashLink
+                  ? location.pathname === '/' && location.hash === item.href.slice(1)
+                  : location.pathname === item.href || location.pathname.startsWith(`${item.href}/`)
                 return (
                   <Link
                     key={item.href}
