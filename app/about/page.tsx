@@ -1,7 +1,7 @@
 import { content } from "@/lib/content"
 
-export default function HomePage() {
-  const heading = content.identity.professionalName ?? content.identity.fullName
+export default function AboutPage() {
+  const heading = content.identity.professionalName
 
   if (!heading) return null
 
