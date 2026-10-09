@@ -11,28 +11,26 @@
 
 import { cached, GitHubError } from './cache.js'
 import { ghRest, ghGraphQL, hasToken } from './client.js'
-import { CONTRIBUTIONS_QUERY } from './queries.js'
 import {
+  CONTRIBUTIONS_QUERY,
   ORG_DISCOVERY_QUERY,
   ORG_PRS_QUERY,
   ORG_ISSUES_QUERY,
   CONTRIBUTION_TIMELINE_QUERY,
   ORG_DETAIL_QUERY,
-} from './queries-phase4.js'
+} from './queries.js'
 import {
   toActivityModels,
   toContributionModel,
   toProfileModel,
   toRepositoryModels,
-} from './transformers.js'
-import {
   toOrganizations,
   toOrganizationDetail,
   toContributionPRModel,
   toContributionIssueModel,
   toTimelineEvents,
   toSummaryCounts,
-} from './transformers-phase4.js'
+} from './transformers.js'
 import { resolveGithubUsername, rankRepositories, githubDisplay } from '../../shared/github-config.js'
 
 const TTL = {
