@@ -1,5 +1,5 @@
 /**
- * Card — restrained liquid surface with a local specular highlight on pointer movement.
+ * Card — a clean, solid content surface. Interactivity stays subtle and useful.
  */
 export default function Card({
   as: Tag = 'div',
@@ -8,23 +8,16 @@ export default function Card({
   children,
   ...props
 }) {
-  const handlePointerMove = (event) => {
-    if (event.pointerType === 'touch') return
-    const rect = event.currentTarget.getBoundingClientRect()
-    event.currentTarget.style.setProperty('--card-glass-x', `${event.clientX - rect.left}px`)
-    event.currentTarget.style.setProperty('--card-glass-y', `${event.clientY - rect.top}px`)
-  }
-
   const classes = [
-    'glass-card rounded-2xl p-6 sm:p-7',
-    interactive ? 'glass-card-interactive cursor-pointer' : '',
+    'content-card rounded-xl p-6 sm:p-7',
+    interactive ? 'content-card-interactive' : '',
     className,
   ]
     .filter(Boolean)
     .join(' ')
 
   return (
-    <Tag className={classes} onPointerMove={handlePointerMove} {...props}>
+    <Tag className={classes} {...props}>
       {children}
     </Tag>
   )
