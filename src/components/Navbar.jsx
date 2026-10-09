@@ -74,21 +74,26 @@ export default function Navbar() {
 
   const capsuleClass = scrolled ? 'glass-nav-capsule-scrolled' : 'glass-nav-capsule'
 
+  const handleCapsulePointerMove = (event) => {
+    if (event.pointerType === 'touch') return
+    const rect = event.currentTarget.getBoundingClientRect()
+    event.currentTarget.style.setProperty('--glass-x', `${event.clientX - rect.left}px`)
+    event.currentTarget.style.setProperty('--glass-y', `${event.clientY - rect.top}px`)
+  }
+
   return (
-    <header className="sticky top-0 z-50 px-3 sm:px-6 pt-3 pb-2 transition-all duration-300 w-full">
-      <div className={`mx-auto max-w-6xl rounded-2xl px-4 sm:px-6 py-2.5 sm:py-3 ${capsuleClass}`}>
+    <header className="sticky top-0 z-50 px-3 sm:px-6 pt-4 pb-2 transition-all duration-300 w-full">
+      <div
+        onPointerMove={handleCapsulePointerMove}
+        className={`glass-nav mx-auto max-w-6xl rounded-full px-4 sm:px-5 py-2 sm:py-2.5 ${capsuleClass}`}
+      >
         <div className="flex items-center justify-between gap-3 sm:gap-6">
           {/* Compact wordmark badge */}
           <Link
             to="/"
             className="group flex items-center gap-2 font-mono text-[11px] sm:text-[13px] font-semibold tracking-[0.14em] text-fg transition-colors duration-200 hover:text-white uppercase min-w-0"
           >
-            <span
-              aria-hidden="true"
-              className="flex size-5 shrink-0 items-center justify-center rounded-md bg-accent text-[10px] font-bold text-white transition-opacity group-hover:opacity-100 opacity-90"
-            >
-              S
-            </span>
+            <span aria-hidden="true" className="nav-monogram">S</span>
             <span className="truncate">{profile.wordmark}</span>
           </Link>
 
@@ -103,10 +108,8 @@ export default function Navbar() {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className={`px-3 py-1.5 rounded-lg text-[13px] transition-colors duration-150 ${
-                    isActive
-                      ? 'bg-white/[0.08] text-white font-medium'
-                      : 'text-muted hover:text-fg hover:bg-white/[0.04]'
+                  className={`glass-nav-link px-3 py-1.5 rounded-full text-[13px] transition-colors duration-200 ${
+                    isActive ? 'glass-nav-link-active text-white font-medium' : 'text-muted hover:text-fg'
                   }`}
                   aria-current={isActive ? 'page' : undefined}
                 >
@@ -122,7 +125,7 @@ export default function Navbar() {
               href={profile.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass-btn-secondary inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[13px] text-muted hover:text-fg font-medium"
+              className="glass-btn-secondary inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] text-muted hover:text-fg font-medium"
               aria-label="GitHub profile"
             >
               <GitHubIcon className="size-3.5" />
@@ -130,7 +133,7 @@ export default function Navbar() {
             </a>
             <a
               href={profile.links.resume}
-              className="glass-btn-primary inline-flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-[13px] font-medium text-white"
+              className="glass-btn-primary inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium text-white"
             >
               Resume
             </a>
@@ -140,7 +143,7 @@ export default function Navbar() {
           <button
             ref={buttonRef}
             type="button"
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.12] bg-white/[0.05] text-muted transition-colors duration-200 hover:text-fg md:hidden"
+            className="mobile-menu-button inline-flex size-9 shrink-0 items-center justify-center rounded-full text-muted transition-colors duration-200 hover:text-fg md:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
@@ -154,7 +157,7 @@ export default function Navbar() {
         {open && (
           <div
             id="mobile-menu"
-            className="mt-3 pt-3 border-t border-white/[0.10] md:hidden"
+            className="glass-mobile-menu mt-3 pt-3 md:hidden"
             aria-hidden={!open}
           >
             <div className="flex flex-col gap-1">
@@ -168,10 +171,8 @@ export default function Navbar() {
                     key={item.href}
                     to={item.href}
                     onClick={() => setOpen(false)}
-                    className={`flex items-center justify-between rounded-lg px-3 py-2 text-[14px] transition-colors duration-150 ${
-                      isActive
-                        ? 'bg-white/[0.08] text-white font-medium'
-                        : 'text-muted hover:text-fg hover:bg-white/[0.04]'
+                    className={`glass-nav-link flex items-center justify-between rounded-xl px-3 py-2 text-[14px] transition-colors duration-200 ${
+                      isActive ? 'glass-nav-link-active text-white font-medium' : 'text-muted hover:text-fg'
                     }`}
                     aria-current={isActive ? 'page' : undefined}
                   >
