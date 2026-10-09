@@ -52,18 +52,18 @@ export default function ActivityItem({ activity }) {
   const repoUrl = repoName ? `https://github.com/${repoName}` : activity.url
 
   return (
-    <li className="group flex items-start gap-3 py-3 border-t border-line last:border-b border-line first:border-t-0">
+    <li className="group flex min-w-0 items-start gap-3 border-t border-line py-4 first:border-t-0 last:border-b">
       <ActivityBadge type={activity.label} />
       <div className="flex-1 min-w-0">
         <p className="text-sm text-fg">{activity.action}</p>
-        {activity.detail && <p className="mt-0.5 text-sm text-muted truncate">{activity.detail}</p>}
-        <div className="mt-1 flex items-center gap-2.5 text-[12px]">
+        {activity.detail && <p className="mt-0.5 break-words text-sm leading-6 text-muted">{activity.detail}</p>}
+        <div className="mt-2 flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-1 text-[12px]">
           {repoName && (
             <a
               href={repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted hover:text-fg transition-colors"
+              className="min-w-0 break-words [overflow-wrap:anywhere] text-muted hover:text-fg transition-colors"
             >
               {repoName}
             </a>
