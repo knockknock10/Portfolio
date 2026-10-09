@@ -148,13 +148,18 @@ The open-source sections read the GitHub API through `/api/github?...`.
 
 - Put a personal access token in `.env` as `GITHUB_TOKEN=...` (the file is gitignored and must never be committed).
 - The token is read **server-side only** (`server/github/` + `api/github.js`); it is never exposed to the browser bundle (no `VITE_` prefix, never `import.meta.env`).
-- In dev/preview, `vite.config.js` loads `.env` into the API handler's environment. On Vercel the same handler runs as a serverless function, which reads the project's environment variable directly.
+- In dev/preview, `vite.config.js` loads `.env` into the API handler's environment. On Vercel, `api/github.js` runs as a serverless function. On Netlify, `netlify/functions/github.js` adapts the same handler and `netlify.toml` routes `/api/github` to it. Both hosting adapters read the project's environment variables server-side.
 - Optional: `VITE_GITHUB_USERNAME` overrides the default GitHub username shown in the open-source section; it must be a public username, never a secret.
 - Without a token the API falls back to unauthenticated requests (lower rate limits); the UI shows an error state with retry rather than fabricated numbers.
 
 ## Deployment
 
-The project builds to static assets in `dist/`. `vercel.json` declares the build command, output directory, and an SPA rewrite (`/((?!api/).*)` → `/index.html`) so deep links such as `/work/aevor` work on refresh while `/api/github` stays a serverless function. Deploying to a different host requires the equivalent SPA fallback rule (e.g. Netlify `_redirects` or a `404.html` on GitHub Pages) — and note that hosts without serverless functions will not run `/api/github`, so the GitHub sections will show their error/retry state there.
+The project builds to static assets in `dist/` and now includes deployment configuration for both Vercel and Netlify.
+
+- **Vercel:** `vercel.json` defines the build command, output directory, and SPA fallback. `api/github.js` serves the GitHub API requests.
+- **Netlify:** `netlify.toml` defines the build, deploy directory, function directory, the `/api/github` function rewrite, and the SPA fallback for deep links such as `/work/aevor`.
+- **Required environment variable:** configure `GITHUB_TOKEN` in the host's site/project environment settings for authenticated GraphQL data (contributions, organizations, PRs, and issues). On Netlify, use Site configuration → Environment variables; on Vercel, use Project Settings → Environment Variables. Never place the token in a `VITE_*` variable or commit it.
+- **Preview/production:** ensure the variable is available to the deploy context you're testing, then trigger a new deployment after changing host configuration.
 
 ## Known Limitations
 
