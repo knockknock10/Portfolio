@@ -219,16 +219,16 @@ button:disabled {
   overflow: hidden;
 }
 
+@supports (clip-path: inset(0 round var(--radius-sm))) {
+  .squircle-surface {
+    clip-path: inset(0 round var(--squircle-radius, var(--radius-squircle)));
+  }
+}
+
 @supports (corner-shape: superellipse(1.15)) {
   .squircle-surface {
     corner-shape: superellipse(1.15);
     clip-path: none;
-  }
-}
-
-@supports (clip-path: inset(0 round var(--radius-sm))) {
-  .squircle-surface {
-    clip-path: inset(0 round var(--squircle-radius, var(--radius-squircle)));
   }
 }
 
