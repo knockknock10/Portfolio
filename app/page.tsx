@@ -1,13 +1,5 @@
-import { content } from "@/lib/content"
+import { Hero } from "@/components/sections/Hero"
 
 export default function HomePage() {
-  const heading = content.identity.professionalName ?? content.identity.fullName
-
-  if (!heading) return null
-
-  return (
-    <main className="route-shell">
-      <h1 className="route-shell-title">{heading}</h1>
-    </main>
-  )
+  return <Hero />
 }
