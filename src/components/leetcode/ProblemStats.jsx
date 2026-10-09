@@ -39,18 +39,21 @@ export function DifficultyBreakdown() {
           value={easySolved}
           total={total}
           color="text-green-400"
+          barColor="bg-green-400"
         />
         <DifficultyStat
           label="Medium"
           value={mediumSolved}
           total={total}
           color="text-yellow-400"
+          barColor="bg-yellow-400"
         />
         <DifficultyStat
           label="Hard"
           value={hardSolved}
           total={total}
           color="text-red-400"
+          barColor="bg-red-400"
         />
       </div>
 
@@ -63,7 +66,7 @@ export function DifficultyBreakdown() {
   )
 }
 
-function DifficultyStat({ label, value, total, color }) {
+function DifficultyStat({ label, value, total, color, barColor }) {
   const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : '0.0'
 
   return (
@@ -77,7 +80,7 @@ function DifficultyStat({ label, value, total, color }) {
       </div>
       <div className="h-2 bg-panel-raised rounded-full overflow-hidden" role="img" aria-label={`${label}: ${value} of ${total} problems (${percentage}%)`}>
         <div
-          className={`h-full ${color.replace('text-', 'bg-')} transition-all duration-500`}
+          className={`h-full ${barColor} transition-all duration-500`}
           style={{ width: `${percentage}%` }}
         />
       </div>
