@@ -96,6 +96,13 @@ function repoLink(event) {
   return `https://github.com/${event.repo?.name ?? ''}`
 }
 
+function numberedDetail(item) {
+  const parts = []
+  if (Number.isFinite(item?.number)) parts.push(`#${item.number}`)
+  if (typeof item?.title === 'string' && item.title.trim()) parts.push(item.title.trim())
+  return parts.join(' ') || null
+}
+
 function toActivityItem(event) {
   const repoName = event.repo?.name ?? null
   const url = repoLink(event)
@@ -149,7 +156,7 @@ function toActivityItem(event) {
         ...base,
         label: 'ISSUE',
         action: 'Opened an issue',
-        detail: `#${issue.number} ${issue.title}`,
+        detail: numberedDetail(issue),
         url: issue.html_url || url,
       }
     }
@@ -163,7 +170,7 @@ function toActivityItem(event) {
           ...base,
           label: 'PULL REQUEST',
           action: 'Opened a pull request',
-          detail: `#${pr.number} ${pr.title}`,
+          detail: numberedDetail(pr),
           url: pr.html_url || url,
         }
       }
@@ -198,7 +205,7 @@ function toActivityItem(event) {
         ...base,
         label: 'COMMENT',
         action: isPull ? 'Commented on a pull request' : 'Commented on an issue',
-        detail: isPull ? null : `#${issue.number} ${issue.title}`,
+        detail: isPull ? null : numberedDetail(issue),
         url: comment.html_url || url,
       }
     }
