@@ -41,6 +41,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const buttonRef = useRef(null)
   const location = useLocation()
+  const [activeSection, setActiveSection] = useState(location.hash.slice(1))
 
   /* Close mobile menu on route change */
   const prevLocation = useRef(location)
@@ -51,13 +52,34 @@ export default function Navbar() {
     }
   }, [location])
 
-  /* Scroll-aware glass depth */
+  /* Scroll-aware glass depth + active homepage section */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20)
+      if (location.pathname !== '/') return
+
+      const marker = window.innerHeight * 0.36
+      const candidates = ['work', 'research', 'problem-solving', 'about']
+        .map((id) => document.getElementById(id))
+        .filter(Boolean)
+        .map((element) => ({ id: element.id, top: element.getBoundingClientRect().top }))
+      const current = candidates
+        .filter((section) => section.top <= marker)
+        .sort((a, b) => b.top - a.top)[0] ?? candidates[0]
+
+      if (current) setActiveSection(current.id)
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [location.pathname])
+
+  useEffect(() => {
+    if (location.pathname === '/' && location.hash) {
+      setActiveSection(location.hash.slice(1))
+    }
+  }, [location.pathname, location.hash])
 
   /* Keyboard dismiss */
   useEffect(() => {
@@ -102,7 +124,7 @@ export default function Navbar() {
             {navigation.map((item) => {
               const isHashLink = item.href.startsWith('/#')
               const isActive = isHashLink
-                ? location.pathname === '/' && location.hash === item.href.slice(1)
+                ? location.pathname === '/' && activeSection === item.href.slice(2)
                 : location.pathname === item.href || location.pathname.startsWith(`${item.href}/`)
               return (
                 <Link
@@ -164,7 +186,7 @@ export default function Navbar() {
               {navigation.map((item) => {
                 const isHashLink = item.href.startsWith('/#')
                 const isActive = isHashLink
-                  ? location.pathname === '/' && location.hash === item.href.slice(1)
+                  ? location.pathname === '/' && activeSection === item.href.slice(2)
                   : location.pathname === item.href || location.pathname.startsWith(`${item.href}/`)
                 return (
                   <Link
