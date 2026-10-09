@@ -62,8 +62,8 @@ export default function GitHubProfile({ data, error, loading }) {
         <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-[0.18em] text-dim">
           {data.location && <span>{data.location}</span>}
           {data.company && <span>{data.company}</span>}
-          {data.followers != null && <span>👥 {data.followers.toLocaleString()}</span>}
-          {data.publicRepos != null && <span>📦 {data.publicRepos.toLocaleString()}</span>}
+          {data.followers != null && <span>{data.followers.toLocaleString()} followers</span>}
+          {data.publicRepos != null && <span>{data.publicRepos.toLocaleString()} repos</span>}
         </div>
         <TextLink href={data.htmlUrl} external className="mt-3 text-sm">
           View GitHub profile ↗

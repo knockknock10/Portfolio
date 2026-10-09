@@ -2,16 +2,16 @@
  * Issue state badge.
  */
 const ISSUE_STATE_STYLES = {
-  OPEN: { bg: '#d29922', fg: '#0a0a0b', label: 'OPEN', icon: '▸' },
-  CLOSED: { bg: '#6e7681', fg: '#fff', label: 'CLOSED', icon: '✕' },
+  OPEN:   { bg: 'rgba(124,131,255,0.12)', fg: '#9BA3FF', border: 'rgba(124,131,255,0.25)', label: 'OPEN',   icon: '▸' },
+  CLOSED: { bg: 'rgba(110,118,129,0.12)', fg: '#8b949e', border: 'rgba(110,118,129,0.25)', label: 'CLOSED', icon: '✕' },
 }
 
 function IssueStateBadge({ state }) {
   const style = ISSUE_STATE_STYLES[state] || ISSUE_STATE_STYLES.CLOSED
   return (
     <span
-      className="inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em]"
-      style={{ backgroundColor: style.bg, color: style.fg }}
+      className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em] shrink-0"
+      style={{ backgroundColor: style.bg, color: style.fg, border: `1px solid ${style.border}` }}
       aria-label={style.label}
     >
       <span aria-hidden="true">{style.icon}</span>
@@ -25,15 +25,15 @@ function IssueStateBadge({ state }) {
  */
 function RoleBadge({ role }) {
   const styles = {
-    opened: { bg: '#3fb950', fg: '#0a0a0b', label: 'OPENED BY ME' },
-    assigned: { bg: '#2f81f7', fg: '#fff', label: 'ASSIGNED TO ME' },
-    commented: { bg: '#6e7681', fg: '#fff', label: 'COMMENTED' },
+    opened:   { bg: 'rgba(63,185,80,0.12)',  fg: '#3fb950', border: 'rgba(63,185,80,0.25)',  label: 'OPENED BY ME' },
+    assigned: { bg: 'rgba(47,129,247,0.12)', fg: '#2f81f7', border: 'rgba(47,129,247,0.25)', label: 'ASSIGNED TO ME' },
+    commented:{ bg: 'rgba(110,118,129,0.12)',fg: '#8b949e', border: 'rgba(110,118,129,0.25)',label: 'COMMENTED' },
   }
   const style = styles[role] || styles.commented
   return (
     <span
-      className="inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em]"
-      style={{ backgroundColor: style.bg, color: style.fg }}
+      className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em] shrink-0"
+      style={{ backgroundColor: style.bg, color: style.fg, border: `1px solid ${style.border}` }}
       aria-label={style.label}
     >
       {style.label}

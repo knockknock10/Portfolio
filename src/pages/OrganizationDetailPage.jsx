@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 
 import Layout from '../layouts/Layout.jsx'
+import Container from '../components/Container.jsx'
 import usePageMeta from '../hooks/usePageMeta.js'
 
 import PRItem from '../components/opensource/PRItem.jsx'
@@ -22,31 +23,35 @@ export default function OrganizationDetailPage() {
     return (
       <Layout>
         <main id="main">
-          <div className="border-b border-line">
-            <div className="pb-12 pt-28 md:pb-16 md:pt-36">
+          <div style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.07)' }}>
+            <Container className="pb-12 pt-20 md:pb-16 md:pt-28">
               <Link
                 to="/open-source"
-                className="text-sm text-accent underline-offset-4 hover:underline mb-4 inline-block"
+                className="text-sm text-accent underline-offset-4 hover:underline mb-4 inline-block font-medium"
               >
                 ← Back to Open Source
               </Link>
               <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">{org}</p>
-              <h1 className="mt-4 text-4xl font-medium tracking-tight text-fg md:text-5xl">
+              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-fg md:text-5xl">
                 Organization Contributions
               </h1>
-            </div>
+            </Container>
           </div>
-          <div className="mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-12 py-16 md:py-24 lg:py-28" aria-hidden="true">
+          <Container className="py-16 md:py-24 lg:py-28" aria-hidden="true">
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="rounded-lg border border-line bg-panel p-5 animate-pulse">
-                  <div className="size-12 rounded-lg border border-line mb-4" />
+                <div
+                  key={i}
+                  className="rounded-xl bg-panel p-5 animate-pulse"
+                  style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+                >
+                  <div className="size-12 rounded-xl bg-panel-raised mb-4" />
                   <div className="h-4 w-3/4 bg-line rounded" />
                   <div className="mt-2 h-3 w-1/2 bg-line rounded" />
                 </div>
               ))}
             </div>
-          </div>
+          </Container>
         </main>
       </Layout>
     )
@@ -56,26 +61,26 @@ export default function OrganizationDetailPage() {
     return (
       <Layout>
         <main id="main">
-          <div className="border-b border-line">
-            <div className="pb-12 pt-28 md:pb-16 md:pt-36">
+          <div style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.07)' }}>
+            <Container className="pb-12 pt-20 md:pb-16 md:pt-28">
               <Link
                 to="/open-source"
-                className="text-sm text-accent underline-offset-4 hover:underline mb-4 inline-block"
+                className="text-sm text-accent underline-offset-4 hover:underline mb-4 inline-block font-medium"
               >
                 ← Back to Open Source
               </Link>
               <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">{org}</p>
-              <h1 className="mt-4 text-4xl font-medium tracking-tight text-fg md:text-5xl">
+              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-fg md:text-5xl">
                 Organization not found
               </h1>
-            </div>
+            </Container>
           </div>
-          <div className="mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-12 py-16 md:py-24 lg:py-28 text-center">
+          <Container className="py-16 md:py-24 lg:py-28 text-center">
             <p className="text-muted">Unable to load organization data.</p>
             <Link to="/open-source" className="mt-4 inline-block text-sm text-accent underline-offset-4 hover:underline">
               Back to Open Source
             </Link>
-          </div>
+          </Container>
         </main>
       </Layout>
     )
@@ -89,20 +94,21 @@ export default function OrganizationDetailPage() {
     <Layout>
       <main id="main">
         {/* Organization Header */}
-        <div className="border-b border-line">
-          <div className="pb-12 pt-28 md:pb-16 md:pt-36">
+        <div style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.07)' }}>
+          <Container className="pb-12 pt-20 md:pb-16 md:pt-28">
             <Link
               to="/open-source"
-              className="text-sm text-accent underline-offset-4 hover:underline mb-4 inline-block"
+              className="text-sm text-accent underline-offset-4 hover:underline mb-5 inline-block font-medium"
             >
               ← Back to Open Source
             </Link>
-            <div className="flex items-start gap-4">
+            <div className="flex items-start gap-4 sm:gap-6">
               <a
                 href={organization.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="shrink-0 size-16 rounded-lg border border-line overflow-hidden bg-bg flex items-center justify-center"
+                className="shrink-0 size-16 rounded-xl overflow-hidden bg-panel-raised flex items-center justify-center"
+                style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
                 aria-label={`View ${organization.name} on GitHub`}
               >
                 {organization.avatarUrl ? (
@@ -121,7 +127,7 @@ export default function OrganizationDetailPage() {
               </a>
               <div className="flex-1 min-w-0">
                 <div className="flex items-baseline gap-2 flex-wrap">
-                  <h1 className="text-3xl font-medium tracking-tight text-fg">{organization.name}</h1>
+                  <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-fg">{organization.name}</h1>
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-dim">@{organization.login}</span>
                 </div>
                 {organization.description && (
@@ -132,49 +138,63 @@ export default function OrganizationDetailPage() {
                     href={organization.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm text-accent underline-offset-4 hover:underline"
+                    className="inline-flex items-center gap-1.5 text-sm text-accent underline-offset-4 hover:underline"
                   >
                     <svg className="size-4" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+                      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
                     </svg>
-                    View on GitHub
+                    <span>View organization on GitHub ↗</span>
                   </a>
                 </div>
               </div>
             </div>
-          </div>
+          </Container>
         </div>
 
-        <div className="mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-12 py-16 md:py-24 lg:py-28">
+        <Container className="py-14 md:py-20 lg:py-24">
           {/* Stats */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-10">
-            <div className="rounded-lg border border-line bg-panel p-4">
-              <span className="font-medium text-fg">{prList.length.toLocaleString()}</span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-dim">Pull Requests</span>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-12">
+            <div
+              className="rounded-xl bg-panel p-4 flex flex-col justify-between"
+              style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+            >
+              <span className="font-semibold text-fg text-lg">{prList.length.toLocaleString()}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim mt-1">Pull Requests</span>
             </div>
-            <div className="rounded-lg border border-line bg-panel p-4">
-              <span className="font-medium text-fg">{prList.filter(p => p.state === 'MERGED').length.toLocaleString()}</span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-dim">Merged</span>
+            <div
+              className="rounded-xl bg-panel p-4 flex flex-col justify-between"
+              style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+            >
+              <span className="font-semibold text-fg text-lg">{prList.filter(p => p.state === 'MERGED').length.toLocaleString()}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim mt-1">Merged PRs</span>
             </div>
-            <div className="rounded-lg border border-line bg-panel p-4">
-              <span className="font-medium text-fg">{issueList.length.toLocaleString()}</span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-dim">Issues</span>
+            <div
+              className="rounded-xl bg-panel p-4 flex flex-col justify-between"
+              style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+            >
+              <span className="font-semibold text-fg text-lg">{issueList.length.toLocaleString()}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim mt-1">Issues Handled</span>
             </div>
-            <div className="rounded-lg border border-line bg-panel p-4">
-              <span className="font-medium text-fg">{organization.publicRepos?.length ?? 0}</span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-dim">Public Repos</span>
+            <div
+              className="rounded-xl bg-panel p-4 flex flex-col justify-between"
+              style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+            >
+              <span className="font-semibold text-fg text-lg">{organization.publicRepos?.length ?? 0}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim mt-1">Public Repos</span>
             </div>
           </div>
 
           {/* Pull Requests */}
-          <section className="mb-12">
+          <section className="mb-14">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-mono text-xs tracking-[0.2em] text-accent uppercase">Pull Requests</h2>
+              <h2 className="font-mono text-xs tracking-[0.2em] text-accent uppercase font-medium">
+                Pull Requests ({prList.length})
+              </h2>
               <a
                 href={`https://github.com/${organization.login}?q=author%3Aknockknock10+type%3Apr`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-accent underline-offset-4 hover:underline"
+                className="text-xs font-mono text-accent underline-offset-4 hover:underline"
               >
                 View all on GitHub ↗
               </a>
@@ -186,21 +206,26 @@ export default function OrganizationDetailPage() {
                 ))}
               </ul>
             ) : (
-              <div className="rounded-lg border border-line bg-panel p-6 text-center">
-                <p className="text-muted">No pull requests found in this organization.</p>
+              <div
+                className="rounded-xl bg-panel p-6 text-center"
+                style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+              >
+                <p className="text-muted text-sm">No pull requests found in this organization.</p>
               </div>
             )}
           </section>
 
           {/* Issues */}
-          <section>
+          <section className="mb-14">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-mono text-xs tracking-[0.2em] text-accent uppercase">Issues</h2>
+              <h2 className="font-mono text-xs tracking-[0.2em] text-accent uppercase font-medium">
+                Issues ({issueList.length})
+              </h2>
               <a
                 href={`https://github.com/${organization.login}?q=author%3Aknockknock10+type%3Aissue`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-accent underline-offset-4 hover:underline"
+                className="text-xs font-mono text-accent underline-offset-4 hover:underline"
               >
                 View all on GitHub ↗
               </a>
@@ -212,37 +237,50 @@ export default function OrganizationDetailPage() {
                 ))}
               </ul>
             ) : (
-              <div className="rounded-lg border border-line bg-panel p-6 text-center">
-                <p className="text-muted">No issues found in this organization.</p>
+              <div
+                className="rounded-xl bg-panel p-6 text-center"
+                style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+              >
+                <p className="text-muted text-sm">No issues found in this organization.</p>
               </div>
             )}
           </section>
 
           {/* Repositories contributed to */}
           {organization.publicRepos?.length > 0 && (
-            <section className="mt-12 border-t border-line pt-8">
-              <h2 className="font-mono text-xs tracking-[0.2em] text-accent uppercase mb-4">
-                Public Repositories
+            <section className="border-t border-white/[0.07] pt-10">
+              <h2 className="font-mono text-xs tracking-[0.2em] text-accent uppercase font-medium mb-5">
+                Public Repositories ({organization.publicRepos.length})
               </h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {organization.publicRepos.slice(0, 6).map((repo) => (
-                  <article key={repo.nameWithOwner} className="rounded-lg border border-line bg-panel p-4">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0 flex-1">
-                        <h3 className="font-medium text-fg truncate">{repo.name}</h3>
-                        {repo.description && <p className="mt-1 line-clamp-2 text-sm text-muted">{repo.description}</p>}
+                  <article
+                    key={repo.nameWithOwner}
+                    className="rounded-xl bg-panel p-4 flex flex-col justify-between"
+                    style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+                  >
+                    <div>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-medium text-fg truncate text-[14px]">{repo.name}</h3>
+                          {repo.description && (
+                            <p className="mt-1 line-clamp-2 text-xs text-muted leading-relaxed">
+                              {repo.description}
+                            </p>
+                          )}
+                        </div>
+                        <a
+                          href={repo.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0 inline-flex items-center justify-center size-7 rounded-md border border-line text-muted hover:border-accent hover:text-accent transition-colors"
+                          aria-label={`View ${repo.nameWithOwner} on GitHub`}
+                        >
+                          <svg className="size-3.5" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+                          </svg>
+                        </a>
                       </div>
-                      <a
-                        href={repo.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="shrink-0 inline-flex items-center justify-center size-8 rounded-md border border-line text-muted hover:border-accent hover:text-accent transition-colors"
-                        aria-label={`View ${repo.nameWithOwner} on GitHub`}
-                      >
-                        <svg className="size-4" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
-                        </svg>
-                      </a>
                     </div>
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       {repo.language && (
@@ -271,7 +309,7 @@ export default function OrganizationDetailPage() {
               </div>
             </section>
           )}
-        </div>
+        </Container>
       </main>
     </Layout>
   )

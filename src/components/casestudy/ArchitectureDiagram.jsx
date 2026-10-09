@@ -22,11 +22,14 @@ function Arrow() {
 
 function Node({ node, index }) {
   return (
-    <li className="min-w-0 flex-1 rounded-lg border border-line bg-panel px-4 py-3">
-      <span className="block font-mono text-[10px] tracking-[0.16em] text-dim uppercase">
+    <li
+      className="min-w-0 flex-1 rounded-xl bg-panel px-4 py-3"
+      style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+    >
+      <span className="block font-mono text-[10px] tracking-[0.16em] text-accent uppercase">
         {String(index + 1).padStart(2, '0')}
       </span>
-      <span className="mt-1.5 block text-sm font-medium text-fg">{node.title}</span>
+      <span className="mt-1.5 block text-sm font-semibold text-fg">{node.title}</span>
       {node.sub && (
         <span className="mt-0.5 block font-mono text-[11px] leading-snug text-muted">
           {node.sub}
@@ -78,7 +81,10 @@ function PipelineList({ stages, label }) {
         {stages.map((stage, index) => (
           <li key={stage.title} className="flex items-stretch gap-4">
             <div className="flex flex-col items-center">
-              <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-line bg-panel font-mono text-[10px] text-accent">
+              <span
+                className="flex size-6 shrink-0 items-center justify-center rounded-full bg-panel font-mono text-[10px] text-accent"
+                style={{ border: '1px solid rgba(124, 131, 255, 0.3)' }}
+              >
                 {index + 1}
               </span>
               {index < stages.length - 1 && (
@@ -86,11 +92,12 @@ function PipelineList({ stages, label }) {
               )}
             </div>
             <div
-              className={`min-w-0 flex-1 rounded-lg border border-line bg-panel px-4 py-3 ${
+              className={`min-w-0 flex-1 rounded-xl bg-panel px-4 py-3 ${
                 index < stages.length - 1 ? 'mb-2' : ''
               }`}
+              style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
             >
-              <span className="block text-sm font-medium text-fg">{stage.title}</span>
+              <span className="block text-sm font-semibold text-fg">{stage.title}</span>
               {stage.sub && (
                 <span className="mt-0.5 block font-mono text-[11px] leading-snug text-muted">
                   {stage.sub}

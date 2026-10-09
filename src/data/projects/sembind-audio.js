@@ -41,7 +41,7 @@ export const sembindAudio = {
   ],
   overview: [
     'SemBind-Audio is a research project investigating one question: can pretrained audio representations supply an explicit semantic criterion for choosing where a watermark’s bits go — and can the payload itself be cryptographically bound rather than merely robust?',
-    'The manuscript is drafted (paper/paper.md, IEEE-style); the full experiment campaign E1–E14 ran against LibriSpeech test-clean (2,620 recordings) with results validated end to end.',
+    'The full experiment campaign E1–E14 ran against LibriSpeech test-clean (2,620 recordings), and the evidence package backing the manuscript passes its automated validation checks.',
   ],
   problem: [
     'Classic watermarking answers “where can I hide bits with least distortion?” — usually a spectral criterion. It does not answer “which parts of this audio carry meaning?”, and payload integrity is usually handled by a separate robustness mechanism, not by the embedding itself.',
@@ -61,7 +61,7 @@ export const sembindAudio = {
     'Canonical implementation lives in final_methodology.py, driven by scripts/final_run.py (experiments E1–E14) with a frozen config and config hash recorded in every results file.',
     'HuBERT (facebook/hubert-base-ls960) runs frozen with half-precision embeddings cached to disk; device selection prefers Apple MPS, then CUDA, then CPU.',
     'Coordinate allocation is deterministic: 768 unique (frequency, time) coordinates, time frames ordered by descending suitability, replicas split across timeline thirds, frequency bins via a coprime stride — with uniqueness asserted and a collision-repair fallback.',
-    'An evidence package backs the manuscript: experiment register, number-traceability CSVs, tables, figures, and an automated validation pass (27,000 CSV rows, 22 JSON files, 0 errors).',
+    'An evidence package backs the manuscript: experiment register, number-traceability CSVs, tables, figures, and an automated validation pass that reports all checks PASS.',
   ],
   decisions: [
     {
@@ -99,19 +99,19 @@ export const sembindAudio = {
       body: 'With center=True STFT, the outermost frames sit where the Hann synthesis window tapers to ~0 — single-coefficient edits were wiped by ISTFT → STFT. Fix: exclude one boundary frame per side. BER went from 0.000078 → 0.000000 on a 200-recording run.',
     },
     {
-      title: 'A 69% magnitude loss per round trip',
-      body: 'A perturbation δ recovers at only ~0.31·δ after ISTFT → STFT, leaving an extraction margin orders of magnitude below typical attack perturbation. This is the root cause of the robustness result below — diagnosed and documented as a fundamental limitation of editing individual STFT coefficients, not a bug to patch.',
+      title: 'Perturbations lose most of their magnitude per round trip',
+      body: 'After ISTFT → STFT, a perturbation δ recovers at only a fraction of its original magnitude, leaving an extraction margin far below typical attack perturbation levels. This is the root cause of the robustness result below — a fundamental limitation of editing individual STFT coefficients, not a bug to patch.',
     },
     {
       title: 'Destructive interference between perturbations',
-      body: 'After ISTFT, the 256 simultaneous perturbations interfere with each other — the source of the random-selection method’s ~14/256-bit failures. Region selection and replica splitting mitigate it; the diagnosis is written up in ROUNDTRIP_DIAGNOSIS.md.',
+      body: 'After ISTFT, the simultaneous perturbations of all 256 payload bits can interfere with each other — visible as the random-selection baseline’s residual bit failures (99.96% payload success vs 100% for the deterministic methods). Region selection and replica splitting mitigate it.',
     },
   ],
   outcome: [
     'Clean channel, n = 2,620 (LibriSpeech test-clean): 100% payload recovery and BER 0 for the deterministic methods; joint selection mean embedding SNR 75.37 dB. Spectral-only scored higher (77.16 dB) than joint or semantic-only — reported as measured, not as the hypothesis suggested.',
     'Authentication experiment: TP 500, TN 500, FP 0, FN 0, plus 500/500 truncation rejections — the SHA-256 binding verified exactly under tested scenarios.',
     'Robustness: payload success 0% under every tested attack (AWGN, resample, lowpass, scaling, MP3). The paper states this plainly and positions robust embedding as future work.',
-    'The full E1–E14 campaign validated (27,000 CSV rows, 22 JSON files, 0 errors) with a manuscript draft in IEEE structure.',
+    'The full E1–E14 campaign passed its automated validation checks (all PASS), with the evidence package organized for manuscript preparation.',
   ],
   lessons: [
     'Negative results are results. “Zero robustness under attack, root-caused to coefficient-level embedding” is a stronger outcome than a metric tuned to look good.',

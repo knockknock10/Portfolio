@@ -132,7 +132,7 @@ export const ORG_PRS_QUERY = `
 
 // Detailed issue data for a specific organization
 export const ORG_ISSUES_QUERY = `
-  query ($login: String!, $org: String!, $first: Int = 50, $after: String) {
+  query ($login: String!, $first: Int = 50, $after: String) {
     user(login: $login) {
       issues(first: $first, after: $after, orderBy: {field: CREATED_AT, direction: DESC}) {
         pageInfo { hasNextPage endCursor }
@@ -164,6 +164,8 @@ export const ORG_ISSUES_QUERY = `
 `
 
 // Contribution timeline — recent PRs, issues across all orgs
+// NOTE: `__typename` on owner, issue `author`, and `closedAt`/`updatedAt` are
+// required by toSummaryCounts / toTimelineEvents — do not remove them.
 export const CONTRIBUTION_TIMELINE_QUERY = `
   query ($login: String!, $first: Int = 30) {
     user(login: $login) {
@@ -171,14 +173,16 @@ export const CONTRIBUTION_TIMELINE_QUERY = `
         nodes {
           repository {
             nameWithOwner
-            owner { login }
+            owner { login __typename }
           }
           number
           title
           state
           isDraft
           createdAt
+          updatedAt
           mergedAt
+          closedAt
           url
         }
       }
@@ -186,13 +190,16 @@ export const CONTRIBUTION_TIMELINE_QUERY = `
         nodes {
           repository {
             nameWithOwner
-            owner { login }
+            owner { login __typename }
           }
           number
           title
           state
           createdAt
+          updatedAt
+          closedAt
           url
+          author { login }
           assignees(first: 5) { nodes { login } }
         }
       }

@@ -35,7 +35,11 @@ export default function SummaryCounts({ counts }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="list" aria-label="Open source summary">
       {items.map((item, i) => (
-        <div key={i} className="rounded-lg border border-line bg-panel p-4">
+        <div
+          key={i}
+          className="rounded-xl bg-panel p-4"
+          style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+        >
           {item}
         </div>
       ))}

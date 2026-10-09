@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage.jsx'
 import CaseStudyPage from './pages/CaseStudyPage.jsx'
 import OpenSourcePage from './pages/OpenSourcePage.jsx'
 import OrganizationDetailPage from './pages/OrganizationDetailPage.jsx'
+import ProblemSolvingPage from './pages/ProblemSolvingPage.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 /**
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/work/:projectId" element={<CaseStudyPage />} />
         <Route path="/open-source" element={<OpenSourcePage />} />
         <Route path="/open-source/:org" element={<OrganizationDetailPage />} />
+        <Route path="/problem-solving" element={<ProblemSolvingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

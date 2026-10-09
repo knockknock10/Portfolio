@@ -13,10 +13,14 @@ export default function ProjectLinks({ links }) {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between gap-4 rounded-lg border border-line bg-panel px-4 py-3 text-sm text-muted transition-colors duration-200 hover:border-line-hover hover:text-fg"
+            className="group flex items-center justify-between gap-4 rounded-xl bg-panel px-4 py-3.5 text-sm text-muted transition-all duration-200 hover:text-fg hover:border-accent/40"
+            style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
           >
-            <span className="min-w-0 truncate">{link.label}</span>
-            <span aria-hidden="true" className="font-mono text-xs text-accent">
+            <span className="min-w-0 truncate font-medium">{link.label}</span>
+            <span
+              aria-hidden="true"
+              className="font-mono text-xs text-accent transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            >
               ↗
             </span>
           </a>

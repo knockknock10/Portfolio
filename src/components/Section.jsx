@@ -2,12 +2,16 @@ import Container from './Container.jsx'
 import SectionHeading from './SectionHeading.jsx'
 
 /**
- * Consistent section frame: hairline rule, shared vertical rhythm, aligned container.
+ * Section frame — provides generous vertical rhythm and clean anchor scrolling.
+ * No mechanical horizontal divider lines.
  */
 export default function Section({ id, children, className = '' }) {
   return (
-    <section id={id} className={`scroll-mt-16 border-t border-line ${className}`}>
-      <Container className="py-16 md:py-24 lg:py-28">{children}</Container>
+    <section
+      id={id}
+      className={`scroll-mt-24 relative ${className}`}
+    >
+      <Container className="py-16 md:py-20 lg:py-24">{children}</Container>
     </section>
   )
 }

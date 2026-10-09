@@ -1,7 +1,27 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { handleGithubRequest } from './server/github/handler.js'
+
+/**
+ * Load server-side secrets from .env into process.env for dev/preview.
+ *
+ * Vite only exposes VITE_-prefixed variables to client code; plain keys such
+ * as GITHUB_TOKEN are read from process.env by server/github/client.js, which
+ * Vite does NOT populate from .env. On a serverless host (api/github.js) the
+ * platform provides process.env directly — this block only bridges the local
+ * dev/preview case.
+ *
+ * SECURITY: runs inside the Node process only. Values are never logged and
+ * never reach import.meta.env / the client bundle (no VITE_ prefix).
+ */
+function loadServerEnv() {
+  const fileEnv = loadEnv(process.cwd(), process.cwd(), '')
+  for (const key of ['GITHUB_TOKEN', 'GH_TOKEN', 'GITHUB_USERNAME', 'GITHUB_API_BASE']) {
+    if (fileEnv[key] && !process.env[key]) process.env[key] = fileEnv[key]
+  }
+}
+loadServerEnv()
 
 /**
  * Serves /api/github/* in `vite dev` and `vite preview` using the same

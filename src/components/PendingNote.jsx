@@ -4,7 +4,10 @@
  */
 export default function PendingNote({ children }) {
   return (
-    <div className="flex items-start gap-3 rounded-lg border border-dashed border-line px-5 py-5">
+    <div
+      className="flex items-start gap-3 rounded-xl px-5 py-5"
+      style={{ border: '1px dashed rgba(255, 255, 255, 0.12)' }}
+    >
       <span aria-hidden="true" className="font-mono text-xs text-accent">
         //
       </span>

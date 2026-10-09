@@ -1,40 +1,101 @@
 @import 'tailwindcss';
 
-/* ==========================================================================
-   DESIGN TOKENS — single source of truth
-   ========================================================================== */
+/* A quiet engineering-portfolio palette. Surfaces and borders do the visual work. */
 @theme {
-  /* Surfaces */
-  --color-bg: #0a0a0b;
-  --color-panel: #101013;
-  --color-panel-raised: #15151a;
+  --color-bg: #101114;
+  --color-bg-deep: #0c0d0f;
+  --color-panel: #141519;
+  --color-panel-raised: #1a1b20;
+  --color-panel-glass: #17181c;
+  --color-line: #303036;
+  --color-line-hover: #494950;
+  --color-specular: #60616a;
+  --color-fg: #f3f4f6;
+  --color-muted: #a1a1aa;
+  --color-dim: #71717a;
+  --color-cobalt: #5365b8;
+  --color-violet: #8175c9;
+  --color-cyan: #7aa2c7;
+  --color-accent: #8175c9;
+  --color-accent-hover: #968bd8;
+  --color-accent-cyan: #7aa2c7;
+  --color-contrib-0: #1a1b20;
+  --color-contrib-1: #173b2b;
+  --color-contrib-2: #1f6542;
+  --color-contrib-3: #2d8a57;
+  --color-contrib-4: #45a968;
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
 
-  /* Lines */
-  --color-line: #23232a;
-  --color-line-hover: #36363f;
+/* Functional surfaces: opaque by default, with only a slight navbar translucency. */
+.glass-nav-capsule,
+.glass-nav-capsule-scrolled {
+  background: rgba(16, 17, 20, 0.96);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
 
-  /* Text */
-  --color-fg: #f3f0ea; /* warm white */
-  --color-muted: #9c9ca5;
-  --color-dim: #7e7e88;
+.glass-nav-capsule-scrolled {
+  background: rgba(20, 21, 25, 0.98);
+  border-color: var(--color-line-hover);
+}
 
-  /* One restrained accent (amber) for interaction + status only */
-  --color-accent: #e6a23c;
-  --color-accent-hover: #f0b45a;
+.glass-nav-drawer {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+}
 
-  /* Contribution calendar — GitHub-style green progression adapted to our palette */
-  --color-contrib-0: #161b22;
-  --color-contrib-1: #0d4429;
-  --color-contrib-2: #1a5c3b;
-  --color-contrib-3: #28864f;
-  --color-contrib-4: #3fb950;
+.glass-card,
+.glass-slab-primary,
+.glass-slab-secondary,
+.glass-slab-tertiary {
+  position: relative;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  box-shadow: none;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
 
-  /* Typography */
-  --font-sans:
-    'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
-    sans-serif;
-  --font-mono:
-    'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+.glass-card:hover {
+  background: var(--color-panel-raised);
+  border-color: var(--color-line-hover);
+  box-shadow: none;
+}
+
+.glass-btn-primary,
+.glass-btn-secondary,
+.glass-pill,
+.glass-control {
+  border: 1px solid var(--color-line);
+  box-shadow: none;
+}
+
+.glass-btn-primary {
+  background: var(--color-accent);
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.glass-btn-primary:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+
+.glass-btn-secondary,
+.glass-pill,
+.glass-control {
+  background: var(--color-panel);
+}
+
+.glass-btn-secondary:hover,
+.glass-control:hover {
+  background: var(--color-panel-raised);
+  border-color: var(--color-line-hover);
+  box-shadow: none;
+  transform: none;
 }
 
 @layer base {
@@ -48,10 +109,14 @@
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     scrollbar-color: var(--color-line-hover) transparent;
+    scrollbar-width: thin;
+    background: var(--color-bg);
+    overflow-x: clip;
+    max-width: 100vw;
   }
 
   body {
-    background-color: var(--color-bg);
+    background: var(--color-bg);
     color: var(--color-fg);
     font-family: var(--font-sans);
     font-size: 16px;
@@ -59,28 +124,35 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+    overflow-x: clip;
+    max-width: 100vw;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  code {
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   ::selection {
-    background-color: var(--color-accent);
-    color: var(--color-bg);
+    background: rgba(129, 117, 201, 0.35);
+    color: var(--color-fg);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-accent-cyan);
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 }
 
-/* ==========================================================================
-   MOTION — restrained, one-shot, reduced-motion aware
-   ========================================================================== */
-@keyframes hero-enter {
+@keyframes hero-fade-in {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -89,22 +161,12 @@
 }
 
 .hero-enter {
-  animation: hero-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hero-fade-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-
-.reveal.is-visible {
   opacity: 1;
   transform: none;
-  will-change: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {

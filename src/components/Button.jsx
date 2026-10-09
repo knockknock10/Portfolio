@@ -1,10 +1,27 @@
+/**
+ * Button — shared interaction primitive with tactile feedback.
+ */
+
 const VARIANTS = {
-  primary:
-    'bg-accent text-bg font-medium hover:bg-accent-hover border border-transparent',
-  secondary:
-    'border border-line-hover text-fg bg-transparent hover:bg-panel',
-  ghost:
-    'border border-transparent text-muted hover:text-fg',
+  primary: [
+    'glass-btn-primary text-white font-medium',
+    'rounded-xl px-5 h-11',
+  ].join(' '),
+
+  secondary: [
+    'glass-btn-secondary text-fg font-medium',
+    'rounded-xl px-5 h-11',
+  ].join(' '),
+
+  glass: [
+    'glass-pill text-fg hover:border-cyan/40 hover:text-white',
+    'rounded-xl px-5 h-11',
+  ].join(' '),
+
+  ghost: [
+    'text-muted hover:text-white hover:bg-white/[0.06]',
+    'rounded-xl px-4 h-11',
+  ].join(' '),
 }
 
 export default function Button({
@@ -17,8 +34,10 @@ export default function Button({
   ...props
 }) {
   const classes = [
-    'inline-flex h-11 items-center justify-center gap-2 rounded-md px-5 text-sm',
-    'transition-colors duration-200',
+    'inline-flex items-center justify-center gap-2 text-[14px] font-medium select-none',
+    'transition-all duration-200 ease-out',
+    'active:scale-[0.98]',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2',
     VARIANTS[variant] ?? VARIANTS.primary,
     className,
   ]

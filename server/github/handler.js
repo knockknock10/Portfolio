@@ -174,11 +174,11 @@ async function loadOrgPRs(username, orgLogin, params) {
     cacheKey,
     TTL.orgPRs,
     async () => {
-      const result = await ghGraphQL(ORG_PRS_QUERY, { login: username, org: orgLogin, first: 100 })
+      const result = await ghGraphQL(ORG_PRS_QUERY, { login: username, first: 100 })
       if (!result?.user) throw new GitHubError('not_found', 'GitHub account not found', 404)
       // Filter to only PRs in this organization
       const prs = (result.user?.pullRequests?.nodes ?? []).filter(
-        (pr) => pr.repository?.owner?.login === orgLogin,
+        (pr) => pr && pr.repository?.owner?.login === orgLogin,
       )
       return toContributionPRModel(prs)
     },
@@ -195,11 +195,11 @@ async function loadOrgIssues(username, orgLogin, params) {
     cacheKey,
     TTL.orgIssues,
     async () => {
-      const result = await ghGraphQL(ORG_ISSUES_QUERY, { login: username, org: orgLogin, first: 100 })
+      const result = await ghGraphQL(ORG_ISSUES_QUERY, { login: username, first: 100 })
       if (!result?.user) throw new GitHubError('not_found', 'GitHub account not found', 404)
       // Filter to only issues in this organization
       const issues = (result.user?.issues?.nodes ?? []).filter(
-        (issue) => issue.repository?.owner?.login === orgLogin,
+        (issue) => issue && issue.repository?.owner?.login === orgLogin,
       )
       return toContributionIssueModel(issues, username)
     },
@@ -231,9 +231,17 @@ async function loadSummary(username) {
     `summary:${username}`,
     TTL.summary,
     async () => {
-      const result = await ghGraphQL(CONTRIBUTION_TIMELINE_QUERY, { login: username, first: 100 })
-      if (!result?.user) throw new GitHubError('not_found', 'GitHub account not found', 404)
-      return toSummaryCounts(result, username)
+      // Two queries: timeline for PR/issue counts, org discovery so the
+      // `organizations` count matches the organization grid exactly
+      // (both use ORG_DISCOVERY_QUERY → toOrganizations).
+      const [timelineResult, orgResult] = await Promise.all([
+        ghGraphQL(CONTRIBUTION_TIMELINE_QUERY, { login: username, first: 100 }),
+        ghGraphQL(ORG_DISCOVERY_QUERY, { login: username, first: 100 }),
+      ])
+      if (!timelineResult?.user) throw new GitHubError('not_found', 'GitHub account not found', 404)
+      const summary = toSummaryCounts(timelineResult, username)
+      summary.organizations = toOrganizations(orgResult, username).length
+      return summary
     },
   )
   return { data, fetchedAt, stale }

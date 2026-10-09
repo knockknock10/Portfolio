@@ -26,20 +26,26 @@ export default function ProofSection() {
   } = useGithubProof()
 
   const totalContributions = contributions.data?.total ?? 0
-  const totals = contributions.data?.totals ?? {}
 
   return (
     <SectionShell {...config} pending={null}>
       <div className="space-y-10 md:space-y-12">
         {/* GitHub Activity Header */}
         <div>
-          <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">GitHub activity</p>
-          <p className="mt-1 text-2xl font-medium tracking-tight text-fg md:text-3xl">
-            {totalContributions.toLocaleString()} contributions in {year}
-          </p>
-          {totals.commits != null && (
-            <p className="mt-2 text-sm text-muted">
-              {totals.commits.toLocaleString()} commits · {totals.pullRequests.toLocaleString()} pull requests · {totals.issues.toLocaleString()} issues · {totals.reviews.toLocaleString()} reviews
+          <p className="text-xs font-medium tracking-wider text-muted uppercase">GitHub activity</p>
+          {contributions.data ? (
+            <>
+              <p className="mt-1 text-2xl font-medium tracking-tight text-fg md:text-3xl">
+                {totalContributions.toLocaleString()} contributions in {year}
+              </p>
+            </>
+          ) : contributions.error ? (
+            <p className="mt-1 text-2xl font-medium tracking-tight text-fg md:text-3xl">
+              Contribution totals are temporarily unavailable.
+            </p>
+          ) : (
+            <p className="mt-1 text-2xl font-medium tracking-tight text-muted md:text-3xl" role="status">
+              Loading contribution totals…
             </p>
           )}
         </div>
@@ -62,11 +68,11 @@ export default function ProofSection() {
           <GitHubProfile data={profile.data} error={profile.error} loading={profile.loading} stale={profile.stale} />
         </div>
 
-        {/* Selected Repositories */}
+      {/* Selected Repositories — capped at 3 */}
         {repos.data?.length > 0 && (
           <div className="border-t border-line pt-6">
             <div className="flex items-center justify-between mb-4">
-              <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">Selected repositories</p>
+              <p className="text-xs font-medium tracking-wider text-muted uppercase">Selected repositories</p>
               <a
                 href={`https://github.com/${username}?tab=repositories`}
                 target="_blank"
@@ -77,7 +83,7 @@ export default function ProofSection() {
               </a>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 min-w-0">
-              {repos.data.map((repo) => (
+              {repos.data.slice(0, 3).map((repo) => (
                 <RepositoryCard key={repo.id} repo={repo} />
               ))}
             </div>
@@ -89,14 +95,14 @@ export default function ProofSection() {
           </div>
         )}
 
-        {/* Recent Activity */}
+        {/* Recent Activity — capped at 3 */}
         {events.data?.length > 0 && (
           <div className="border-t border-line pt-6">
-            <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase mb-4">
+            <p className="text-xs font-medium tracking-wider text-muted uppercase mb-4">
               Recent activity
             </p>
             <ul className="space-y-0" role="list" aria-label="Recent GitHub activity">
-              {events.data.map((activity) => (
+              {events.data.slice(0, 3).map((activity) => (
                 <ActivityItem key={activity.id} activity={activity} />
               ))}
             </ul>

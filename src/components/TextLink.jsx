@@ -13,16 +13,16 @@ export default function TextLink({
   return (
     <Tag
       href={href}
-      className={`inline-flex items-center gap-1.5 text-sm text-muted underline-offset-4 transition-colors duration-200 hover:text-fg hover:underline ${className}`}
+      className={`group inline-flex items-center gap-1.5 text-sm text-muted underline-offset-4 transition-colors duration-200 hover:text-fg hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-sm ${className}`}
       {...externalProps}
       {...props}
     >
-      {children}
+      <span>{children}</span>
       {external && (
         <svg
           aria-hidden="true"
           viewBox="0 0 12 12"
-          className="size-3 shrink-0"
+          className="size-3 shrink-0 text-dim transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-fg"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.5"

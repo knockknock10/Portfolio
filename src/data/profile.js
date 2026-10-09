@@ -30,6 +30,7 @@ export const navigation = [
   { label: 'Work', href: '/#work' },
   { label: 'Open Source', href: '/open-source' },
   { label: 'Research', href: '/#research' },
+  { label: 'Problem Solving', href: '/problem-solving' },
   { label: 'About', href: '/#about' },
 ]
 
@@ -49,7 +50,6 @@ export const hero = {
 
 /**
  * Section registry — drives numbering, titles and intent copy.
- * Phases 2+ replace the placeholder bodies; this config stays stable.
  */
 export const sections = [
   {
@@ -87,7 +87,7 @@ export const sections = [
     index: '05',
     title: 'Problem Solving',
     intent: 'Problem-solving practice and platform activity, presented as data rather than claims.',
-    pending: 'phase 2 — verified problem-solving activity renders here',
+    pending: null,
   },
   {
     id: 'about',

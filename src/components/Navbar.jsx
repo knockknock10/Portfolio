@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import Container from './Container.jsx'
+import { Link, useLocation } from 'react-router-dom'
 import { navigation, profile } from '../data/profile.js'
 
 function GitHubIcon({ className = 'size-4' }) {
@@ -39,11 +38,30 @@ function MenuIcon({ open }) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const buttonRef = useRef(null)
+  const location = useLocation()
 
+  /* Close mobile menu on route change */
+  const prevLocation = useRef(location)
+  useEffect(() => {
+    if (prevLocation.current !== location) {
+      prevLocation.current = location
+      setOpen(false)
+    }
+  }, [location])
+
+  /* Scroll-aware glass depth */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  /* Keyboard dismiss */
   useEffect(() => {
     if (!open) return undefined
-
     const onKeyDown = (event) => {
       if (event.key === 'Escape') {
         setOpen(false)
@@ -54,90 +72,139 @@ export default function Navbar() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [open])
 
+  const capsuleClass = scrolled ? 'glass-nav-capsule-scrolled' : 'glass-nav-capsule'
+
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-md">
-      <Container className="flex h-16 items-center justify-between gap-6">
-        <Link
-          to="/"
-          className="shrink-0 font-mono text-[13px] font-medium tracking-[0.2em] text-fg transition-colors duration-200 hover:text-accent"
-        >
-          {profile.wordmark}
-        </Link>
-
-        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
-          {navigation.map((item) => (
-            <Link
-              key={item.href}
-              to={item.href}
-              className="text-sm text-muted transition-colors duration-200 hover:text-fg"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="hidden items-center gap-5 md:flex">
-          <a
-            href={profile.links.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors duration-200 hover:text-fg"
+    <header className="sticky top-0 z-50 px-3 sm:px-6 pt-3 pb-2 transition-all duration-300 w-full">
+      <div className={`mx-auto max-w-6xl rounded-2xl px-4 sm:px-6 py-2.5 sm:py-3 ${capsuleClass}`}>
+        <div className="flex items-center justify-between gap-3 sm:gap-6">
+          {/* Compact wordmark badge */}
+          <Link
+            to="/"
+            className="group flex items-center gap-2 font-mono text-[11px] sm:text-[13px] font-semibold tracking-[0.14em] text-fg transition-colors duration-200 hover:text-white uppercase min-w-0"
           >
-            <GitHubIcon className="size-4" />
-            GitHub
-          </a>
-          <span aria-hidden="true" className="h-4 w-px bg-line" />
-          <a
-            href={profile.links.resume}
-            className="text-sm text-muted transition-colors duration-200 hover:text-fg"
-          >
-            Resume
-          </a>
-        </div>
-
-        <button
-          ref={buttonRef}
-          type="button"
-          className="-mr-2 inline-flex size-10 items-center justify-center rounded-md text-muted transition-colors duration-200 hover:text-fg md:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          onClick={() => setOpen((value) => !value)}
-        >
-          <MenuIcon open={open} />
-        </button>
-      </Container>
-
-      <div id="mobile-menu" className={open ? 'border-t border-line md:hidden' : 'hidden'}>
-        <Container className="flex flex-col py-2">
-          {navigation.map((item) => (
-            <Link
-              key={item.href}
-              to={item.href}
-              onClick={() => setOpen(false)}
-              className="border-b border-line py-3.5 text-[15px] text-muted transition-colors duration-200 hover:text-fg"
+            <span
+              aria-hidden="true"
+              className="flex size-5 shrink-0 items-center justify-center rounded-md bg-accent text-[10px] font-bold text-white transition-opacity group-hover:opacity-100 opacity-90"
             >
-              {item.label}
-            </Link>
-          ))}
-          <div className="flex items-center gap-6 py-3.5">
+              S
+            </span>
+            <span className="truncate">{profile.wordmark}</span>
+          </Link>
+
+          {/* Desktop nav links */}
+          <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
+            {navigation.map((item) => {
+              const isActive =
+                item.href === '/'
+                  ? location.pathname === '/'
+                  : location.pathname.startsWith(item.href)
+              return (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className={`px-3 py-1.5 rounded-lg text-[13px] transition-colors duration-150 ${
+                    isActive
+                      ? 'bg-white/[0.08] text-white font-medium'
+                      : 'text-muted hover:text-fg hover:bg-white/[0.04]'
+                  }`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
+          </nav>
+
+          {/* Desktop actions */}
+          <div className="hidden items-center gap-2.5 md:flex">
             <a
               href={profile.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[15px] text-muted transition-colors duration-200 hover:text-fg"
+              className="glass-btn-secondary inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[13px] text-muted hover:text-fg font-medium"
+              aria-label="GitHub profile"
             >
-              <GitHubIcon className="size-4" />
+              <GitHubIcon className="size-3.5" />
               GitHub
             </a>
             <a
               href={profile.links.resume}
-              className="text-[15px] text-muted transition-colors duration-200 hover:text-fg"
+              className="glass-btn-primary inline-flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-[13px] font-medium text-white"
             >
               Resume
             </a>
           </div>
-        </Container>
+
+          {/* Mobile menu trigger */}
+          <button
+            ref={buttonRef}
+            type="button"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.12] bg-white/[0.05] text-muted transition-colors duration-200 hover:text-fg md:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            onClick={() => setOpen((value) => !value)}
+          >
+            <MenuIcon open={open} />
+          </button>
+        </div>
+
+        {/* Mobile menu dropdown */}
+        {open && (
+          <div
+            id="mobile-menu"
+            className="mt-3 pt-3 border-t border-white/[0.10] md:hidden"
+            aria-hidden={!open}
+          >
+            <div className="flex flex-col gap-1">
+              {navigation.map((item) => {
+                const isActive =
+                  item.href === '/'
+                    ? location.pathname === '/'
+                    : location.pathname.startsWith(item.href)
+                return (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-center justify-between rounded-lg px-3 py-2 text-[14px] transition-colors duration-150 ${
+                      isActive
+                        ? 'bg-white/[0.08] text-white font-medium'
+                        : 'text-muted hover:text-fg hover:bg-white/[0.04]'
+                    }`}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {item.label}
+                    {isActive && (
+                      <span
+                        aria-hidden="true"
+                        className="size-1.5 rounded-full bg-cyan/80"
+                      />
+                    )}
+                  </Link>
+                )
+              })}
+              <div className="flex items-center gap-3 pt-3 mt-2 border-t border-white/[0.08]">
+                <a
+                  href={profile.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass-btn-secondary inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2 text-[13px] text-muted hover:text-fg"
+                >
+                  <GitHubIcon className="size-3.5" />
+                  GitHub
+                </a>
+                <a
+                  href={profile.links.resume}
+                  className="glass-btn-primary inline-flex flex-1 items-center justify-center rounded-xl py-2 text-[13px] font-medium text-white"
+                >
+                  Resume ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   )

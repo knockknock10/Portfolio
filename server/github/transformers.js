@@ -111,7 +111,8 @@ function toActivityItem(event) {
     case 'PushEvent': {
       const ref = (event.payload?.ref ?? '').replace('refs/heads/', '')
       const size = event.payload?.size ?? event.payload?.commits?.length ?? 0
-      if (!ref) return null
+      // Drop zero-commit and headless pushes — they carry no meaningful signal.
+      if (!ref || size === 0) return null
       return {
         ...base,
         label: 'PUSH',
@@ -127,9 +128,8 @@ function toActivityItem(event) {
       if (refType === 'repository') {
         return { ...base, label: 'CREATE', action: 'Created a repository', detail: null }
       }
-      if (refType === 'branch' && ref) {
-        return { ...base, label: 'CREATE', action: `Created branch ${ref}`, detail: null }
-      }
+      // Branch creation events are typically noise alongside the corresponding push.
+      // Only surface tag events (releases, versioned checkpoints).
       if (refType === 'tag' && ref) {
         return { ...base, label: 'CREATE', action: `Created tag ${ref}`, detail: null }
       }

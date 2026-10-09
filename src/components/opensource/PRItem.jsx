@@ -2,10 +2,10 @@
  * PR state badge — accessible, not color-only.
  */
 const PR_STATE_STYLES = {
-  OPEN: { bg: 'var(--color-accent, #e6a23c)', fg: 'var(--color-bg, #0a0a0b)', label: 'OPEN', icon: '▸' },
-  MERGED: { bg: '#8957e5', fg: '#fff', label: 'MERGED', icon: '✓' },
-  CLOSED: { bg: '#f85149', fg: '#fff', label: 'CLOSED', icon: '✕' },
-  DRAFT: { bg: '#6e7681', fg: '#fff', label: 'DRAFT', icon: '✎' },
+  OPEN:   { bg: 'rgba(124,131,255,0.15)', fg: '#9BA3FF', border: 'rgba(124,131,255,0.30)', label: 'OPEN',   icon: '▸' },
+  MERGED: { bg: 'rgba(137,87,229,0.15)',  fg: '#b47aff', border: 'rgba(137,87,229,0.30)',  label: 'MERGED', icon: '✓' },
+  CLOSED: { bg: 'rgba(248,81,73,0.12)',   fg: '#f85149', border: 'rgba(248,81,73,0.30)',   label: 'CLOSED', icon: '✕' },
+  DRAFT:  { bg: 'rgba(110,118,129,0.12)', fg: '#8b949e', border: 'rgba(110,118,129,0.30)', label: 'DRAFT',  icon: '✎' },
 }
 
 function PRStateBadge({ state, isDraft }) {
@@ -13,8 +13,8 @@ function PRStateBadge({ state, isDraft }) {
   const style = PR_STATE_STYLES[key] || PR_STATE_STYLES.CLOSED
   return (
     <span
-      className="inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em]"
-      style={{ backgroundColor: style.bg, color: style.fg }}
+      className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em] shrink-0"
+      style={{ backgroundColor: style.bg, color: style.fg, border: `1px solid ${style.border}` }}
       aria-label={style.label}
     >
       <span aria-hidden="true">{style.icon}</span>

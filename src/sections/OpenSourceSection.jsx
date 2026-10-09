@@ -1,21 +1,19 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import SectionShell from '../components/SectionShell.jsx'
 import { sections } from '../data/profile.js'
 
 import OrganizationCard from '../components/opensource/OrganizationCard.jsx'
 import ContributionTimeline from '../components/opensource/ContributionTimeline.jsx'
-// import SummaryCounts from '../components/opensource/SummaryCounts.jsx' // unused in preview
-import { FilterProvider } from '../components/opensource/FilterProvider.jsx'
-import { FilterBar } from '../components/opensource/Filters.jsx'
 import { useOpenSource } from '../hooks/useOpenSource.js'
 
 const config = sections.find((section) => section.id === 'open-source')
 
 /**
- * Homepage preview of open-source work — 2-4 orgs + 3-5 recent contributions.
+ * Homepage preview of open-source work — organizations + recent contributions.
  */
 export default function OpenSourceSection() {
+  const navigate = useNavigate()
   const { organizations, timeline } = useOpenSource()
 
   const topOrgs = organizations.data?.slice(0, 4) ?? []
@@ -26,8 +24,12 @@ export default function OpenSourceSection() {
       <SectionShell {...config} pending={null}>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4" aria-hidden="true">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="rounded-lg border border-line bg-panel p-5 animate-pulse">
-              <div className="size-12 rounded-lg border border-line mb-4" />
+            <div
+              key={i}
+              className="rounded-xl bg-panel p-5 animate-pulse"
+              style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
+            >
+              <div className="size-11 rounded-lg bg-panel-raised mb-4" />
               <div className="h-4 w-3/4 bg-line rounded" />
               <div className="mt-2 h-3 w-1/2 bg-line rounded" />
             </div>
@@ -37,11 +39,31 @@ export default function OpenSourceSection() {
     )
   }
 
-  if (organizations.error || !topOrgs.length) {
+  if (organizations.error) {
+    // Distinguish a failed request from genuinely having no contributions.
     return (
       <SectionShell {...config} pending={null}>
         <div className="text-center py-8">
-          <p className="text-muted">No open-source contributions found.</p>
+          <p className="text-muted text-sm">
+            Open-source data is temporarily unavailable — the full page has
+            retry details.
+          </p>
+          <Link
+            to="/open-source"
+            className="mt-4 inline-block text-sm text-accent underline-offset-4 hover:underline"
+          >
+            View open-source page ↗
+          </Link>
+        </div>
+      </SectionShell>
+    )
+  }
+
+  if (!topOrgs.length) {
+    return (
+      <SectionShell {...config} pending={null}>
+        <div className="text-center py-8">
+          <p className="text-muted text-sm">No open-source contributions found.</p>
           <Link
             to="/open-source"
             className="mt-4 inline-block text-sm text-accent underline-offset-4 hover:underline"
@@ -55,35 +77,43 @@ export default function OpenSourceSection() {
 
   return (
     <SectionShell {...config} pending={null}>
-      <div className="space-y-8">
+      <div className="space-y-10">
         {/* Organizations preview */}
         <div>
-          <div className="flex items-center justify-between mb-4">
-            <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">Organizations I've contributed to</p>
+          <div className="flex items-center justify-between mb-5">
+            <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase font-medium">
+              Organizations I&apos;ve contributed to
+            </p>
             <Link
               to="/open-source"
-              className="text-sm text-accent underline-offset-4 hover:underline"
+              className="font-mono text-xs text-accent underline-offset-4 hover:underline"
             >
-              View all ↗
+              View all ({organizations.data?.length ?? 4}) ↗
             </Link>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {topOrgs.map((org) => (
-              <OrganizationCard key={org.login} org={org} onClick={(login) => window.location.href = `/open-source/${login}`} />
+              <OrganizationCard
+                key={org.login}
+                org={org}
+                onClick={(login) => navigate(`/open-source/${encodeURIComponent(login)}`)}
+              />
             ))}
           </div>
         </div>
 
         {/* Recent contributions preview */}
         {recentEvents.length > 0 && (
-          <div className="border-t border-line pt-6">
-            <div className="flex items-center justify-between mb-4">
-              <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">Recent contributions</p>
+          <div className="border-t border-white/[0.07] pt-8">
+            <div className="flex items-center justify-between mb-5">
+              <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase font-medium">
+                Recent verified contributions
+              </p>
               <Link
                 to="/open-source"
-                className="text-sm text-accent underline-offset-4 hover:underline"
+                className="font-mono text-xs text-accent underline-offset-4 hover:underline"
               >
-                View all ↗
+                View all timeline ↗
               </Link>
             </div>
             <ContributionTimeline events={recentEvents} limit={5} />
@@ -91,12 +121,13 @@ export default function OpenSourceSection() {
         )}
 
         {/* Link to full page */}
-        <div className="border-t border-line pt-4 text-center">
+        <div className="border-t border-white/[0.07] pt-6 text-center">
           <Link
             to="/open-source"
-            className="inline-flex items-center gap-2 text-sm text-accent underline-offset-4 hover:underline"
+            className="inline-flex items-center gap-2 text-sm text-accent font-medium underline-offset-4 hover:underline"
           >
-            Explore open-source work →
+            <span>View all open-source contributions</span>
+            <span aria-hidden="true">→</span>
           </Link>
         </div>
       </div>

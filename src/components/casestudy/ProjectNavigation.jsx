@@ -10,12 +10,13 @@ export default function ProjectNavigation({ previous, next }) {
         {previous ? (
           <Link
             to={`/work/${previous.id}`}
-            className="group flex min-w-0 flex-col gap-1 rounded-lg border border-line bg-panel px-5 py-4 transition-colors duration-200 hover:border-line-hover sm:max-w-[45%]"
+            className="group flex min-w-0 flex-col gap-1 rounded-xl bg-panel px-5 py-4 transition-all duration-200 sm:max-w-[45%]"
+            style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
           >
-            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-dim">
+            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
               ← Previous
             </span>
-            <span className="truncate text-sm font-medium text-fg">
+            <span className="truncate text-sm font-semibold text-fg group-hover:text-accent transition-colors">
               {previous.number} · {previous.title}
             </span>
           </Link>
@@ -25,12 +26,13 @@ export default function ProjectNavigation({ previous, next }) {
         {next && (
           <Link
             to={`/work/${next.id}`}
-            className="group flex min-w-0 flex-col gap-1 rounded-lg border border-line bg-panel px-5 py-4 text-left transition-colors duration-200 hover:border-line-hover sm:max-w-[45%] sm:items-end sm:text-right"
+            className="group flex min-w-0 flex-col gap-1 rounded-xl bg-panel px-5 py-4 text-left transition-all duration-200 sm:max-w-[45%] sm:items-end sm:text-right"
+            style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}
           >
-            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-dim">
+            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
               Next →
             </span>
-            <span className="truncate text-sm font-medium text-fg">
+            <span className="truncate text-sm font-semibold text-fg group-hover:text-accent transition-colors">
               {next.number} · {next.title}
             </span>
           </Link>

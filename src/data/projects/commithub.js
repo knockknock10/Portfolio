@@ -38,7 +38,7 @@ export const commithub = {
   approach: [
     'The backend is an Express 5 API organized as controllers, routes, Mongoose models, and services. Repository content is persisted behind a storage boundary (REPO_STORAGE_ROOT) so trees, branches, file history, and diffs can be served branch-aware without coupling controllers to a particular storage.',
     'Authorization runs as middleware on every business route, with per-endpoint visibility rules for private repositories. A Socket.io server attaches to the same HTTP server; clients join per-repository and per-PR rooms, and the server checks access before allowing a join.',
-    'The React frontend uses a single Axios instance (token injection, 401 handling, offline detection) and 14 API modules, with a declarative hook for realtime subscriptions.',
+    'The React frontend uses a single Axios instance (token injection, 401 handling, offline detection) and 12 API modules, with a declarative hook for realtime subscriptions.',
   ],
   architecture: {
     intro:
@@ -124,7 +124,7 @@ export const commithub = {
     },
     {
       title: 'Rewriting the frontend design system in place',
-      body: 'The UI had drifted into hardcoded colors and inconsistent components. Migrating 27 CSS files onto a token system in index.css, replacing emoji icons with a real icon set, and fixing dialog accessibility — while keeping 17 pages working.',
+      body: 'The UI had drifted into hardcoded colors and inconsistent components. Migrating every CSS file onto a token system in index.css, replacing emoji icons with a real icon set, and fixing dialog accessibility — while keeping 17 pages working.',
     },
   ],
   outcome: [

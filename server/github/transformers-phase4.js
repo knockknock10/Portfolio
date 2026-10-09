@@ -41,12 +41,13 @@ export function toOrganizations(payload, username) {
   }
 
   // Process PRs
-  const prs = user.pullRequests?.nodes ?? []
+  // GitHub can return null nodes for inaccessible/deleted items — skip them.
+  const prs = (user.pullRequests?.nodes ?? []).filter(Boolean)
   for (const pr of prs) {
     const org = addOrgFromOwner(pr.repository?.owner)
     if (org) {
       org.prCount += 1
-      org.repoSet.add(pr.repository?.nameWithOwner)
+      if (pr.repository?.nameWithOwner) org.repoSet.add(pr.repository.nameWithOwner)
       const date = pr.mergedAt || pr.closedAt || pr.updatedAt || pr.createdAt
       if (date && (!org.latestActivity || new Date(date) > new Date(org.latestActivity))) {
         org.latestActivity = date
@@ -55,7 +56,7 @@ export function toOrganizations(payload, username) {
   }
 
   // Process issues
-  const issues = user.issues?.nodes ?? []
+  const issues = (user.issues?.nodes ?? []).filter(Boolean)
   for (const issue of issues) {
     const org = addOrgFromOwner(issue.repository?.owner)
     if (org) {
@@ -63,7 +64,7 @@ export function toOrganizations(payload, username) {
       if (issue.author?.login === username) {
         org.issueCount += 1
       }
-      org.repoSet.add(issue.repository?.nameWithOwner)
+      if (issue.repository?.nameWithOwner) org.repoSet.add(issue.repository.nameWithOwner)
       const date = issue.closedAt || issue.updatedAt || issue.createdAt
       if (date && (!org.latestActivity || new Date(date) > new Date(org.latestActivity))) {
         org.latestActivity = date
@@ -72,7 +73,7 @@ export function toOrganizations(payload, username) {
   }
 
   // Process contributed repositories (catches orgs from commits/etc)
-  const contributed = user.repositoriesContributedTo?.nodes ?? []
+  const contributed = (user.repositoriesContributedTo?.nodes ?? []).filter(Boolean)
   for (const repo of contributed) {
     addOrgFromOwner(repo.owner)
   }
@@ -113,7 +114,7 @@ export function toOrganizationDetail(payload) {
     avatarUrl: org.avatarUrl,
     description: org.description || null,
     url: org.url,
-    publicRepos: (org.repositories?.nodes ?? []).map((repo) => ({
+    publicRepos: (org.repositories?.nodes ?? []).filter(Boolean).map((repo) => ({
       name: repo.name,
       nameWithOwner: repo.nameWithOwner,
       description: repo.description || null,
@@ -129,7 +130,7 @@ export function toOrganizationDetail(payload) {
 
 /** PR model for organization detail */
 export function toContributionPRModel(nodes) {
-  return (nodes ?? []).map((pr) => ({
+  return (nodes ?? []).filter(Boolean).map((pr) => ({
     id: `${pr.repository?.nameWithOwner}#${pr.number}`,
     repoName: pr.repository?.nameWithOwner,
     repoOwner: pr.repository?.owner?.login,
@@ -143,14 +144,14 @@ export function toContributionPRModel(nodes) {
     closedAt: pr.closedAt,
     url: pr.url,
     author: pr.author?.login,
-    labels: (pr.labels?.nodes ?? []).map((l) => l.name),
+    labels: (pr.labels?.nodes ?? []).filter(Boolean).map((l) => l.name),
   }))
 }
 
 /** Issue model for organization detail */
 export function toContributionIssueModel(nodes, username) {
-  return (nodes ?? []).map((issue) => {
-    const isAssigned = (issue.assignees?.nodes ?? []).some((a) => a.login === username)
+  return (nodes ?? []).filter(Boolean).map((issue) => {
+    const isAssigned = (issue.assignees?.nodes ?? []).some((a) => a?.login === username)
     const isAuthor = issue.author?.login === username
     let myRole = 'commented'
     if (isAuthor) myRole = 'opened'
@@ -169,8 +170,8 @@ export function toContributionIssueModel(nodes, username) {
       closedAt: issue.closedAt,
       url: issue.url,
       author: issue.author?.login,
-      assignees: (issue.assignees?.nodes ?? []).map((a) => a.login),
-      labels: (issue.labels?.nodes ?? []).map((l) => l.name),
+      assignees: (issue.assignees?.nodes ?? []).filter(Boolean).map((a) => a.login),
+      labels: (issue.labels?.nodes ?? []).filter(Boolean).map((l) => l.name),
     }
   })
 }
@@ -184,6 +185,7 @@ export function toTimelineEvents(payload, username) {
 
   // PR events
   for (const pr of user.pullRequests?.nodes ?? []) {
+    if (!pr) continue
     events.push({
       type: 'PULL_REQUEST',
       repoName: pr.repository?.nameWithOwner,
@@ -200,7 +202,8 @@ export function toTimelineEvents(payload, username) {
 
   // Issue events (authored or assigned)
   for (const issue of user.issues?.nodes ?? []) {
-    const isAssigned = (issue.assignees?.nodes ?? []).some((a) => a.login === username)
+    if (!issue) continue
+    const isAssigned = (issue.assignees?.nodes ?? []).some((a) => a?.login === username)
     const isAuthor = issue.author?.login === username
     if (!isAuthor && !isAssigned) continue
 
@@ -228,19 +231,19 @@ export function toSummaryCounts(payload, username) {
   const user = payload?.user
   if (!user) return {}
 
-  const prs = user.pullRequests?.nodes ?? []
-  const issues = user.issues?.nodes ?? []
+  const prs = (user.pullRequests?.nodes ?? []).filter(Boolean)
+  const issues = (user.issues?.nodes ?? []).filter(Boolean)
 
   const orgSet = new Set()
   const repoSet = new Set()
 
   for (const pr of prs) {
     if (pr.repository?.owner?.__typename === 'Organization') orgSet.add(pr.repository.owner.login)
-    repoSet.add(pr.repository?.nameWithOwner)
+    if (pr.repository?.nameWithOwner) repoSet.add(pr.repository.nameWithOwner)
   }
   for (const issue of issues) {
     if (issue.repository?.owner?.__typename === 'Organization') orgSet.add(issue.repository.owner.login)
-    repoSet.add(issue.repository?.nameWithOwner)
+    if (issue.repository?.nameWithOwner) repoSet.add(issue.repository.nameWithOwner)
   }
 
   return {
@@ -252,7 +255,7 @@ export function toSummaryCounts(payload, username) {
     draftPRs: prs.filter((p) => p.isDraft).length,
     closedPRs: prs.filter((p) => p.state === 'CLOSED' && !p.isDraft && !p.mergedAt).length,
     totalIssues: issues.length,
-    assignedIssues: issues.filter((i) => (i.assignees?.nodes ?? []).some((a) => a.login === username)).length,
+    assignedIssues: issues.filter((i) => (i.assignees?.nodes ?? []).some((a) => a?.login === username)).length,
     openedIssues: issues.filter((i) => i.author?.login === username).length,
     openIssues: issues.filter((i) => i.state === 'OPEN').length,
   }

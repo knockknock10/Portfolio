@@ -1,10 +1,18 @@
 /**
- * Small monospace metadata chip — for tech tags, labels and status markers.
+ * Tag — quiet technical metadata label.
  */
 export default function Tag({ as: TagElement = 'span', className = '', children, ...props }) {
   return (
     <TagElement
-      className={`inline-flex items-center rounded border border-line bg-panel px-2 py-1 font-mono text-[11px] leading-none tracking-[0.1em] text-muted uppercase ${className}`}
+      className={[
+        'inline-flex items-center border-b border-line px-0.5 pb-0.5',
+        'font-mono text-[11px] leading-none text-dim',
+        'transition-colors duration-150 hover:border-line-hover hover:text-fg',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')
+      }
       {...props}
     >
       {children}

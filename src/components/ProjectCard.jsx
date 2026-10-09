@@ -3,59 +3,86 @@ import Card from './Card.jsx'
 import ProjectTags from './ProjectTags.jsx'
 
 /**
- * Homepage project card — links to the full case study and the source repo.
- * Every field comes from the project data file; nothing is hard-coded here.
+ * Homepage Project Card — clean, editorial.
+ * Each card shows what was built and why — technical depth lives in
+ * the case study pages, not in metric panels on the homepage.
  */
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, featured = false }) {
   return (
-    <Card as="article" className="flex flex-col">
+    <Card
+      as="article"
+      className={[
+        'flex flex-col group relative overflow-hidden',
+        featured ? 'p-6 sm:p-8' : 'p-6 sm:p-7',
+      ].join(' ')}
+      interactive
+    >
+      {/* Category & Status row */}
       <div className="flex items-center justify-between gap-3">
-        <span className="font-mono text-xs tracking-[0.1em] text-accent tabular-nums">
-          {project.number}
-        </span>
-        <span className="font-mono text-[11px] tracking-[0.12em] text-dim uppercase">
+        <span className="text-[12px] text-muted">
           {project.category}
+        </span>
+        <span className="font-mono text-[11px] text-dim">
+          {project.status}
         </span>
       </div>
 
-      <h3 className="mt-5 text-lg font-medium tracking-[-0.01em] text-fg">
-        {project.title}
-      </h3>
-      <p className="mt-2.5 text-sm leading-relaxed text-muted">{project.summary}</p>
+      {/* Title & Summary */}
+      <div className="mt-4">
+        <h3 className={`font-semibold tracking-[-0.015em] text-white leading-tight group-hover:text-cyan transition-colors duration-200 ${
+          featured ? 'text-xl sm:text-2xl lg:text-3xl' : 'text-lg sm:text-xl'
+        }`}>
+          {project.title}
+        </h3>
+        <p className="mt-2.5 text-[14px] leading-relaxed text-muted">
+          {project.summary}
+        </p>
+      </div>
 
-      <dl className="mt-4 space-y-3 border-t border-line pt-4">
-        <div>
-          <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-            Problem
-          </dt>
-          <dd className="mt-1 text-sm leading-relaxed text-muted">{project.card.problem}</dd>
-        </div>
-        <div>
-          <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-            Built
-          </dt>
-          <dd className="mt-1 text-sm leading-relaxed text-muted">{project.card.built}</dd>
-        </div>
-      </dl>
+      {/* One key technical detail — the "what was built" line */}
+      <p className="mt-4 text-[13px] leading-relaxed text-muted border-l-2 border-white/[0.10] pl-3">
+        {project.card.built}
+      </p>
 
+      {/* Technology Tags */}
       <ProjectTags tags={project.tags} className="mt-5" />
 
-      <div className="mt-auto pt-6">
-        <div className="flex items-center justify-between gap-3 border-t border-line pt-4">
+      {/* Footer Actions */}
+      <div className="mt-auto pt-5">
+        <div className="flex items-center justify-between gap-3 border-t pt-4 border-white/[0.08]">
           <Link
             to={`/work/${project.id}`}
-            className="text-sm text-accent underline-offset-4 transition-colors duration-200 hover:underline"
+            className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-cyan hover:text-white transition-all duration-200"
           >
-            Read case study →
+            <span>Read case study</span>
+            <span
+              aria-hidden="true"
+              className="inline-block transition-transform duration-200 group-hover:translate-x-1"
+            >
+              →
+            </span>
           </Link>
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-[11px] uppercase tracking-[0.12em] text-dim transition-colors duration-200 hover:text-fg"
-          >
-            GitHub ↗
-          </a>
+
+          <div className="flex items-center gap-3">
+            {project.demo && (
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[12px] text-muted hover:text-fg transition-colors"
+              >
+                Live demo ↗
+              </a>
+            )}
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[12px] text-dim hover:text-fg transition-colors duration-200"
+            >
+              GitHub ↗
+            </a>
+          </div>
         </div>
       </div>
     </Card>

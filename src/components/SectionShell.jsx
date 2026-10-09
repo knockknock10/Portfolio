@@ -5,7 +5,7 @@ import Reveal from './Reveal.jsx'
 
 /**
  * Reusable section shell used by every homepage section.
- * Phase 2+ swaps the placeholder body for real content without touching the frame.
+ * Renders the section frame; children provide the body.
  */
 export default function SectionShell({ id, index, title, intent, meta, pending, children }) {
   return (
@@ -14,7 +14,7 @@ export default function SectionShell({ id, index, title, intent, meta, pending, 
         <SectionHeading index={index} title={title} intent={intent} meta={meta} />
       </Reveal>
       <Reveal delay={80} className="mt-8 md:mt-10">
-        {children ?? <PendingNote>{pending ?? 'phase 2 — structured content renders here'}</PendingNote>}
+        {children ?? (pending ? <PendingNote>{pending}</PendingNote> : null)}
       </Reveal>
     </Section>
   )

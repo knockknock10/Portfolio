@@ -1,3 +1,6 @@
+/**
+ * Card — shared panel surface with clear hierarchy and readable text.
+ */
 export default function Card({
   as: Tag = 'div',
   interactive = false,
@@ -6,8 +9,10 @@ export default function Card({
   ...props
 }) {
   const classes = [
-    'rounded-lg border bg-panel p-6 transition-colors duration-300',
-    interactive ? 'border-line hover:border-line-hover' : 'border-line',
+    'glass-card rounded-2xl p-6 sm:p-7',
+    interactive
+      ? 'cursor-pointer hover:-translate-y-1'
+      : '',
     className,
   ]
     .filter(Boolean)
