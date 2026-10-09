@@ -180,7 +180,7 @@ function toActivityItem(event) {
           ...base,
           label: 'PULL REQUEST',
           action: 'Merged a pull request',
-          detail: `#${pr.number} ${pr.title}`,
+          detail: numberedDetail(pr),
           url: pr.html_url || url,
         }
       }
@@ -189,7 +189,7 @@ function toActivityItem(event) {
           ...base,
           label: 'PULL REQUEST',
           action: 'Closed a pull request',
-          detail: `#${pr.number} ${pr.title}`,
+          detail: numberedDetail(pr),
           url: pr.html_url || url,
         }
       }
@@ -218,7 +218,7 @@ function toActivityItem(event) {
         ...base,
         label: 'REVIEW',
         action: 'Reviewed a pull request',
-        detail: `#${pr.number} ${pr.title}`,
+        detail: numberedDetail(pr),
         url: review.html_url || pr.html_url || url,
       }
     }
