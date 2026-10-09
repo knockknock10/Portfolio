@@ -23,6 +23,20 @@ function HeroVisual() {
 }
 
 export default function Hero() {
+  const handleVisualPointerMove = (event) => {
+    if (event.pointerType === 'touch') return
+    const { left, top, width, height } = event.currentTarget.getBoundingClientRect()
+    const x = (event.clientX - left) / Math.max(width, 1)
+    const y = (event.clientY - top) / Math.max(height, 1)
+    event.currentTarget.style.setProperty('--tilt-x', `${(0.5 - y) * 7}deg`)
+    event.currentTarget.style.setProperty('--tilt-y', `${(x - 0.5) * 9}deg`)
+  }
+
+  const resetVisualPointer = (event) => {
+    event.currentTarget.style.setProperty('--tilt-x', '0deg')
+    event.currentTarget.style.setProperty('--tilt-y', '0deg')
+  }
+
   return (
     <section id="top" className="hero-section relative isolate overflow-hidden">
       <Container className="hero-layout grid items-center gap-8 py-20 sm:py-24 md:py-28 lg:grid-cols-[1.08fr_0.92fr] lg:gap-4 lg:py-28 xl:py-32">
@@ -68,7 +82,11 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="hero-visual-wrap hero-enter">
+        <div
+          className="hero-visual-wrap hero-enter"
+          onPointerMove={handleVisualPointerMove}
+          onPointerLeave={resetVisualPointer}
+        >
           <HeroVisual />
         </div>
       </Container>
