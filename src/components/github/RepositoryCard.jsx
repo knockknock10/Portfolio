@@ -67,13 +67,12 @@ export default function RepositoryCard({ repo }) {
           ? 'border-accent/25 hover:border-accent/40'
           : 'border-line hover:border-line-hover',
         'hover:-translate-y-0.5',
-        'hover:shadow-[0_8px_24px_rgba(0,0,0,0.35)]',
       ].join(' ')}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 min-w-0">
-            <h3 className="truncate font-semibold text-[13px] text-fg group-hover:text-accent transition-colors duration-200">
+          <div className="flex min-w-0 flex-wrap items-start gap-2">
+            <h3 className="min-w-0 flex-1 break-words [overflow-wrap:anywhere] font-semibold text-[13px] leading-5 text-fg group-hover:text-accent transition-colors duration-200">
               {repo.fullName}
             </h3>
             {isPinned && (
