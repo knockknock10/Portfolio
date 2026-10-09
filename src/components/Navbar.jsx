@@ -75,12 +75,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [location.pathname])
 
-  useEffect(() => {
-    if (location.pathname === '/' && location.hash) {
-      setActiveSection(location.hash.slice(1))
-    }
-  }, [location.pathname, location.hash])
-
   /* Keyboard dismiss */
   useEffect(() => {
     if (!open) return undefined
