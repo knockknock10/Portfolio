@@ -285,6 +285,9 @@
   max-height: 530px;
   perspective: 900px;
   isolation: isolate;
+  transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 420ms cubic-bezier(.2,.8,.2,1);
+  will-change: transform;
 }
 
 .hero-art-glow {
@@ -575,4 +578,34 @@
   .glass-card-interactive:hover {
     transform: none;
   }
+}
+
+/* Tiny physical response: the object moves with the hand, then settles back. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .hero-visual-wrap:hover .hero-orb {
+    box-shadow:
+      0 0 88px rgba(138,125,242,.29),
+      0 0 180px rgba(81,144,200,.12),
+      0 28px 70px rgba(0,0,0,.4),
+      12px 10px 26px rgba(255,255,255,.09) inset,
+      -18px -20px 50px rgba(3,7,17,.72) inset;
+  }
+
+  .glass-card-interactive:active {
+    transform: translateY(-1px) scale(.993);
+  }
+}
+
+.hero-status-mark {
+  animation: status-breathe 3s ease-in-out infinite;
+}
+
+@keyframes status-breathe {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(147,226,192,.11), 0 0 10px rgba(147,226,192,.26); }
+  50% { box-shadow: 0 0 0 5px rgba(147,226,192,.05), 0 0 17px rgba(147,226,192,.4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-status-mark { animation: none !important; }
+  .hero-art { transition: none !important; transform: none !important; }
 }
