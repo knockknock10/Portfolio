@@ -28,7 +28,7 @@ function PageHeader() {
 
         <div className="mt-4 max-w-4xl">
           <h1 className="text-4xl font-medium tracking-tight text-fg md:text-5xl lg:text-6xl">
-            I contribute to codebases that exist outside my laptop.
+            Pull requests, issues, and project work.
           </h1>
 
           <p className="mt-5 max-w-2xl text-sm leading-7 text-muted md:text-base">
@@ -221,7 +221,7 @@ function TimelineSection({ events }) {
       <div className="mb-6 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-            Recent work
+            Recent contributions
           </p>
 
           <h2
@@ -315,7 +315,7 @@ function OpenSourceContent() {
                 id="summary-heading"
                 className="mt-2 text-2xl font-medium tracking-tight text-fg md:text-3xl"
               >
-                Open-source activity, backed by GitHub.
+                Contribution summary.
               </h2>
             </div>
 
