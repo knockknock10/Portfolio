@@ -163,7 +163,8 @@ function restTimelineModel(item, isPR) {
 }
 
 async function searchAuthored(username, qualifiers, perPage = 100) {
-  const query = encodeURIComponent('author:' + username + ' ' + qualifiers)
+  // Open Source pages intentionally focus on outside contributions, not PRs in the user's own repositories.
+  const query = encodeURIComponent('author:' + username + ' -user:' + username + ' ' + qualifiers)
   return ghRest('/search/issues?q=' + query + '&per_page=' + perPage + '&sort=updated&order=desc')
 }
 
