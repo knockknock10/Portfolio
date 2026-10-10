@@ -107,14 +107,14 @@ function ContributionHeatmap({
                   height={cellSize}
                   fill={"var(--color-contribution-" + level + ")"}
                   aria-label={label}
-                >
-                  <title>{label}</title>
                   role="gridcell"
                   tabIndex={0}
                   custom={index}
                   variants={cellVariants}
                   transition={reducedMotion ? { duration: 0 } : undefined}
-                />
+                >
+                  <title>{label}</title>
+                </motion.rect>
               )
             }),
           )}
