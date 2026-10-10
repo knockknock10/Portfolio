@@ -189,38 +189,41 @@ export function WorkGallery({ items }: WorkGalleryProps) {
               transition={transition}
             >
               <Glass className="work-card-shell" elevation={1}>
-                <Link
-                  href={`/work/${item.slug}`}
-                  className={styles.cardLink}
-                  aria-label={`View ${item.title}`}
-                >
-                  <div className={styles.cardArt}>
-                    {item.coverSrc ? (
-                      <Image
-                        className={styles.cardArtImage}
-                        src={item.coverSrc}
-                        alt={`${item.title} cover`}
-                        fill
-                        sizes="(min-width: 80rem) 33vw, (min-width: 48rem) 50vw, 100vw"
-                      />
-                    ) : null}
-                    <span className={styles.cardArtTitle}>{item.title}</span>
-                    {cardAside(item) ? (
-                      <span className={styles.cardArtAside}>{cardAside(item)}</span>
-                    ) : null}
-                  </div>
-                  <motion.div className={styles.cardDetails} variants={cardVariants}>
-                    <h2 className="work-card-title">{item.title}</h2>
-                    {item.description ? (
-                      <p className="work-card-description">{item.description}</p>
-                    ) : null}
-                    <div
-                      className={styles.cardMeta}
-                      aria-label={`${item.type === "repo" ? "Repository" : "Project"} details`}
-                    >
-                      <span>{item.type === "repo" ? "Repository" : "Project"}</span>
-                      {itemMeta(item).map((value) => (
-                        <span key={value}>{value}</span>
+                <Squircle className="work-card-media" aria-hidden={!project.galleryImages.length}>
+                  {project.galleryImages.length > 0 ? (
+                    <div className="work-card-images">
+                      <button
+                        type="button"
+                        className="work-card-image-button"
+                        aria-label={"Open image for " + project.title}
+                        onClick={() => openImage(project.galleryImages[0])}
+                      >
+                        <Image
+                          src={project.galleryImages[0].src}
+                          alt={project.galleryImages[0].alt}
+                          fill
+                          sizes="(min-width: 80rem) 33vw, (min-width: 48rem) 50vw, 100vw"
+                          priority={projectIndex < 2}
+                          style={{ objectFit: "contain" }}
+                        />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className={"work-card-placeholder work-card-placeholder-" + project.slug} aria-hidden="true" />
+                  )}
+                </Squircle>
+
+                <motion.div className="work-card-details" variants={cardVariants}>
+                  <h2 className="work-card-title">
+                    <Link href={"/work/" + project.slug}>{project.title}</Link>
+                  </h2>
+                  {project.description ? (
+                    <p className="work-card-description">{project.description}</p>
+                  ) : null}
+                  {project.tags?.length ? (
+                    <ul className="work-card-tags" aria-label="Project tags">
+                      {project.tags.map((tag) => (
+                        <li className="work-tag" key={tag}>{tag}</li>
                       ))}
                     </div>
                     {item.tags.length ? (
