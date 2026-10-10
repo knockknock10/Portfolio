@@ -19,25 +19,35 @@ function formatDates(start: string, end: string): string | null {
   return present(start) ? start : end
 }
 
-export function Internships({ items }: InternshipsProps) {
+export function Internships({ items, standalone = false }: InternshipsProps) {
   const reducedMotion = Boolean(useReducedMotion())
   const spring = useSpringToken("gentle")
   const duration = readDurationToken("--duration-slow")
   const step = readDurationToken("--duration-section-stagger")
   const cap = readDurationToken("--duration-section-stagger-cap")
   if (!items.length) return null
+  const Heading = standalone ? "h1" : "h2"
   const transition = reducedMotion
     ? { duration: 0 }
     : { ...(spring ?? { type: "spring" as const }), duration }
 
   return (
-    <section className="internships-section" id="internships" aria-labelledby="internships-heading">
+    <section className="internships-section" id={standalone ? undefined : "internships"} aria-labelledby="internships-heading">
       <div className="internships-inner">
         <header className="internships-header">
           <p className="internships-eyebrow">Experience</p>
-          <h2 id="internships-heading" className="internships-title">Internships</h2>
+          <Heading id="internships-heading" className="internships-title">Internships</Heading>
         </header>
-        <ol className="internships-timeline">
+        <div className="internships-timeline-wrap">
+          <motion.span
+            className="internships-timeline-rail"
+            aria-hidden="true"
+            initial={reducedMotion ? false : { scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={transition}
+          />
+          <ol className="internships-timeline">
           {items.map((item, index) => {
             const dates = formatDates(item.startDate, item.endDate)
             const delay = reducedMotion ? 0 : Math.min(index * step, cap)
@@ -83,7 +93,8 @@ export function Internships({ items }: InternshipsProps) {
               </motion.li>
             )
           })}
-        </ol>
+          </ol>
+        </div>
       </div>
     </section>
   )

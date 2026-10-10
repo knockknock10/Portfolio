@@ -19,7 +19,7 @@ export default function InternshipsPage() {
   }
   return (
     <main className="editorial-page internships-page">
-      <Internships items={items} />
+      <Internships items={items} standalone />
     </main>
   )
 }

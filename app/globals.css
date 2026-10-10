@@ -4118,25 +4118,26 @@ body {
   font-weight: 500;
 }
 
-.internships-timeline {
+.internships-timeline-wrap {
   position: relative;
-  display: grid;
-  gap: var(--spacing-8);
-  margin: 0;
-  padding: 0 0 0 var(--spacing-8);
-  list-style: none;
 }
 
-.internships-timeline::before {
+.internships-timeline-rail {
   position: absolute;
   top: var(--spacing-2);
   bottom: var(--spacing-2);
   left: var(--spacing-2);
   width: var(--line-editorial);
-  content: "";
   background: var(--color-section-divider);
-  transform: scaleY(1);
   transform-origin: top;
+}
+
+.internships-timeline {
+  display: grid;
+  gap: var(--spacing-8);
+  margin: 0;
+  padding: 0 0 0 var(--spacing-8);
+  list-style: none;
 }
 
 .internships-item {
@@ -4278,7 +4279,7 @@ body {
     padding-left: var(--spacing-6);
   }
 
-  .internships-timeline::before {
+  .internships-timeline-rail {
     left: var(--spacing-1);
   }
 

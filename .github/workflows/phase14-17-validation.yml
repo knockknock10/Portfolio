@@ -1,0 +1,51 @@
+name: Portfolio Phase 14–17 Validation
+
+on:
+  push:
+    branches:
+      - "fix/phase-14-17-sections"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-phase14-17-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Build, routes, responsive checks, and scroll FPS
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Production build
+        run: npm run build
+      - name: Install browser test runtime
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
+      - name: Run route, responsive, and FPS checks
+        shell: bash
+        run: |
+          npm run start -- --hostname 127.0.0.1 > /tmp/portfolio-start.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in $(seq 1 45); do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then ready=1; break; fi
+            sleep 1
+          done
+          if [ "$ready" -ne 1 ]; then cat /tmp/portfolio-start.log; exit 1; fi
+          node scripts/verify-phase14-17.mjs
+
