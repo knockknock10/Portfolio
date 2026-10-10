@@ -35,6 +35,7 @@ export function Nav({ name, githubUrl }: NavProps) {
   const links: NavItem[] = [
     { label: "Home", href: "/" },
     { label: "Work", href: "/work" },
+    { label: "Open source", href: "/open-source" },
     { label: "About", href: "/about" },
     ...(githubUrl ? [{ label: "GitHub", href: githubUrl, external: true }] : []),
   ]
