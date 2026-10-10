@@ -36,6 +36,7 @@ export function Nav({ name, githubUrl }: NavProps) {
     { label: "Home", href: "/" },
     { label: "Work", href: "/work" },
     { label: "Open source", href: "/open-source" },
+    { label: "Problem solving", href: "/problem-solving" },
     { label: "About", href: "/about" },
     ...(githubUrl ? [{ label: "GitHub", href: githubUrl, external: true }] : []),
   ]
