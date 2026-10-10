@@ -36,6 +36,8 @@ export interface ProjectContent {
   overview: string[] | null
   processSteps: string[] | null
   resultImagePaths: string[] | null
+  repositoryUrl?: NullableText
+  demoUrl?: NullableText
 }
 
 export interface ImageAsset {
