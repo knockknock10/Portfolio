@@ -102,7 +102,7 @@ export default async function OpenSourcePage() {
         ) : (
           <p className="oss-activity-note">
             The live feed is temporarily unavailable. You can still inspect the current record on{" "}
-            <Link href="https://github.com/knockknock10/pulls" target="_blank" rel="noreferrer">GitHub</Link>.
+            <Link href="https://github.com/pulls?q=is%3Apr+author%3Aknockknock10" target="_blank" rel="noreferrer">GitHub</Link>.
           </p>
         )}
       </section>
