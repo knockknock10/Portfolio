@@ -39,8 +39,15 @@ export function Nav({ name }: NavProps) {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
-  const skipFocusRestoreRef = useRef(false)
-  const handledHashRef = useRef<string | null>(null)
+
+  const links: NavItem[] = [
+    { label: "Home", href: "/" },
+    { label: "Work", href: "/work" },
+    { label: "Open source", href: "/open-source" },
+    { label: "Problem solving", href: "/problem-solving" },
+    { label: "About", href: "/about" },
+    ...(githubUrl ? [{ label: "GitHub", href: githubUrl, external: true }] : []),
+  ]
 
   const routeDuration = readDurationToken("--duration-nav-hide")
 
@@ -309,7 +316,7 @@ export function Nav({ name }: NavProps) {
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu-panel"
-                onClick={() => setMenuOpen((open) => !open)}
+                onClick={() => (menuOpen ? setMenuOpen(false) : openMenu())}
               >
                 <span
                   className="nav-toggle-lines"

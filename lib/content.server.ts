@@ -1,11 +1,11 @@
 import "server-only"
-import { readFileSync } from "node:fs"
-import { join } from "node:path"
-import { parseContentInventory } from "@/lib/content"
+import { portfolioContent } from "@/lib/portfolio-data"
 import type { PortfolioContent } from "@/lib/content"
 
+/**
+ * Return the curated portfolio content without parsing documentation at runtime.
+ * Keep this server-only so future private configuration never enters the client bundle.
+ */
 export function getContent(): PortfolioContent {
-  const inventoryPath = join(process.cwd(), "CONTENT-INVENTORY.md")
-  const inventoryMarkdown = readFileSync(inventoryPath, "utf8")
-  return parseContentInventory(inventoryMarkdown)
+  return portfolioContent
 }

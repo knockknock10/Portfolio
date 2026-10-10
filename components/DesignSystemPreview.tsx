@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { CSSProperties } from "react";
 import { Glass, LiquidBackdrop, MagneticButton, Noise, Reveal, Squircle } from "@/components/primitives";
 
 const colorTokens = [
