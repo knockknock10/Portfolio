@@ -4,11 +4,12 @@ type AboutProps = {
   bio: string[]
   tools: string[] | null
   influences: string[] | null
+  portraitInitials: string | null
   headingLevel?: "h1" | "h2"
   asMain?: boolean
 }
 
-export function About({ bio, tools, influences, headingLevel = "h2", asMain = false }: AboutProps) {
+export function About({ bio, tools, influences, portraitInitials, headingLevel = "h2", asMain = false }: AboutProps) {
   const Container = asMain ? "main" : "section"
   const Heading = headingLevel
   const availableTools = tools?.filter(Boolean) ?? []
@@ -16,7 +17,11 @@ export function About({ bio, tools, influences, headingLevel = "h2", asMain = fa
   return (
     <Container className="about-section" aria-labelledby="about-heading">
       <div className="about-layout">
-        <Squircle className="about-portrait" aria-hidden="true" />
+        {portraitInitials ? (
+          <Squircle className="about-portrait" aria-label={portraitInitials}>
+            <span aria-hidden="true">{portraitInitials}</span>
+          </Squircle>
+        ) : null}
         <div className="about-copy">
           <Heading id="about-heading" className="section-heading">About</Heading>
           {bio.length > 0 ? <div className="about-bio-list">{bio.map((paragraph, index) => <p className="about-bio" key={paragraph + index}>{paragraph}</p>)}</div> : null}

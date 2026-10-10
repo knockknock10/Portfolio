@@ -385,8 +385,6 @@
   background: var(--color-panel);
   border: 1px solid var(--color-line);
   box-shadow: none;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
@@ -422,8 +420,6 @@
   border: 1px solid var(--color-line);
   background: transparent;
   box-shadow: none;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
   transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
 }
 

@@ -116,7 +116,7 @@ function Tooltip({ day, position }) {
   const [x, y] = position
   return (
     <div
-      className="pointer-events-none absolute z-50 rounded-lg px-3 py-2 bg-panel-raised border border-white/10 text-xs shadow-xl backdrop-blur-md -translate-x-1/2 -translate-y-full"
+      className="pointer-events-none absolute z-50 rounded-lg px-3 py-2 bg-panel-raised border border-white/10 text-xs shadow-xl -translate-x-1/2 -translate-y-full"
       style={{ left: Math.max(80, x), top: Math.max(30, y - 8) }}
     >
       <p className="font-medium text-fg">{formatDate(date)}</p>

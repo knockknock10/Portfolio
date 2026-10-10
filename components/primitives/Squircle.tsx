@@ -1,5 +1,3 @@
-"use client"
-
 import { createElement } from "react";
 import type { ComponentPropsWithoutRef, CSSProperties, ElementType, ReactNode } from "react";
 

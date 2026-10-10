@@ -3,8 +3,7 @@
 import Link from "next/link"
 import { motion, useReducedMotion } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import { LiquidBackdrop, MagneticButton, Noise } from "@/components/primitives"
+import { LiquidBackdrop, MagneticButton } from "@/components/primitives"
 import { readDurationToken, readMotionNumber, useSpringToken } from "@/components/primitives/motionTokens"
 
 type HeroProps = {
@@ -28,7 +27,6 @@ export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
   const router = useRouter()
   const reducedMotion = useReducedMotion()
   const spring = useSpringToken("gentle")
-  const [scrolled, setScrolled] = useState(false)
 
   const headlineLines =
     heading && splitName && heading.includes(" ")
@@ -77,24 +75,12 @@ export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
     },
   }
 
-  useEffect(() => {
-    const threshold = readMotionNumber("--hero-scroll-threshold")
-
-    const updateScroll = () => {
-      setScrolled(window.scrollY > threshold)
-    }
-
-    updateScroll()
-    window.addEventListener("scroll", updateScroll, { passive: true })
-    return () => window.removeEventListener("scroll", updateScroll)
-  }, [])
 
   if (!heading && !eyebrow && !subhead) return null
 
   return (
     <section className="hero" aria-labelledby={heading ? "hero-title" : undefined}>
       <LiquidBackdrop className="hero-backdrop" />
-      <Noise />
 
       <div className="hero-inner">
         <motion.div
@@ -141,22 +127,9 @@ export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
         </motion.div>
       </div>
 
-      <motion.div
-        className="hero-scroll-cue"
-        aria-hidden="true"
-        initial={false}
-        animate={
-          scrolled
-            ? {
-                opacity: 0,
-                y: reducedMotion ? 0 : readMotionNumber("--hero-scroll-cue-offset"),
-              }
-            : { opacity: 1, y: 0 }
-        }
-        transition={transition}
-      >
+      <div className="hero-scroll-cue" aria-hidden="true">
         <span />
-      </motion.div>
+      </div>
     </section>
   )
 }

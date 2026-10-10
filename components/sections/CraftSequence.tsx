@@ -1,14 +1,41 @@
 "use client"
 
-import { motion, useReducedMotion, useScroll } from "framer-motion"
-import { useRef } from "react"
+import { motion, useMotionValue, useReducedMotion } from "framer-motion"
+import { useEffect, useRef } from "react"
+import { useLenis } from "@/components/SmoothScrollProvider"
 import { Reveal, Squircle } from "@/components/primitives"
 import type { CraftStep } from "@/lib/content"
 
 export function CraftSequence({ steps }: { steps: CraftStep[] }) {
   const sequenceRef = useRef<HTMLDivElement>(null)
   const reducedMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll({ target: sequenceRef, offset: ["start 0.8", "end 0.45"] })
+  const lenis = useLenis()
+  const scrollYProgress = useMotionValue(0)
+
+  useEffect(() => {
+    const element = sequenceRef.current
+    if (!element || !lenis || reducedMotion) return
+
+    let animationFrame = 0
+    const updateProgress = () => {
+      animationFrame = 0
+      const bounds = element.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+      const progress = (viewportHeight * 0.8 - bounds.top) / (bounds.height + viewportHeight * 0.35)
+      scrollYProgress.set(Math.max(0, Math.min(1, progress)))
+    }
+    const onLenisScroll = () => {
+      if (animationFrame) return
+      animationFrame = window.requestAnimationFrame(updateProgress)
+    }
+
+    updateProgress()
+    lenis.on("scroll", onLenisScroll)
+    return () => {
+      lenis.off("scroll", onLenisScroll)
+      if (animationFrame) window.cancelAnimationFrame(animationFrame)
+    }
+  }, [lenis, reducedMotion, scrollYProgress])
   return (
     <div className="craft-sequence" ref={sequenceRef}>
       <div className="craft-progress-track" aria-hidden="true">

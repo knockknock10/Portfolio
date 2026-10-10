@@ -9,11 +9,16 @@ export default function HomePage() {
   const heading = content.identity.professionalName ?? content.identity.fullName ?? content.identity.tagline
   const subhead = content.identity.tagline !== heading ? content.identity.tagline : null
   const bio = [content.identity.shortBio, content.identity.longBio].filter((paragraph): paragraph is string => Boolean(paragraph))
+  const portraitInitials = content.identity.fullName
+    ?.split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2) ?? null
   return (
     <main className="home-page">
       <Hero heading={heading} eyebrow={content.identity.roleTitle} subhead={subhead} splitName={heading === content.identity.fullName} />
       <Craft steps={content.craftSteps} />
-      <About bio={bio} tools={content.tools} influences={content.influences} />
+      <About bio={bio} tools={content.tools} influences={content.influences} portraitInitials={portraitInitials} />
       <Contact email={content.contact.email} socials={content.socials} availabilityNote={content.identity.availabilityStatement} />
     </main>
   )
