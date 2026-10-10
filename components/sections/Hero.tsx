@@ -4,9 +4,15 @@ import Link from "next/link"
 import { motion, useReducedMotion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { content } from "@/lib/content"
 import { LiquidBackdrop, MagneticButton, Noise } from "@/components/primitives"
 import { readDurationToken, readMotionNumber, useSpringToken } from "@/components/primitives/motionTokens"
+
+type HeroProps = {
+  heading: string | null
+  eyebrow: string | null
+  subhead: string | null
+  splitName: boolean
+}
 
 const parentVariants = {
   hidden: {},
@@ -18,21 +24,14 @@ const lineContainerVariants = {
   visible: {},
 }
 
-export function Hero() {
+export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
   const router = useRouter()
   const reducedMotion = useReducedMotion()
   const spring = useSpringToken("gentle")
   const [scrolled, setScrolled] = useState(false)
 
-  const heading =
-    content.identity.professionalName ??
-    content.identity.fullName ??
-    content.identity.tagline
-
-  const eyebrow = content.identity.roleTitle
-  const subhead = content.identity.tagline !== heading ? content.identity.tagline : null
   const headlineLines =
-    heading && heading === content.identity.fullName && heading.includes(" ")
+    heading && splitName && heading.includes(" ")
       ? heading.split(/\s+/)
       : heading
         ? [heading]

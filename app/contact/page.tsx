@@ -1,6 +1,7 @@
-import { content } from "@/lib/content"
+import { getContent } from "@/lib/content.server"
 
 export default function ContactPage() {
+  const content = getContent()
   const heading = content.identity.professionalName
 
   if (!content.contact.email || !heading) return null

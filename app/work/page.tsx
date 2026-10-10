@@ -1,17 +1,14 @@
-import { content } from "@/lib/content"
-
-function hasLocalWorkImage(paths: string[] | null) {
-  return Boolean(paths?.some((path) => /^(public|assets|content|static)\//i.test(path)))
-}
+import { getContent } from "@/lib/content.server"
 
 export default function WorkPage() {
-  const heading = content.projects?.find((project) => project.title && hasLocalWorkImage(project.imagePaths))?.title
+  const projects = getContent().projects ?? []
+  const firstTitle = projects.find((project) => project.title)?.title
 
-  if (!heading) return null
+  if (!firstTitle) return null
 
   return (
     <main className="route-shell">
-      <h1 className="route-shell-title">{heading}</h1>
+      <h1 className="route-shell-title">{firstTitle}</h1>
     </main>
   )
 }

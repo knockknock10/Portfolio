@@ -1,6 +1,3 @@
-import { readFileSync } from "node:fs"
-import { join } from "node:path"
-
 export type NullableText = string | null
 
 export interface IdentityContent {
@@ -34,6 +31,11 @@ export interface ProjectContent {
   medium: NullableText
   tags: string[] | null
   imagePaths: string[] | null
+  role: NullableText
+  tools: string[] | null
+  overview: string[] | null
+  processSteps: string[] | null
+  resultImagePaths: string[] | null
 }
 
 export interface ImageAsset {
@@ -128,6 +130,34 @@ function listFromLine(value: NullableText): string[] | null {
   return items.length ? items : null
 }
 
+function nestedBulletValue(markdown: string, labels: string[]): string[] | null {
+  const lines = markdown.split("\n")
+  const accepted = labels.map((label) => label.toLowerCase())
+  for (let index = 0; index < lines.length; index += 1) {
+    const match = lines[index].match(/^\s*-\s*\*\*([^*]+):?\*\*\s*(.*)$/)
+    if (!match) continue
+    const label = match[1].replace(/:\s*$/, "").trim().toLowerCase()
+    if (!accepted.includes(label)) continue
+
+    const values: string[] = []
+    const inlineValue = cleanCell(match[2])
+    if (inlineValue) values.push(inlineValue)
+
+    for (let next = index + 1; next < lines.length; next += 1) {
+      if (/^\s*-\s*\*\*/.test(lines[next])) break
+      const nested = lines[next].match(/^\s{2,}-\s+(.+)\s*$/)
+      if (!nested) {
+        if (lines[next].trim()) break
+        continue
+      }
+      const value = cleanCell(nested[1])
+      if (value) values.push(value)
+    }
+    return values.length ? values : null
+  }
+  return null
+}
+
 function headings(markdown: string): Array<{ title: string; body: string }> {
   const found: Array<{ title: string; start: number; bodyStart: number }> = []
   const pattern = /^#{3,4}\s+(.+)\s*$/gm
@@ -150,12 +180,20 @@ function parseProjects(markdown: string): ProjectContent[] | null {
     title: cleanCell(title),
     category: bulletValue(body, ["category"]),
     status: bulletValue(body, ["status"]),
-    description: bulletValue(body, ["summary", "description", "overview"]),
+    description:
+      bulletValue(body, ["summary", "description", "overview"]) ??
+      nestedBulletValue(body, ["description, verbatim"])?.[0] ??
+      null,
     year: bulletValue(body, ["year"]),
     client: bulletValue(body, ["client"]),
     medium: bulletValue(body, ["medium", "medium / technologies as printed"]),
     tags: listFromLine(bulletValue(body, ["tags"])),
     imagePaths: listFromLine(bulletValue(body, ["associated image paths", "image paths"])),
+    role: bulletValue(body, ["role", "project role"]),
+    tools: listFromLine(bulletValue(body, ["tools"])),
+    overview: nestedBulletValue(body, ["overview, verbatim", "overview"]),
+    processSteps: nestedBulletValue(body, ["process steps", "process"]),
+    resultImagePaths: listFromLine(bulletValue(body, ["result image paths", "screenshots", "final result images"])),
   }))
   return projects.length ? projects : null
 }
@@ -292,5 +330,3 @@ export function parseContentInventory(markdown: string): PortfolioContent {
   }
 }
 
-const inventoryMarkdown = readFileSync(join(process.cwd(), "CONTENT-INVENTORY.md"), "utf8")
-export const content: PortfolioContent = parseContentInventory(inventoryMarkdown)

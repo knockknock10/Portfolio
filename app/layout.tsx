@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import localFont from "next/font/local"
-import { content } from "@/lib/content"
+import { getContent } from "@/lib/content.server"
 import { Footer } from "@/components/Footer"
 import { Nav } from "@/components/Nav"
 import { RouteTransition } from "@/components/RouteTransition"
@@ -13,6 +13,7 @@ const interTight = localFont({
   display: "swap",
 })
 
+const content = getContent()
 const brandName = content.identity.professionalName ?? content.identity.fullName
 const socialLinks = (content.socials ?? []).flatMap((item) =>
   item.url && /^https?:\/\//i.test(item.url)

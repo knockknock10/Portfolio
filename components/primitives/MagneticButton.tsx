@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import type { ComponentPropsWithoutRef, PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import { readDurationToken, readMotionNumber, useSpringToken } from "./motionTokens";
 
-type MagneticButtonProps = Omit<ComponentPropsWithoutRef<"button">, "children"> & {
+type MagneticButtonProps = Omit<ComponentPropsWithoutRef<"button">, "children" | "onAnimationStart" | "onAnimationEnd" | "onAnimationIteration" | "onDrag" | "onDragStart" | "onDragEnd"> & {
   children: ReactNode;
   className?: string;
 };

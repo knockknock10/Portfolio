@@ -1,4 +1,5 @@
-import { content } from "@/lib/content"
+import { notFound } from "next/navigation"
+import { getContent } from "@/lib/content.server"
 
 type WorkDetailPageProps = {
   params: Promise<{ slug: string }>
@@ -13,22 +14,17 @@ function makeSlug(title: string) {
     .replace(/^-|-$/g, "")
 }
 
-function hasLocalWorkImage(paths: string[] | null) {
-  return Boolean(paths?.some((path) => /^(public|assets|content|static)\//i.test(path)))
-}
-
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { slug } = await params
-  const project = content.projects?.find(
-    (item) => item.title && makeSlug(item.title) === slug && hasLocalWorkImage(item.imagePaths),
+  const project = (getContent().projects ?? []).find(
+    (item) => item.title && makeSlug(item.title) === slug,
   )
-  const heading = project?.title
 
-  if (!heading) return null
+  if (!project?.title) notFound()
 
   return (
     <main className="route-shell">
-      <h1 className="route-shell-title">{heading}</h1>
+      <h1 className="route-shell-title">{project.title}</h1>
     </main>
   )
 }
