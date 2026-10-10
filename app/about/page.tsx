@@ -1,12 +1,12 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { getContent } from "@/lib/content.server"
+
 
 export const metadata: Metadata = {
   title: "About",
   description: "How Sanjeev Kumar approaches software engineering, open source, backend systems, and applied AI.",
 }
-
-import { getContent } from "@/lib/content.server"
 
 export default function AboutPage() {
   const content = getContent()
