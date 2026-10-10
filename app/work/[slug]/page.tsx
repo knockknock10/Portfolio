@@ -262,7 +262,15 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               <li key={commit.sha}>
                 <span>{commit.message.slice(0, 80)}</span>
                 <time dateTime={commit.date}>{displayDate(commit.date)}</time>
-                <code>{commit.sha.slice(0, 7)}</code>
+                <a
+                  href={commit.url}
+                  className={styles.caseExternalLink}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={`View commit ${commit.sha.slice(0, 7)}`}
+                >
+                  <code>{commit.sha.slice(0, 7)}</code>
+                </a>
               </li>
             ))}
           </ul>
