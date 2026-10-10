@@ -120,46 +120,49 @@ jobs:
                 const session = await page.context().newCDPSession(page);
                 await session.send("Emulation.setCPUThrottlingRate", { rate });
                 const duration = 10000;
-                const startedAt = Date.now();
-                const metricsPromise = page.evaluate(async (sampleDuration) => {
-                  const startedAt = performance.now();
-                  let frames = 0;
-                  let first = 0;
-                  let last = 0;
-                  let minScrollY = window.scrollY;
-                  let maxScrollY = window.scrollY;
-                  return await new Promise((resolve) => {
-                    function tick(now) {
-                      if (!first) first = now;
-                      last = now;
-                      frames += 1;
-                      minScrollY = Math.min(minScrollY, window.scrollY);
-                      maxScrollY = Math.max(maxScrollY, window.scrollY);
-                      if (now - startedAt >= sampleDuration) {
-                        resolve({
-                          durationMs: Math.round(last - first),
-                          frames,
-                          averageFps: Number((frames / ((last - first) / 1000)).toFixed(2)),
-                          minScrollY: Math.round(minScrollY),
-                          maxScrollY: Math.round(maxScrollY),
-                          scrollRange: Math.round(maxScrollY - minScrollY),
-                          finalScrollY: Math.round(window.scrollY),
-                        });
-                      } else {
-                        requestAnimationFrame(tick);
-                      }
+
+                await page.evaluate((sampleDuration) => {
+                  window.__phase12Fps = {
+                    startedAt: 0,
+                    frames: 0,
+                    minScrollY: window.scrollY,
+                    maxScrollY: window.scrollY,
+                    done: false,
+                    result: null,
+                  };
+                  function tick(now) {
+                    const state = window.__phase12Fps;
+                    if (!state.startedAt) state.startedAt = now;
+                    state.frames += 1;
+                    state.minScrollY = Math.min(state.minScrollY, window.scrollY);
+                    state.maxScrollY = Math.max(state.maxScrollY, window.scrollY);
+                    if (now - state.startedAt >= sampleDuration) {
+                      state.done = true;
+                      state.result = {
+                        durationMs: Math.round(now - state.startedAt),
+                        frames: state.frames,
+                        averageFps: Number((state.frames / ((now - state.startedAt) / 1000)).toFixed(2)),
+                        minScrollY: Math.round(state.minScrollY),
+                        maxScrollY: Math.round(state.maxScrollY),
+                        scrollRange: Math.round(state.maxScrollY - state.minScrollY),
+                        finalScrollY: Math.round(window.scrollY),
+                      };
+                      return;
                     }
                     requestAnimationFrame(tick);
-                  });
+                  }
+                  requestAnimationFrame(tick);
                 }, duration);
 
-                while (Date.now() - startedAt < duration) {
-                  const elapsed = Date.now() - startedAt;
+                const wallStart = Date.now();
+                while (Date.now() - wallStart < duration) {
+                  const elapsed = Date.now() - wallStart;
                   await page.mouse.wheel(0, elapsed < duration / 2 ? 160 : -160);
                   await page.waitForTimeout(35);
                 }
 
-                const result = await metricsPromise;
+                await page.waitForFunction(() => window.__phase12Fps?.done === true, null, { timeout: 5000 });
+                const result = await page.evaluate(() => window.__phase12Fps.result);
                 await session.send("Emulation.setCPUThrottlingRate", { rate: 1 });
                 await session.detach();
                 assert(result.scrollRange > 100, label + " did not produce real scrolling: " + JSON.stringify(result));
