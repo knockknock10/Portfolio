@@ -96,7 +96,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
         ) : (
           <div className={"case-cover-placeholder case-cover-art case-cover-art-" + project.slug} aria-hidden="true">
             <span className="case-cover-art-label">{project.category ?? "Selected work"}</span>
-            <span className="case-cover-art-mark">{project.title.slice(0, 1)}</span>
+            <span className="case-cover-art-mark">{(project.title ?? "P").slice(0, 1)}</span>
             <span className="case-cover-art-caption">{project.medium ?? project.title}</span>
           </div>
         )}
