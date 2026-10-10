@@ -80,7 +80,7 @@ export function Research({ items, standalone = false }: ResearchProps) {
                     <h3>{item.title}</h3>
                     {status ? <span className="research-status">{status}</span> : null}
                   </div>
-                  {available(item.authors) ? (
+                  {Array.isArray(item.authors) ? (
                     <p className="research-authors">{item.authors.join(", ")}</p>
                   ) : null}
                   {available(item.venue) ? <p className="research-venue">{item.venue}</p> : null}

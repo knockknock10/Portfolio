@@ -9,6 +9,8 @@ import { getContent } from "@/lib/content.server"
 import { getCraftData } from "@/lib/craft"
 import { getSignalsData } from "@/lib/signals"
 import { getResearchData } from "@/lib/research"
+import { Internships } from "@/components/sections/Internships"
+import { getInternshipsData } from "@/lib/internships"
 import styles from "@/components/sections/HomeAnchors.module.css"
 
 export default function HomePage() {
@@ -16,6 +18,7 @@ export default function HomePage() {
   const craftSteps = getCraftData()
   const signalsData = getSignalsData()
   const researchItems = getResearchData()
+  const internships = getInternshipsData()
   const heading =
     content.identity.professionalName ??
     content.identity.fullName ??
@@ -56,6 +59,7 @@ export default function HomePage() {
       </section>
       <Signals data={signalsData} />
       <Research items={researchItems} />
+      <Internships items={internships} />
       <section
         id="craft"
         className={styles.anchorSection}

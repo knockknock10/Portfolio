@@ -4065,3 +4065,239 @@ body {
     transition: none;
   }
 }
+
+
+/* Shared scale tokens for the additional editorial sections. */
+:root {
+  --size-research-image-max: 96px;
+  --size-internship-logo: 24px;
+  --size-internship-dot: var(--spacing-2);
+  --size-certification-badge: 48px;
+  --line-editorial: var(--border-thin);
+}
+
+.research-image {
+  max-width: var(--size-research-image-max);
+  max-height: var(--size-research-image-max);
+}
+
+/* Experience timeline: a hairline and typography, without card surfaces. */
+.internships-section {
+  width: min(calc(100% - var(--spacing-8)), var(--container-section));
+  margin-inline: auto;
+  padding-block: var(--spacing-section-desktop);
+  border-top: var(--line-editorial) solid var(--color-section-divider);
+  color: var(--color-paper);
+}
+
+.internships-inner {
+  display: grid;
+  gap: var(--spacing-8);
+}
+
+.internships-header {
+  display: grid;
+  gap: var(--spacing-3);
+}
+
+.internships-eyebrow {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: var(--text-12);
+  line-height: var(--text-12--line-height);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+.internships-title {
+  margin: 0;
+  color: var(--color-paper);
+  font-size: var(--text-section-heading);
+  line-height: 1.02;
+  letter-spacing: var(--tracking-display);
+  font-weight: 500;
+}
+
+.internships-timeline {
+  position: relative;
+  display: grid;
+  gap: var(--spacing-8);
+  margin: 0;
+  padding: 0 0 0 var(--spacing-8);
+  list-style: none;
+}
+
+.internships-timeline::before {
+  position: absolute;
+  top: var(--spacing-2);
+  bottom: var(--spacing-2);
+  left: var(--spacing-2);
+  width: var(--line-editorial);
+  content: "";
+  background: var(--color-section-divider);
+  transform: scaleY(1);
+  transform-origin: top;
+}
+
+.internships-item {
+  position: relative;
+  min-width: 0;
+}
+
+.internships-dot {
+  position: absolute;
+  top: var(--spacing-2);
+  left: calc(-1 * var(--spacing-8) + (var(--spacing-2) - var(--size-internship-dot)) / 2);
+  width: var(--size-internship-dot);
+  height: var(--size-internship-dot);
+  border-radius: 50%;
+  background: var(--color-accent);
+  outline: var(--border-thin) solid var(--color-ink);
+}
+
+.internships-content {
+  display: grid;
+  gap: var(--spacing-3);
+  min-width: 0;
+}
+
+.internships-topline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.internships-title-role {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  min-width: 0;
+}
+
+.internships-logo {
+  width: var(--size-internship-logo);
+  height: var(--size-internship-logo);
+  object-fit: contain;
+}
+
+.internships-title-role h3 {
+  margin: 0;
+  color: var(--color-paper);
+  font-size: var(--text-20);
+  line-height: var(--text-20--line-height);
+  letter-spacing: var(--tracking-heading);
+  font-weight: 500;
+}
+
+.internships-role,
+.internships-dates,
+.internships-meta,
+.internships-responsibilities,
+.internships-stack {
+  color: var(--color-neutral-500);
+  font-size: var(--text-12);
+  line-height: var(--leading-editorial);
+}
+
+.internships-role {
+  font-size: var(--text-14);
+}
+
+.internships-dates,
+.internships-meta {
+  margin: 0;
+}
+
+.internships-dates {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.internships-summary {
+  max-width: 76ch;
+  margin: 0;
+  color: var(--color-neutral-300);
+  font-size: var(--text-14);
+  line-height: var(--leading-editorial);
+}
+
+.internships-responsibilities {
+  display: grid;
+  gap: var(--spacing-2);
+  margin: 0;
+  padding-inline-start: var(--spacing-4);
+}
+
+.internships-stack {
+  margin: 0;
+}
+
+.internships-link {
+  position: relative;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--color-paper);
+  font-size: var(--text-14);
+  text-decoration: none;
+}
+
+.internships-link::after {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: calc(-1 * var(--spacing-1));
+  height: var(--line-editorial);
+  content: "";
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-overshoot);
+}
+
+.internships-link:hover::after,
+.internships-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.internships-link:focus-visible {
+  outline: var(--focus-outline-width) solid var(--color-accent);
+  outline-offset: var(--focus-outline-offset);
+}
+
+@media (max-width: 47.999rem) {
+  .internships-section {
+    padding-block: var(--spacing-16);
+  }
+
+  .internships-timeline {
+    gap: var(--spacing-6);
+    padding-left: var(--spacing-6);
+  }
+
+  .internships-timeline::before {
+    left: var(--spacing-1);
+  }
+
+  .internships-dot {
+    left: calc(-1 * var(--spacing-6) + (var(--spacing-2) - var(--size-internship-dot)) / 2);
+  }
+
+  .internships-topline {
+    display: grid;
+    gap: var(--spacing-2);
+  }
+
+  .internships-dates {
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .internships-link::after {
+    transition: none;
+  }
+}
