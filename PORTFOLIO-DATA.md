@@ -2980,3 +2980,92 @@ Other public files are public/resume.pdf and public/robots.txt. No real project 
 - Project screenshots, process images, covers and Open Graph image — MISSING; no real images found. Do not substitute stock or generated imagery.
 - GitHub byte-share language percentages — MISSING; only repository-count primary-language percentages were available.
 - Local script execution record — MISSING: this connector can edit the GitHub branch but cannot run inside the user's local clone or inspect local environment variables. Run both scripts locally to refresh the report and data.
+
+## SECTION 9 — RESEARCH
+
+The records below are sourced from the project inventory and the résumé's Research Experience section. Missing values are intentionally left as `MISSING`.
+
+~~~json
+[
+  {
+    "title": "SemBind-Audio",
+    "type": "paper",
+    "venue": "MISSING",
+    "year": "MISSING",
+    "authors": "MISSING",
+    "abstract": "MISSING",
+    "link": "https://github.com/knockknock10/SemBind_Audio",
+    "status": "in progress",
+    "image": "MISSING",
+    "tags": ["Python", "PyTorch", "HuBERT", "STFT", "Audio ML", "SHA-256"]
+  },
+  {
+    "title": "Nanosensor Network Communication Simulator",
+    "type": "research experience",
+    "venue": "MISSING",
+    "year": "MISSING",
+    "authors": "MISSING",
+    "abstract": "MISSING",
+    "link": "MISSING",
+    "status": "MISSING",
+    "image": "MISSING",
+    "tags": ["MATLAB", "nano-scale sensor networks", "routing", "packet propagation"]
+  }
+]
+~~~
+
+## SECTION 10 — INTERNSHIPS
+
+No items found in repo.
+
+## SECTION 11 — CERTIFICATIONS
+
+No items found in repo.
+
+## MISSING DATA REGISTER — SECTIONS 9–11
+
+### Research — SemBind-Audio
+
+- venue — MISSING: the project inventory and résumé do not identify a conference, journal, laboratory, or university venue.
+- year — MISSING: no research year or publication date is recorded.
+- authors — MISSING: no author list is recorded; repository ownership is not treated as authorship evidence.
+- abstract — MISSING: no abstract is present in the checked source files.
+- image — MISSING: no research-specific image exists under `public/`; the only image asset is the site favicon.
+
+### Research — Nanosensor Network Communication Simulator
+
+- venue — MISSING: the résumé does not name a venue or institutional research group.
+- year — MISSING: the résumé does not provide a date for this entry.
+- authors — MISSING: no author list is recorded.
+- abstract — MISSING: the résumé contains project bullets, not an abstract.
+- link — MISSING: no DOI, paper URL, repository, or project page is listed.
+- status — MISSING: no publication or review status is stated.
+- image — MISSING: no research-specific image exists under `public/`.
+
+### Internships
+
+- company — MISSING: no internship entry was found in the repository's résumé, content inventory, portfolio data, or checked Markdown/JSON sources.
+- role — MISSING: no internship entry was found.
+- location — MISSING: no internship entry was found.
+- start date — MISSING: no internship entry was found.
+- end date — MISSING: no internship entry was found.
+- duration — MISSING: start and end dates are unavailable, so a duration cannot be computed.
+- summary — MISSING: no verbatim internship summary exists in the checked sources.
+- responsibilities — MISSING: no internship responsibilities are recorded.
+- stack or tools used — MISSING: no internship-specific tools are recorded.
+- team size — MISSING: no internship team-size information is recorded.
+- link — MISSING: no internship company record exists from which to source a link.
+- logo — MISSING: no company logo asset exists under `public/`.
+
+### Certifications
+
+- title — MISSING: no certification entry or certificate document was found in the checked sources.
+- issuer — MISSING: no certification entry was found.
+- issue date — MISSING: no certification entry was found.
+- expiry date — MISSING: no certification entry was found.
+- credential ID — MISSING: no credential ID was found.
+- credential URL — MISSING: no verification URL was found.
+- skills covered — MISSING: no certification skills list was found.
+- badge image — MISSING: no certification badge image exists under `public/`.
+- verification status — MISSING: no certification record or credential URL exists to establish verification.
+
