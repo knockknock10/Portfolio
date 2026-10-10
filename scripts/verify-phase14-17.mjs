@@ -1,5 +1,5 @@
-const assert = require("node:assert/strict");
-const { chromium } = require("playwright");
+import assert from "node:assert/strict"
+import { chromium } from "playwright"
 
 const base = "http://127.0.0.1:3000";
 
