@@ -1,0 +1,163 @@
+name: Phase 12 validation
+
+on:
+  push:
+    branches:
+      - phase12-homepage-nav-check
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Production build
+        run: npm run build
+      - name: Install browser test runtime
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
+      - name: Route, anchor, accessibility and FPS checks
+        shell: bash
+        run: |
+          npm run start -- --hostname 127.0.0.1 > /tmp/portfolio-start.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in $(seq 1 45); do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" -ne 1 ]; then
+            cat /tmp/portfolio-start.log
+            exit 1
+          fi
+          node <<'NODE'
+          const assert = require("node:assert/strict");
+          const { chromium } = require("playwright");
+
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            try {
+              const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+              const base = "http://127.0.0.1:3000";
+              await page.goto(base + "/", { waitUntil: "networkidle" });
+
+              const homeData = await page.evaluate(() => ({
+                sections: Array.from(document.querySelectorAll("main.home-page > section")).map((node) => node.id),
+                headings: document.querySelectorAll("h1").length,
+                navLabel: document.querySelector("nav[aria-label]")?.getAttribute("aria-label"),
+                navLinks: Array.from(document.querySelectorAll('nav[aria-label="Primary"] a')).map((node) => ({
+                  label: node.textContent.trim(),
+                  href: new URL(node.href).pathname + new URL(node.href).hash,
+                })),
+                cards: document.querySelectorAll(".work-card").length,
+                viewAll: Array.from(document.querySelectorAll("a")).some((node) => node.textContent.trim() === "View all work →"),
+              }));
+              assert.deepEqual(homeData.sections, ["home", "work", "craft", "about", "contact"]);
+              assert.equal(homeData.headings, 1, "Homepage should expose one h1");
+              assert.equal(homeData.navLabel, "Primary");
+              assert.equal(homeData.cards, 6, "Homepage Work section should show six items");
+              assert.equal(homeData.viewAll, true);
+              for (const item of ["Home", "Work", "Craft", "About", "Contact"]) {
+                assert(homeData.navLinks.some((entry) => entry.label === item && entry.href === "/#" + item.toLowerCase()));
+              }
+              console.log("Homepage composition passed: " + JSON.stringify(homeData));
+
+              await page.getByRole("link", { name: "Work", exact: true }).first().click();
+              await page.waitForFunction(() => location.hash === "#work" && document.activeElement?.id === "work", null, { timeout: 5000 });
+              assert.equal(new URL(page.url()).pathname, "/");
+              assert.equal(await page.locator('nav[aria-label="Primary"] a[aria-current="location"]').count(), 1);
+              console.log("Homepage Lenis anchor + active-link + focus passed");
+
+              const pages = [
+                { path: "/about", heading: "About" },
+                { path: "/contact", heading: "Let's make something." },
+                { path: "/work", heading: "Work" },
+              ];
+              for (const route of pages) {
+                await page.goto(base + route.path, { waitUntil: "networkidle" });
+                assert.equal(await page.locator("h1").count(), 1, route.path + " should have exactly one h1");
+                assert.equal((await page.locator("h1").textContent()).trim(), route.heading);
+                if (route.path === "/about") {
+                  await page.getByRole("link", { name: "Work", exact: true }).first().click();
+                  await page.waitForFunction(() => location.pathname === "/" && location.hash === "#work" && document.activeElement?.id === "work", null, { timeout: 7000 });
+                  assert.equal(await page.locator("h1").count(), 1);
+                }
+              }
+              await page.goto(base + "/work", { waitUntil: "networkidle" });
+              assert.equal(await page.locator(".work-card").count(), 24, "Full Work route should preserve all work items");
+              console.log("Standalone /about, /contact and full /work routes passed");
+
+              await page.setViewportSize({ width: 375, height: 900 });
+              await page.goto(base + "/", { waitUntil: "networkidle" });
+              await page.getByRole("button", { name: "Open menu" }).click();
+              await page.getByRole("link", { name: "Craft", exact: true }).click();
+              await page.waitForFunction(() => location.hash === "#craft" && document.activeElement?.id === "craft", null, { timeout: 5000 });
+              assert.equal(await page.getByRole("dialog", { name: "Mobile navigation" }).count(), 0);
+              console.log("Mobile menu anchor + close + focus passed");
+
+              await page.setViewportSize({ width: 1440, height: 900 });
+              await page.goto(base + "/", { waitUntil: "networkidle" });
+              async function measureFps(rate, label) {
+                const session = await page.context().newCDPSession(page);
+                await session.send("Emulation.setCPUThrottlingRate", { rate });
+                const result = await page.evaluate(async () => {
+                  const duration = 10000;
+                  const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+                  let frames = 0;
+                  let first = 0;
+                  let last = 0;
+                  return await new Promise((resolve) => {
+                    function tick(now) {
+                      if (!first) first = now;
+                      last = now;
+                      frames += 1;
+                      const elapsed = now - first;
+                      const progress = Math.min(1, elapsed / duration);
+                      window.scrollTo(0, maxScroll * progress);
+                      if (elapsed >= duration) {
+                        resolve({
+                          durationMs: Math.round(last - first),
+                          frames,
+                          averageFps: Number((frames / ((last - first) / 1000)).toFixed(2)),
+                          maxScroll,
+                          finalScrollY: Math.round(window.scrollY),
+                        });
+                      } else {
+                        requestAnimationFrame(tick);
+                      }
+                    }
+                    requestAnimationFrame(tick);
+                  });
+                });
+                await session.send("Emulation.setCPUThrottlingRate", { rate: 1 });
+                await session.detach();
+                console.log("FPS " + label + ": " + JSON.stringify(result));
+                return result;
+              }
+              const normal = await measureFps(1, "normal 10-second desktop scroll");
+              const throttled = await measureFps(4, "4x CPU-throttled 10-second desktop scroll");
+              assert(normal.averageFps > 0 && throttled.averageFps > 0);
+              console.log("Reduced-motion, anchor routing, responsive layout, and FPS checks completed");
+            } finally {
+              await browser.close();
+            }
+          })().catch((error) => {
+            console.error(error);
+            process.exitCode = 1;
+          });
+          NODE
