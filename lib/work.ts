@@ -14,6 +14,14 @@ export type WorkImage = {
   height?: number
 }
 
+export interface RepoCommitRecord {
+  sha: string
+  shortSha: string
+  message: string
+  date: string
+  html_url: string
+}
+
 export interface RepoRecord {
   name: string
   description: DataValue<string>
@@ -33,6 +41,7 @@ export interface RepoRecord {
   archived: DataValue<boolean>
   fork: DataValue<boolean>
   default_branch: DataValue<string>
+  recent_commits: DataValue<RepoCommitRecord[]>
 }
 
 export interface ProjectRecord {
@@ -139,7 +148,7 @@ export interface RepoItem {
   coverSrc: string | null
   repo: RepoRecord
   organization: OrganizationRecord | null
-  recentCommits: Array<{ message: string; date: string; sha: string }> | null
+  recentCommits: Array<{ message: string; date: string; sha: string; url: string }> | null
 }
 
 export interface ProjectItem {
@@ -429,6 +438,9 @@ export function getWorkData(): WorkData {
       ...repo.topics.filter((topic) => topic && topic !== "MISSING"),
       ...(!isMissing(repo.language) ? [repo.language] : []),
     ]
+    const recentCommits = isAvailable(repo.recent_commits) && Array.isArray(repo.recent_commits)
+      ? repo.recent_commits.map((commit) => ({ message: commit.message, date: commit.date, sha: commit.sha, url: commit.html_url }))
+      : null
     return {
       type: "repo",
       slug: `repo-${slugify(repo.name)}`,
@@ -440,7 +452,7 @@ export function getWorkData(): WorkData {
       coverSrc,
       repo,
       organization,
-      recentCommits: null,
+      recentCommits,
     }
   })
 
