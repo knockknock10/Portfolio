@@ -21,6 +21,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Focused ESLint
+        run: npx eslint app/page.tsx app/work/page.tsx app/layout.tsx components/Nav.tsx components/SmoothScrollProvider.tsx components/sections/Work.tsx components/work/WorkGallery.tsx
       - name: Production build
         run: npm run build
       - name: Install browser test runtime
@@ -80,6 +82,7 @@ jobs:
               await page.getByRole("link", { name: "Work", exact: true }).first().click();
               await page.waitForFunction(() => location.hash === "#work" && document.activeElement?.id === "work", null, { timeout: 5000 });
               assert.equal(new URL(page.url()).pathname, "/");
+              await page.waitForFunction(() => document.querySelector('nav[aria-label="Primary"] a[aria-current="location"]')?.textContent.trim() === "Work", null, { timeout: 3000 });
               assert.equal(await page.locator('nav[aria-label="Primary"] a[aria-current="location"]').count(), 1);
               console.log("Homepage Lenis anchor + active-link + focus passed");
 
@@ -110,6 +113,13 @@ jobs:
               await page.getByRole("dialog", { name: "Mobile navigation" }).waitFor({ state: "detached", timeout: 2500 });
               console.log("Mobile menu anchor + close + focus passed");
 
+              await page.emulateMedia({ reducedMotion: "reduce" });
+              await page.goto(base + "/", { waitUntil: "networkidle" });
+              await page.getByRole("link", { name: "About", exact: true }).first().click();
+              await page.waitForFunction(() => location.hash === "#about" && document.activeElement?.id === "about", null, { timeout: 2500 });
+              console.log("Reduced-motion immediate anchor + focus passed");
+
+              await page.emulateMedia({ reducedMotion: "no-preference" });
               await page.setViewportSize({ width: 1440, height: 900 });
               await page.goto(base + "/", { waitUntil: "networkidle" });
               async function measureFps(rate, label) {

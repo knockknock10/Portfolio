@@ -167,16 +167,28 @@ export function Nav({ name }: NavProps) {
       .filter((element): element is HTMLElement => element instanceof HTMLElement)
     if (!sections.length) return
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const current = entries.find((entry) => entry.isIntersecting)
-        if (current) setActiveSection(current.target.id)
-      },
-      { rootMargin: "-42% 0px -50% 0px", threshold: 0 },
-    )
+    let observer: IntersectionObserver | null = null
 
-    sections.forEach((section) => observer.observe(section))
-    return () => observer.disconnect()
+    function observeAroundViewportCenter() {
+      observer?.disconnect()
+      const topInset = Math.round(window.innerHeight * 0.42)
+      const bottomInset = Math.round(window.innerHeight * 0.5)
+      observer = new IntersectionObserver(
+        (entries) => {
+          const current = entries.find((entry) => entry.isIntersecting)
+          if (current) setActiveSection(current.target.id)
+        },
+        { rootMargin: "-" + topInset + "px 0px -" + bottomInset + "px 0px", threshold: 0 },
+      )
+      sections.forEach((section) => observer?.observe(section))
+    }
+
+    observeAroundViewportCenter()
+    window.addEventListener("resize", observeAroundViewportCenter)
+    return () => {
+      window.removeEventListener("resize", observeAroundViewportCenter)
+      observer?.disconnect()
+    }
   }, [pathname])
 
   useEffect(() => {
