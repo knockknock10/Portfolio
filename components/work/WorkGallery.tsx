@@ -168,27 +168,27 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
         </div>
       ) : null}
 
-      <motion.div className="work-grid" layout transition={transition}>
-        <AnimatePresence initial={false} mode="popLayout">
+      <motion.div className="work-grid" layout={variant === "full"} transition={variant === "full" ? transition : { duration: readDurationToken("--duration-none") }}>
+        <AnimatePresence initial={variant === "full" && !reducedMotion} mode="popLayout">
           {visibleItems.map((item) => (
             <motion.article
               className="work-card"
               key={`${item.type}-${item.slug}`}
-              layout
+              layout={variant === "full"}
               initial={
-                reducedMotion
+                variant === "preview" || reducedMotion
                   ? false
                   : { opacity: 0, y: readMotionNumber("--work-card-enter-shift") }
               }
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={
-                reducedMotion
-                  ? { opacity: 0 }
+                variant === "preview" || reducedMotion
+                  ? { opacity: 1 }
                   : { opacity: 0, y: readMotionNumber("--work-card-exit-shift") }
               }
               variants={surfaceVariants}
-              whileHover={hoverEnabled && !reducedMotion ? "hover" : undefined}
-              transition={transition}
+              whileHover={variant === "full" && hoverEnabled && !reducedMotion ? "hover" : undefined}
+              transition={variant === "full" ? transition : { duration: readDurationToken("--duration-none") }}
             >
               <Glass className="work-card-shell" elevation={1}>
                 <Link
