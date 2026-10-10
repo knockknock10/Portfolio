@@ -173,4 +173,6 @@ export const portfolioContent: PortfolioContent = {
     },
   ],
   collaboratorCredits: null,
+  craftSteps: null,
+  influences: null,
 }
