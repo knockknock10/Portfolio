@@ -92,7 +92,7 @@ export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
   if (!heading && !eyebrow && !subhead) return null
 
   return (
-    <main className="hero" aria-labelledby={heading ? "hero-title" : undefined}>
+    <section className="hero" aria-labelledby={heading ? "hero-title" : undefined}>
       <LiquidBackdrop className="hero-backdrop" />
       <Noise />
 
