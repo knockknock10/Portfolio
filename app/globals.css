@@ -4474,3 +4474,23 @@ body {
     transition: none;
   }
 }
+
+
+/* Keep hash-navigation targets clear of the fixed navigation and programmatically focusable. */
+.signals-section,
+.research-section {
+  scroll-margin-top: calc(var(--nav-height-desktop) + var(--spacing-6));
+}
+
+.signals-section:focus-visible,
+.research-section:focus-visible {
+  outline: var(--focus-outline-width) solid var(--color-accent);
+  outline-offset: var(--focus-outline-offset);
+}
+
+@media (max-width: 47.999rem) {
+  .signals-section,
+  .research-section {
+    scroll-margin-top: calc(var(--nav-height-mobile) + var(--spacing-6));
+  }
+}

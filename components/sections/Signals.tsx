@@ -205,6 +205,7 @@ export function Signals({ data, standalone = false }: SignalsProps) {
       id={standalone ? undefined : "signals"}
       className="signals-section"
       aria-label="GitHub and LeetCode activity"
+      tabIndex={-1}
     >
       <div className="signals-inner">
         <header className="signals-header">

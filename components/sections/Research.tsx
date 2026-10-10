@@ -51,7 +51,7 @@ export function Research({ items, standalone = false }: ResearchProps) {
   const Heading = standalone ? "h1" : "h2"
 
   return (
-    <section className="research-section" id={standalone ? undefined : "research"} aria-labelledby="research-heading">
+    <section className="research-section" id={standalone ? undefined : "research"} aria-labelledby="research-heading" tabIndex={-1}>
       <div className="research-inner">
         <header className="research-header">
           <p className="research-eyebrow">Research</p>
