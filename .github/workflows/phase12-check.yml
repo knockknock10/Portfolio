@@ -114,9 +114,12 @@ jobs:
               console.log("Mobile menu anchor + close + focus passed");
 
               await page.emulateMedia({ reducedMotion: "reduce" });
+              await page.setViewportSize({ width: 375, height: 900 });
               await page.goto(base + "/", { waitUntil: "networkidle" });
-              await page.getByRole("link", { name: "About", exact: true }).first().click();
+              await page.getByRole("button", { name: "Open menu" }).click();
+              await page.getByRole("link", { name: "About", exact: true }).click();
               await page.waitForFunction(() => location.hash === "#about" && document.activeElement?.id === "about", null, { timeout: 2500 });
+              await page.getByRole("dialog", { name: "Mobile navigation" }).waitFor({ state: "detached", timeout: 1000 });
               console.log("Reduced-motion immediate anchor + focus passed");
 
               await page.emulateMedia({ reducedMotion: "no-preference" });
