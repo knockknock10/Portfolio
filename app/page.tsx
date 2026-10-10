@@ -40,6 +40,7 @@ export default function HomePage() {
   const subhead =
     content.identity.tagline ??
     "I build developer tools, contribute to open source, and turn research ideas into working systems."
+  const resumeHref = content.resumePath
 
   return (
     <main className="home-page">
@@ -137,9 +138,16 @@ export default function HomePage() {
               and applied AI problems worth investigating.
             </p>
           </div>
-          <Link className="home-cta-link" href="/contact">
-            Get in touch <span aria-hidden="true">↗</span>
-          </Link>
+          <div className="home-cta-actions">
+            <Link className="home-cta-link" href="/contact">
+              Get in touch <span aria-hidden="true">↗</span>
+            </Link>
+            {resumeHref ? (
+              <Link className="home-resume-link" href={resumeHref} target="_blank" rel="noreferrer">
+                Résumé PDF <span aria-hidden="true">↗</span>
+              </Link>
+            ) : null}
+          </div>
         </section>
       </div>
     </main>
