@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { getRecentPublicPullRequests } from "@/lib/github.server"
 
 const contributions = [
   {
@@ -30,7 +31,9 @@ const contributions = [
   },
 ]
 
-export default function OpenSourcePage() {
+export default async function OpenSourcePage() {
+  const activity = await getRecentPublicPullRequests()
+
   return (
     <main className="route-shell editorial-page open-source-page">
       <header className="route-intro">
@@ -56,6 +59,52 @@ export default function OpenSourcePage() {
             </Link>
           </article>
         ))}
+      </section>
+
+      <section className="oss-activity" aria-labelledby="oss-activity-title">
+        <header className="oss-activity-header">
+          <p className="route-kicker">Recent activity</p>
+          <h2 id="oss-activity-title">Open source, in practice.</h2>
+          <p>Recent public pull requests are loaded from GitHub on the server and cached for an hour.</p>
+        </header>
+        {activity.available ? (
+          activity.items.length > 0 ? (
+            <ol className="oss-pr-list">
+              {activity.items.map((item) => (
+                <li className="oss-pr-item" key={item.url}>
+                  <div className="oss-pr-main">
+                    <p className="oss-pr-repo">{item.repository}</p>
+                    <h3>
+                      <Link href={item.url} target="_blank" rel="noreferrer">{item.title}</Link>
+                    </h3>
+                  </div>
+                  <div className="oss-pr-meta">
+                    <span className={"oss-pr-status" + (item.merged ? " is-merged" : item.state === "open" ? " is-open" : "")}>
+                      {item.merged ? "Merged" : item.state === "open" ? "Open" : "Closed"}
+                    </span>
+                    {item.createdAt ? (
+                      <time dateTime={item.createdAt}>
+                        {new Date(item.createdAt).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                          timeZone: "UTC",
+                        })}
+                      </time>
+                    ) : null}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="oss-activity-note">No public pull requests were returned for this profile.</p>
+          )
+        ) : (
+          <p className="oss-activity-note">
+            The live feed is temporarily unavailable. You can still inspect the current record on{" "}
+            <Link href="https://github.com/knockknock10/pulls" target="_blank" rel="noreferrer">GitHub</Link>.
+          </p>
+        )}
       </section>
 
       <section className="oss-proof" aria-labelledby="oss-proof-title">
