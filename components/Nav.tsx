@@ -21,6 +21,8 @@ type NavItem = {
 const sectionLinks: NavItem[] = [
   { label: "Home", href: "/#home", sectionId: "home" },
   { label: "Work", href: "/#work", sectionId: "work" },
+  { label: "Signals", href: "/#signals", sectionId: "signals" },
+  { label: "Research", href: "/#research", sectionId: "research" },
   { label: "Craft", href: "/#craft", sectionId: "craft" },
   { label: "About", href: "/#about", sectionId: "about" },
 ]
