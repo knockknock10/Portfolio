@@ -155,7 +155,7 @@ export const portfolioContent: PortfolioContent = {
     "Audio ML",
   ],
   tools: ["Git", "Docker", "Kubernetes", "AWS", "GitHub Actions", "Vite", "PostgreSQL"],
-  resumePath: null,
+  resumePath: "/resume.pdf",
   resumeText: null,
   brandAssets: {
     logo: null,
