@@ -35,7 +35,7 @@ export function Glass<T extends ElementType = "div">({
   const Component = as || "div";
   const mergedStyle = {
     ...style,
-    "--glass-blur": typeof blur === "number" ? blur + "px" : "var(--elevation-1-blur)",
+    "--glass-blur": typeof blur === "number" ? blur + "px" : "var(--elevation-" + elevation + "-blur)",
   } as CSSProperties;
 
   useEffect(() => {
