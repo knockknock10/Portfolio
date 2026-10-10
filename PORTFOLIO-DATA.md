@@ -108,7 +108,44 @@ These percentages use repository counts, not source-code byte shares.
     "size": 728,
     "archived": false,
     "fork": false,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": [
+      {
+        "sha": "5eef622b6ad9e01fc025fdf893f8c62190c0e6fd",
+        "shortSha": "5eef622",
+        "message": "[LeetCode Sync] Runtime - 10 ms (78.81%), Memory - 47.8 MB (11.85%)",
+        "date": "2026-10-09T15:33:19Z",
+        "html_url": "https://github.com/knockknock10/DSA/commit/5eef622b6ad9e01fc025fdf893f8c62190c0e6fd"
+      },
+      {
+        "sha": "c9356e2ce542c0582b0d90097358faf826b02ba6",
+        "shortSha": "c9356e2",
+        "message": "[LeetCode Sync] Runtime - 7 ms (25.13%), Memory - 43.4 MB (71.51%)",
+        "date": "2026-10-08T13:03:56Z",
+        "html_url": "https://github.com/knockknock10/DSA/commit/c9356e2ce542c0582b0d90097358faf826b02ba6"
+      },
+      {
+        "sha": "364af501e4382198b81b227423b4d8aa98854213",
+        "shortSha": "364af50",
+        "message": "[LeetCode Sync] Runtime - 1 ms (99.87%), Memory - 43.8 MB (91.64%)",
+        "date": "2026-10-07T13:14:36Z",
+        "html_url": "https://github.com/knockknock10/DSA/commit/364af501e4382198b81b227423b4d8aa98854213"
+      },
+      {
+        "sha": "b99404f23f0243adc72e40dd0c5463cbdef4e3e1",
+        "shortSha": "b99404f",
+        "message": "[LeetCode Sync] Runtime - 0 ms (100.00%), Memory - 42.7 MB (74.52%)",
+        "date": "2026-10-06T13:59:05Z",
+        "html_url": "https://github.com/knockknock10/DSA/commit/b99404f23f0243adc72e40dd0c5463cbdef4e3e1"
+      },
+      {
+        "sha": "3476940cad6ff2d7e320a64968166cb5dafe19ed",
+        "shortSha": "3476940",
+        "message": "[LeetCode Sync] Runtime - 1 ms (61.96%), Memory - 42.9 MB (29.56%)",
+        "date": "2026-10-05T13:45:20Z",
+        "html_url": "https://github.com/knockknock10/DSA/commit/3476940cad6ff2d7e320a64968166cb5dafe19ed"
+      }
+    ]
   },
   {
     "name": "CommitHub",
@@ -137,7 +174,44 @@ These percentages use repository counts, not source-code byte shares.
     "size": 1312,
     "archived": false,
     "fork": false,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": [
+      {
+        "sha": "9d2003eaf20b628f87ca5de5a788b7744c0543a0",
+        "shortSha": "9d2003e",
+        "message": "Merge pull request #258 from knockknock10/style/landing-css",
+        "date": "2026-09-18T16:08:00Z",
+        "html_url": "https://github.com/knockknock10/CommitHub/commit/9d2003eaf20b628f87ca5de5a788b7744c0543a0"
+      },
+      {
+        "sha": "4ab79390267fc5d06618492f215eb76bf501a2d8",
+        "shortSha": "4ab7939",
+        "message": "style: update landing page CSS styles",
+        "date": "2026-09-18T16:07:52Z",
+        "html_url": "https://github.com/knockknock10/CommitHub/commit/4ab79390267fc5d06618492f215eb76bf501a2d8"
+      },
+      {
+        "sha": "14e994d9d21ca56f247a7d059b8bcebd96bc830f",
+        "shortSha": "14e994d",
+        "message": "Merge pull request #257 from knockknock10/style/auth-css",
+        "date": "2026-09-18T16:07:40Z",
+        "html_url": "https://github.com/knockknock10/CommitHub/commit/14e994d9d21ca56f247a7d059b8bcebd96bc830f"
+      },
+      {
+        "sha": "15bedf720a0652bfbf117adfae4c63718e871f1e",
+        "shortSha": "15bedf7",
+        "message": "style: update auth CSS styles",
+        "date": "2026-09-18T16:07:27Z",
+        "html_url": "https://github.com/knockknock10/CommitHub/commit/15bedf720a0652bfbf117adfae4c63718e871f1e"
+      },
+      {
+        "sha": "731cc049cff91f6d9acdd4b2ebf81cb5d3889bd6",
+        "shortSha": "731cc04",
+        "message": "Merge pull request #256 from knockknock10/feat/auth-page",
+        "date": "2026-09-18T16:07:19Z",
+        "html_url": "https://github.com/knockknock10/CommitHub/commit/731cc049cff91f6d9acdd4b2ebf81cb5d3889bd6"
+      }
+    ]
   },
   {
     "name": "Wandera",
@@ -157,7 +231,44 @@ These percentages use repository counts, not source-code byte shares.
     "size": 2834,
     "archived": false,
     "fork": false,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": [
+      {
+        "sha": "d86fd9cba3c25d90b5e410dc23c5cbc5c3343581",
+        "shortSha": "d86fd9c",
+        "message": "final deploy fixes",
+        "date": "2026-09-09T03:22:44Z",
+        "html_url": "https://github.com/knockknock10/Wandera/commit/d86fd9cba3c25d90b5e410dc23c5cbc5c3343581"
+      },
+      {
+        "sha": "12ae791a348f39130adf0558bad58296515fde71",
+        "shortSha": "12ae791",
+        "message": "deploy ready",
+        "date": "2026-09-09T02:23:16Z",
+        "html_url": "https://github.com/knockknock10/Wandera/commit/12ae791a348f39130adf0558bad58296515fde71"
+      },
+      {
+        "sha": "111db1bfa0c1ca0e91905233df3514412d8da2cb",
+        "shortSha": "111db1b",
+        "message": "chore: tidy readme, done stuff removed (#16)",
+        "date": "2026-09-09T02:05:57Z",
+        "html_url": "https://github.com/knockknock10/Wandera/commit/111db1bfa0c1ca0e91905233df3514412d8da2cb"
+      },
+      {
+        "sha": "6e8e30b8f8dc8ad31a96fbc0938f0b6904d1ec39",
+        "shortSha": "6e8e30b",
+        "message": "fix: UI polish for navbar, tax toggle, footer layout (#15)",
+        "date": "2026-09-09T02:04:32Z",
+        "html_url": "https://github.com/knockknock10/Wandera/commit/6e8e30b8f8dc8ad31a96fbc0938f0b6904d1ec39"
+      },
+      {
+        "sha": "61f242e5ac7d3e254d7ed2fca4e19d009ccabb09",
+        "shortSha": "61f242e",
+        "message": "fix: harden input validation and search query handling (#14)",
+        "date": "2026-09-09T02:03:26Z",
+        "html_url": "https://github.com/knockknock10/Wandera/commit/61f242e5ac7d3e254d7ed2fca4e19d009ccabb09"
+      }
+    ]
   },
   {
     "name": "Code4Her",
@@ -177,7 +288,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 463,
     "archived": false,
     "fork": false,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "failurescope",
@@ -197,7 +309,30 @@ These percentages use repository counts, not source-code byte shares.
     "size": 3,
     "archived": false,
     "fork": false,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": [
+      {
+        "sha": "d1832a46c1cf2d7b0a9efcadcb9d372d6ef9a80b",
+        "shortSha": "d1832a4",
+        "message": "Update README.md",
+        "date": "2026-02-15T11:13:30Z",
+        "html_url": "https://github.com/knockknock10/failurescope/commit/d1832a46c1cf2d7b0a9efcadcb9d372d6ef9a80b"
+      },
+      {
+        "sha": "4a33f3491b4f9541b028e9c49bc5d28b201c23c5",
+        "shortSha": "4a33f34",
+        "message": "Update README with project description",
+        "date": "2026-02-05T13:26:12Z",
+        "html_url": "https://github.com/knockknock10/failurescope/commit/4a33f3491b4f9541b028e9c49bc5d28b201c23c5"
+      },
+      {
+        "sha": "6c18adb2427bee5a999b1f5f2231f49e62fd41c9",
+        "shortSha": "6c18adb",
+        "message": "Initial commit",
+        "date": "2026-02-05T13:22:29Z",
+        "html_url": "https://github.com/knockknock10/failurescope/commit/6c18adb2427bee5a999b1f5f2231f49e62fd41c9"
+      }
+    ]
   },
   {
     "name": "Portfolio",
@@ -217,7 +352,44 @@ These percentages use repository counts, not source-code byte shares.
     "size": 436,
     "archived": false,
     "fork": false,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": [
+      {
+        "sha": "1dd6f170ce6f1dd419b53ed00364f5d68ed249f7",
+        "shortSha": "1dd6f17",
+        "message": "Merge pull request #8 from knockknock10/fix/leetcode-refresh-runtime",
+        "date": "2026-10-10T09:14:50Z",
+        "html_url": "https://github.com/knockknock10/Portfolio/commit/1dd6f170ce6f1dd419b53ed00364f5d68ed249f7"
+      },
+      {
+        "sha": "ca3b4185088a6695a230163bf669a2be6421e9ad",
+        "shortSha": "ca3b418",
+        "message": "fix LeetCode data refresh runtime error",
+        "date": "2026-10-10T09:13:29Z",
+        "html_url": "https://github.com/knockknock10/Portfolio/commit/ca3b4185088a6695a230163bf669a2be6421e9ad"
+      },
+      {
+        "sha": "db74f6b8a9c964aa2986f9ad11a1ab77ec09e952",
+        "shortSha": "db74f6b",
+        "message": "Merge pull request #7 from knockknock10/fix/portfolio-route-content",
+        "date": "2026-10-10T09:08:09Z",
+        "html_url": "https://github.com/knockknock10/Portfolio/commit/db74f6b8a9c964aa2986f9ad11a1ab77ec09e952"
+      },
+      {
+        "sha": "eda4d9f4434388f59ad32f87ef3edab70c0655f8",
+        "shortSha": "eda4d9f",
+        "message": "add portfolio data schema and fetch scripts",
+        "date": "2026-10-10T06:20:30Z",
+        "html_url": "https://github.com/knockknock10/Portfolio/commit/eda4d9f4434388f59ad32f87ef3edab70c0655f8"
+      },
+      {
+        "sha": "5ac21b0c7acb09eac1b5c1ee169bb7ccc1958f50",
+        "shortSha": "5ac21b0",
+        "message": "fix: limit eslint to application source",
+        "date": "2026-10-10T05:20:39Z",
+        "html_url": "https://github.com/knockknock10/Portfolio/commit/5ac21b0c7acb09eac1b5c1ee169bb7ccc1958f50"
+      }
+    ]
   },
   {
     "name": "Podiom",
@@ -237,7 +409,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 5462,
     "archived": false,
     "fork": true,
-    "default_branch": "master"
+    "default_branch": "master",
+    "recent_commits": "MISSING"
   },
   {
     "name": "camel-k",
@@ -257,7 +430,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 107858,
     "archived": false,
     "fork": true,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "ansvisor",
@@ -277,7 +451,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 6861,
     "archived": false,
     "fork": true,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "wanaku-tests",
@@ -297,7 +472,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 668,
     "archived": false,
     "fork": true,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "plugin-databricks",
@@ -317,7 +493,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 904,
     "archived": false,
     "fork": true,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "core",
@@ -337,7 +514,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 1415,
     "archived": false,
     "fork": true,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "terraform-provider-kestra",
@@ -357,7 +535,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 691,
     "archived": false,
     "fork": true,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "mintmaker-osv-database",
@@ -377,7 +556,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 2047,
     "archived": false,
     "fork": true,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "friend-interview-coach-hf26",
@@ -397,7 +577,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 49,
     "archived": false,
     "fork": false,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "plugin-docker",
@@ -417,7 +598,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 720,
     "archived": false,
     "fork": true,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "plugin-neo4j",
@@ -437,7 +619,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 682,
     "archived": false,
     "fork": true,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   },
   {
     "name": "ConvergenceGuard",
@@ -457,7 +640,16 @@ These percentages use repository counts, not source-code byte shares.
     "size": 0,
     "archived": false,
     "fork": false,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": [
+      {
+        "sha": "5a87e8ef3138e918ee5b34406e5e5ea5b4e9b7cb",
+        "shortSha": "5a87e8e",
+        "message": "Initial commit",
+        "date": "2026-09-23T06:06:36Z",
+        "html_url": "https://github.com/knockknock10/ConvergenceGuard/commit/5a87e8ef3138e918ee5b34406e5e5ea5b4e9b7cb"
+      }
+    ]
   },
   {
     "name": "SemBind_Audio",
@@ -477,7 +669,30 @@ These percentages use repository counts, not source-code byte shares.
     "size": 6119,
     "archived": false,
     "fork": false,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": [
+      {
+        "sha": "e97f4a35245804f34f47f17a245fed0dbc82c4e1",
+        "shortSha": "e97f4a3",
+        "message": "Add canonical paper evidence package for SemBind-Audio manuscript",
+        "date": "2026-09-14T08:26:45Z",
+        "html_url": "https://github.com/knockknock10/SemBind_Audio/commit/e97f4a35245804f34f47f17a245fed0dbc82c4e1"
+      },
+      {
+        "sha": "7f6ba676b74a6cc93ca8e5422dced3f881d8ad77",
+        "shortSha": "7f6ba67",
+        "message": "results added",
+        "date": "2026-09-09T14:26:12Z",
+        "html_url": "https://github.com/knockknock10/SemBind_Audio/commit/7f6ba676b74a6cc93ca8e5422dced3f881d8ad77"
+      },
+      {
+        "sha": "b33000929396cb592a8dcf8bc8450a21ba6dc998",
+        "shortSha": "b330009",
+        "message": "Initial commit",
+        "date": "2026-09-09T06:15:26Z",
+        "html_url": "https://github.com/knockknock10/SemBind_Audio/commit/b33000929396cb592a8dcf8bc8450a21ba6dc998"
+      }
+    ]
   },
   {
     "name": "skills-introduction-to-codeql",
@@ -497,7 +712,8 @@ These percentages use repository counts, not source-code byte shares.
     "size": 2603,
     "archived": false,
     "fork": false,
-    "default_branch": "main"
+    "default_branch": "main",
+    "recent_commits": "MISSING"
   }
 ]
 ~~~
@@ -5044,6 +5260,8 @@ Other public files are public/resume.pdf and public/robots.txt. No real project 
 - Monthly commits, most active repository/month, daily commits, UTC hour buckets and weekday buckets — MISSING in the initial snapshot; the script computes them from commit timestamps.
 - Organization-level commits, PR merged_at, review submitted_at, issues/comments, roles and deduplicated repository list — MISSING in detail; the script attempts public endpoints.
 - GitHub primary-language byte percentages — MISSING; current language percentages count repositories by primary language.
+
+- Verified last-five user-authored commit history is included for DSA, CommitHub, Wandera and Portfolio; SemBind_Audio (3), failurescope (3) and ConvergenceGuard (1) contain fewer available user-authored commits. Other repository commit histories remain MISSING/unverified and are not displayed.
 <!-- GITHUB-MISSING:END -->
 
 ### LeetCode fields
