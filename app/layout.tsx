@@ -48,6 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className={interTight.variable}>
+        <a className="skip-link" href="#main-content">Skip to content</a>
         <SmoothScrollProvider>
           <Nav
             name={brandName}
@@ -56,7 +57,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               null
             }
           />
-          <div className="site-shell">
+          <div id="main-content" tabIndex={-1} className="site-shell">
             <RouteTransition>{children}</RouteTransition>
           </div>
           <Footer
