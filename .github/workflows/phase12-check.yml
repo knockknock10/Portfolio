@@ -107,7 +107,7 @@ jobs:
               await page.getByRole("button", { name: "Open menu" }).click();
               await page.getByRole("link", { name: "Craft", exact: true }).click();
               await page.waitForFunction(() => location.hash === "#craft" && document.activeElement?.id === "craft", null, { timeout: 5000 });
-              assert.equal(await page.getByRole("dialog", { name: "Mobile navigation" }).count(), 0);
+              await page.getByRole("dialog", { name: "Mobile navigation" }).waitFor({ state: "detached", timeout: 2500 });
               console.log("Mobile menu anchor + close + focus passed");
 
               await page.setViewportSize({ width: 1440, height: 900 });
