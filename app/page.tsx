@@ -63,6 +63,7 @@ export default function HomePage() {
       <Signals data={signalsData} />
       <Research items={researchItems} />
       <Internships items={internships} />
+      <Certifications items={certifications} />
       <section
         id="craft"
         className={styles.anchorSection}
@@ -71,7 +72,6 @@ export default function HomePage() {
       >
         <Craft steps={craftSteps} />
       </section>
-      <Certifications items={certifications} />
       <section
         id="about"
         className={styles.anchorSection}

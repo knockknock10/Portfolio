@@ -2994,7 +2994,7 @@ The records below are sourced from the project inventory and the résumé's Rese
     "year": "MISSING",
     "authors": "MISSING",
     "abstract": "MISSING",
-    "link": "MISSING",
+    "link": "https://github.com/knockknock10/SemBind_Audio",
     "status": "in progress",
     "image": "MISSING",
     "tags": ["Python", "PyTorch", "HuBERT", "STFT", "Audio ML", "SHA-256"]
@@ -3030,7 +3030,7 @@ No items found in repo.
 - year — MISSING: no research year or publication date is recorded.
 - authors — MISSING: no author list is recorded; repository ownership is not treated as authorship evidence.
 - abstract — MISSING: no abstract is present in the checked source files.
-- link — MISSING: a repository URL is known, but the required paper, DOI, PDF, or lab-page link is not recorded.
+- publication link (DOI, arXiv, PDF, or lab page) — MISSING: the project repository is linked, but no publication-specific or lab-page URL is recorded.
 - image — MISSING: no research-specific image exists under `public/`; the only image asset is the site favicon.
 
 ### Research — Nanosensor Network Communication Simulator

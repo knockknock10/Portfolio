@@ -23,6 +23,11 @@ async function checkPage(browser, width, height) {
   assert.equal(result.headings, 1, "Home page has exactly one h1");
   assert(result.width <= result.viewport, "Unexpected horizontal overflow at " + width + "px");
   assert(result.signal && result.research, "Expected non-empty Signals and Research");
+  assert(
+    result.sections.indexOf("signals") < result.sections.indexOf("research") &&
+    result.sections.indexOf("research") < result.sections.indexOf("craft"),
+    "Signals and Research should appear before Craft",
+  );
   assert.equal(result.internships, false, "Empty internships should not create a homepage section");
   assert.equal(result.certifications, false, "Empty certifications should not create a homepage section");
   console.log("Viewport " + width + ": " + JSON.stringify(result));

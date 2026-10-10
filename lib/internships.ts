@@ -133,7 +133,7 @@ export function getInternshipsData(): Internship[] {
         duration: durationBetween(normalizedStart, normalizedEnd),
         summary,
         responsibilities: stringArray(record.responsibilities),
-        stack: stringArray(record.stack ?? record.tools),
+        stack: stringArray(record.stack ?? record.tools ?? record["stack or tools used"]),
         teamSize: stringField(record, "team size") === "MISSING" ? stringField(record, "teamSize") : stringField(record, "team size"),
         link: validLink(record.link),
         logo: localImage(record.logo),
