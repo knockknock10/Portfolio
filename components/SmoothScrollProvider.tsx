@@ -25,7 +25,11 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
 
     function syncScrollMode() {
       lenisRef.current?.destroy()
-      const nextLenis = motionPreference.matches ? null : new Lenis({ autoRaf: true, anchors: true })
+      const nextLenis = new Lenis({
+        autoRaf: true,
+        anchors: false,
+        ...(motionPreference.matches ? { lerp: 1 } : {}),
+      })
       lenisRef.current = nextLenis
       setActiveLenis(nextLenis)
     }
@@ -64,6 +68,11 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     pathnameRef.current = pathname
 
     const lenis = lenisRef.current
+    if (window.location.hash) {
+      lenis?.start()
+      return
+    }
+
     lenis?.stop()
     window.scrollTo({ top: 0, left: 0, behavior: "auto" })
     lenis?.scrollTo(0, { immediate: true, force: true })

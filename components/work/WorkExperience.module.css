@@ -412,3 +412,29 @@
     grid-column: 1 / -1;
   }
 }
+
+
+.viewAllRow {
+  display: flex;
+  justify-content: flex-start;
+  margin: var(--spacing-8) 0 0;
+}
+
+.viewAllLink {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-neutral-300);
+  font-size: var(--text-16);
+  line-height: var(--text-16--line-height);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-overshoot);
+}
+
+.viewAllLink:hover {
+  color: var(--color-paper);
+}
+
+.viewAllLink:focus-visible {
+  outline: var(--focus-outline-width) solid var(--color-accent);
+  outline-offset: var(--focus-outline-offset);
+}
