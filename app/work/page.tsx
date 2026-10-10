@@ -1,14 +1,15 @@
-import { getContent } from "@/lib/content.server"
+import { WorkGallery } from "@/components/work/WorkGallery"
+import { getWorkProjects } from "@/lib/work"
 
 export default function WorkPage() {
-  const projects = getContent().projects ?? []
-  const firstTitle = projects.find((project) => project.title)?.title
-
-  if (!firstTitle) return null
+  const projects = getWorkProjects()
 
   return (
-    <main className="route-shell">
-      <h1 className="route-shell-title">{firstTitle}</h1>
+    <main className="work-page">
+      <header className="work-page-header">
+        <h1 className="work-page-title">Work</h1>
+      </header>
+      <WorkGallery projects={projects} />
     </main>
   )
 }
