@@ -62,6 +62,19 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
       <header className="case-header">
         <Link href="/work" className="case-back-link">Work</Link>
         <h1 className="case-title">{project.title}</h1>
+        {project.description ? <p className="case-summary">{project.description}</p> : null}
+        <div className="case-resource-links">
+          {project.repositoryUrl ? (
+            <Link href={project.repositoryUrl} target="_blank" rel="noreferrer">
+              Source repository <span aria-hidden="true">↗</span>
+            </Link>
+          ) : null}
+          {project.demoUrl ? (
+            <Link href={project.demoUrl} target="_blank" rel="noreferrer">
+              Live demo <span aria-hidden="true">↗</span>
+            </Link>
+          ) : null}
+        </div>
       </header>
 
       <Squircle className="case-cover">
@@ -81,7 +94,11 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
             />
           </CaseImageTrigger>
         ) : (
-          <div className="case-cover-placeholder" aria-hidden="true" />
+          <div className={"case-cover-placeholder case-cover-art case-cover-art-" + project.slug} aria-hidden="true">
+            <span className="case-cover-art-label">{project.category ?? "Selected work"}</span>
+            <span className="case-cover-art-mark">{(project.title ?? "P").slice(0, 1)}</span>
+            <span className="case-cover-art-caption">{project.medium ?? project.title}</span>
+          </div>
         )}
       </Squircle>
 

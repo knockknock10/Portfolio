@@ -92,7 +92,7 @@ export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
   if (!heading && !eyebrow && !subhead) return null
 
   return (
-    <main className="hero" aria-labelledby={heading ? "hero-title" : undefined}>
+    <section className="hero" aria-labelledby={heading ? "hero-title" : undefined}>
       <LiquidBackdrop className="hero-backdrop" />
       <Noise />
 
@@ -139,6 +139,58 @@ export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
             </Link>
           </motion.div>
         </motion.div>
+
+          <aside className="hero-visual" aria-label="Current focus and selected projects">
+            <div className="hero-visual-art" aria-hidden="true">
+              <div className="hero-visual-art-orb hero-visual-art-orb-one" />
+              <div className="hero-visual-art-orb hero-visual-art-orb-two" />
+              <div className="hero-visual-art-orb hero-visual-art-orb-three" />
+              <div className="hero-visual-art-topline">
+                <span><span className="hero-live-indicator" />BUILDING IN PUBLIC</span>
+                <span>VOL. 03</span>
+              </div>
+              <div className="hero-visual-art-title">
+                Ideas into
+                <span>systems.</span>
+              </div>
+              <div className="hero-visual-art-bottom">
+                <span>ENGINEERING NOTES</span>
+                <span>2026 ↗</span>
+              </div>
+            </div>
+
+            <div className="hero-activity-panel">
+              <div className="hero-panel-heading">
+                <span>Currently exploring</span>
+                <span className="hero-panel-count">03</span>
+              </div>
+              <Link className="hero-focus-item" href="/work/aevor">
+                <span className="hero-focus-icon hero-focus-icon-aevor" aria-hidden="true">A</span>
+                <span className="hero-focus-copy">
+                  <span className="hero-focus-kicker">DEVELOPER TOOLING</span>
+                  <strong>Aevor</strong>
+                </span>
+                <span className="hero-focus-arrow" aria-hidden="true">↗</span>
+              </Link>
+              <Link className="hero-focus-item" href="/work/sembind-audio">
+                <span className="hero-focus-icon hero-focus-icon-research" aria-hidden="true">∿</span>
+                <span className="hero-focus-copy">
+                  <span className="hero-focus-kicker">APPLIED AI RESEARCH</span>
+                  <strong>SemBind-Audio</strong>
+                </span>
+                <span className="hero-focus-arrow" aria-hidden="true">↗</span>
+              </Link>
+              <Link className="hero-focus-item" href="/open-source">
+                <span className="hero-focus-icon hero-focus-icon-open" aria-hidden="true">⌘</span>
+                <span className="hero-focus-copy">
+                  <span className="hero-focus-kicker">COMMUNITY & CODE</span>
+                  <strong>Open source</strong>
+                </span>
+                <span className="hero-focus-arrow" aria-hidden="true">↗</span>
+              </Link>
+            </div>
+            <p className="hero-visual-caption">LEARN DEEPLY. SHIP OFTEN. STAY CURIOUS.</p>
+          </aside>
       </div>
 
       <motion.div
@@ -157,6 +209,6 @@ export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
       >
         <span />
       </motion.div>
-    </main>
+    </section>
   )
 }

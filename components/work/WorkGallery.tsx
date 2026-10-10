@@ -125,7 +125,7 @@ export function WorkGallery({ projects }: WorkGalleryProps) {
                       </button>
                     </div>
                   ) : (
-                    <div className="work-card-placeholder" aria-hidden="true" />
+                    <div className={"work-card-placeholder work-card-placeholder-" + project.slug} aria-hidden="true" />
                   )}
                 </Squircle>
 
