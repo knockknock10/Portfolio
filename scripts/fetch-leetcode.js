@@ -151,7 +151,7 @@ async function main() {
     "- Current streak — MISSING: no explicit current-streak field.",
     "- Full recent attempts — MISSING: endpoint returns accepted submissions only."
   );
-  markdown = updateBlock(markdown, "LEETCODE-DATA", sections.join("\n\n"));
+  markdown = updateBlock(markdown, "LEETCODE-DATA", sections);
   markdown = updateBlock(markdown, "LEETCODE-MISSING", missingFields.join("\n"));
   await writeFile(ROOT + "/PORTFOLIO-DATA.md", markdown);
   console.log("LeetCode data refreshed for " + username + ".");
