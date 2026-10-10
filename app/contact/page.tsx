@@ -1,14 +1,7 @@
+import { Contact } from "@/components/sections/Contact"
 import { getContent } from "@/lib/content.server"
 
 export default function ContactPage() {
   const content = getContent()
-  const heading = content.identity.professionalName
-
-  if (!content.contact.email || !heading) return null
-
-  return (
-    <main className="route-shell">
-      <h1 className="route-shell-title">{heading}</h1>
-    </main>
-  )
+  return <Contact asMain headingLevel="h1" email={content.contact.email} socials={content.socials} availabilityNote={content.identity.availabilityStatement} />
 }

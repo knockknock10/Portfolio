@@ -8,6 +8,13 @@ export interface IdentityContent {
   tagline: NullableText
   shortBio: NullableText
   longBio: NullableText
+  availabilityStatus: NullableText
+  availabilityStatement: NullableText
+}
+
+export interface CraftStep {
+  title: string
+  description: string
 }
 
 export interface ContactContent {
@@ -69,6 +76,8 @@ export interface PortfolioContent {
   brandAssets: BrandAssets
   images: ImageAsset[] | null
   collaboratorCredits: CollaboratorCredit[] | null
+  craftSteps: CraftStep[] | null
+  influences: string[] | null
 }
 
 function isMissing(value: string): boolean {
@@ -256,6 +265,52 @@ function parseTools(markdown: string): string[] | null {
   return found.length ? [...new Set(found)] : null
 }
 
+
+function parseCraftSteps(markdown: string): CraftStep[] | null {
+  const candidates = ["Craft", "How I work", "Process", "Workflow", "Methodology", "Development process", "Engineering process"]
+  let source = ""
+  for (const candidate of candidates) {
+    const candidateSection = section(markdown, candidate)
+    if (candidateSection.trim()) {
+      source = candidateSection
+      break
+    }
+  }
+  if (!source.trim() || source.trim().startsWith("MISSING")) return null
+
+  const fromHeadings = headings(source).flatMap(({ title, body }) => {
+    const normalizedTitle = title.replace(/^step\s*\d+[:.)\s-]*/i, "").trim()
+    const paragraph = body.split("\n").map((line) => line.trim()).find(
+      (line) => line && !line.startsWith("#") && !line.startsWith("|") && !line.startsWith("-"),
+    )
+    if (!normalizedTitle || !paragraph) return []
+    const description = cleanCell(paragraph.replace(/^\*\*(.+?)\*\*\s*[—–:-]\s*/, "$1"))
+    return description ? [{ title: normalizedTitle, description }] : []
+  })
+  if (fromHeadings.length) return fromHeadings.slice(0, 4)
+
+  const fromLines = source.split("\n").flatMap((line) => {
+    const match = line.match(/^\s*(?:[-*]\s+|\d+[.)]\s+)\*\*([^*]+)\*\*\s*(?:[—–:]\s*|[-]\s+)(.+?)\s*$/)
+    if (!match) return []
+    const title = cleanCell(match[1])
+    const description = cleanCell(match[2])
+    return title && description ? [{ title, description }] : []
+  })
+  return fromLines.length ? fromLines.slice(0, 4) : null
+}
+
+function parseInfluences(markdown: string): string[] | null {
+  const source = section(markdown, "Influences") || section(markdown, "Creative influences")
+  if (!source.trim() || source.trim().startsWith("MISSING")) return null
+  const values = source.split("\n").flatMap((line) => {
+    const match = line.match(/^\s*(?:[-*]\s+|\d+[.)]\s+)(.+?)\s*$/)
+    if (!match) return []
+    const value = cleanCell(match[1].replace(/^\*\*(.+?)\*\*$/, "$1"))
+    return value ? [value] : []
+  })
+  return values.length ? [...new Set(values)] : null
+}
+
 function parseCollaborators(markdown: string): CollaboratorCredit[] | null {
   const text = section(markdown, "Collaborator credits")
   if (!text.trim() || /^\s*MISSING/.test(text.trim())) return null
@@ -302,6 +357,8 @@ export function parseContentInventory(markdown: string): PortfolioContent {
       tagline: tableValue(identity, ["Hero statement", "Tagline"]),
       shortBio,
       longBio,
+      availabilityStatus: tableValue(identity, ["Availability status"]),
+      availabilityStatement: tableValue(identity, ["Availability statement"]),
     },
     contact: {
       email: tableValue(contacts, ["Email configured in site", "Email"]),
@@ -327,6 +384,8 @@ export function parseContentInventory(markdown: string): PortfolioContent {
     },
     images: imageRows,
     collaboratorCredits: parseCollaborators(markdown),
+    craftSteps: parseCraftSteps(markdown),
+    influences: parseInfluences(markdown),
   }
 }
 
