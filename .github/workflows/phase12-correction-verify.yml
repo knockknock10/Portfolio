@@ -1,0 +1,185 @@
+name: Phase 12 correction verification
+
+on:
+  push:
+    branches:
+      - phase12-correctness-fix
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Focused ESLint
+        run: npx eslint app/page.tsx app/work/page.tsx app/layout.tsx components/Nav.tsx components/SmoothScrollProvider.tsx components/sections/Hero.tsx components/sections/Work.tsx components/work/WorkGallery.tsx 'app/work/[slug]/page.tsx'
+      - name: Production build
+        run: npm run build
+      - name: Install browser test runtime
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
+      - name: Route, anchor, accessibility and FPS checks
+        shell: bash
+        run: |
+          npm run start -- --hostname 127.0.0.1 > /tmp/portfolio-start.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in $(seq 1 45); do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" -ne 1 ]; then
+            cat /tmp/portfolio-start.log
+            exit 1
+          fi
+          node <<'NODE'
+          const assert = require("node:assert/strict");
+          const { chromium } = require("playwright");
+
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            try {
+              const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+              const base = "http://127.0.0.1:3000";
+              await page.goto(base + "/", { waitUntil: "networkidle" });
+
+              const homeData = await page.evaluate(() => ({
+                sections: Array.from(document.querySelectorAll("main.home-page > section")).map((node) => node.id),
+                headings: document.querySelectorAll("h1").length,
+                navLabel: document.querySelector('nav[aria-label="Primary"]')?.getAttribute("aria-label"),
+                links: Array.from(document.querySelectorAll('nav[aria-label="Primary"] a')).map((node) => {
+                  const url = new URL(node.href);
+                  return { label: node.textContent.trim(), href: url.pathname + url.hash };
+                }),
+                cards: document.querySelectorAll("#work .work-card").length,
+                viewAll: Array.from(document.querySelectorAll("#work a")).some((node) => node.textContent.trim() === "View all work →"),
+                overflow: document.documentElement.scrollWidth > window.innerWidth,
+              }));
+              assert.deepEqual(homeData.sections, ["home", "work", "craft", "about", "contact"]);
+              assert.equal(homeData.headings, 1, "Homepage should have exactly one h1");
+              assert.equal(homeData.navLabel, "Primary");
+              assert.equal(homeData.cards, 6, "Homepage Work preview should render six cards");
+              assert.equal(homeData.viewAll, true);
+              assert.equal(homeData.overflow, false);
+              for (const id of ["home", "work", "craft", "about", "contact"]) {
+                assert(homeData.links.some((item) => item.href === "/#" + id), "Missing nav target " + id);
+              }
+              console.log("Homepage composition passed: " + JSON.stringify(homeData));
+
+              await page.getByRole("link", { name: "Work", exact: true }).first().click();
+              await page.waitForFunction(() => location.hash === "#work" && document.activeElement?.id === "work", null, { timeout: 5000 });
+              await page.waitForFunction(() => document.querySelector('nav[aria-label="Primary"] a[aria-current="location"]')?.textContent.trim() === "Work", null, { timeout: 3000 });
+              console.log("Homepage Lenis anchor + active link + focus passed");
+
+              for (const route of [
+                { path: "/about" },
+                { path: "/contact" },
+                { path: "/work" },
+              ]) {
+                await page.goto(base + route.path, { waitUntil: "networkidle" });
+                assert.equal(await page.locator("h1").count(), 1, route.path + " should have exactly one h1");
+              }
+              await page.goto(base + "/work", { waitUntil: "networkidle" });
+              assert.equal(await page.locator(".work-card").count(), 24, "Full Work route should display all work items");
+              console.log("Standalone /about, /contact and full /work routes passed");
+
+              await page.setViewportSize({ width: 375, height: 900 });
+              await page.goto(base + "/", { waitUntil: "networkidle" });
+              await page.getByRole("button", { name: "Open menu" }).click();
+              await page.getByRole("link", { name: "Craft", exact: true }).click();
+              await page.waitForFunction(() => location.hash === "#craft" && document.activeElement?.id === "craft", null, { timeout: 5000 });
+              await page.getByRole("dialog", { name: "Mobile navigation" }).waitFor({ state: "detached", timeout: 2500 });
+              console.log("Mobile menu anchor + close + focus passed");
+
+              await page.emulateMedia({ reducedMotion: "reduce" });
+              await page.getByRole("button", { name: "Open menu" }).click();
+              await page.getByRole("link", { name: "About", exact: true }).click();
+              await page.waitForFunction(() => location.hash === "#about" && document.activeElement?.id === "about", null, { timeout: 2500 });
+              await page.getByRole("dialog", { name: "Mobile navigation" }).waitFor({ state: "detached", timeout: 1000 });
+              console.log("Reduced-motion immediate anchor + focus passed");
+
+              await page.emulateMedia({ reducedMotion: "no-preference" });
+              await page.setViewportSize({ width: 1440, height: 900 });
+              await page.goto(base + "/", { waitUntil: "networkidle" });
+              async function measureFps(rate, label) {
+                const session = await page.context().newCDPSession(page);
+                await session.send("Emulation.setCPUThrottlingRate", { rate });
+                const duration = 10000;
+
+                await page.evaluate((sampleDuration) => {
+                  window.__phase12Fps = {
+                    startedAt: 0,
+                    frames: 0,
+                    minScrollY: window.scrollY,
+                    maxScrollY: window.scrollY,
+                    done: false,
+                    result: null,
+                  };
+                  function tick(now) {
+                    const state = window.__phase12Fps;
+                    if (!state.startedAt) state.startedAt = now;
+                    state.frames += 1;
+                    state.minScrollY = Math.min(state.minScrollY, window.scrollY);
+                    state.maxScrollY = Math.max(state.maxScrollY, window.scrollY);
+                    if (now - state.startedAt >= sampleDuration) {
+                      state.done = true;
+                      state.result = {
+                        durationMs: Math.round(now - state.startedAt),
+                        frames: state.frames,
+                        averageFps: Number((state.frames / ((now - state.startedAt) / 1000)).toFixed(2)),
+                        minScrollY: Math.round(state.minScrollY),
+                        maxScrollY: Math.round(state.maxScrollY),
+                        scrollRange: Math.round(state.maxScrollY - state.minScrollY),
+                        finalScrollY: Math.round(window.scrollY),
+                      };
+                      return;
+                    }
+                    requestAnimationFrame(tick);
+                  }
+                  requestAnimationFrame(tick);
+                }, duration);
+
+                const wallStart = Date.now();
+                while (Date.now() - wallStart < duration) {
+                  const elapsed = Date.now() - wallStart;
+                  await page.mouse.wheel(0, elapsed < duration / 2 ? 450 : -450);
+                  await page.waitForTimeout(700);
+                }
+
+                await page.waitForFunction(() => window.__phase12Fps?.done === true, null, { timeout: 5000 });
+                const result = await page.evaluate(() => window.__phase12Fps.result);
+                await session.send("Emulation.setCPUThrottlingRate", { rate: 1 });
+                await session.detach();
+                assert(result.scrollRange > 100, label + " did not produce real scrolling: " + JSON.stringify(result));
+                console.log("FPS " + label + ": " + JSON.stringify(result));
+                return result;
+              }
+
+              const normal = await measureFps(1, "normal 10-second desktop scroll");
+              const throttled = await measureFps(4, "4x CPU-throttled 10-second desktop scroll");
+              assert(normal.averageFps >= 55, "Normal scrolling fell below 55 FPS");
+              assert(throttled.averageFps >= 55, "Throttled scrolling fell below 55 FPS");
+              console.log("All route, navigation, accessibility and FPS checks passed");
+            } finally {
+              await browser.close();
+            }
+          })().catch((error) => {
+            console.error(error);
+            process.exitCode = 1;
+          });
+          NODE

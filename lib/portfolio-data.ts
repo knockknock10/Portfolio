@@ -18,6 +18,8 @@ export const portfolioContent: PortfolioContent = {
       "Third-year B.Tech Computer Science and Engineering student at SRM University AP.",
     longBio:
       "Most of my learning happens by building: shipping projects, contributing to existing codebases, debugging infrastructure, and turning research ideas into working implementations.",
+    availabilityStatus: null,
+    availabilityStatement: null,
   },
   contact: {
     email: "sanjeevkumar_s@srmap.edu.in",
@@ -171,4 +173,6 @@ export const portfolioContent: PortfolioContent = {
     },
   ],
   collaboratorCredits: null,
+  craftSteps: null,
+  influences: null,
 }

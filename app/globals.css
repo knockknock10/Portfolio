@@ -284,14 +284,14 @@ button:disabled {
   background:
     radial-gradient(ellipse at 22% 30%, rgba(146, 130, 255, 0.52), transparent 42%),
     radial-gradient(ellipse at 74% 62%, rgba(103, 192, 244, 0.42), transparent 45%);
-  animation: liquid-drift var(--duration-liquid-loop) ease-in-out infinite alternate;
+  animation: none;
 }
 
 .liquid-backdrop::after {
   background:
     radial-gradient(ellipse at 72% 24%, rgba(255, 167, 164, 0.40), transparent 32%),
     radial-gradient(ellipse at 36% 78%, rgba(178, 156, 255, 0.28), transparent 42%);
-  animation: liquid-drift-reverse calc(var(--duration-liquid-loop) * 1.2) ease-in-out infinite alternate;
+  animation: none;
 }
 
 @keyframes liquid-drift {
@@ -2872,7 +2872,7 @@ body {
     radial-gradient(ellipse at 93% 9%, rgba(151,218,255,.28), transparent 34rem),
     radial-gradient(ellipse at 76% 47%, rgba(255,199,190,.19), transparent 34rem),
     linear-gradient(135deg,#F7F8FE 0%,#F4F5FC 48%,#FBF7F8 100%);
-  background-attachment: fixed;
+  background-attachment: scroll;
   color: var(--color-paper);
 }
 ::selection { color: #282344; background: rgba(163,151,255,.42); }
@@ -2882,8 +2882,6 @@ body {
   border-bottom-color: rgba(79,87,139,.14);
   background-color: var(--glass-tint-dark);
   box-shadow: var(--elevation-1-shadow);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  backdrop-filter: blur(16px) saturate(150%);
   transition: box-shadow 240ms ease,border-color 240ms ease,background-color 240ms ease;
 }
 .glass-surface[data-tint="light"] { background-color: rgba(255,255,255,.62); }
@@ -2891,9 +2889,12 @@ body {
 .glass-surface[data-tint="accent"] { background-color: rgba(140,129,255,.19); }
 .glass-surface[data-elevation="2"] { box-shadow: var(--elevation-2-shadow); }
 .glass-surface[data-elevation="3"] { box-shadow: var(--elevation-3-shadow); }
-.glass-surface[data-blur-active="false"] {
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+
+/* Blur is reserved for the fixed navigation surfaces. */
+.glass-surface.nav-glass-frame,
+.glass-surface.mobile-menu-surface {
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
 }
 
 .liquid-backdrop {
@@ -2912,13 +2913,13 @@ body {
     radial-gradient(ellipse at 18% 35%,rgba(148,123,255,.45),transparent 35%),
     radial-gradient(ellipse at 69% 56%,rgba(108,194,247,.4),transparent 40%),
     radial-gradient(ellipse at 48% 15%,rgba(255,255,255,.68),transparent 36%);
-  animation: liquid-drift 22000ms ease-in-out infinite alternate;
+  animation: none;
 }
 .liquid-backdrop::after {
   background:
     radial-gradient(ellipse at 82% 24%,rgba(255,163,172,.38),transparent 31%),
     radial-gradient(ellipse at 37% 82%,rgba(192,176,255,.3),transparent 40%);
-  animation: liquid-drift-reverse 28000ms ease-in-out infinite alternate;
+  animation: none;
 }
 
 .nav-positioner {
@@ -3078,12 +3079,12 @@ body {
 .hero-visual-art-orb-one {
   top: -70px; right: -26px; width: 280px; height: 250px;
   background: radial-gradient(circle at 35% 35%,rgba(255,255,255,.95),rgba(143,126,255,.66) 43%,rgba(143,126,255,0) 72%);
-  animation: hero-liquid-float 13s ease-in-out infinite alternate;
+  animation: none;
 }
 .hero-visual-art-orb-two {
   right: 14%; bottom: -120px; width: 340px; height: 270px;
   background: radial-gradient(ellipse at 35% 25%,rgba(107,194,247,.72),rgba(107,194,247,0) 70%);
-  animation: hero-liquid-float 17s ease-in-out infinite alternate-reverse;
+  animation: none;
 }
 .hero-visual-art-orb-three {
   top: 29%; left: -120px; width: 230px; height: 200px;
@@ -3353,8 +3354,6 @@ body {
 .case-next-link:hover,.case-back-link:hover { color: #5147C8; }
 .work-lightbox-backdrop {
   background: rgba(27,28,45,.9);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
 }
 .home-project-card:focus-within { outline: 2px solid rgba(101,88,245,.52); outline-offset: 4px; }
 

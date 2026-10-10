@@ -106,11 +106,6 @@ function itemTags(item: WorkItem): string[] {
     : []
 }
 
-function coverAside(item: WorkItem): string | null {
-  if (item.type === "repo") return isAvailable(item.repo.language) ? item.repo.language : null
-  return isAvailable(item.project.medium) ? item.project.medium : null
-}
-
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { slug } = await params
   const data = getWorkData()
@@ -147,24 +142,21 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
     >
       <header className="case-header">
         <Link href="/work" className="case-back-link">Work</Link>
-        <h1 className="case-title">{project.title}</h1>
-        {project.description ? <p className="case-summary">{project.description}</p> : null}
-        <div className="case-resource-links">
-          {project.repositoryUrl ? (
-            <Link href={project.repositoryUrl} target="_blank" rel="noreferrer">
-              Source repository <span aria-hidden="true">↗</span>
-            </Link>
-          ) : null}
-          {project.demoUrl ? (
-            <Link href={project.demoUrl} target="_blank" rel="noreferrer">
-              Live demo <span aria-hidden="true">↗</span>
-            </Link>
-          ) : null}
-        </div>
+        <h1 className="case-title">{item.title}</h1>
+        {item.description ? <p className="case-summary">{item.description}</p> : null}
+        {links.length ? (
+          <div className="case-resource-links">
+            {links.map((link) => (
+              <a key={link.label} href={link.url} target="_blank" rel="noreferrer noopener">
+                {link.label} <span aria-hidden="true">↗</span>
+              </a>
+            ))}
+          </div>
+        ) : null}
       </header>
 
-      <Squircle className={`case-cover ${styles.detailCover}`}>
-        {item.coverSrc ? (
+      {item.coverSrc ? (
+        <Squircle className={`case-cover ${styles.detailCover}`}>
           <Image
             src={item.coverSrc}
             alt={`${item.title} cover`}
@@ -173,14 +165,8 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
             priority
             style={{ objectFit: "cover" }}
           />
-        ) : (
-          <div className={"case-cover-placeholder case-cover-art case-cover-art-" + project.slug} aria-hidden="true">
-            <span className="case-cover-art-label">{project.category ?? "Selected work"}</span>
-            <span className="case-cover-art-mark">{(project.title ?? "P").slice(0, 1)}</span>
-            <span className="case-cover-art-caption">{project.medium ?? project.title}</span>
-          </div>
-        )}
-      </Squircle>
+        </Squircle>
+      ) : null}
 
       {metaItems.length ? (
         <dl className="case-meta">
@@ -223,21 +209,6 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
         </ul>
       ) : null}
 
-      {links.length ? (
-        <nav className={styles.caseLinks} aria-label="Related links">
-          {links.map((link) => (
-            <a
-              className={styles.caseExternalLink}
-              key={link.label}
-              href={link.url}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              {link.label} <span aria-hidden="true">↗</span>
-            </a>
-          ))}
-        </nav>
-      ) : null}
 
       {processSteps.length ? (
         <section className="case-process" aria-labelledby="case-process-title">
