@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react"
 import { useLenis } from "@/components/SmoothScrollProvider"
 import { Glass, Squircle } from "@/components/primitives"
 import { readDurationToken, readMotionNumber, useSpringToken } from "@/components/primitives/motionTokens"
@@ -18,14 +18,14 @@ type NavItem = {
   sectionId: string
 }
 
-const links: NavItem[] = [
+const sectionLinks: NavItem[] = [
   { label: "Home", href: "/#home", sectionId: "home" },
   { label: "Work", href: "/#work", sectionId: "work" },
   { label: "Craft", href: "/#craft", sectionId: "craft" },
   { label: "About", href: "/#about", sectionId: "about" },
 ]
 const contactLink: NavItem = { label: "Contact", href: "/#contact", sectionId: "contact" }
-
+const allSectionLinks = [...sectionLinks, contactLink]
 const focusableSelector =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
@@ -35,19 +35,14 @@ export function Nav({ name }: NavProps) {
   const reducedMotion = useReducedMotion()
   const spring = useSpringToken("gentle")
   const [menuOpen, setMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState<string | null>(pathname === "/" ? "home" : null)
+  const [activeSection, setActiveSection] = useState<string | null>(
+    pathname === "/" ? "home" : null,
+  )
   const triggerRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
-
-  const links: NavItem[] = [
-    { label: "Home", href: "/" },
-    { label: "Work", href: "/work" },
-    { label: "Open source", href: "/open-source" },
-    { label: "Problem solving", href: "/problem-solving" },
-    { label: "About", href: "/about" },
-    ...(githubUrl ? [{ label: "GitHub", href: githubUrl, external: true }] : []),
-  ]
+  const skipFocusRestoreRef = useRef(false)
+  const handledHashRef = useRef<string | null>(null)
 
   const routeDuration = readDurationToken("--duration-nav-hide")
 
@@ -113,7 +108,8 @@ export function Nav({ name }: NavProps) {
 
     const scrollMargin = Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || 0
     const focusTarget = () => target.focus({ preventScroll: true })
-    handledHashRef.current = "#" + sectionId
+    const hash = "#" + sectionId
+    handledHashRef.current = hash
 
     if (lenis) {
       lenis.scrollTo(target, {
@@ -131,10 +127,13 @@ export function Nav({ name }: NavProps) {
       focusTarget()
     }
 
-    window.history.replaceState(window.history.state, "", "/#" + sectionId)
+    window.history.replaceState(window.history.state, "", "/" + hash)
   }
 
-  function handleSectionNavigation(event: React.MouseEvent<HTMLAnchorElement>, item: NavItem) {
+  function handleSectionNavigation(
+    event: ReactMouseEvent<HTMLAnchorElement>,
+    item: NavItem,
+  ) {
     if (
       event.defaultPrevented ||
       event.button !== 0 ||
@@ -169,8 +168,8 @@ export function Nav({ name }: NavProps) {
       return
     }
 
-    const sections = ["home", "work", "craft", "about", "contact"]
-      .map((id) => document.getElementById(id))
+    const sections = allSectionLinks
+      .map((item) => document.getElementById(item.sectionId))
       .filter((element): element is HTMLElement => element instanceof HTMLElement)
     if (!sections.length) return
 
@@ -178,12 +177,20 @@ export function Nav({ name }: NavProps) {
 
     function observeAroundViewportCenter() {
       observer?.disconnect()
-      const topInset = Math.round(window.innerHeight * 0.42)
-      const bottomInset = Math.round(window.innerHeight * 0.5)
+      const topInset = Math.round(window.innerHeight * 0.4)
+      const bottomInset = Math.round(window.innerHeight * 0.45)
       observer = new IntersectionObserver(
         (entries) => {
-          const current = entries.find((entry) => entry.isIntersecting)
-          if (current) setActiveSection(current.target.id)
+          const intersecting = entries.filter((entry) => entry.isIntersecting)
+          if (!intersecting.length) return
+          const centerY = window.innerHeight * 0.475
+          const current = intersecting.reduce((closest, entry) =>
+            Math.abs(entry.boundingClientRect.top - centerY) <
+            Math.abs(closest.boundingClientRect.top - centerY)
+              ? entry
+              : closest,
+          )
+          setActiveSection(current.target.id)
         },
         { rootMargin: "-" + topInset + "px 0px -" + bottomInset + "px 0px", threshold: 0 },
       )
@@ -214,7 +221,7 @@ export function Nav({ name }: NavProps) {
     } catch {
       return
     }
-    if (!["home", "work", "craft", "about", "contact"].includes(sectionId)) return
+    if (!allSectionLinks.some((item) => item.sectionId === sectionId)) return
 
     const target = document.getElementById(sectionId)
     if (!target) return
@@ -235,6 +242,12 @@ export function Nav({ name }: NavProps) {
 
   function isCurrent(item: NavItem) {
     return pathname === "/" && activeSection === item.sectionId
+  }
+
+  function openMenu() {
+    previousFocusRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null
+    setMenuOpen(true)
   }
 
   const navTransition =
@@ -278,14 +291,14 @@ export function Nav({ name }: NavProps) {
                   href="/#home"
                   scroll={false}
                   aria-label={name + " — Home"}
-                  onClick={(event) => handleSectionNavigation(event, links[0])}
+                  onClick={(event) => handleSectionNavigation(event, sectionLinks[0])}
                 >
                   {name}
                 </Link>
               ) : null}
 
               <div className="nav-desktop-links">
-                {links.map((item) => (
+                {sectionLinks.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
@@ -379,7 +392,7 @@ export function Nav({ name }: NavProps) {
                     open: { transition: { staggerChildren: menuStagger } },
                   }}
                 >
-                  {[...links, contactLink].map((item) => (
+                  {allSectionLinks.map((item) => (
                     <motion.li key={item.label} variants={itemVariants}>
                       <Link
                         href={item.href}

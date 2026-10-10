@@ -181,7 +181,7 @@ export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
 
       <div className="hero-scroll-cue" aria-hidden="true">
         <span />
-      </motion.div>
+      </div>
     </section>
   )
 }

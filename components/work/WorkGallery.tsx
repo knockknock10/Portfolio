@@ -1,9 +1,9 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { useEffect, useMemo, useState } from "react"
-import Link from "next/link"
 import { Glass } from "@/components/primitives"
 import {
   readDurationToken,
@@ -28,6 +28,7 @@ function itemMeta(item: WorkItem): string[] {
     if (available(item.repo.language)) values.push(item.repo.language)
     return values
   }
+
   const values: string[] = []
   if (available(item.project.year)) values.push(String(item.project.year))
   if (available(item.project.role)) values.push(item.project.role)
@@ -46,6 +47,7 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
   const [typeFilter, setTypeFilter] = useState<ItemTypeFilter>("all")
   const [languageFilter, setLanguageFilter] = useState("all")
   const [tagFilter, setTagFilter] = useState("all")
+  const displayedItems = variant === "preview" ? items.slice(0, 6) : items
 
   useEffect(() => {
     const media = window.matchMedia("(hover: hover) and (pointer: fine)")
@@ -54,8 +56,6 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
     media.addEventListener("change", update)
     return () => media.removeEventListener("change", update)
   }, [])
-
-  const displayedItems = variant === "preview" ? items.slice(0, 6) : items
 
   const repoLanguages = useMemo(
     () =>
@@ -191,41 +191,38 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
               transition={transition}
             >
               <Glass className="work-card-shell" elevation={1}>
-                <Squircle className="work-card-media" aria-hidden={!project.galleryImages.length}>
-                  {project.galleryImages.length > 0 ? (
-                    <div className="work-card-images">
-                      <button
-                        type="button"
-                        className="work-card-image-button"
-                        aria-label={"Open image for " + project.title}
-                        onClick={() => openImage(project.galleryImages[0])}
-                      >
-                        <Image
-                          src={project.galleryImages[0].src}
-                          alt={project.galleryImages[0].alt}
-                          fill
-                          sizes="(min-width: 80rem) 33vw, (min-width: 48rem) 50vw, 100vw"
-                          priority={projectIndex < 2}
-                          style={{ objectFit: "contain" }}
-                        />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className={"work-card-placeholder work-card-placeholder-" + project.slug} aria-hidden="true" />
-                  )}
-                </Squircle>
-
-                <motion.div className="work-card-details" variants={cardVariants}>
-                  <h2 className="work-card-title">
-                    <Link href={"/work/" + project.slug}>{project.title}</Link>
-                  </h2>
-                  {project.description ? (
-                    <p className="work-card-description">{project.description}</p>
-                  ) : null}
-                  {project.tags?.length ? (
-                    <ul className="work-card-tags" aria-label="Project tags">
-                      {project.tags.map((tag) => (
-                        <li className="work-tag" key={tag}>{tag}</li>
+                <Link
+                  href={`/work/${item.slug}`}
+                  className={styles.cardLink}
+                  aria-label={`View ${item.title}`}
+                >
+                  <div className={styles.cardArt}>
+                    {item.coverSrc ? (
+                      <Image
+                        className={styles.cardArtImage}
+                        src={item.coverSrc}
+                        alt={`${item.title} cover`}
+                        fill
+                        sizes="(min-width: 80rem) 33vw, (min-width: 48rem) 50vw, 100vw"
+                      />
+                    ) : null}
+                    <span className={styles.cardArtTitle}>{item.title}</span>
+                    {cardAside(item) ? (
+                      <span className={styles.cardArtAside}>{cardAside(item)}</span>
+                    ) : null}
+                  </div>
+                  <motion.div className={styles.cardDetails} variants={cardVariants}>
+                    <h2 className="work-card-title">{item.title}</h2>
+                    {item.description ? (
+                      <p className="work-card-description">{item.description}</p>
+                    ) : null}
+                    <div
+                      className={styles.cardMeta}
+                      aria-label={`${item.type === "repo" ? "Repository" : "Project"} details`}
+                    >
+                      <span>{item.type === "repo" ? "Repository" : "Project"}</span>
+                      {itemMeta(item).map((value) => (
+                        <span key={value}>{value}</span>
                       ))}
                     </div>
                     {item.tags.length ? (
@@ -249,10 +246,13 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
           ))}
         </AnimatePresence>
       </motion.div>
+
       {!visibleItems.length ? <p role="status">No matching work items.</p> : null}
       {variant === "preview" ? (
         <p className={styles.viewAllRow}>
-          <Link className={styles.viewAllLink} href="/work">View all work →</Link>
+          <Link className={styles.viewAllLink} href="/work">
+            View all work →
+          </Link>
         </p>
       ) : null}
       <p className="sr-only" aria-live="polite">

@@ -1,12 +1,10 @@
 import type { Metadata } from "next"
-import { WorkGallery } from "@/components/work/WorkGallery"
-import { WorkStatsStrip } from "@/components/work/WorkStatsStrip"
-import { getWorkData } from "@/lib/work"
-
+import { Work } from "@/components/sections/Work"
 
 export const metadata: Metadata = {
   title: "Selected Work",
-  description: "Selected projects in developer tooling, full-stack engineering, reliability, and applied AI research.",
+  description:
+    "Selected projects in developer tooling, full-stack engineering, reliability, and applied AI research.",
 }
 
 export default function WorkPage() {

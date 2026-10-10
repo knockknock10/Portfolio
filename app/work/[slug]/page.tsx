@@ -106,11 +106,6 @@ function itemTags(item: WorkItem): string[] {
     : []
 }
 
-function coverAside(item: WorkItem): string | null {
-  if (item.type === "repo") return isAvailable(item.repo.language) ? item.repo.language : null
-  return isAvailable(item.project.medium) ? item.project.medium : null
-}
-
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { slug } = await params
   const data = getWorkData()
