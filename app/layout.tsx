@@ -14,7 +14,10 @@ const interTight = localFont({
 })
 
 const content = getContent()
-const brandName = content.identity.professionalName ?? content.identity.fullName
+const brandName = content.identity.professionalName ?? content.identity.fullName ?? "Sanjeev Kumar"
+const description =
+  content.identity.tagline ??
+  "Software engineering, open-source contributions, and applied AI by Sanjeev Kumar."
 const socialLinks = (content.socials ?? []).flatMap((item) =>
   item.url && /^https?:\/\//i.test(item.url)
     ? [{ platform: item.platform, url: item.url }]
@@ -22,7 +25,22 @@ const socialLinks = (content.socials ?? []).flatMap((item) =>
 )
 
 export const metadata: Metadata = {
-  title: brandName ?? undefined,
+  title: {
+    default: brandName,
+    template: "%s | " + brandName,
+  },
+  description,
+  applicationName: brandName,
+  openGraph: {
+    type: "website",
+    title: brandName,
+    description,
+  },
+  twitter: {
+    card: "summary",
+    title: brandName,
+    description,
+  },
   icons: { icon: "/favicon.svg" },
 }
 
@@ -43,7 +61,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </div>
           <Footer
             name={brandName}
-            copyrightName={content.identity.professionalName}
+            copyrightName={content.identity.professionalName ?? content.identity.fullName}
             email={content.contact.email}
             socials={socialLinks}
           />
