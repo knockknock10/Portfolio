@@ -1,10 +1,10 @@
 import { CraftSequence } from "@/components/sections/CraftSequence"
-import type { CraftStep } from "@/lib/content"
+import type { CraftStep } from "@/lib/craft"
 
-type CraftProps = { steps: CraftStep[] | null }
+type CraftProps = { steps: CraftStep[] }
 
 export function Craft({ steps }: CraftProps) {
-  const visibleSteps = steps?.slice(0, 4) ?? []
+  const visibleSteps = steps.slice(0, 4)
   return (
     <section className="craft-section" aria-labelledby="craft-heading">
       <h2 id="craft-heading" className="section-heading">Craft</h2>
