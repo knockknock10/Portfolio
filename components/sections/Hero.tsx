@@ -157,6 +157,6 @@ export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
       >
         <span />
       </motion.div>
-    </main>
+    </section>
   )
 }
