@@ -203,7 +203,7 @@ export function Nav({ name, githubUrl }: NavProps) {
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu-panel"
-                onClick={() => setMenuOpen((open) => !open)}
+                onClick={() => (menuOpen ? setMenuOpen(false) : openMenu())
               >
                 <span
                   className="nav-toggle-lines"
