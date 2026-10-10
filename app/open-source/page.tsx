@@ -1,12 +1,12 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { getRecentPublicPullRequests } from "@/lib/github.server"
+
 
 export const metadata: Metadata = {
   title: "Open Source",
   description: "Explore Sanjeev Kumar's open-source focus and recent public pull requests.",
 }
-
-import { getRecentPublicPullRequests } from "@/lib/github.server"
 
 const contributions = [
   {
