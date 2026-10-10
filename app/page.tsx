@@ -11,6 +11,8 @@ import { getSignalsData } from "@/lib/signals"
 import { getResearchData } from "@/lib/research"
 import { Internships } from "@/components/sections/Internships"
 import { getInternshipsData } from "@/lib/internships"
+import { Certifications } from "@/components/sections/Certifications"
+import { getCertificationsData } from "@/lib/certifications"
 import styles from "@/components/sections/HomeAnchors.module.css"
 
 export default function HomePage() {
@@ -19,6 +21,7 @@ export default function HomePage() {
   const signalsData = getSignalsData()
   const researchItems = getResearchData()
   const internships = getInternshipsData()
+  const certifications = getCertificationsData()
   const heading =
     content.identity.professionalName ??
     content.identity.fullName ??
@@ -68,6 +71,7 @@ export default function HomePage() {
       >
         <Craft steps={craftSteps} />
       </section>
+      <Certifications items={certifications} />
       <section
         id="about"
         className={styles.anchorSection}
