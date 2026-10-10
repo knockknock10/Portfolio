@@ -68,7 +68,7 @@ export default function HomePage() {
                 <article className="home-project-card" key={project.slug}>
                   <div className={"home-project-art home-project-art-" + project.slug} aria-hidden="true">
                     <span className="home-project-art-index">0{index + 1}</span>
-                    <span className="home-project-art-orbit" />
+                    <span className="home-project-art-grid" />
                     <span className="home-project-art-mark">{(project.title ?? "P").slice(0, 1)}</span>
                     <span className="home-project-art-category">{project.category ?? "Project"}</span>
                   </div>
