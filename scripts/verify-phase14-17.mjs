@@ -66,11 +66,22 @@ async function measureFps(page, throttled) {
   const cdp = await page.context().newCDPSession(page);
   if (throttled) await cdp.send("Emulation.setCPUThrottlingRate", { rate: 4 });
   await page.goto(base + "/", { waitUntil: "networkidle" });
-  await page.evaluate(() => {
+  const bounds = await page.evaluate(() => {
     const el = document.querySelector("#signals");
-    if (!el) return;
-    window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - 20, behavior: "instant" });
+    if (!el) return null;
+    const top = window.scrollY + el.getBoundingClientRect().top;
+    const height = el.getBoundingClientRect().height;
+    const viewport = window.innerHeight;
+    if (height > viewport + 100) {
+      return { minY: top + 20, maxY: top + height - viewport - 20 };
+    }
+    return {
+      minY: Math.max(0, top - 40),
+      maxY: top + Math.max(120, Math.min(220, height * 0.35)),
+    };
   });
+  assert(bounds, "Signals section must exist before measuring scroll FPS");
+  await page.evaluate((top) => window.scrollTo({ top, behavior: "instant" }), bounds.minY);
   await wait(400);
 
   const measuring = page.evaluate(async () => {
@@ -94,8 +105,12 @@ async function measureFps(page, throttled) {
 
   const wheel = (async () => {
     const end = Date.now() + 10000;
+    let direction = 1;
     while (Date.now() < end) {
-      await page.mouse.wheel(0, 24);
+      const y = await page.evaluate(() => window.scrollY);
+      if (y >= bounds.maxY - 24) direction = -1;
+      if (y <= bounds.minY + 24) direction = 1;
+      await page.mouse.wheel(0, direction * 24);
       await wait(70);
     }
   })();
