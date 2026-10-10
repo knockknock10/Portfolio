@@ -157,8 +157,8 @@ jobs:
                 const wallStart = Date.now();
                 while (Date.now() - wallStart < duration) {
                   const elapsed = Date.now() - wallStart;
-                  await page.mouse.wheel(0, elapsed < duration / 2 ? 160 : -160);
-                  await page.waitForTimeout(80);
+                  await page.mouse.wheel(0, elapsed < duration / 2 ? 450 : -450);
+                  await page.waitForTimeout(700);
                 }
 
                 await page.waitForFunction(() => window.__phase12Fps?.done === true, null, { timeout: 5000 });
