@@ -70,11 +70,15 @@ export function Internships({ items, standalone = false }: InternshipsProps) {
                     </div>
                     {dates ? <p className="internships-dates">{dates}</p> : null}
                   </div>
-                  <p className="internships-meta">
-                    {present(item.location) ? item.location : null}
-                    {present(item.location) && present(item.duration) ? " · " : null}
-                    {present(item.duration) ? item.duration : null}
-                  </p>
+                  {present(item.location) || present(item.duration) || present(item.teamSize) ? (
+                    <p className="internships-meta">
+                      {present(item.location) ? item.location : null}
+                      {present(item.location) && (present(item.duration) || present(item.teamSize)) ? " · " : null}
+                      {present(item.duration) ? item.duration : null}
+                      {present(item.duration) && present(item.teamSize) ? " · " : null}
+                      {present(item.teamSize) ? "Team size: " + item.teamSize : null}
+                    </p>
+                  ) : null}
                   {present(item.summary) ? <p className="internships-summary">{item.summary}</p> : null}
                   {Array.isArray(item.responsibilities) ? (
                     <ul className="internships-responsibilities">
