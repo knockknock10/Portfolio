@@ -1,4 +1,11 @@
+import type { Metadata } from "next"
 import Link from "next/link"
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "Contact Sanjeev Kumar about software engineering internships, open-source collaboration, and applied AI.",
+}
+
 import { getContent } from "@/lib/content.server"
 
 export default function ContactPage() {
