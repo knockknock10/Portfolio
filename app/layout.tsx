@@ -31,13 +31,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body className={interTight.variable}>
         <SmoothScrollProvider>
-          <Nav
-            name={brandName}
-            githubUrl={
-              socialLinks.find((social) => /^GitHub(?: profile)?$/i.test(social.platform))?.url ??
-              null
-            }
-          />
+          <Nav name={brandName} />
           <div className="site-shell">
             <RouteTransition>{children}</RouteTransition>
           </div>

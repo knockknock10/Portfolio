@@ -4,41 +4,45 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
+import { useLenis } from "@/components/SmoothScrollProvider"
 import { Glass, Squircle } from "@/components/primitives"
 import { readDurationToken, readMotionNumber, useSpringToken } from "@/components/primitives/motionTokens"
 
 type NavProps = {
   name: string | null
-  githubUrl: string | null
 }
 
 type NavItem = {
   label: string
   href: string
-  external?: boolean
+  sectionId: string
 }
+
+const links: NavItem[] = [
+  { label: "Home", href: "/#home", sectionId: "home" },
+  { label: "Work", href: "/#work", sectionId: "work" },
+  { label: "Craft", href: "/#craft", sectionId: "craft" },
+  { label: "About", href: "/#about", sectionId: "about" },
+]
+const contactLink: NavItem = { label: "Contact", href: "/#contact", sectionId: "contact" }
 
 const focusableSelector =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
-export function Nav({ name, githubUrl }: NavProps) {
+export function Nav({ name }: NavProps) {
   const pathname = usePathname()
+  const lenis = useLenis()
   const reducedMotion = useReducedMotion()
   const spring = useSpringToken("gentle")
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState<string | null>(pathname === "/" ? "home" : null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
-
-  const links: NavItem[] = [
-    { label: "Home", href: "/" },
-    { label: "Work", href: "/work" },
-    { label: "About", href: "/about" },
-    ...(githubUrl ? [{ label: "GitHub", href: githubUrl, external: true }] : []),
-  ]
+  const skipFocusRestoreRef = useRef(false)
+  const handledHashRef = useRef<string | null>(null)
 
   const routeDuration = readDurationToken("--duration-nav-hide")
-
 
   useEffect(() => {
     setMenuOpen(false)
@@ -91,21 +95,127 @@ export function Nav({ name, githubUrl }: NavProps) {
     return () => {
       document.removeEventListener("keydown", onKeyDown)
       const restoreTarget = previousFocusRef.current
-      if (restoreTarget?.isConnected) restoreTarget.focus()
+      if (restoreTarget?.isConnected && !skipFocusRestoreRef.current) restoreTarget.focus()
+      skipFocusRestoreRef.current = false
     }
   }, [menuOpen])
 
-  function isCurrent(href: string, external = false) {
-    if (external) return false
-    if (href === "/") return pathname === "/"
-    if (href === "/work") return pathname === "/work" || pathname.startsWith("/work/")
-    return pathname === href
+  function scrollToSection(sectionId: string) {
+    const target = document.getElementById(sectionId)
+    if (!target) return
+
+    const scrollMargin = Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || 0
+    const focusTarget = () => target.focus({ preventScroll: true })
+    handledHashRef.current = "#" + sectionId
+
+    if (lenis) {
+      lenis.scrollTo(target, {
+        offset: -scrollMargin,
+        duration: reducedMotion ? 0 : readDurationToken("--duration-base"),
+        immediate: reducedMotion === true,
+        force: true,
+        onComplete: focusTarget,
+      })
+    } else {
+      window.scrollTo({
+        top: window.scrollY + target.getBoundingClientRect().top - scrollMargin,
+        behavior: "auto",
+      })
+      focusTarget()
+    }
+
+    window.history.replaceState(window.history.state, "", "/#" + sectionId)
   }
 
-  function openMenu() {
-    previousFocusRef.current =
-      document.activeElement instanceof HTMLElement ? document.activeElement : null
-    setMenuOpen(true)
+  function handleSectionNavigation(event: React.MouseEvent<HTMLAnchorElement>, item: NavItem) {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return
+    }
+
+    if (pathname !== "/") {
+      if (menuOpen) {
+        skipFocusRestoreRef.current = true
+        setMenuOpen(false)
+      }
+      return
+    }
+
+    event.preventDefault()
+    if (menuOpen) {
+      skipFocusRestoreRef.current = true
+      setMenuOpen(false)
+    }
+    scrollToSection(item.sectionId)
+  }
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection(null)
+      handledHashRef.current = null
+      return
+    }
+
+    const sections = ["home", "work", "craft", "about", "contact"]
+      .map((id) => document.getElementById(id))
+      .filter((element): element is HTMLElement => element instanceof HTMLElement)
+    if (!sections.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const current = entries.find((entry) => entry.isIntersecting)
+        if (current) setActiveSection(current.target.id)
+      },
+      { rootMargin: "-42% 0px -50% 0px", threshold: 0 },
+    )
+
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [pathname])
+
+  useEffect(() => {
+    if (pathname !== "/") return
+
+    const hash = window.location.hash
+    if (!hash) {
+      handledHashRef.current = null
+      return
+    }
+    if (!lenis || handledHashRef.current === hash) return
+
+    let sectionId: string
+    try {
+      sectionId = decodeURIComponent(hash.slice(1))
+    } catch {
+      return
+    }
+    if (!["home", "work", "craft", "about", "contact"].includes(sectionId)) return
+
+    const target = document.getElementById(sectionId)
+    if (!target) return
+
+    handledHashRef.current = hash
+    const frame = window.requestAnimationFrame(() => {
+      const scrollMargin = Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || 0
+      lenis.scrollTo(target, {
+        offset: -scrollMargin,
+        duration: reducedMotion ? 0 : readDurationToken("--duration-base"),
+        immediate: reducedMotion === true,
+        force: true,
+        onComplete: () => target.focus({ preventScroll: true }),
+      })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [pathname, lenis, reducedMotion])
+
+  function isCurrent(item: NavItem) {
+    return pathname === "/" && activeSection === item.sectionId
   }
 
   const navTransition =
@@ -141,10 +251,16 @@ export function Nav({ name, githubUrl }: NavProps) {
               as="nav"
               radius="var(--radius-squircle)"
               className="nav-pill"
-              aria-label="Main navigation"
+              aria-label="Primary"
             >
               {name ? (
-                <Link className="nav-wordmark" href="/" aria-label={name + " — Home"}>
+                <Link
+                  className="nav-wordmark"
+                  href="/#home"
+                  scroll={false}
+                  aria-label={name + " — Home"}
+                  onClick={(event) => handleSectionNavigation(event, links[0])}
+                >
                   {name}
                 </Link>
               ) : null}
@@ -154,10 +270,10 @@ export function Nav({ name, githubUrl }: NavProps) {
                   <Link
                     key={item.label}
                     href={item.href}
+                    scroll={false}
                     className="nav-link"
-                    aria-current={isCurrent(item.href, item.external) ? "page" : undefined}
-                    target={item.external ? "_blank" : undefined}
-                    rel={item.external ? "noreferrer" : undefined}
+                    aria-current={isCurrent(item) ? "location" : undefined}
+                    onClick={(event) => handleSectionNavigation(event, item)}
                   >
                     {item.label}
                   </Link>
@@ -166,8 +282,10 @@ export function Nav({ name, githubUrl }: NavProps) {
 
               <Link
                 className="nav-contact-link"
-                href="/contact"
-                aria-current={pathname === "/contact" ? "page" : undefined}
+                href={contactLink.href}
+                scroll={false}
+                aria-current={isCurrent(contactLink) ? "location" : undefined}
+                onClick={(event) => handleSectionNavigation(event, contactLink)}
               >
                 Contact
               </Link>
@@ -242,30 +360,23 @@ export function Nav({ name, githubUrl }: NavProps) {
                     open: { transition: { staggerChildren: menuStagger } },
                   }}
                 >
-                  {links.map((item) => (
+                  {[...links, contactLink].map((item) => (
                     <motion.li key={item.label} variants={itemVariants}>
                       <Link
                         href={item.href}
-                        className="mobile-menu-link"
-                        aria-current={isCurrent(item.href, item.external) ? "page" : undefined}
-                        target={item.external ? "_blank" : undefined}
-                        rel={item.external ? "noreferrer" : undefined}
-                        onClick={() => setMenuOpen(false)}
+                        scroll={false}
+                        className={
+                          item.label === "Contact"
+                            ? "mobile-menu-link mobile-menu-contact"
+                            : "mobile-menu-link"
+                        }
+                        aria-current={isCurrent(item) ? "location" : undefined}
+                        onClick={(event) => handleSectionNavigation(event, item)}
                       >
                         {item.label}
                       </Link>
                     </motion.li>
                   ))}
-                  <motion.li variants={itemVariants}>
-                    <Link
-                      href="/contact"
-                      className="mobile-menu-link mobile-menu-contact"
-                      aria-current={pathname === "/contact" ? "page" : undefined}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      Contact
-                    </Link>
-                  </motion.li>
                 </motion.ul>
               </div>
             </Glass>

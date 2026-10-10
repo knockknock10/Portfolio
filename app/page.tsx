@@ -2,8 +2,10 @@ import { About } from "@/components/sections/About"
 import { Contact } from "@/components/sections/Contact"
 import { Craft } from "@/components/sections/Craft"
 import { Hero } from "@/components/sections/Hero"
+import { Work } from "@/components/sections/Work"
 import { getContent } from "@/lib/content.server"
 import { getCraftData } from "@/lib/craft"
+import styles from "@/components/sections/HomeAnchors.module.css"
 
 export default function HomePage() {
   const content = getContent()
@@ -16,12 +18,24 @@ export default function HomePage() {
     .map((part) => part[0])
     .join("")
     .slice(0, 2) ?? null
+
   return (
     <main className="home-page">
-      <Hero heading={heading} eyebrow={content.identity.roleTitle} subhead={subhead} splitName={heading === content.identity.fullName} />
-      <Craft steps={craftSteps} />
-      <About bio={bio} tools={content.tools} influences={content.influences} portraitInitials={portraitInitials} />
-      <Contact email={content.contact.email} socials={content.socials} availabilityNote={content.identity.availabilityStatement} />
+      <section id="home" className={styles.anchorSection} aria-labelledby="hero-title" tabIndex={-1}>
+        <Hero heading={heading} eyebrow={content.identity.roleTitle} subhead={subhead} splitName={heading === content.identity.fullName} />
+      </section>
+      <section id="work" className={styles.anchorSection} aria-labelledby="work-preview-heading" tabIndex={-1}>
+        <Work variant="preview" />
+      </section>
+      <section id="craft" className={styles.anchorSection} aria-labelledby="craft-heading" tabIndex={-1}>
+        <Craft steps={craftSteps} />
+      </section>
+      <section id="about" className={styles.anchorSection} aria-labelledby="about-heading" tabIndex={-1}>
+        <About bio={bio} tools={content.tools} influences={content.influences} portraitInitials={portraitInitials} />
+      </section>
+      <section id="contact" className={styles.anchorSection} aria-labelledby="contact-heading" tabIndex={-1}>
+        <Contact email={content.contact.email} socials={content.socials} availabilityNote={content.identity.availabilityStatement} />
+      </section>
     </main>
   )
 }
