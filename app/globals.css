@@ -2419,3 +2419,141 @@ body {
   outline: var(--focus-outline-width) solid var(--color-accent);
   outline-offset: var(--focus-outline-offset);
 }
+
+
+/* Keyboard access and explicit no-image project artwork. */
+.skip-link {
+  position: fixed;
+  z-index: 2000;
+  top: var(--spacing-3);
+  left: var(--spacing-3);
+  transform: translateY(-180%);
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-md);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-size: var(--text-14);
+  text-decoration: none;
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+#main-content:focus {
+  outline: none;
+}
+
+.work-card-placeholder {
+  background:
+    linear-gradient(135deg, transparent 49.7%, rgba(255,255,255,.09) 50%, transparent 50.3%),
+    linear-gradient(45deg, transparent 49.7%, rgba(255,255,255,.045) 50%, transparent 50.3%),
+    #18181d;
+}
+.work-card-placeholder::after,
+.work-card-placeholder::before {
+  position: absolute;
+  inset: 15%;
+  pointer-events: none;
+  content: "";
+}
+.work-card-placeholder::before {
+  border: 1px solid rgba(245,245,247,.13);
+  background:
+    linear-gradient(90deg, transparent 49.8%, rgba(245,245,247,.08) 50%, transparent 50.2%),
+    linear-gradient(transparent 49.8%, rgba(245,245,247,.08) 50%, transparent 50.2%);
+  transform: rotate(-7deg);
+}
+.work-card-placeholder::after {
+  inset: auto 9% 2% auto;
+  width: 42%;
+  height: 80%;
+  border-radius: 50%;
+  background: rgba(130,112,168,.10);
+  filter: none;
+}
+.work-card-placeholder-commithub::after { background: rgba(230,162,60,.11); }
+.work-card-placeholder-sembind-audio::after { background: rgba(79,141,142,.12); }
+.work-card-placeholder-failurescope::after { background: rgba(165,98,83,.12); }
+
+.case-cover-art {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-6);
+  padding: clamp(var(--spacing-6), 8vw, var(--spacing-16));
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(125,101,183,.16), transparent 40%),
+    linear-gradient(125deg, #20202a, #101014 74%);
+}
+.case-cover-art::before {
+  position: absolute;
+  inset: 13%;
+  border: 1px solid rgba(245,245,247,.14);
+  background:
+    linear-gradient(90deg, transparent 33%, rgba(245,245,247,.08) 33.2%, transparent 33.4%, transparent 66.6%, rgba(245,245,247,.08) 66.8%, transparent 67%),
+    linear-gradient(transparent 33%, rgba(245,245,247,.08) 33.2%, transparent 33.4%, transparent 66.6%, rgba(245,245,247,.08) 66.8%, transparent 67%);
+  content: "";
+  transform: rotate(-7deg);
+}
+.case-cover-art::after {
+  position: absolute;
+  right: 8%;
+  bottom: -12%;
+  width: 48%;
+  height: 90%;
+  border-radius: 50%;
+  background: rgba(125,101,183,.08);
+  content: "";
+}
+.case-cover-art-aevor {
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(125,101,183,.19), transparent 42%),
+    linear-gradient(125deg, #20202a, #101014 74%);
+}
+.case-cover-art-commithub {
+  background:
+    radial-gradient(ellipse at 18% 80%, rgba(230,162,60,.12), transparent 44%),
+    linear-gradient(125deg, #242018, #101014 74%);
+}
+.case-cover-art-sembind-audio {
+  background:
+    radial-gradient(ellipse at 78% 82%, rgba(79,141,142,.16), transparent 42%),
+    linear-gradient(125deg, #1b2525, #101214 74%);
+}
+.case-cover-art-failurescope {
+  background:
+    radial-gradient(ellipse at 78% 22%, rgba(165,98,83,.16), transparent 42%),
+    linear-gradient(125deg, #28201f, #101112 74%);
+}
+.case-cover-art-label,
+.case-cover-art-caption {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  color: rgba(245,245,247,.72);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--text-12);
+  line-height: 1.6;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.case-cover-art-mark {
+  position: relative;
+  z-index: 1;
+  align-self: flex-end;
+  color: rgba(245,245,247,.12);
+  font-size: clamp(180px, 34vw, 420px);
+  line-height: .75;
+  font-weight: 600;
+  letter-spacing: -.12em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-backdrop::before,
+  .liquid-backdrop::after {
+    animation: none;
+  }
+}
