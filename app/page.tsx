@@ -4,15 +4,18 @@ import { Craft } from "@/components/sections/Craft"
 import { Hero } from "@/components/sections/Hero"
 import { Work } from "@/components/sections/Work"
 import { Signals } from "@/components/sections/Signals"
+import { Research } from "@/components/sections/Research"
 import { getContent } from "@/lib/content.server"
 import { getCraftData } from "@/lib/craft"
 import { getSignalsData } from "@/lib/signals"
+import { getResearchData } from "@/lib/research"
 import styles from "@/components/sections/HomeAnchors.module.css"
 
 export default function HomePage() {
   const content = getContent()
   const craftSteps = getCraftData()
   const signalsData = getSignalsData()
+  const researchItems = getResearchData()
   const heading =
     content.identity.professionalName ??
     content.identity.fullName ??
@@ -52,6 +55,7 @@ export default function HomePage() {
         <Work variant="preview" />
       </section>
       <Signals data={signalsData} />
+      <Research items={researchItems} />
       <section
         id="craft"
         className={styles.anchorSection}

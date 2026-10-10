@@ -151,7 +151,7 @@ function TrendLine({ points }: { points: SignalStats["leetcode"]["contestHistory
       className="signals-trend-line"
       viewBox="0 0 100 32"
       role="img"
-      aria-label="Contest rating trend for " + usable.length + " recorded contests"
+      aria-label={"Contest rating trend for " + usable.length + " recorded contests"}
     >
       <polyline points={coordinates.join(" ")} fill="none" stroke="var(--color-accent)" strokeWidth="1.5" />
     </svg>
@@ -161,7 +161,7 @@ function TrendLine({ points }: { points: SignalStats["leetcode"]["contestHistory
 export function Signals({ data, standalone = false }: SignalsProps) {
   const reducedMotion = Boolean(useReducedMotion())
   const spring = useSpringToken("gentle")
-  const revealDuration = readDurationToken("--duration-signals-reveal")
+  const revealDuration = readDurationToken("--duration-slow")
   const transition = reducedMotion
     ? { duration: 0 }
     : { ...(spring ?? { type: "spring" as const }), duration: revealDuration }
