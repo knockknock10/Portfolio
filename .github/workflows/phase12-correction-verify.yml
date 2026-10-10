@@ -119,39 +119,50 @@ jobs:
               async function measureFps(rate, label) {
                 const session = await page.context().newCDPSession(page);
                 await session.send("Emulation.setCPUThrottlingRate", { rate });
-                const result = await page.evaluate(async () => {
-                  const duration = 10000;
-                  const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+                const duration = 10000;
+                const startedAt = Date.now();
+                const metricsPromise = page.evaluate(async (sampleDuration) => {
+                  const startedAt = performance.now();
                   let frames = 0;
                   let first = 0;
                   let last = 0;
+                  let minScrollY = window.scrollY;
+                  let maxScrollY = window.scrollY;
                   return await new Promise((resolve) => {
                     function tick(now) {
                       if (!first) first = now;
                       last = now;
                       frames += 1;
-                      window.scrollTo(0, maxScroll * Math.min(1, elapsedPlaceholder(now)));
-                      const elapsed = now - first;
-                      if (elapsed >= duration) {
+                      minScrollY = Math.min(minScrollY, window.scrollY);
+                      maxScrollY = Math.max(maxScrollY, window.scrollY);
+                      if (now - startedAt >= sampleDuration) {
                         resolve({
                           durationMs: Math.round(last - first),
                           frames,
                           averageFps: Number((frames / ((last - first) / 1000)).toFixed(2)),
-                          maxScroll,
+                          minScrollY: Math.round(minScrollY),
+                          maxScrollY: Math.round(maxScrollY),
+                          scrollRange: Math.round(maxScrollY - minScrollY),
                           finalScrollY: Math.round(window.scrollY),
                         });
                       } else {
                         requestAnimationFrame(tick);
                       }
-                      function elapsedPlaceholder(time) {
-                        return Math.min(1, (time - first) / duration);
-                      }
                     }
                     requestAnimationFrame(tick);
                   });
-                });
+                }, duration);
+
+                while (Date.now() - startedAt < duration) {
+                  const elapsed = Date.now() - startedAt;
+                  await page.mouse.wheel(0, elapsed < duration / 2 ? 160 : -160);
+                  await page.waitForTimeout(35);
+                }
+
+                const result = await metricsPromise;
                 await session.send("Emulation.setCPUThrottlingRate", { rate: 1 });
                 await session.detach();
+                assert(result.scrollRange > 100, label + " did not produce real scrolling: " + JSON.stringify(result));
                 console.log("FPS " + label + ": " + JSON.stringify(result));
                 return result;
               }
