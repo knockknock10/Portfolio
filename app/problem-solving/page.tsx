@@ -1,12 +1,12 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { getContent } from "@/lib/content.server"
+
 
 export const metadata: Metadata = {
   title: "Problem Solving",
   description: "Sanjeev Kumar's approach to data structures, algorithms, contest practice, and engineering fundamentals.",
 }
-
-import { getContent } from "@/lib/content.server"
 
 const focusAreas = [
   {
