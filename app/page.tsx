@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Hero } from "@/components/sections/Hero"
+import { Work } from "@/components/sections/Work"
 import { getContent } from "@/lib/content.server"
 import { getWorkProjects } from "@/lib/work"
 

@@ -10,16 +10,5 @@ export const metadata: Metadata = {
 }
 
 export default function WorkPage() {
-  const data = getWorkData()
-
-  return (
-    <main className="work-page">
-      <header className="work-page-header">
-        <h1 className="work-page-title">Work</h1>
-      </header>
-      <WorkStatsStrip stats={data.stats} />
-      <ContributionHeatmap calendar={data.contributionCalendar} />
-      <WorkGallery items={data.items} />
-    </main>
-  )
+  return <Work variant="full" />
 }

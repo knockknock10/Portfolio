@@ -13,7 +13,7 @@ import {
 import type { WorkItem } from "@/lib/work"
 import styles from "./WorkExperience.module.css"
 
-type WorkGalleryProps = { items: WorkItem[] }
+type WorkGalleryProps = { items: WorkItem[]; variant?: "preview" | "full" }
 type ItemTypeFilter = "all" | "repo" | "project"
 
 function available<T>(value: T | "MISSING" | null | undefined): value is T {
@@ -39,7 +39,7 @@ function cardAside(item: WorkItem): string | null {
   return available(item.project.medium) ? item.project.medium : null
 }
 
-export function WorkGallery({ items }: WorkGalleryProps) {
+export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
   const reducedMotion = useReducedMotion()
   const spring = useSpringToken("gentle")
   const [hoverEnabled, setHoverEnabled] = useState(false)
@@ -54,6 +54,8 @@ export function WorkGallery({ items }: WorkGalleryProps) {
     media.addEventListener("change", update)
     return () => media.removeEventListener("change", update)
   }, [])
+
+  const displayedItems = variant === "preview" ? items.slice(0, 6) : items
 
   const repoLanguages = useMemo(
     () =>
@@ -76,7 +78,7 @@ export function WorkGallery({ items }: WorkGalleryProps) {
 
   const visibleItems = useMemo(
     () =>
-      items.filter((item) => {
+      displayedItems.filter((item) => {
         if (typeFilter !== "all" && item.type !== typeFilter) return false
         if (typeFilter === "repo" && languageFilter !== "all") {
           if (item.type !== "repo" || item.repo.language !== languageFilter) return false
@@ -86,7 +88,7 @@ export function WorkGallery({ items }: WorkGalleryProps) {
         }
         return true
       }),
-    [items, typeFilter, languageFilter, tagFilter],
+    [displayedItems, typeFilter, languageFilter, tagFilter],
   )
 
   const transition =
@@ -104,7 +106,7 @@ export function WorkGallery({ items }: WorkGalleryProps) {
 
   return (
     <section className="work-gallery" aria-label="Projects and repositories">
-      {items.length >= 6 ? (
+      {variant === "full" && items.length >= 6 ? (
         <div className={styles.filterRow}>
           <div className="work-filters" role="group" aria-label="Filter work by type">
             {(
@@ -248,6 +250,11 @@ export function WorkGallery({ items }: WorkGalleryProps) {
         </AnimatePresence>
       </motion.div>
       {!visibleItems.length ? <p role="status">No matching work items.</p> : null}
+      {variant === "preview" ? (
+        <p className={styles.viewAllRow}>
+          <Link className={styles.viewAllLink} href="/work">View all work →</Link>
+        </p>
+      ) : null}
       <p className="sr-only" aria-live="polite">
         Showing {visibleItems.length} of {items.length} work items.
       </p>

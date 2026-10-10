@@ -1,0 +1,14 @@
+.anchorSection {
+  scroll-margin-top: calc(var(--nav-height-desktop) + var(--spacing-6));
+}
+
+.anchorSection:focus-visible {
+  outline: var(--focus-outline-width) solid var(--color-accent);
+  outline-offset: var(--focus-outline-offset);
+}
+
+@media (max-width: 47.999rem) {
+  .anchorSection {
+    scroll-margin-top: calc(var(--nav-height-mobile) + var(--spacing-6));
+  }
+}
