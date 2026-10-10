@@ -47,9 +47,9 @@ const durations = [
   { label: "Slow", token: "--duration-slow" },
 ];
 const elevationTokens = [
-  { label: "Elevation 1", blur: "--elevation-1-blur", shadow: "--elevation-1-shadow" },
-  { label: "Elevation 2", blur: "--elevation-2-blur", shadow: "--elevation-2-shadow" },
-  { label: "Elevation 3", blur: "--elevation-3-blur", shadow: "--elevation-3-shadow" },
+  { label: "Elevation 1", shadow: "--elevation-1-shadow" },
+  { label: "Elevation 2", shadow: "--elevation-2-shadow" },
+  { label: "Elevation 3", shadow: "--elevation-3-shadow" },
 ];
 const glassVariants = [
   { tint: "light" as const, elevation: 1 as const },
@@ -72,14 +72,7 @@ function TokenValue({ token }: { token: string }) {
 }
 
 export function DesignSystemPreview() {
-  const [blurValues, setBlurValues] = useState<number[]>([]);
   const [pressed, setPressed] = useState(false);
-
-  useEffect(() => {
-    const styles = window.getComputedStyle(document.documentElement);
-    const values = elevationTokens.map((entry) => Number.parseFloat(styles.getPropertyValue(entry.blur)));
-    setBlurValues(values.filter((value) => Number.isFinite(value)));
-  }, []);
 
   return (
     <main className="ds-page">
@@ -210,7 +203,6 @@ export function DesignSystemPreview() {
                 }}
               >
                 <p className="ds-token-name">{entry.label}</p>
-                <TokenValue token={entry.blur} />
                 <TokenValue token={entry.shadow} />
                 <span className="ds-label">Level {index + 1}</span>
               </article>
@@ -237,15 +229,6 @@ export function DesignSystemPreview() {
               ))}
             </div>
           </div>
-          <div className="ds-motion-grid">
-            {blurValues.map((blur, index) => (
-              <Glass key={blur} blur={blur} elevation={(index + 1) as 1 | 2 | 3} className="ds-glass-card">
-                <p className="ds-demo-label">Blur sample</p>
-                <TokenValue token={elevationTokens[index].blur} />
-              </Glass>
-            ))}
-          </div>
-          <p className="ds-inline-note">At most three visible surfaces enable backdrop blur at once.</p>
         </section>
 
         <section className="ds-section" aria-labelledby="shape-primitives">

@@ -25,12 +25,10 @@ export function Nav({ name, githubUrl }: NavProps) {
   const pathname = usePathname()
   const reducedMotion = useReducedMotion()
   const spring = useSpringToken("gentle")
-  const [hidden, setHidden] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
-  const previousYRef = useRef(0)
 
   const links: NavItem[] = [
     { label: "Home", href: "/" },
@@ -43,27 +41,6 @@ export function Nav({ name, githubUrl }: NavProps) {
 
   const routeDuration = readDurationToken("--duration-nav-hide")
 
-  useEffect(() => {
-    previousYRef.current = window.scrollY
-
-    function onScroll() {
-      const nextY = window.scrollY
-      const delta = nextY - previousYRef.current
-
-      if (menuOpen || nextY <= 16) {
-        setHidden(false)
-      } else if (delta > 4 && nextY > 96) {
-        setHidden(true)
-      } else if (delta < -4) {
-        setHidden(false)
-      }
-
-      previousYRef.current = nextY
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [menuOpen])
 
   useEffect(() => {
     setMenuOpen(false)
@@ -157,7 +134,7 @@ export function Nav({ name, githubUrl }: NavProps) {
       <div className="nav-positioner">
         <motion.div
           className="nav-motion-frame"
-          animate={{ y: menuOpen || hidden ? "-120%" : 0 }}
+          animate={{ y: menuOpen ? "-120%" : 0 }}
           transition={navTransition}
           data-menu-open={menuOpen ? "true" : "false"}
         >

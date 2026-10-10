@@ -150,14 +150,24 @@
   --work-lightbox-width: 1440px;
   --work-lightbox-height: 84dvh;
   --work-control-size: 48px;
+  --container-section: 1440px;
+  --text-section-heading: clamp(var(--text-44), 8vw, var(--text-88));
+  --color-section-divider: color-mix(in srgb, var(--color-paper) 12%, transparent);
+  --spacing-about-layout-gap: var(--spacing-12);
+  --aspect-portrait: 4 / 5;
+  --text-contact-heading: clamp(var(--text-44), 8.5vw, var(--text-88));
+  --text-contact-email: clamp(var(--text-20), 5.2vw, var(--text-64));
+  --spacing-contact-underline: 1px;
+  --spacing-section-mobile: 96px;
+  --spacing-section-desktop: 160px;
+  --leading-editorial: 1.65;
+  --spacing-section-heading-body-gap: var(--spacing-8);
+  --spacing-card-min: 220px;
 }
 
 :root {
   color-scheme: dark;
   --font-ui: "Inter Tight", Inter, system-ui, sans-serif;
-  --glass-tint-light: var(--color-glass-light);
-  --glass-tint-dark: var(--color-glass-dark);
-  --glass-tint-accent: var(--color-glass-accent);
 }
 
 *,
@@ -207,41 +217,20 @@ button:disabled {
   border-right: 1px solid color-mix(in srgb, var(--color-paper) 14%, transparent);
   border-bottom: 1px solid var(--color-edge-bottom);
   border-left: 1px solid color-mix(in srgb, var(--color-paper) 10%, transparent);
-  box-shadow: var(--elevation-1-shadow);
-  background-color: var(--glass-tint-dark);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+  box-shadow: none;
+  background-color: var(--color-neutral-800);
 }
 
 .glass-surface[data-tint="light"] {
-  background-color: var(--glass-tint-light);
+  background-color: color-mix(in srgb, var(--color-paper) 94%, var(--color-ink));
 }
 
 .glass-surface[data-tint="dark"] {
-  background-color: var(--glass-tint-dark);
+  background-color: var(--color-neutral-800);
 }
 
 .glass-surface[data-tint="accent"] {
-  background-color: var(--glass-tint-accent);
-}
-
-.glass-surface[data-elevation="1"] {
-  box-shadow: var(--elevation-1-shadow);
-}
-
-.glass-surface[data-elevation="2"] {
-  box-shadow: var(--elevation-2-shadow);
-}
-
-.glass-surface[data-elevation="3"] {
-  box-shadow: var(--elevation-3-shadow);
-}
-
-@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  .glass-surface[data-blur-active="true"] {
-    -webkit-backdrop-filter: blur(var(--glass-blur, var(--elevation-1-blur))) saturate(180%);
-    backdrop-filter: blur(var(--glass-blur, var(--elevation-1-blur))) saturate(180%);
-  }
+  background-color: color-mix(in srgb, var(--color-accent) 14%, var(--color-neutral-800));
 }
 
 .squircle-surface {
@@ -640,11 +629,6 @@ button:disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .liquid-backdrop {
-    animation: none;
-    background-position: 50% 50%;
-  }
-
   .magnetic-button::after,
   .magnetic-button__label {
     transition: none;

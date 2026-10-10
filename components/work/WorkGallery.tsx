@@ -1,24 +1,51 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { Glass, Squircle } from "@/components/primitives"
-import { readDurationToken, readMotionNumber, useSpringToken } from "@/components/primitives/motionTokens"
-import { Lightbox } from "@/components/work/Lightbox"
-import type { WorkImage, WorkProject } from "@/lib/work"
+import { useEffect, useMemo, useState } from "react"
+import Link from "next/link"
+import { Glass } from "@/components/primitives"
+import {
+  readDurationToken,
+  readMotionNumber,
+  useSpringToken,
+} from "@/components/primitives/motionTokens"
+import type { WorkItem } from "@/lib/work"
+import styles from "./WorkExperience.module.css"
 
-type WorkGalleryProps = {
-  projects: WorkProject[]
+type WorkGalleryProps = { items: WorkItem[] }
+type ItemTypeFilter = "all" | "repo" | "project"
+
+function available<T>(value: T | "MISSING" | null | undefined): value is T {
+  return value !== "MISSING" && value !== null && value !== undefined && value !== ""
 }
 
-export function WorkGallery({ projects }: WorkGalleryProps) {
+function itemMeta(item: WorkItem): string[] {
+  if (item.type === "repo") {
+    const values: string[] = []
+    if (available(item.repo.stargazers_count)) values.push(`${item.repo.stargazers_count} stars`)
+    if (available(item.repo.forks_count)) values.push(`${item.repo.forks_count} forks`)
+    if (available(item.repo.language)) values.push(item.repo.language)
+    return values
+  }
+  const values: string[] = []
+  if (available(item.project.year)) values.push(String(item.project.year))
+  if (available(item.project.role)) values.push(item.project.role)
+  return values
+}
+
+function cardAside(item: WorkItem): string | null {
+  if (item.type === "repo") return available(item.repo.language) ? item.repo.language : null
+  return available(item.project.medium) ? item.project.medium : null
+}
+
+export function WorkGallery({ items }: WorkGalleryProps) {
   const reducedMotion = useReducedMotion()
   const spring = useSpringToken("gentle")
   const [hoverEnabled, setHoverEnabled] = useState(false)
-  const [selectedTag, setSelectedTag] = useState<string | null>(null)
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const [typeFilter, setTypeFilter] = useState<ItemTypeFilter>("all")
+  const [languageFilter, setLanguageFilter] = useState("all")
+  const [tagFilter, setTagFilter] = useState("all")
 
   useEffect(() => {
     const media = window.matchMedia("(hover: hover) and (pointer: fine)")
@@ -28,78 +55,135 @@ export function WorkGallery({ projects }: WorkGalleryProps) {
     return () => media.removeEventListener("change", update)
   }, [])
 
-  const allImages = useMemo(
-    () => projects.flatMap((project) => project.galleryImages.slice(0, 1)),
-    [projects],
+  const repoLanguages = useMemo(
+    () =>
+      [
+        ...new Set(
+          items.flatMap((item) =>
+            item.type === "repo" && available(item.repo.language) ? [item.repo.language] : [],
+          ),
+        ),
+      ].sort((a, b) => a.localeCompare(b)),
+    [items],
   )
-  const tags = useMemo(
-    () => [...new Set(projects.flatMap((project) => project.tags ?? []))],
-    [projects],
+  const projectTags = useMemo(
+    () =>
+      [...new Set(items.flatMap((item) => (item.type === "project" ? item.tags : [])))].sort(
+        (a, b) => a.localeCompare(b),
+      ),
+    [items],
   )
-  const visibleProjects = selectedTag
-    ? projects.filter((project) => project.tags?.includes(selectedTag))
-    : projects
 
-  const transition = reducedMotion || !spring
-    ? { duration: readDurationToken("--duration-none") }
-    : { ...spring, visualDuration: readDurationToken("--duration-base") }
+  const visibleItems = useMemo(
+    () =>
+      items.filter((item) => {
+        if (typeFilter !== "all" && item.type !== typeFilter) return false
+        if (typeFilter === "repo" && languageFilter !== "all") {
+          if (item.type !== "repo" || item.repo.language !== languageFilter) return false
+        }
+        if (typeFilter === "project" && tagFilter !== "all") {
+          if (item.type !== "project" || !item.tags.includes(tagFilter)) return false
+        }
+        return true
+      }),
+    [items, typeFilter, languageFilter, tagFilter],
+  )
 
-  const closeLightbox = useCallback(() => setLightboxIndex(null), [])
-  const navigateLightbox = useCallback((index: number) => setLightboxIndex(index), [])
-
-  const openImage = (image: WorkImage) => {
-    const index = allImages.indexOf(image)
-    if (index >= 0) setLightboxIndex(index)
-  }
-
+  const transition =
+    reducedMotion || !spring
+      ? { duration: readDurationToken("--duration-none") }
+      : { ...spring, visualDuration: readDurationToken("--duration-base") }
   const cardVariants = {
     rest: { y: 0 },
     hover: { y: readMotionNumber("--work-card-detail-shift") },
   }
-
   const surfaceVariants = {
     rest: { scale: 1 },
     hover: { scale: readMotionNumber("--work-card-hover-scale") },
   }
 
-  if (projects.length === 0) return null
-
   return (
-    <div className="work-gallery">
-      {projects.length >= 6 ? (
-        <div className="work-filters" aria-label="Filter projects by tag">
-          <button
-            type="button"
-            className="work-filter"
-            aria-pressed={selectedTag === null}
-            onClick={() => setSelectedTag(null)}
-          >
-            All
-          </button>
-          {tags.map((tag) => (
-            <button
-              type="button"
-              className="work-filter"
-              aria-pressed={selectedTag === tag}
-              key={tag}
-              onClick={() => setSelectedTag(tag)}
-            >
-              {tag}
-            </button>
-          ))}
+    <section className="work-gallery" aria-label="Projects and repositories">
+      {items.length >= 6 ? (
+        <div className={styles.filterRow}>
+          <div className="work-filters" role="group" aria-label="Filter work by type">
+            {(
+              [
+                ["all", "All"],
+                ["repo", "Repos"],
+                ["project", "Projects"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                type="button"
+                className="work-filter"
+                aria-pressed={typeFilter === value}
+                key={value}
+                onClick={() => {
+                  setTypeFilter(value)
+                  setLanguageFilter("all")
+                  setTagFilter("all")
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          {typeFilter === "repo" && repoLanguages.length ? (
+            <label className={styles.filterSelectGroup}>
+              <span className={styles.filterLabel}>Language</span>
+              <select
+                className={styles.filterSelect}
+                value={languageFilter}
+                onChange={(event) => setLanguageFilter(event.target.value)}
+              >
+                <option value="all">All languages</option>
+                {repoLanguages.map((language) => (
+                  <option value={language} key={language}>
+                    {language}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+          {typeFilter === "project" && projectTags.length ? (
+            <label className={styles.filterSelectGroup}>
+              <span className={styles.filterLabel}>Tag</span>
+              <select
+                className={styles.filterSelect}
+                value={tagFilter}
+                onChange={(event) => setTagFilter(event.target.value)}
+              >
+                <option value="all">All tags</option>
+                {projectTags.map((tag) => (
+                  <option value={tag} key={tag}>
+                    {tag}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
         </div>
       ) : null}
 
       <motion.div className="work-grid" layout transition={transition}>
         <AnimatePresence initial={false} mode="popLayout">
-          {visibleProjects.map((project, projectIndex) => (
+          {visibleItems.map((item) => (
             <motion.article
               className="work-card"
-              key={project.slug}
+              key={`${item.type}-${item.slug}`}
               layout
-              initial={reducedMotion ? false : { opacity: 0, y: readMotionNumber("--work-card-enter-shift") }}
+              initial={
+                reducedMotion
+                  ? false
+                  : { opacity: 0, y: readMotionNumber("--work-card-enter-shift") }
+              }
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: readMotionNumber("--work-card-exit-shift") }}
+              exit={
+                reducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, y: readMotionNumber("--work-card-exit-shift") }
+              }
               variants={surfaceVariants}
               whileHover={hoverEnabled && !reducedMotion ? "hover" : undefined}
               transition={transition}
@@ -141,22 +225,32 @@ export function WorkGallery({ projects }: WorkGalleryProps) {
                       {project.tags.map((tag) => (
                         <li className="work-tag" key={tag}>{tag}</li>
                       ))}
-                    </ul>
-                  ) : null}
-                </motion.div>
+                    </div>
+                    {item.tags.length ? (
+                      <ul
+                        className={styles.cardTags}
+                        aria-label={
+                          item.type === "repo" ? "Repository topics and language" : "Project tags"
+                        }
+                      >
+                        {item.tags.map((tag) => (
+                          <li className="work-tag" key={tag}>
+                            {tag}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </motion.div>
+                </Link>
               </Glass>
             </motion.article>
           ))}
         </AnimatePresence>
       </motion.div>
-
-      <Lightbox
-        open={lightboxIndex !== null}
-        images={allImages}
-        index={lightboxIndex ?? 0}
-        onClose={closeLightbox}
-        onNavigate={navigateLightbox}
-      />
-    </div>
+      {!visibleItems.length ? <p role="status">No matching work items.</p> : null}
+      <p className="sr-only" aria-live="polite">
+        Showing {visibleItems.length} of {items.length} work items.
+      </p>
+    </section>
   )
 }

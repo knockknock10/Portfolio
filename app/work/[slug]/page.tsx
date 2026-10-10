@@ -3,62 +3,148 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Squircle } from "@/components/primitives"
-import { getWorkProjects } from "@/lib/work"
-import { CaseLightbox } from "@/components/work/CaseLightbox"
-import { CaseImageTrigger } from "@/components/work/CaseImageTrigger"
+import styles from "@/components/work/WorkExperience.module.css"
+import { getWorkData, isAvailable, type WorkItem } from "@/lib/work"
 
 type WorkDetailPageProps = {
   params: Promise<{ slug: string }>
 }
 
 export function generateStaticParams() {
-  return getWorkProjects().map((project) => ({ slug: project.slug }))
+  return getWorkData().items.map((item) => ({ slug: item.slug }))
 }
 
 export const dynamicParams = false
 
+function findItem(slug: string): WorkItem | undefined {
+  return getWorkData().items.find((item) => item.slug === slug)
+}
+
 export async function generateMetadata({ params }: WorkDetailPageProps): Promise<Metadata> {
   const { slug } = await params
-  const project = getWorkProjects().find((item) => item.slug === slug)
-  if (!project) return {}
-
-  const description = project.description ?? project.overview?.[0] ?? undefined
-  const preview = project.galleryImages[0] ?? project.resultImages[0]
+  const item = findItem(slug)
+  if (!item) return {}
 
   return {
-    title: project.title ?? undefined,
-    ...(description ? { description } : {}),
+    title: item.title,
+    ...(item.description ? { description: item.description } : {}),
     openGraph: {
-      title: project.title ?? undefined,
-      ...(description ? { description } : {}),
-      ...(preview ? { images: [{ url: preview.src, alt: preview.alt }] } : {}),
+      title: item.title,
+      ...(item.description ? { description: item.description } : {}),
+      ...(item.coverSrc ? { images: [{ url: item.coverSrc, alt: `${item.title} cover` }] } : {}),
     },
   }
 }
 
+function displayDate(value: string): string {
+  return value.slice(0, 10)
+}
+
+function metaRows(item: WorkItem): Array<{ label: string; value: string }> {
+  if (item.type === "repo") {
+    const rows: Array<{ label: string; value: string }> = []
+    const fields: Array<[string, string | number | boolean]> = [
+      ["Language", item.repo.language as string],
+      ["Stars", item.repo.stargazers_count as number],
+      ["Forks", item.repo.forks_count as number],
+      ["Watchers", item.repo.watchers_count as number],
+      ["Open issues", item.repo.open_issues_count as number],
+      ["License", item.repo.license as string],
+      ["Created", item.repo.created_at as string],
+      ["Last pushed", item.repo.pushed_at as string],
+    ]
+    for (const [label, value] of fields) {
+      if (!isAvailable(value as string | number | boolean | "MISSING")) continue
+      rows.push({
+        label,
+        value:
+          typeof value === "string" && (label === "Created" || label === "Last pushed")
+            ? displayDate(value)
+            : String(value),
+      })
+    }
+    return rows
+  }
+
+  const rows: Array<{ label: string; value: string }> = []
+  const fields: Array<[string, string | number]> = [
+    ["Year", item.project.year as string],
+    ["Role", item.project.role as string],
+    ["Client", item.project.client as string],
+    ["Medium / stack", item.project.medium as string],
+  ]
+  for (const [label, value] of fields) {
+    if (!isAvailable(value as string | number | "MISSING")) continue
+    rows.push({ label, value: String(value) })
+  }
+  return rows
+}
+
+function externalLinks(item: WorkItem): Array<{ label: string; url: string }> {
+  if (item.type === "repo") {
+    const links = [{ label: "Repository", url: item.repo.html_url }]
+    if (isAvailable(item.repo.homepage) && /^https?:\/\//i.test(item.repo.homepage)) {
+      links.push({ label: "Homepage", url: item.repo.homepage })
+    }
+    return links
+  }
+
+  const links: Array<{ label: string; url: string }> = []
+  if (isAvailable(item.project.repoUrl) && /^https?:\/\//i.test(item.project.repoUrl)) {
+    links.push({ label: "Repository", url: item.project.repoUrl })
+  }
+  if (isAvailable(item.project.liveUrl) && /^https?:\/\//i.test(item.project.liveUrl)) {
+    links.push({ label: "Live project", url: item.project.liveUrl })
+  }
+  return links
+}
+
+function itemTags(item: WorkItem): string[] {
+  if (item.type === "repo") return item.repo.topics.filter((topic) => topic && topic !== "MISSING")
+  return isAvailable(item.project.tags)
+    ? item.project.tags.filter((tag) => tag && tag !== "MISSING")
+    : []
+}
+
+function coverAside(item: WorkItem): string | null {
+  if (item.type === "repo") return isAvailable(item.repo.language) ? item.repo.language : null
+  return isAvailable(item.project.medium) ? item.project.medium : null
+}
+
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { slug } = await params
-  const projects = getWorkProjects()
-  const projectIndex = projects.findIndex((item) => item.slug === slug)
-  const project = projects[projectIndex]
+  const data = getWorkData()
+  const index = data.items.findIndex((item) => item.slug === slug)
+  const item = data.items[index]
+  if (!item) notFound()
 
-  if (!project) notFound()
-
-  const nextProject = projects[(projectIndex + 1) % projects.length]
-  const lightboxImages = [...project.galleryImages, ...project.resultImages]
-  const resultImages = [...project.galleryImages.slice(1), ...project.resultImages]
-  const metaItems = [
-    { label: "Client", value: project.client },
-    { label: "Year", value: project.year },
-    { label: "Role", value: project.role },
-    { label: "Medium / stack", value: project.medium },
-    { label: "Tools", value: project.tools?.join(", ") ?? null },
-  ].filter((item): item is { label: string; value: string } => Boolean(item.value))
-
-  const cover = project.galleryImages[0]
+  const nextItem =
+    data.items.slice(index + 1).find((candidate) => candidate.type === item.type) ??
+    data.items.slice(0, index).find((candidate) => candidate.type === item.type)
+  const tags = itemTags(item)
+  const metaItems = metaRows(item)
+  const links = externalLinks(item)
+  const isProject = item.type === "project"
+  const project = isProject ? item.project : null
+  const longDescription =
+    project && isAvailable(project.longDescription)
+      ? project.longDescription.filter((paragraph) => paragraph && paragraph !== "MISSING")
+      : []
+  const processSteps =
+    project && isAvailable(project.process)
+      ? project.process.filter((step) => step.title !== "MISSING" || step.description !== "MISSING")
+      : []
+  const outcomes = project ? project.outcomes : "MISSING"
+  const availableOutcomes = isAvailable(outcomes)
+    ? Array.isArray(outcomes)
+      ? outcomes.filter((outcome) => outcome && outcome !== "MISSING")
+      : [outcomes]
+    : []
 
   return (
-    <main className={project.overview?.length ? "case-page case-page-long" : "case-page case-page-minimal"}>
+    <main
+      className={`case-page ${isProject && longDescription.length ? "case-page-long" : "case-page-minimal"}`}
+    >
       <header className="case-header">
         <Link href="/work" className="case-back-link">Work</Link>
         <h1 className="case-title">{project.title}</h1>
@@ -77,22 +163,16 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
         </div>
       </header>
 
-      <Squircle className="case-cover">
-        {cover ? (
-          <CaseImageTrigger
-            index={0}
-            className="case-cover-image-button"
-            label={"Open image for " + project.title}
-          >
-            <Image
-              src={cover.src}
-              alt={cover.alt}
-              fill
-              sizes="100vw"
-              priority
-              style={{ objectFit: "contain" }}
-            />
-          </CaseImageTrigger>
+      <Squircle className={`case-cover ${styles.detailCover}`}>
+        {item.coverSrc ? (
+          <Image
+            src={item.coverSrc}
+            alt={`${item.title} cover`}
+            fill
+            sizes="100vw"
+            priority
+            style={{ objectFit: "cover" }}
+          />
         ) : (
           <div className={"case-cover-placeholder case-cover-art case-cover-art-" + project.slug} aria-hidden="true">
             <span className="case-cover-art-label">{project.category ?? "Selected work"}</span>
@@ -104,72 +184,157 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
 
       {metaItems.length ? (
         <dl className="case-meta">
-          {metaItems.map((item) => (
-            <div className="case-meta-item" key={item.label}>
-              <dt>{item.label}</dt>
-              <dd>{item.value}</dd>
+          {metaItems.map((meta) => (
+            <div className="case-meta-item" key={meta.label}>
+              <dt>{meta.label}</dt>
+              <dd>{meta.value}</dd>
             </div>
           ))}
         </dl>
       ) : null}
 
-      {project.overview?.length || project.description ? (
+      {item.description ? (
         <section className="case-overview" aria-labelledby="case-overview-title">
-          <h2 id="case-overview-title">Overview</h2>
-          {project.overview?.length ? (
-            project.overview.map((paragraph, index) => <p key={index}>{paragraph}</p>)
-          ) : project.description ? (
-            <p>{project.description}</p>
-          ) : null}
+          <h2 id="case-overview-title">Brief</h2>
+          <p>{item.description}</p>
+          {longDescription.map((paragraph, paragraphIndex) => (
+            <p key={paragraphIndex}>{paragraph}</p>
+          ))}
+        </section>
+      ) : longDescription.length ? (
+        <section className="case-overview" aria-labelledby="case-overview-title">
+          <h2 id="case-overview-title">Brief</h2>
+          {longDescription.map((paragraph, paragraphIndex) => (
+            <p key={paragraphIndex}>{paragraph}</p>
+          ))}
         </section>
       ) : null}
 
-      {project.processSteps?.length ? (
+      {tags.length ? (
+        <ul
+          className={styles.caseTopics}
+          aria-label={item.type === "repo" ? "Repository topics" : "Project tags"}
+        >
+          {tags.map((tag) => (
+            <li className="work-tag" key={tag}>
+              {tag}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      {links.length ? (
+        <nav className={styles.caseLinks} aria-label="Related links">
+          {links.map((link) => (
+            <a
+              className={styles.caseExternalLink}
+              key={link.label}
+              href={link.url}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {link.label} <span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </nav>
+      ) : null}
+
+      {processSteps.length ? (
         <section className="case-process" aria-labelledby="case-process-title">
           <h2 id="case-process-title">Process</h2>
           <div className="case-process-strip">
-            {project.processSteps.map((step, index) => (
-              <article className="case-process-step" key={index}>
-                <p>{step}</p>
+            {processSteps.map((step, stepIndex) => (
+              <article className="case-process-step" key={`${step.title}-${stepIndex}`}>
+                {step.title !== "MISSING" ? <h3>{step.title}</h3> : null}
+                {step.description !== "MISSING" ? <p>{step.description}</p> : null}
               </article>
             ))}
           </div>
         </section>
       ) : null}
 
-      {resultImages.length ? (
+      {availableOutcomes.length ? (
         <section className="case-results" aria-labelledby="case-results-title">
           <h2 id="case-results-title">Final result</h2>
-          <div className="case-results-list">
-            {resultImages.map((image, index) => (
-              <CaseImageTrigger
-                className="case-result-image"
-                key={image.src}
-                index={index + 1}
-                label={"Open result image " + (index + 1) + " for " + project.title}
-              >
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  sizes="(min-width: 80rem) 80vw, 100vw"
-                  style={{ objectFit: "contain" }}
-                />
-              </CaseImageTrigger>
+          <ul className="case-results-list">
+            {availableOutcomes.map((outcome, outcomeIndex) => (
+              <li key={outcomeIndex}>{outcome}</li>
             ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {item.type === "repo" && item.recentCommits?.length ? (
+        <section className="case-overview" aria-labelledby="recent-commits-title">
+          <h2 id="recent-commits-title">Recent commits</h2>
+          <ul className={styles.commitList}>
+            {item.recentCommits.slice(0, 5).map((commit) => (
+              <li key={commit.sha}>
+                <span>{commit.message.slice(0, 80)}</span>
+                <time dateTime={commit.date}>{displayDate(commit.date)}</time>
+                <a
+                  href={commit.url}
+                  className={styles.caseExternalLink}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={`View commit ${commit.sha.slice(0, 7)}`}
+                >
+                  <code>{commit.sha.slice(0, 7)}</code>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {item.type === "repo" && item.organization ? (
+        <section className={styles.caseOrganization} aria-labelledby="org-contributions-title">
+          {isAvailable(item.organization.avatar_url) ? (
+            <Image
+              className={styles.orgAvatar}
+              src={item.organization.avatar_url}
+              alt={`${item.organization.login} logo`}
+              width={48}
+              height={48}
+              unoptimized
+            />
+          ) : null}
+          <div className={styles.orgContent}>
+            <h2 id="org-contributions-title" className={styles.orgTitle}>
+              Contributions to{" "}
+              <a href={item.organization.url} className={styles.caseExternalLink}>
+                {item.organization.login}
+              </a>
+            </h2>
+            {isAvailable(item.organization.description) ? (
+              <p className={styles.orgDescription}>{item.organization.description}</p>
+            ) : null}
+            <div className={styles.orgStats}>
+              {isAvailable(item.organization.membership) ? (
+                <span>{item.organization.membership}</span>
+              ) : null}
+              {isAvailable(item.organization.public_repos) ? (
+                <span>{item.organization.public_repos} public repositories</span>
+              ) : null}
+              {isAvailable(item.organization.followers) ? (
+                <span>{item.organization.followers} followers</span>
+              ) : null}
+            </div>
           </div>
         </section>
       ) : null}
 
-      <nav className="case-next" aria-label="Project navigation">
-        <span className="case-next-label">Next project</span>
-        <Link href={"/work/" + nextProject.slug} className="case-next-link">
-          <span>{nextProject.title}</span>
-          <span aria-hidden="true">↗</span>
-        </Link>
-      </nav>
-
-      <CaseLightbox images={lightboxImages} />
+      {nextItem ? (
+        <nav className="case-next" aria-label="Work item navigation">
+          <span className="case-next-label">
+            Next {item.type === "repo" ? "repository" : "project"}
+          </span>
+          <Link href={`/work/${nextItem.slug}`} className="case-next-link">
+            <span>{nextItem.title}</span>
+            <span aria-hidden="true">↗</span>
+          </Link>
+        </nav>
+      ) : null}
     </main>
   )
 }

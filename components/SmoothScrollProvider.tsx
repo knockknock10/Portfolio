@@ -2,23 +2,32 @@
 
 import Lenis from "lenis"
 import { usePathname } from "next/navigation"
-import { useEffect, useRef, type ReactNode } from "react"
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react"
 
 type SmoothScrollProviderProps = {
   children: ReactNode
+}
+
+const LenisContext = createContext<Lenis | null>(null)
+
+export function useLenis() {
+  return useContext(LenisContext)
 }
 
 export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   const pathname = usePathname()
   const lenisRef = useRef<Lenis | null>(null)
   const pathnameRef = useRef(pathname)
+  const [activeLenis, setActiveLenis] = useState<Lenis | null>(null)
 
   useEffect(() => {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)")
 
     function syncScrollMode() {
       lenisRef.current?.destroy()
-      lenisRef.current = motionPreference.matches ? null : new Lenis({ autoRaf: true, anchors: true })
+      const nextLenis = motionPreference.matches ? null : new Lenis({ autoRaf: true, anchors: true })
+      lenisRef.current = nextLenis
+      setActiveLenis(nextLenis)
     }
 
     function onNavigationStart(event: MouseEvent) {
@@ -61,5 +70,5 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     lenis?.start()
   }, [pathname])
 
-  return children
+  return <LenisContext.Provider value={activeLenis}>{children}</LenisContext.Provider>
 }

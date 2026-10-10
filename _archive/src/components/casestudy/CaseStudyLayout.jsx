@@ -189,7 +189,7 @@ export default function CaseStudyLayout({ project, previous, next }) {
       {/* Sticky Table-of-Contents Jump Bar */}
       <nav
         aria-label="Case study sections navigation"
-        className="sticky top-16 z-30 bg-bg/85 backdrop-blur-md border-b border-white/[0.07] py-2.5 overflow-x-auto"
+        className="sticky top-16 z-30 bg-bg/85 border-b border-white/[0.07] py-2.5 overflow-x-auto"
         style={{ scrollbarWidth: 'none' }}
       >
         <Container className="flex items-center gap-1.5 min-w-max">
