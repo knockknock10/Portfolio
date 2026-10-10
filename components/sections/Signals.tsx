@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
-import { readDurationToken, useSpringToken } from "@/components/primitives/motionTokens"
+import { readDurationToken, readSpringToken, useSpringToken } from "@/components/primitives/motionTokens"
 import type { ContributionCalendar, ContributionDay } from "@/lib/work"
 import type { SignalNumber, SignalStats } from "@/lib/signals"
 
@@ -38,7 +38,12 @@ const cellVariants = {
   visible: (index: number) => ({
     opacity: 1,
     transition: {
-      duration: readDurationToken("--duration-fast"),
+      ...(readSpringToken("gentle") ?? {
+        type: "spring" as const,
+        stiffness: 170,
+        damping: 23,
+        mass: 1,
+      }),
       delay: Math.min(
         readDurationToken("--duration-signals-stagger-cap") * index / 365,
         readDurationToken("--duration-signals-stagger-cap"),
@@ -236,8 +241,8 @@ export function Signals({ data, standalone = false }: SignalsProps) {
             <dl className="signals-stat-strip">
               {githubStats.map((stat) => (
                 <div className="signals-stat" key={stat.key}>
-                  <dd className="signals-stat-value">{stat.value}</dd>
                   <dt className="signals-stat-label">{stat.label}</dt>
+                  <dd className="signals-stat-value">{stat.value}</dd>
                 </div>
               ))}
             </dl>
@@ -314,16 +319,16 @@ export function Signals({ data, standalone = false }: SignalsProps) {
 
               <dl className="signals-leetcode-metrics">
                 {numberLabel(solved.profileRank) ? (
-                  <div className="signals-mini-stat"><dd>{numberLabel(solved.profileRank)}</dd><dt>Global rank</dt></div>
+                  <div className="signals-mini-stat"><dt>Global rank</dt><dd>{numberLabel(solved.profileRank)}</dd></div>
                 ) : null}
                 {solved.acceptanceRate !== "MISSING" ? (
-                  <div className="signals-mini-stat"><dd>{solved.acceptanceRate}</dd><dt>Acceptance rate</dt></div>
+                  <div className="signals-mini-stat"><dt>Acceptance rate</dt><dd>{solved.acceptanceRate}</dd></div>
                 ) : null}
                 {numberLabel(solved.contestRating) ? (
-                  <div className="signals-mini-stat"><dd>{Number(solved.contestRating).toLocaleString("en-US", { maximumFractionDigits: 1 })}</dd><dt>Contest rating</dt></div>
+                  <div className="signals-mini-stat"><dt>Contest rating</dt><dd>{Number(solved.contestRating).toLocaleString("en-US", { maximumFractionDigits: 1 })}</dd></div>
                 ) : null}
                 {numberLabel(solved.contestRank) ? (
-                  <div className="signals-mini-stat"><dd>{numberLabel(solved.contestRank)}</dd><dt>Contest rank</dt></div>
+                  <div className="signals-mini-stat"><dt>Contest rank</dt><dd>{numberLabel(solved.contestRank)}</dd></div>
                 ) : null}
               </dl>
             </div>
