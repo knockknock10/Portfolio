@@ -593,3 +593,17 @@
   .orgCard,.orgLink,.contributionFeedIntro>a,.contributionFilter,.contributionFilterActive,.contributionCopy>a{transition:none!important}
   .contributionFeedIntro>a:hover,.contributionFilter:hover{transform:none}
 }
+
+.activityMediaFallback{display:flex;align-items:center;gap:12px;min-height:128px;padding:15px;border:1px solid rgba(92,81,133,.1);border-radius:12px;background:linear-gradient(135deg,#faf9ff,#f2f7ff);color:#565b72}
+.activityFallbackMark{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border-radius:12px;background:#ece9ff;color:#6257bd;font-size:.76rem;font-weight:850;letter-spacing:-.04em}
+.activityMediaFallback>div{min-width:0;flex:1}
+.activityMediaFallback strong{display:block;color:#33354b;font-size:.76rem;font-weight:750}
+.activityMediaFallback p{margin:5px 0 0;color:#72768a;font-size:.67rem;line-height:1.55}
+.activityMediaFallback>a{flex:0 0 auto;color:#5a4cbb;text-decoration:none;font-size:.67rem;font-weight:750}
+.activityMediaFallback>a:hover{text-decoration:underline;text-underline-offset:3px}
+.activityTrophyFallback{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;min-height:115px;padding:14px;border:1px dashed rgba(92,81,133,.18);border-radius:12px;background:linear-gradient(135deg,#fbfaff,#f5f7ff);text-align:center}
+.activityTrophyFallback>span{display:grid;place-items:center;width:33px;height:33px;border-radius:50%;background:#eeebff;color:#6659c2;font-size:1.15rem}
+.activityTrophyFallback strong{color:#3b3d52;font-size:.75rem}
+.activityTrophyFallback small{color:#6f7185;font-size:.66rem}
+@media(max-width:420px){.activityMediaFallback{align-items:flex-start;flex-wrap:wrap}.activityMediaFallback>a{margin-left:52px}}
+@media(prefers-reduced-motion:reduce){.activityMediaFallback>a{transition:none}}
