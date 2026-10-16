@@ -190,7 +190,6 @@ export function Signals({ data, standalone = false }: SignalsProps) {
     solved.contestRank,
   ].some((value) => value !== "MISSING")
   const hasCalendar = Boolean(data.github.contributionCalendar?.weeks.length)
-  if (!hasCalendar && githubStats.length === 0 && !hasLeetcode) return null
 
   const Heading = standalone ? "h1" : "h2"
   const easy = hasNumber(solved.easySolved) ? solved.easySolved : 0
@@ -209,10 +208,19 @@ export function Signals({ data, standalone = false }: SignalsProps) {
     >
       <div className="signals-inner">
         <header className="signals-header">
-          <p className="signals-eyebrow">Activity</p>
-          <Heading className="signals-title">{standalone ? "Signals" : "Signals"}</Heading>
+          <p className="signals-eyebrow">Profiles · Verifiable activity</p>
+          <Heading className="signals-title">GitHub &amp; LeetCode</Heading>
+          <nav className="signals-profile-links" aria-label="Developer profiles">
+            <a href="https://github.com/knockknock10" target="_blank" rel="noreferrer">GitHub profile <span aria-hidden="true">↗</span></a>
+            <a href={"https://leetcode.com/u/" + encodeURIComponent(solved.username || "knockknock10") + "/"} target="_blank" rel="noreferrer">LeetCode profile <span aria-hidden="true">↗</span></a>
+          </nav>
         </header>
 
+        {!hasCalendar && githubStats.length === 0 && !hasLeetcode ? (
+          <div className="signals-empty-state">
+            <p>Profile metrics could not be loaded right now. Use the direct profile links above for current activity.</p>
+          </div>
+        ) : null}
         {hasCalendar ? (
           <motion.div
             initial={reducedMotion ? false : { opacity: 0, y: 10 }}
