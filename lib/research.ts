@@ -15,6 +15,7 @@ export interface ResearchItem {
   link: string | ResearchMissing
   status: string | ResearchMissing
   image: string | ResearchMissing
+  pdf: string | ResearchMissing
   tags: string[]
 }
 
@@ -70,6 +71,26 @@ function publicImage(value: unknown): string | "MISSING" {
   return "/" + relativePath.split(sep).join("/")
 }
 
+function publicPdf(value: unknown): string | "MISSING" {
+  const text = cleanText(value)
+  if (!text || /^https?:\/\//i.test(text)) return "MISSING"
+  const publicRoot = resolve(process.cwd(), "public")
+  const relativeInput = text.replace(/^\/+/, "").replace(/^public\//, "")
+  const absolutePath = resolve(publicRoot, relativeInput)
+  const relativePath = relative(publicRoot, absolutePath)
+  if (
+    !relativePath ||
+    relativePath === ".." ||
+    relativePath.startsWith(".." + sep) ||
+    isAbsolute(relativePath) ||
+    !/\.pdf$/i.test(relativePath) ||
+    !existsSync(absolutePath)
+  ) {
+    return "MISSING"
+  }
+  return "/" + relativePath.split(sep).join("/")
+}
+
 function validUrl(value: unknown): string | "MISSING" {
   const text = cleanText(value)
   return text && /^https?:\/\//i.test(text) ? text : "MISSING"
@@ -104,6 +125,7 @@ export function getResearchData(): ResearchItem[] {
         link: validUrl(record.link),
         status: textField(record, "status"),
         image: publicImage(record.image),
+        pdf: publicPdf(record.pdf),
         tags,
       }]
     })

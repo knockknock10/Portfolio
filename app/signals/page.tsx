@@ -8,5 +8,9 @@ export const metadata: Metadata = {
 }
 
 export default function SignalsPage() {
-  return <ActivityShowcase data={getSignalsData()} />
+  return (
+    <main className="editorial-page signals-page">
+      <ActivityShowcase data={getSignalsData()} />
+    </main>
+  )
 }

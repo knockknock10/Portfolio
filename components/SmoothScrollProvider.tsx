@@ -28,7 +28,10 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       const nextLenis = new Lenis({
         autoRaf: true,
         anchors: false,
-        ...(motionPreference.matches ? { lerp: 1 } : {}),
+        lerp: motionPreference.matches ? 1 : 0.085,
+        smoothWheel: !motionPreference.matches,
+        wheelMultiplier: 0.9,
+        syncTouch: false,
       })
       lenisRef.current = nextLenis
       setActiveLenis(nextLenis)

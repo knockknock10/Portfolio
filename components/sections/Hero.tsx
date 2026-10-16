@@ -132,7 +132,7 @@ export function Hero({ heading, eyebrow, subhead, splitName }: HeroProps) {
               <div className="hero-visual-art-orb hero-visual-art-orb-two" />
               <div className="hero-visual-art-orb hero-visual-art-orb-three" />
               <div className="hero-visual-art-topline">
-                <span><span className="hero-live-indicator" />BUILDING IN PUBLIC</span>
+                <span>BUILDING IN PUBLIC</span>
                 <span>BACKEND · AI · OSS</span>
               </div>
               <div className="hero-visual-art-title">
