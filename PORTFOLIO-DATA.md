@@ -3011,7 +3011,8 @@ The records below are sourced from the project inventory and the résumé's Rese
       "LibriSpeech",
       "Whisper tiny.en",
       "SHA-256"
-    ]
+    ],
+    "pdf": "papers/SemBind.pdf"
   },
   {
     "title": "Nanosensor Network Communication Simulator",
