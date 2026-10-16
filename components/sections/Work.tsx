@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { ContributionHeatmap } from "@/components/work/ContributionHeatmap"
 import { WorkGallery } from "@/components/work/WorkGallery"
 import { WorkStatsStrip } from "@/components/work/WorkStatsStrip"
 import { getWorkData } from "@/lib/work"
@@ -18,10 +17,9 @@ export function Work({ variant }: WorkProps) {
           <h1 className="work-page-title">Work</h1>
         </header>
         <div className="work-page-activity-link">
-          <Link href="/signals">Explore activity signals <span aria-hidden="true">→</span></Link>
+          <Link href="/signals">View engineering activity <span aria-hidden="true">↗</span></Link>
         </div>
         <WorkStatsStrip stats={data.stats} />
-        <ContributionHeatmap calendar={data.contributionCalendar} />
         <WorkGallery items={data.items} variant="full" />
       </main>
     )
