@@ -15,7 +15,7 @@ function available(value: string | "MISSING"): value is string {
 }
 
 function paperLink(url: string): boolean {
-  return /doi\\.org|arxiv\\.org|\\.pdf(?:$|[?#])/i.test(url)
+  return /doi\.org|arxiv\.org|\.pdf(?:$|[?#])/i.test(url)
 }
 
 function AbstractDisclosure({ abstract }: { abstract: string }) {
