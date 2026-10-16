@@ -61,8 +61,12 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
         </div>
         <p className="research-feature-venue">{venue} · {available(item.year) ? item.year : "Submission"}</p>
         <h3>{item.title}</h3>
-        <p className="research-feature-authors">
-          {authors.join(" · ")}
+        <p className="research-feature-authors" aria-label="Authors in manuscript order">
+          {authors.map((author, index) => (
+            <span key={author} className={index === 0 ? "research-feature-author is-first-author" : "research-feature-author"}>
+              {author}
+            </span>
+          ))}
         </p>
         <p className="research-feature-lede">
           {available(item.abstract) ? item.abstract : "A controlled study of reference-based speech-watermark placement, evaluating semantic contribution and spectral suitability on a full speech corpus."}
