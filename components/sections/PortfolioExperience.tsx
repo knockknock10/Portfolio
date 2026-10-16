@@ -806,15 +806,25 @@ export function OpenSourceOrganizations() {
         </div>
 
         <ol className={styles.contributionList}>
-          {visibleContributions.map((item) => (
-            <li key={item.url} className={styles.contributionRow}>
-              <span className={styles.contributionStatus} data-status={item.status.toLowerCase()}>{item.status}</span>
-              <div className={styles.contributionCopy}>
-                <span>{item.organization} · @{item.handle}</span>
-                <a href={item.url} target="_blank" rel="noreferrer">{item.label}<span aria-hidden="true"> ↗</span></a>
-              </div>
-            </li>
-          ))}
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visibleContributions.map((item, index) => (
+              <motion.li
+                layout
+                key={item.url}
+                className={styles.contributionRow}
+                initial={reducedMotion ? false : { opacity: 0, y: 7 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                transition={{ duration: reducedMotion ? 0 : 0.2, delay: reducedMotion ? 0 : Math.min(index, 3) * 0.025 }}
+              >
+                <span className={styles.contributionStatus} data-status={item.status.toLowerCase()}>{item.status}</span>
+                <div className={styles.contributionCopy}>
+                  <span>{item.organization} · @{item.handle}</span>
+                  <a href={item.url} target="_blank" rel="noreferrer">{item.label}<span aria-hidden="true"> ↗</span></a>
+                </div>
+              </motion.li>
+            ))}
+          </AnimatePresence>
         </ol>
         {filteredContributions.length > 4 ? (
           <button
