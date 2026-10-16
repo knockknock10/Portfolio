@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion"
 import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent } from "react"
+import type { CSSProperties } from "react"
 import type { SignalStats } from "@/lib/signals"
 import { useLenis } from "@/components/SmoothScrollProvider"
 import { readDurationToken } from "@/components/primitives/motionTokens"
@@ -304,6 +305,26 @@ const skillLogos: Record<string, string> = {
   "Node test runner": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
   "Code review": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
 }
+
+function SkillLogo({ name }: { name: string }) {
+  const [failed, setFailed] = useState(false)
+  const source = skillLogos[name]
+
+  return (
+    <span className={styles.skillTechIcon} aria-hidden="true">
+      <span className={styles.skillTechFallback}>{name.replace(/[^A-Za-z0-9]/g, "").slice(0, 2).toUpperCase()}</span>
+      {source && !failed ? (
+        <img
+          src={source}
+          alt=""
+          loading="lazy"
+          onError={() => setFailed(true)}
+        />
+      ) : null}
+    </span>
+  )
+}
+
 
 type ProfileIdCardProps = { tools: string[] | null }
 
@@ -784,7 +805,9 @@ export function SkillsExplorer() {
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  {skill}<span aria-hidden="true">↗</span>
+                  <SkillLogo name={skill} />
+                  <span className={styles.skillChipLabel}>{skill}</span>
+                  <span className={styles.skillChipArrow} aria-hidden="true">↗</span>
                 </motion.button>
               ))}
             </div>
@@ -801,7 +824,11 @@ export function SkillsExplorer() {
                     <h4>{category}</h4>
                     <div className={styles.allSkillChips}>
                       {skillGroups[category].map((skill) => (
-                        <button type="button" key={skill} onClick={() => exploreSkill(skill)}>{skill} ↗</button>
+                        <button type="button" key={skill} onClick={() => exploreSkill(skill)}>
+                          <SkillLogo name={skill} />
+                          <span>{skill}</span>
+                          <span className={styles.skillChipArrow} aria-hidden="true">↗</span>
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -815,80 +842,362 @@ export function SkillsExplorer() {
   )
 }
 
+
 type Badge = { displayName?: string; name?: string; icon?: string; creationDate?: string | number }
+type TopicLevel = "fundamental" | "intermediate" | "advanced"
+type TopicFilter = "all" | TopicLevel
+type LeetCodeTopic = { tagName: string; tagSlug: string; problemsSolved: number; level: TopicLevel }
+
+const fallbackTopics: LeetCodeTopic[] = [
+  { tagName: "Array", tagSlug: "array", problemsSolved: 231, level: "fundamental" },
+  { tagName: "Matrix", tagSlug: "matrix", problemsSolved: 36, level: "fundamental" },
+  { tagName: "String", tagSlug: "string", problemsSolved: 86, level: "fundamental" },
+  { tagName: "Simulation", tagSlug: "simulation", problemsSolved: 27, level: "fundamental" },
+  { tagName: "Enumeration", tagSlug: "enumeration", problemsSolved: 22, level: "fundamental" },
+  { tagName: "Sorting", tagSlug: "sorting", problemsSolved: 62, level: "fundamental" },
+  { tagName: "Stack", tagSlug: "stack", problemsSolved: 26, level: "fundamental" },
+  { tagName: "Queue", tagSlug: "queue", problemsSolved: 3, level: "fundamental" },
+  { tagName: "Linked List", tagSlug: "linked-list", problemsSolved: 8, level: "fundamental" },
+  { tagName: "Two Pointers", tagSlug: "two-pointers", problemsSolved: 28, level: "fundamental" },
+  { tagName: "Tree", tagSlug: "tree", problemsSolved: 21, level: "intermediate" },
+  { tagName: "Binary Tree", tagSlug: "binary-tree", problemsSolved: 16, level: "intermediate" },
+  { tagName: "Hash Table", tagSlug: "hash-table", problemsSolved: 79, level: "intermediate" },
+  { tagName: "Ordered Set", tagSlug: "ordered-set", problemsSolved: 8, level: "intermediate" },
+  { tagName: "Graph Theory", tagSlug: "graph", problemsSolved: 7, level: "intermediate" },
+  { tagName: "Greedy", tagSlug: "greedy", problemsSolved: 54, level: "intermediate" },
+  { tagName: "Binary Search", tagSlug: "binary-search", problemsSolved: 41, level: "intermediate" },
+  { tagName: "Depth-First Search", tagSlug: "depth-first-search", problemsSolved: 31, level: "intermediate" },
+  { tagName: "Breadth-First Search", tagSlug: "breadth-first-search", problemsSolved: 23, level: "intermediate" },
+  { tagName: "Recursion", tagSlug: "recursion", problemsSolved: 12, level: "intermediate" },
+  { tagName: "Sliding Window", tagSlug: "sliding-window", problemsSolved: 24, level: "intermediate" },
+  { tagName: "Bit Manipulation", tagSlug: "bit-manipulation", problemsSolved: 34, level: "intermediate" },
+  { tagName: "Math", tagSlug: "math", problemsSolved: 84, level: "intermediate" },
+  { tagName: "Design", tagSlug: "design", problemsSolved: 7, level: "intermediate" },
+  { tagName: "Brainteaser", tagSlug: "brainteaser", problemsSolved: 4, level: "intermediate" },
+  { tagName: "Database", tagSlug: "database", problemsSolved: 23, level: "intermediate" },
+  { tagName: "Data Stream", tagSlug: "data-stream", problemsSolved: 1, level: "advanced" },
+  { tagName: "Game Theory", tagSlug: "game-theory", problemsSolved: 3, level: "advanced" },
+  { tagName: "Rolling Hash", tagSlug: "rolling-hash", problemsSolved: 1, level: "advanced" },
+  { tagName: "Sweep Line", tagSlug: "sweep-line", problemsSolved: 1, level: "advanced" },
+  { tagName: "Backtracking", tagSlug: "backtracking", problemsSolved: 9, level: "advanced" },
+  { tagName: "Bitmask", tagSlug: "bitmask", problemsSolved: 2, level: "advanced" },
+  { tagName: "Quickselect", tagSlug: "quickselect", problemsSolved: 2, level: "advanced" },
+  { tagName: "Dynamic Programming", tagSlug: "dynamic-programming", problemsSolved: 76, level: "advanced" },
+  { tagName: "Divide and Conquer", tagSlug: "divide-and-conquer", problemsSolved: 10, level: "advanced" },
+  { tagName: "Trie", tagSlug: "trie", problemsSolved: 4, level: "advanced" },
+  { tagName: "Union-Find", tagSlug: "union-find", problemsSolved: 9, level: "advanced" },
+  { tagName: "Binary Indexed Tree", tagSlug: "binary-indexed-tree", problemsSolved: 2, level: "advanced" },
+  { tagName: "Segment Tree", tagSlug: "segment-tree", problemsSolved: 10, level: "advanced" },
+  { tagName: "Monotonic Stack", tagSlug: "monotonic-stack", problemsSolved: 5, level: "advanced" },
+  { tagName: "Monotonic Queue", tagSlug: "monotonic-queue", problemsSolved: 1, level: "advanced" },
+  { tagName: "Topological Sort", tagSlug: "topological-sort", problemsSolved: 2, level: "advanced" },
+]
+
+const fallbackBadges: Badge[] = [
+  { displayName: "Knight", icon: "https://leetcode.com/static/images/badges/knight.png" },
+  { displayName: "100 Days Badge 2026", icon: "https://assets.leetcode.com/static_assets/others/100_1080_1080.png" },
+  { displayName: "50 Days Badge 2026", icon: "https://assets.leetcode.com/static_assets/others/50_1080_1080.png" },
+  { displayName: "100 Days Badge 2025", icon: "https://assets.leetcode.com/static_assets/others/lg25100.png" },
+  { displayName: "50 Days Badge 2025", icon: "https://assets.leetcode.com/static_assets/others/lg2550.png" },
+  { displayName: "Sep LeetCoding Challenge", icon: "https://leetcode.com/static/images/badges/dcc-2026-9.png" },
+  { displayName: "Jul LeetCoding Challenge", icon: "https://leetcode.com/static/images/badges/dcc-2025-7.png" },
+  { displayName: "Jun LeetCoding Challenge", icon: "https://leetcode.com/static/images/badges/dcc-2025-6.png" },
+]
 
 export function ActivityShowcase({ data }: { data: SignalStats }) {
   const [badges, setBadges] = useState<Badge[]>([])
-  const [badgeStatus, setBadgeStatus] = useState<"loading" | "loaded" | "fallback">("loading")
-  const [expandedBadges, setExpandedBadges] = useState(true)
+  const [badgeStatus, setBadgeStatus] = useState<"loading" | "live" | "snapshot">("loading")
+  const [topics, setTopics] = useState<LeetCodeTopic[]>(fallbackTopics)
+  const [topicStatus, setTopicStatus] = useState<"loading" | "live" | "snapshot">("loading")
+  const [topicFilter, setTopicFilter] = useState<TopicFilter>("all")
+  const [selectedTopic, setSelectedTopic] = useState<LeetCodeTopic>(fallbackTopics[0])
+  const [submissions, setSubmissions] = useState<number | null>(null)
+  const [liveSolved, setLiveSolved] = useState<number | null>(null)
+  const [totalQuestions, setTotalQuestions] = useState<number | null>(null)
+  const [liveAcceptance, setLiveAcceptance] = useState<string | null>(null)
+  const [badgePeek, setBadgePeek] = useState<string | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
     const timeout = window.setTimeout(() => controller.abort(), 18000)
-    fetch("https://alfa-leetcode-api.onrender.com/knockknock10/badges", { signal: controller.signal })
-      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Badge service unavailable")))
+
+    const requestTopics = fetch("https://alfa-leetcode-api.onrender.com/knockknock10/skill", { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Topic stats unavailable")))
+      .then((payload: Record<TopicLevel, Array<{ tagName: string; tagSlug: string; problemsSolved: number }>>) => {
+        const levels: TopicLevel[] = ["fundamental", "intermediate", "advanced"]
+        const result = levels.flatMap((level) =>
+          (Array.isArray(payload[level]) ? payload[level] : [])
+            .filter((item) => item && typeof item.tagName === "string" && typeof item.tagSlug === "string" && Number.isFinite(item.problemsSolved))
+            .map((item) => ({ ...item, level })),
+        )
+        if (!result.length) throw new Error("Topic stats were empty")
+        setTopics(result)
+        setTopicStatus("live")
+        setSelectedTopic((current) => result.find((topic) => topic.tagSlug === current.tagSlug) ?? result[0])
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setTopicStatus("snapshot")
+      })
+
+    const requestProfile = fetch("https://alfa-leetcode-api.onrender.com/knockknock10/profile", { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("LeetCode profile unavailable")))
+      .then((payload: {
+        totalSolved?: number
+        totalQuestions?: number
+        acceptanceRate?: number | string
+        totalSubmissions?: Array<{ difficulty?: string; submissions?: number }>
+      }) => {
+        const count = payload.totalSubmissions?.find((item) => item.difficulty === "All")?.submissions
+        if (typeof count === "number" && Number.isFinite(count)) setSubmissions(count)
+        if (typeof payload.totalSolved === "number") setLiveSolved(payload.totalSolved)
+        if (typeof payload.totalQuestions === "number") setTotalQuestions(payload.totalQuestions)
+        if (typeof payload.acceptanceRate === "string" || typeof payload.acceptanceRate === "number") {
+          setLiveAcceptance(String(payload.acceptanceRate))
+        }
+      })
+      .catch(() => undefined)
+
+    const requestBadges = fetch("https://alfa-leetcode-api.onrender.com/knockknock10/badges", { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("LeetCode badges unavailable")))
       .then((payload: { badges?: Badge[]; data?: { badges?: Badge[] } }) => {
         const found = Array.isArray(payload.badges) ? payload.badges : Array.isArray(payload.data?.badges) ? payload.data.badges : []
         const earned = found.filter((badge) => badge.displayName || badge.name)
-        setBadges(earned)
-        setBadgeStatus(earned.length ? "loaded" : "fallback")
+        if (earned.length) {
+          setBadges(earned)
+          setBadgeStatus("live")
+        } else {
+          setBadgeStatus("snapshot")
+        }
       })
-      .catch(() => setBadgeStatus("fallback"))
-      .finally(() => window.clearTimeout(timeout))
+      .catch(() => {
+        if (!controller.signal.aborted) setBadgeStatus("snapshot")
+      })
+
+    Promise.allSettled([requestTopics, requestProfile, requestBadges]).finally(() => window.clearTimeout(timeout))
     return () => {
       window.clearTimeout(timeout)
       controller.abort()
     }
   }, [])
 
-  // Snapshot fallback from the public LeetCode badges endpoint (refreshed live above).
-  // Keep the earned badges visible even while the profile API is cold or unavailable.
-  const fallbackBadges: Badge[] = [
-    { displayName: "Knight", icon: "https://leetcode.com/static/images/badges/knight.png" },
-    { displayName: "100 Days Badge 2026", icon: "https://assets.leetcode.com/static_assets/others/100_1080_1080.png" },
-    { displayName: "50 Days Badge 2026", icon: "https://assets.leetcode.com/static_assets/others/50_1080_1080.png" },
-    { displayName: "100 Days Badge 2025", icon: "https://assets.leetcode.com/static_assets/others/lg25100.png" },
-    { displayName: "50 Days Badge 2025", icon: "https://assets.leetcode.com/static_assets/others/lg2550.png" },
-    { displayName: "Sep LeetCoding Challenge", icon: "https://leetcode.com/static/images/badges/dcc-2026-9.png" },
-    { displayName: "Jul LeetCoding Challenge", icon: "https://leetcode.com/static/images/badges/dcc-2025-7.png" },
-    { displayName: "Jun LeetCoding Challenge", icon: "https://leetcode.com/static/images/badges/dcc-2025-6.png" },
-  ]
+  const maxTopicCount = useMemo(() => Math.max(1, ...topics.map((topic) => topic.problemsSolved)), [topics])
+  const visibleTopics = useMemo(
+    () => (topicFilter === "all" ? topics : topics.filter((topic) => topic.level === topicFilter)),
+    [topicFilter, topics],
+  )
   const shownBadges = badges.length ? badges : fallbackBadges
-  const contributions = typeof data.github.contributionsLast365Days === "number" ? data.github.contributionsLast365Days : typeof data.github.contributionCalendar?.totalContributions === "number" ? data.github.contributionCalendar.totalContributions : null
+  const contributionTotal =
+    typeof data.github.contributionsLast365Days === "number"
+      ? data.github.contributionsLast365Days
+      : typeof data.github.contributionCalendar?.totalContributions === "number"
+        ? data.github.contributionCalendar.totalContributions
+        : null
+  const solvedValue = liveSolved ?? (typeof data.leetcode.totalSolved === "number" ? data.leetcode.totalSolved : null)
+  const questionValue = totalQuestions ?? (typeof data.leetcode.totalQuestions === "number" ? data.leetcode.totalQuestions : null)
+  const acceptanceRaw = liveAcceptance ?? (data.leetcode.acceptanceRate !== "MISSING" ? data.leetcode.acceptanceRate : "87.2%")
+  const acceptanceValue = acceptanceRaw.endsWith("%") ? acceptanceRaw : acceptanceRaw + "%"
+  const submissionsValue = submissions ?? 523
+
+  function topicUrl(topic: LeetCodeTopic) {
+    return "https://leetcode.com/tag/" + topic.tagSlug + "/"
+  }
 
   return (
     <section className={styles.activitySection} id="signals" aria-labelledby="activity-heading">
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Proof of practice</p>
-        <h2 id="activity-heading">Consistency is built one day at a time.</h2>
-        <p>Contribution history, profile achievements and problem-solving progress—each linked back to its source.</p>
+        <h2 id="activity-heading">Practice, measured in patterns.</h2>
+        <p>A real snapshot of the topics you work on, plus the activity and badges behind the profile—every metric links back to LeetCode or GitHub.</p>
       </div>
+
       <div className={styles.activityGrid}>
         <article className={styles.activityCard + " " + styles.githubActivity}>
-          <div className={styles.activityCardHeader}><div><span className={styles.activityEyebrow}>01 / GITHUB</span><h3>Building in public</h3></div><a href={profile.github} target="_blank" rel="noreferrer" aria-label="Open GitHub profile">↗</a></div>
-          <div className={styles.githubGraph}><img src="https://ghchart.rshah.org/6554d7/knockknock10" alt="GitHub contribution graph for knockknock10" loading="lazy" /></div>
-          <div className={styles.graphCaption}><span>Contribution history</span><span>{contributions !== null ? contributions.toLocaleString() + " contributions recorded" : "Live graph from GitHub activity"}</span></div>
-          <div className={styles.githubBadgeHeading}><h4>Profile trophies</h4><span>Generated from public GitHub activity</span></div>
-          <a className={styles.trophyLink} href={profile.github} target="_blank" rel="noreferrer" aria-label="See GitHub achievements on profile"><img src="https://github-profile-trophy.vercel.app/?username=knockknock10&theme=flat&no-frame=true&no-bg=true&column=4&margin-w=8" alt="GitHub profile achievement trophies" loading="lazy" /></a>
-          <div className={styles.activityFooter}><span>Repos · PRs · Reviews · Contributions</span><a href={profile.github} target="_blank" rel="noreferrer">Open GitHub ↗</a></div>
-        </article>
-        <article className={styles.activityCard + " " + styles.leetcodeActivity}>
-          <div className={styles.activityCardHeader}><div><span className={styles.activityEyebrow}>02 / LEETCODE</span><h3>Problem solving</h3></div><a href={profile.leetcode} target="_blank" rel="noreferrer" aria-label="Open LeetCode profile">↗</a></div>
-          <div className={styles.leetcodeHero}><div><strong>{typeof data.leetcode.totalSolved === "number" ? data.leetcode.totalSolved : "—"}</strong><span>problems solved</span></div><div className={styles.knightBadge}><img src="https://leetcode.com/static/images/badges/knight.png" alt="LeetCode Knight contest badge" /><span>Knight</span></div></div>
-          <div className={styles.difficultyRows}>
-            {[["Easy", data.leetcode.easySolved, "easy"], ["Medium", data.leetcode.mediumSolved, "medium"], ["Hard", data.leetcode.hardSolved, "hard"]].map(([label, value, color]) => <div className={styles.difficultyRow} key={String(label)}><span>{String(label)}</span><div><span className={styles["difficultyFill" + String(color)]} style={{ width: (typeof value === "number" ? Math.min(100, (value / Math.max(1, typeof data.leetcode.totalSolved === "number" ? data.leetcode.totalSolved : 1)) * 100) : 0) + "%" }} /></div><strong>{typeof value === "number" ? value : "—"}</strong></div>)}
+          <div className={styles.activityCardHeader}>
+            <div><span className={styles.activityEyebrow}>01 / GITHUB</span><h3>Building in public</h3></div>
+            <a href={profile.github} target="_blank" rel="noreferrer" aria-label="Open GitHub profile">↗</a>
           </div>
-          <div className={styles.leetcodeMiniStats}><div><span>Contest rating</span><strong>{typeof data.leetcode.contestRating === "number" ? Math.round(data.leetcode.contestRating) : "—"}</strong></div><div><span>Acceptance</span><strong>{data.leetcode.acceptanceRate !== "MISSING" ? data.leetcode.acceptanceRate : "—"}</strong></div><div><span>Global rank</span><strong>{typeof data.leetcode.profileRank === "number" ? data.leetcode.profileRank.toLocaleString() : "—"}</strong></div></div>
-          <div className={styles.githubBadgeHeading}><h4>Earned badges</h4><span>{badgeStatus === "loaded" ? badges.length + " fetched from profile" : badgeStatus === "loading" ? "Checking public profile…" : "Profile-linked fallback"}</span></div>
-          <div id="leetcode-badges" className={styles.leetcodeBadges}>{shownBadges.slice(0, expandedBadges ? shownBadges.length : 6).map((badge, index) => <a href={profile.leetcode} target="_blank" rel="noreferrer" className={styles.leetcodeBadge} key={(badge.displayName ?? badge.name ?? "badge") + index}>{badge.icon ? <img src={badge.icon.startsWith("http") ? badge.icon : "https://leetcode.com" + badge.icon} alt="" loading="lazy" /> : <span className={styles.badgeMonogram}>★</span>}<span>{badge.displayName ?? badge.name}</span></a>)}</div>
-          {shownBadges.length > 6 ? <button className={styles.showBadges} type="button" aria-expanded={expandedBadges} aria-controls="leetcode-badges" onClick={() => setExpandedBadges((value) => !value)}>{expandedBadges ? "Show fewer badges −" : "Show all " + shownBadges.length + " badges +"}</button> : null}
-          <div className={styles.activityFooter}><span>Contest · Difficulty · Earned badges</span><a href={profile.leetcode} target="_blank" rel="noreferrer">Open LeetCode ↗</a></div>
+
+          <div className={styles.githubGraph}>
+            <img
+              src="https://ghchart.rshah.org/6554d7/knockknock10"
+              alt="GitHub contribution graph for knockknock10"
+              loading="lazy"
+              onError={(event) => { event.currentTarget.style.display = "none" }}
+            />
+          </div>
+          <div className={styles.graphCaption}>
+            <span>Daily contributions · last year</span>
+            <span>{contributionTotal !== null ? contributionTotal.toLocaleString() + " reported" : "Live from GitHub"}</span>
+          </div>
+
+          <div className={styles.githubBadgeHeading}>
+            <h4>GitHub achievements</h4>
+            <span>Profile trophies · opens your GitHub</span>
+          </div>
+          <a className={styles.trophyLink} href={profile.github} target="_blank" rel="noreferrer" aria-label="See GitHub profile achievements">
+            <img
+              src="https://github-profile-trophy.vercel.app/?username=knockknock10&theme=flat&no-frame=true&no-bg=true&column=4&margin-w=8"
+              alt="GitHub profile achievement trophies"
+              loading="lazy"
+              onError={(event) => { event.currentTarget.style.display = "none" }}
+            />
+          </a>
+          <div className={styles.activityFooter}>
+            <span>Commits · PRs · Reviews · Repositories</span>
+            <a href={profile.github} target="_blank" rel="noreferrer">View profile ↗</a>
+          </div>
+        </article>
+
+        <article className={styles.activityCard + " " + styles.leetcodeActivity}>
+          <div className={styles.activityCardHeader}>
+            <div><span className={styles.activityEyebrow}>02 / LEETCODE</span><h3>Problem-solving profile</h3></div>
+            <a href={profile.leetcode} target="_blank" rel="noreferrer" aria-label="Open LeetCode profile">↗</a>
+          </div>
+
+          <div className={styles.leetcodeHero}>
+            <div><strong>{solvedValue !== null ? solvedValue.toLocaleString() : "—"}{questionValue !== null ? <small> / {questionValue.toLocaleString()}</small> : null}</strong><span>problems solved</span></div>
+            <a className={styles.knightBadge} href={profile.leetcode} target="_blank" rel="noreferrer">
+              <img src="https://leetcode.com/static/images/badges/knight.png" alt="" />
+              <span>Knight</span>
+            </a>
+          </div>
+
+          <div className={styles.leetcodeSubmissionMetrics}>
+            <div className={styles.leetcodeMetricTile}><span>Submissions</span><strong>{submissionsValue.toLocaleString()}</strong><small>Accepted / attempted activity</small></div>
+            <div className={styles.leetcodeMetricTile}><span>Acceptance</span><strong>{acceptanceValue}</strong><small>Rate shown on profile</small></div>
+          </div>
+
+          <div className={styles.difficultyRows}>
+            {[["Easy", data.leetcode.easySolved, "easy"], ["Medium", data.leetcode.mediumSolved, "medium"], ["Hard", data.leetcode.hardSolved, "hard"]].map(([label, value, color]) => (
+              <div className={styles.difficultyRow} key={String(label)}>
+                <span>{String(label)}</span>
+                <div><span className={styles["difficultyFill" + String(color)]} style={{ width: (typeof value === "number" ? Math.min(100, (value / Math.max(1, solvedValue ?? 1)) * 100) : 0) + "%" }} /></div>
+                <strong>{typeof value === "number" ? value : "—"}</strong>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.leetcodeTopicPanel}>
+            <div className={styles.topicPanelHeader}>
+              <div>
+                <span className={styles.topicPanelKicker}>TOPIC MAP</span>
+                <h4>Patterns you’ve practiced</h4>
+                <p>Choose any circle to inspect its count and open that LeetCode topic.</p>
+              </div>
+              <span className={styles.topicSource}>{topicStatus === "live" ? "LIVE PROFILE" : topicStatus === "loading" ? "SYNCING" : "PROFILE SNAPSHOT"}</span>
+            </div>
+
+            <div className={styles.topicFilters} role="group" aria-label="Filter LeetCode topics by difficulty">
+              {([
+                ["all", "All topics"],
+                ["fundamental", "Fundamental"],
+                ["intermediate", "Intermediate"],
+                ["advanced", "Advanced"],
+              ] as Array<[TopicFilter, string]>).map(([level, label]) => (
+                <button
+                  key={level}
+                  type="button"
+                  aria-pressed={topicFilter === level}
+                  className={topicFilter === level ? styles.topicFilterActive : styles.topicFilter}
+                  onClick={() => setTopicFilter(level)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            <div className={styles.leetcodeTopicCloud} aria-label="LeetCode topics and solved counts">
+              {visibleTopics.map((topic, index) => {
+                const diameter = Math.round(50 + Math.sqrt(topic.problemsSolved / maxTopicCount) * 62)
+                const fill = Math.max(12, Math.round((topic.problemsSolved / maxTopicCount) * 100))
+                return (
+                  <motion.button
+                    key={topic.tagSlug}
+                    type="button"
+                    className={styles.leetcodeTopicBubble}
+                    data-level={topic.level}
+                    data-selected={selectedTopic.tagSlug === topic.tagSlug}
+                    style={{ width: diameter, height: diameter, "--topic-fill": fill + "%" } as CSSProperties}
+                    aria-pressed={selectedTopic.tagSlug === topic.tagSlug}
+                    aria-label={topic.tagName + ": " + topic.problemsSolved + " problems solved. Open LeetCode topic"}
+                    title={topic.tagName + " · " + topic.problemsSolved + " solved"}
+                    onClick={() => setSelectedTopic(topic)}
+                    initial={{ opacity: 0, scale: 0.84 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: Math.min(index, 18) * 0.012, type: "spring", stiffness: 230, damping: 20 }}
+                    whileHover={{ y: -3, scale: 1.045 }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    <span className={styles.topicBubbleName}>{topic.tagName}</span>
+                    <strong className={styles.topicBubbleCount}>{topic.problemsSolved}</strong>
+                  </motion.button>
+                )
+              })}
+            </div>
+
+            <div className={styles.selectedTopicDetail}>
+              <div>
+                <span>SELECTED TOPIC</span>
+                <strong>{selectedTopic.tagName}</strong>
+                <small>{selectedTopic.level} · {selectedTopic.problemsSolved} problems solved</small>
+              </div>
+              <a href={topicUrl(selectedTopic)} target="_blank" rel="noreferrer">Explore topic ↗</a>
+            </div>
+            <div className={styles.topicLegend}>
+              <span><i data-level="fundamental" /> Fundamental</span>
+              <span><i data-level="intermediate" /> Intermediate</span>
+              <span><i data-level="advanced" /> Advanced</span>
+              <small>Circle size reflects solved count; values are not difficulty completion rates.</small>
+            </div>
+          </div>
+
+          <div className={styles.leetcodeMiniStats}>
+            <div><span>Contest rating</span><strong>{typeof data.leetcode.contestRating === "number" ? Math.round(data.leetcode.contestRating) : "—"}</strong></div>
+            <div><span>Global rank</span><strong>{typeof data.leetcode.profileRank === "number" ? data.leetcode.profileRank.toLocaleString() : "—"}</strong></div>
+            <div><span>Contest rank</span><strong>{typeof data.leetcode.contestRank === "number" ? data.leetcode.contestRank.toLocaleString() : "—"}</strong></div>
+          </div>
+
+          <div className={styles.leetcodeBadgesSection}>
+            <div className={styles.githubBadgeHeading}>
+              <h4>All earned LeetCode badges</h4>
+              <span>{badgeStatus === "live" ? badges.length + " live badges" : badgeStatus === "loading" ? "Loading profile badges…" : "Saved profile snapshot"}</span>
+            </div>
+            <div className={styles.leetcodeBadges}>
+              {shownBadges.map((badge, index) => (
+                <button
+                  type="button"
+                  className={styles.leetcodeBadge}
+                  key={(badge.displayName ?? badge.name ?? "badge") + index}
+                  onClick={() => setBadgePeek((current) => current === (badge.displayName ?? badge.name) ? null : (badge.displayName ?? badge.name ?? "LeetCode badge"))}
+                  aria-expanded={badgePeek === (badge.displayName ?? badge.name)}
+                  title={badge.displayName ?? badge.name}
+                >
+                  <span className={styles.badgeIconWrap}>
+                    <span className={styles.badgeMonogram} aria-hidden="true">★</span>
+                    {badge.icon ? <img src={badge.icon.startsWith("http") ? badge.icon : "https://leetcode.com" + badge.icon} alt="" loading="lazy" onError={(event) => { event.currentTarget.style.display = "none" }} /> : null}
+                  </span>
+                  <span>{badge.displayName ?? badge.name}</span>
+                </button>
+              ))}
+            </div>
+            {badgePeek ? <p className={styles.badgeDetail}><strong>{badgePeek}</strong> · Earned badge on the <a href={profile.leetcode} target="_blank" rel="noreferrer">LeetCode profile ↗</a></p> : null}
+          </div>
+          <div className={styles.activityFooter}>
+            <span>Submissions · Topics · Badges</span>
+            <a href={profile.leetcode} target="_blank" rel="noreferrer">Open LeetCode ↗</a>
+          </div>
         </article>
       </div>
     </section>
   )
 }
 
+
+export function VisitorCounter() {
+  return (
+    <div className={styles.visitorLine}>
+  }
+}
 export function VisitorCounter() {
   const [counterUrl, setCounterUrl] = useState<string | null>(null)
 
