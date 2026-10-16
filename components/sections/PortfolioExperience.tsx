@@ -23,6 +23,8 @@ const skillGroups = {
   "Quality & workflow": ["Git", "Linux", "Jest", "Vitest", "Node test runner", "Code review"],
 } as const
 
+const skillCategories = Object.keys(skillGroups) as Array<keyof typeof skillGroups>
+
 type Project = {
   name: string
   label: string
@@ -369,7 +371,7 @@ export function OpenSourceOrganizations() {
 }
 
 export function SkillsExplorer() {
-  const categories = Object.keys(skillGroups) as Array<keyof typeof skillGroups>
+  const categories = skillCategories
   const [active, setActive] = useState<keyof typeof skillGroups>("Languages")
   const [showAll, setShowAll] = useState(false)
   const current = skillGroups[active]
