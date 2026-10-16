@@ -6248,3 +6248,9 @@ body {
   .research-feature-note{max-width:none}
   .research-nanosensor-visual{width:100%;max-width:240px}
 }
+
+.research-feature-authors{display:flex;flex-wrap:wrap;align-items:center;gap:5px 9px}
+.research-feature-authors::before{width:100%;flex-basis:100%;margin-bottom:2px}
+.research-feature-author{color:#d6d4ee;font-size:.76rem;line-height:1.55}
+.research-feature-author+.research-feature-author::before{content:"·";margin-right:9px;color:#8f87c7}
+.research-feature-author.is-first-author{color:#fff;font-weight:850}
