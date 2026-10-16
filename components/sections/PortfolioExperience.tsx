@@ -331,7 +331,7 @@ type ProfilePortraitProps = { tools: string[] | null }
 export function ProfilePortrait({ tools }: ProfilePortraitProps) {
   const [portraitAvailable, setPortraitAvailable] = useState(false)
   const reduceMotion = useReducedMotion()
-  const portraitSrc = "/images/sanjeev-portrait.jpg"
+  const portraitSrc = "/images/sanjeev-portrait.png"
   const portraitTools = (tools ?? ["Go", "React", "Docker", "PostgreSQL", "PyTorch", "Kubernetes"]).filter(Boolean).slice(0, 7)
 
   useEffect(() => {
