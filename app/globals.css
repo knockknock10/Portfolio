@@ -5881,3 +5881,14 @@ body {
 }
 .work-card[data-project="commithub"] .work-card-shell a > div:first-child:not(:has(img)) .card-art-title,
 .work-card[data-project="aevor"] .work-card-shell a > div:first-child:not(:has(img)) .card-art-title { z-index: 1; }
+
+.work-cover-title,
+.work-cover-aside { position: relative; z-index: 2; color: #f8f7ff !important; }
+.work-card[data-project="aevor"] .work-cover-title,
+.work-card[data-project="aevor"] .work-cover-aside,
+.work-card[data-project*="sembind"] .work-cover-title,
+.work-card[data-project*="sembind"] .work-cover-aside,
+.work-card[data-project*="commithub"] .work-cover-title,
+.work-card[data-project*="commithub"] .work-cover-aside,
+.work-card[data-project*="failure"] .work-cover-title,
+.work-card[data-project*="failure"] .work-cover-aside { color: #f8f7ff !important; }
