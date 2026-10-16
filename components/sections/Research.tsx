@@ -48,8 +48,8 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
   const submittedToIEEE = available(item.status) && /submitted/i.test(item.status)
   const venue = available(item.venue) ? item.venue : "Research manuscript"
   const figureSrc = selectedFigure === "placement"
-    ? "/images/research/sembind-fig3.webp"
-    : "/images/research/sembind-fig1.webp"
+    ? "https://raw.githubusercontent.com/knockknock10/SemBind_Audio/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG2_embedding_locations.png"
+    : "https://raw.githubusercontent.com/knockknock10/SemBind_Audio/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG1_architecture.svg"
   const figureAlt = selectedFigure === "placement"
     ? "Figure 3 from the submitted manuscript: spectrogram, spectral and representation suitability curves, joint score, and selected embedding regions across a 7.9-second utterance."
     : "Figure 1 from the submitted manuscript: SemBind embedding pipeline combining frozen HuBERT contribution, STFT spectral suitability, placement selection, and SHA-256-bound payload."
@@ -152,8 +152,8 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
           <img src={figureSrc} alt={figureAlt} loading="lazy" decoding="async" />
           <figcaption>
             {selectedFigure === "placement"
-              ? "Fig. 3 · Spectrogram, placement scores and selected frames (PDF, page 3)"
-              : "Fig. 1 · SemBind embedding pipeline (PDF, page 1)"}
+              ? "Fig. 2 · Embedding-location and selection diagnostic from the research evidence package"
+              : "Fig. 1 · SemBind-Audio pipeline architecture from the research evidence package"}
           </figcaption>
         </figure>
         <div className="research-paper-actions">
