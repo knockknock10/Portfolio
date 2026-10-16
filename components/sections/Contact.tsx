@@ -17,14 +17,15 @@ export function Contact({ email, socials, availabilityNote, headingLevel = "h2",
   ) ?? []
   const priority = (platform: string) => {
     const normalized = platform.toLowerCase()
-    if (normalized.includes("github")) return 0
-    if (normalized.includes("leetcode")) return 1
-    if (normalized.includes("linkedin")) return 2
+    if (normalized.includes("linkedin")) return 0
+    if (normalized.includes("github")) return 1
+    if (normalized.includes("leetcode")) return 5
     return 3
   }
   const sortedSocials = [...availableSocials].sort((a, b) => priority(a.platform) - priority(b.platform))
-  const primarySocials = sortedSocials.slice(0, 3)
-  const moreSocials = sortedSocials.slice(3)
+  const primarySocials = sortedSocials.filter((social) => !social.platform.toLowerCase().includes("leetcode")).slice(0, 2)
+  const primaryPlatforms = new Set(primarySocials.map((social) => social.platform))
+  const moreSocials = sortedSocials.filter((social) => !primaryPlatforms.has(social.platform))
 
   return (
     <Container className="contact-section" aria-labelledby="contact-heading">
