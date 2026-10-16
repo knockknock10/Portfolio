@@ -59,10 +59,10 @@ export default async function HomePage() {
       </section>
       <ProfileIdCard tools={content.tools} />
       <FeaturedProjects />
+      <Research items={researchItems} />
       <OpenSourceOrganizations />
       <ActivityShowcase data={signalsData} />
       <SkillsExplorer />
-      <Research items={researchItems} />
       <Internships items={internships} />
       <Certifications items={certifications} />
       <section

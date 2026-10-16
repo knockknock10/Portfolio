@@ -370,7 +370,7 @@ export function ProfileIdCard({ tools }: ProfileIdCardProps) {
   }, [tiltX, tiltY])
 
   return (
-    <section className={styles.identitySection} id="identity" aria-labelledby="identity-heading">
+    <section className={styles.identitySection} id="identity" aria-labelledby="identity-heading" tabIndex={-1}>
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>A little about the engineer</p>
         <h2 id="identity-heading">The person behind the pull requests.</h2>
@@ -577,7 +577,7 @@ export function FeaturedProjects() {
   }, [lenis, reduceMotion])
 
   return (
-    <section className={styles.projectsSection} id="work" aria-labelledby="featured-projects-heading">
+    <section className={styles.projectsSection} id="work" aria-labelledby="featured-projects-heading" tabIndex={-1}>
       <div className={styles.sectionIntro + " " + styles.projectsIntro}>
         <div>
           <p className={styles.eyebrow}>Selected work · Built from the source</p>
@@ -677,37 +677,169 @@ export function FeaturedProjects() {
   )
 }
 
+type ContributionFilter = "all" | "merged" | "open"
+
 export function OpenSourceOrganizations() {
+  const [contributionFilter, setContributionFilter] = useState<ContributionFilter>("all")
+  const [showAllContributions, setShowAllContributions] = useState(false)
+  const reducedMotion = useReducedMotion()
+
+  const contributionGroups = useMemo(
+    () => organizations.map((org) => org.pullRequests.map((item) => ({
+      ...item,
+      organization: org.name,
+      handle: org.handle,
+      organizationUrl: org.url,
+    }))),
+    [],
+  )
+
+  // Interleave upstreams so the first items represent different organizations,
+  // rather than letting the organization with the largest PR history dominate.
+  const allContributions = useMemo(() => {
+    const rows: Array<{
+      label: string
+      status: string
+      url: string
+      organization: string
+      handle: string
+      organizationUrl: string
+    }> = []
+    const longestGroup = Math.max(0, ...contributionGroups.map((group) => group.length))
+    for (let index = 0; index < longestGroup; index += 1) {
+      for (const group of contributionGroups) {
+        if (group[index]) rows.push(group[index])
+      }
+    }
+    return rows
+  }, [contributionGroups])
+
+  const filteredContributions = useMemo(
+    () => allContributions.filter((item) =>
+      contributionFilter === "all" || item.status.toLowerCase() === contributionFilter,
+    ),
+    [allContributions, contributionFilter],
+  )
+  const visibleContributions = showAllContributions
+    ? filteredContributions
+    : filteredContributions.slice(0, 4)
+
   return (
-    <section className={styles.orgSection} id="open-source" aria-labelledby="org-heading">
+    <section className={styles.orgSection} id="open-source" aria-labelledby="org-heading" tabIndex={-1}>
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Beyond my own repositories</p>
         <h2 id="org-heading">Making upstream software a little better.</h2>
-        <p>Open-source work means reading unfamiliar code, testing assumptions, responding to review, and improving software with maintainers—not just opening a pull request.</p>
+        <p>Open-source work means learning an unfamiliar codebase, testing assumptions, responding to review and improving software with maintainers. Here are the communities and projects I have contributed to.</p>
       </div>
       <div className={styles.orgGrid}>
         {organizations.map((org, index) => (
-          <article className={styles.orgCard} key={org.handle}>
+          <motion.article
+            className={styles.orgCard}
+            key={org.handle}
+            initial={reducedMotion ? false : { opacity: 0, y: 13 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: reducedMotion ? 0 : 0.42, delay: reducedMotion ? 0 : Math.min(index, 5) * 0.045 }}
+            whileHover={reducedMotion ? undefined : { y: -4, scale: 1.008 }}
+          >
             <div className={styles.orgCardTop}>
-              <div className={styles.orgLogo}><span>{org.name.slice(0, 2).toUpperCase()}</span><img src={org.logo} alt={org.name + " logo"} loading="lazy" onError={(event) => { event.currentTarget.style.display = "none"; event.currentTarget.parentElement?.classList.add(styles.orgLogoFallback) }} /></div>
-              <div className={styles.orgIdentity}><span>0{index + 1} / CONTRIBUTION</span><h3>{org.name}</h3><p>@{org.handle}</p></div>
+              <div className={styles.orgLogo}>
+                <span>{org.name.slice(0, 2).toUpperCase()}</span>
+                <img
+                  src={org.logo}
+                  alt={org.name + " logo"}
+                  loading="lazy"
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none"
+                    event.currentTarget.parentElement?.classList.add(styles.orgLogoFallback)
+                  }}
+                />
+              </div>
+              <div className={styles.orgIdentity}>
+                <span>0{index + 1} / UPSTREAM</span>
+                <h3>{org.name}</h3>
+                <p>@{org.handle}</p>
+              </div>
               <a className={styles.orgArrow} href={org.url} target="_blank" rel="noreferrer" aria-label={"Visit " + org.name}>↗</a>
             </div>
             <p className={styles.orgSummary}>{org.summary}</p>
             <p className={styles.orgContribution}>{org.contribution}</p>
-            <div className={styles.orgRepos}>{org.repos.map((repo) => <span key={repo}>{repo}</span>)}</div>
-            <div className={styles.orgProofLinks} aria-label={org.name + " verified pull requests"}>
-              {org.pullRequests.map((item) => (
-                <a className={styles.orgProofLink} href={item.url} target="_blank" rel="noreferrer" key={item.url}>
-                  <span className={styles.orgProofStatus} data-status={item.status.toLowerCase()}>{item.status}</span>
-                  <span>{item.label}</span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              ))}
+            <div className={styles.orgRepos} aria-label="Repositories worked on">
+              {org.repos.map((repository) => <span key={repository}>{repository}</span>)}
             </div>
-            <a className={styles.orgLink} href={org.url} target="_blank" rel="noreferrer">Explore organization <span>↗</span></a>
-          </article>
+            <a className={styles.orgLink} href={org.url} target="_blank" rel="noreferrer">
+              Explore organization <span>↗</span>
+            </a>
+          </motion.article>
         ))}
+      </div>
+
+      <div className={styles.contributionFeed} aria-labelledby="contribution-feed-heading">
+        <div className={styles.contributionFeedIntro}>
+          <div>
+            <p className={styles.eyebrow}>The contribution trail</p>
+            <h3 id="contribution-feed-heading">A few upstream changes, in context.</h3>
+            <p>Browse a small sample, filter by review status, then open the original discussion when you want the implementation details.</p>
+          </div>
+          <a href="https://github.com/pulls?q=is%3Apr+author%3Aknockknock10" target="_blank" rel="noreferrer">All public PRs ↗</a>
+        </div>
+
+        <div className={styles.contributionFilters} role="group" aria-label="Filter contributions by status">
+          {([
+            ["all", "All", allContributions.length],
+            ["merged", "Merged", allContributions.filter((item) => item.status.toLowerCase() === "merged").length],
+            ["open", "Open", allContributions.filter((item) => item.status.toLowerCase() === "open").length],
+          ] as Array<[ContributionFilter, string, number]>).map(([filter, label, count]) => (
+            <button
+              key={filter}
+              type="button"
+              className={contributionFilter === filter ? styles.contributionFilterActive : styles.contributionFilter}
+              aria-pressed={contributionFilter === filter}
+              onClick={() => {
+                setContributionFilter(filter)
+                setShowAllContributions(false)
+              }}
+            >
+              {label}<span>{count}</span>
+            </button>
+          ))}
+        </div>
+
+        <ol className={styles.contributionList}>
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visibleContributions.map((item, index) => (
+              <motion.li
+                layout
+                key={item.url}
+                className={styles.contributionRow}
+                initial={reducedMotion ? false : { opacity: 0, y: 7 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                transition={{ duration: reducedMotion ? 0 : 0.2, delay: reducedMotion ? 0 : Math.min(index, 3) * 0.025 }}
+              >
+                <span className={styles.contributionStatus} data-status={item.status.toLowerCase()}>{item.status}</span>
+                <div className={styles.contributionCopy}>
+                  <span>{item.organization} · @{item.handle}</span>
+                  <a href={item.url} target="_blank" rel="noreferrer">{item.label}<span aria-hidden="true"> ↗</span></a>
+                </div>
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </ol>
+        {filteredContributions.length > 4 ? (
+          <button
+            type="button"
+            className={styles.contributionMore}
+            aria-expanded={showAllContributions}
+            onClick={() => setShowAllContributions((current) => !current)}
+          >
+            {showAllContributions ? "Show fewer contributions −" : "View more contributions +" }
+            <span>{showAllContributions ? "4 shown" : filteredContributions.length + " available"}</span>
+          </button>
+        ) : null}
+        {filteredContributions.length === 0 ? (
+          <p className={styles.contributionEmpty}>No contributions in this status in the curated list. View the full public pull-request history on GitHub.</p>
+        ) : null}
       </div>
     </section>
   )
@@ -754,7 +886,7 @@ export function SkillsExplorer() {
   }, [lenis, reduceMotion])
 
   return (
-    <section className={styles.skillsSection} id="skills" aria-labelledby="skills-heading">
+    <section className={styles.skillsSection} id="skills" aria-labelledby="skills-heading" tabIndex={-1}>
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Tools I reach for</p>
         <h2 id="skills-heading">A toolkit shaped by the work.</h2>
@@ -916,6 +1048,9 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
   const [totalQuestions, setTotalQuestions] = useState<number | null>(null)
   const [liveAcceptance, setLiveAcceptance] = useState<string | null>(null)
   const [badgePeek, setBadgePeek] = useState<string | null>(null)
+  const [githubGraphFailed, setGithubGraphFailed] = useState(false)
+  const [githubTrophiesFailed, setGithubTrophiesFailed] = useState(false)
+  const reducedMotion = Boolean(useReducedMotion())
 
   useEffect(() => {
     const controller = new AbortController()
@@ -1005,7 +1140,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
   }
 
   return (
-    <section className={styles.activitySection} id="signals" aria-labelledby="activity-heading">
+    <section className={styles.activitySection} id="signals" aria-labelledby="activity-heading" tabIndex={-1}>
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Proof of practice</p>
         <h2 id="activity-heading">Practice, measured in patterns.</h2>
@@ -1020,12 +1155,20 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
           </div>
 
           <div className={styles.githubGraph}>
-            <img
-              src="https://ghchart.rshah.org/6554d7/knockknock10"
-              alt="GitHub contribution graph for knockknock10"
-              loading="lazy"
-              onError={(event) => { event.currentTarget.style.display = "none" }}
-            />
+            {githubGraphFailed ? (
+              <div className={styles.activityMediaFallback}>
+                <span className={styles.activityFallbackMark} aria-hidden="true">GH</span>
+                <div><strong>Contribution graph unavailable</strong><p>Open the live GitHub profile to inspect current activity.</p></div>
+                <a href={profile.github} target="_blank" rel="noreferrer">Open profile ↗</a>
+              </div>
+            ) : (
+              <img
+                src="https://ghchart.rshah.org/6554d7/knockknock10"
+                alt="GitHub contribution graph for knockknock10"
+                loading="lazy"
+                onError={() => setGithubGraphFailed(true)}
+              />
+            )}
           </div>
           <div className={styles.graphCaption}>
             <span>Daily contributions · last year</span>
@@ -1037,12 +1180,20 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
             <span>Profile trophies · opens your GitHub</span>
           </div>
           <a className={styles.trophyLink} href={profile.github} target="_blank" rel="noreferrer" aria-label="See GitHub profile achievements">
-            <img
-              src="https://github-profile-trophy.vercel.app/?username=knockknock10&theme=flat&no-frame=true&no-bg=true&column=4&margin-w=8"
-              alt="GitHub profile achievement trophies"
-              loading="lazy"
-              onError={(event) => { event.currentTarget.style.display = "none" }}
-            />
+            {githubTrophiesFailed ? (
+              <span className={styles.activityTrophyFallback}>
+                <span aria-hidden="true">✦</span>
+                <strong>GitHub profile achievements</strong>
+                <small>Open your profile to see the latest trophies ↗</small>
+              </span>
+            ) : (
+              <img
+                src="https://github-profile-trophy.vercel.app/?username=knockknock10&theme=flat&no-frame=true&no-bg=true&column=4&margin-w=8"
+                alt="GitHub profile achievement trophies"
+                loading="lazy"
+                onError={() => setGithubTrophiesFailed(true)}
+              />
+            )}
           </a>
           <div className={styles.activityFooter}>
             <span>Commits · PRs · Reviews · Repositories</span>
@@ -1132,11 +1283,11 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
                     aria-label={topic.tagName + ": " + topic.problemsSolved + " problems solved. Open LeetCode topic"}
                     title={topic.tagName + " · " + topic.problemsSolved + " solved"}
                     onClick={() => setSelectedTopic(topic)}
-                    initial={{ opacity: 0, scale: 0.84 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: Math.min(index, 18) * 0.012, type: "spring", stiffness: 230, damping: 20 }}
-                    whileHover={{ y: -3, scale: 1.045 }}
-                    whileTap={{ scale: 0.97 }}
+                    initial={reducedMotion ? false : { opacity: 0, scale: 0.84 }}
+                    animate={reducedMotion ? undefined : { opacity: 1, scale: 1 }}
+                    transition={reducedMotion ? { duration: 0 } : { delay: Math.min(index, 18) * 0.012, type: "spring", stiffness: 230, damping: 20 }}
+                    whileHover={reducedMotion ? undefined : { y: -3, scale: 1.045 }}
+                    whileTap={reducedMotion ? undefined : { scale: 0.97 }}
                   >
                     <span className={styles.topicBubbleName}>{topic.tagName}</span>
                     <strong className={styles.topicBubbleCount}>{topic.problemsSolved}</strong>
@@ -1205,6 +1356,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
 
 export function VisitorCounter() {
   const [counterUrl, setCounterUrl] = useState<string | null>(null)
+  const [counterFailed, setCounterFailed] = useState(false)
 
   useEffect(() => {
     // A unique query string prevents browser/CDN caching from suppressing page-view hits.
@@ -1219,10 +1371,10 @@ export function VisitorCounter() {
       <span className={styles.visitorSpark} />
       <span className={styles.visitorMessage}>You’re visitor number</span>
       <a className={styles.visitorBadgeLink} href="https://hits.sh/kr-sanjeev.netlify.app/" target="_blank" rel="noreferrer" aria-label="Open portfolio visit statistics">
-        {counterUrl ? (
-          <img src={counterUrl} alt="Total portfolio visits, updated on page visit" loading="eager" decoding="async" />
+        {counterUrl && !counterFailed ? (
+          <img src={counterUrl} alt="Total portfolio visits, updated on page visit" loading="eager" decoding="async" onError={() => setCounterFailed(true)} />
         ) : (
-          <span className={styles.visitorBadgePlaceholder} aria-live="polite">counting…</span>
+          <span className={styles.visitorBadgePlaceholder} aria-live="polite">{counterFailed ? "visit counter unavailable" : "counting…"}</span>
         )}
       </a>
       <span className={styles.visitorEnd}>INCREMENTED ON VISIT</span>
