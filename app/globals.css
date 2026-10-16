@@ -5363,8 +5363,8 @@ body {
 .work-preview .work-card-title,
 .work-preview .work-card-title a { color: #24263a; }
 .work-preview .work-card-description,
-.work-preview .work-card-meta { color: #646981; }
-.work-preview .work-card-tag {
+.work-preview .work-preview-heading-copy .work-preview-intro { color: #646981; }
+.work-preview .work-tag {
   border: 1px solid rgba(101,88,245,.13);
   border-radius: 999px;
   color: #5148c7;
