@@ -349,6 +349,8 @@ export function ProfileIdCard({ tools }: ProfileIdCardProps) {
 
 export function FeaturedProjects() {
   const [selected, setSelected] = useState<Project | null>(null)
+  const isOpen = selected !== null
+  const selectedIndex = selected ? projects.findIndex((project) => project.name === selected.name) : -1
   const reduceMotion = useReducedMotion()
   const lenis = useLenis()
   const returnFocusRef = useRef<HTMLElement | null>(null)
@@ -359,7 +361,7 @@ export function FeaturedProjects() {
   }, [])
 
   useEffect(() => {
-    if (!selected) return
+    if (!isOpen) return
     const previousOverflow = document.body.style.overflow
     const focusFrame = window.requestAnimationFrame(() => {
       document.querySelector<HTMLElement>('[role="dialog"] button')?.focus()
@@ -399,7 +401,19 @@ export function FeaturedProjects() {
       document.body.style.overflow = previousOverflow
       if (returnFocusRef.current?.isConnected) returnFocusRef.current.focus({ preventScroll: true })
     }
-  }, [selected, close])
+  }, [isOpen, close])
+
+  const changeProject = useCallback((direction: -1 | 1) => {
+    if (!selected) return
+    const currentIndex = projects.findIndex((project) => project.name === selected.name)
+    const nextIndex = (currentIndex + direction + projects.length) % projects.length
+    const nextProject = projects[nextIndex]
+    const nextCard = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("[data-project-card]"),
+    ).find((item) => item.dataset.projectCard === nextProject.name)
+    if (nextCard) returnFocusRef.current = nextCard
+    setSelected(nextProject)
+  }, [selected])
 
   useEffect(() => {
     const onSkillProjectRequest = (event: Event) => {
@@ -494,20 +508,42 @@ export function FeaturedProjects() {
               transition={{ type: "spring", stiffness: 260, damping: 28 }}
             >
               <div className={styles.drawerTop}><span>PROJECT NOTES / {selected.status.toUpperCase()}</span><button type="button" onClick={close} aria-label="Close project details">×</button></div>
-              <p className={styles.eyebrow}>{selected.label}</p>
-              <h3 id="project-drawer-title">{selected.name}</h3>
-              <p className={styles.drawerDescription} id="project-drawer-description">{selected.detail}</p>
-              <div className={styles.drawerHighlights}>
-                <h4>What’s inside</h4>
-                <ul>{selected.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
-              </div>
-              <div className={styles.drawerStack}><h4>Technology</h4><div>{selected.stack.map((tech) => <span key={tech}>{tech}</span>)}</div></div>
-              <div className={styles.drawerActions}>
-                <a href={selected.repo} target="_blank" rel="noreferrer">Open repository <span>↗</span></a>
-                {selected.frontend ? <a href={selected.frontend} target="_blank" rel="noreferrer">Explore frontend <span>↗</span></a> : null}
-                {selected.live ? <a href={selected.live} target="_blank" rel="noreferrer">Live demo <span>↗</span></a> : null}
-              </div>
-              <p className={styles.drawerFootnote}>Details are based on the public repository and README; early-stage work is labelled honestly.</p>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={selected.name}
+                  className={styles.drawerContent}
+                  initial={reduceMotion ? false : { opacity: 0, y: 7 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.18 }}
+                >
+                  <p className={styles.eyebrow}>{selected.label}</p>
+                  <h3 id="project-drawer-title">{selected.name}</h3>
+                  <p className={styles.drawerDescription} id="project-drawer-description">{selected.detail}</p>
+                  <div className={styles.drawerHighlights}>
+                    <h4>What’s inside</h4>
+                    <ul>{selected.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
+                  </div>
+                  <div className={styles.drawerStack}><h4>Technology</h4><div>{selected.stack.map((tech) => <span key={tech}>{tech}</span>)}</div></div>
+                  <div className={styles.drawerActions}>
+                    <a href={selected.repo} target="_blank" rel="noreferrer">Open repository <span>↗</span></a>
+                    {selected.frontend ? <a href={selected.frontend} target="_blank" rel="noreferrer">Explore frontend <span>↗</span></a> : null}
+                    {selected.live ? <a href={selected.live} target="_blank" rel="noreferrer">Live demo <span>↗</span></a> : null}
+                  </div>
+                  <p className={styles.drawerFootnote}>Details are based on the public repository and README; early-stage work is labelled honestly.</p>
+                </motion.div>
+              </AnimatePresence>
+              <nav className={styles.drawerPager} aria-label="Browse selected projects">
+                <button type="button" onClick={() => changeProject(-1)} aria-label={"Previous project: " + projects[(selectedIndex - 1 + projects.length) % projects.length].name}>
+                  <span aria-hidden="true">←</span>
+                  <span><small>PREVIOUS</small><strong>{projects[(selectedIndex - 1 + projects.length) % projects.length].name}</strong></span>
+                </button>
+                <span className={styles.drawerPagerPosition}>{selectedIndex + 1} / {projects.length}</span>
+                <button type="button" onClick={() => changeProject(1)} aria-label={"Next project: " + projects[(selectedIndex + 1) % projects.length].name}>
+                  <span><small>NEXT</small><strong>{projects[(selectedIndex + 1) % projects.length].name}</strong></span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </nav>
             </motion.aside>
           </motion.div>
         ) : null}
