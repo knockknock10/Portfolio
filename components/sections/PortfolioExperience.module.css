@@ -571,7 +571,7 @@
 .contributionFilter:focus-visible,.contributionFilterActive:focus-visible,.contributionMore:focus-visible,.contributionFeedIntro>a:focus-visible,.contributionCopy>a:focus-visible{outline:3px solid rgba(101,88,245,.4);outline-offset:3px}
 
 /* Keep GitHub and LeetCode together at desktop widths; stack only when the panel is narrow. */
-.activityGrid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+.activityGrid{grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);align-items:start}
 .githubActivity,.leetcodeActivity{align-self:start}
 @media(max-width:900px){
   .contributionFeedIntro{align-items:flex-start;flex-direction:column}
