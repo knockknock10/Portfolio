@@ -168,3 +168,297 @@
 .drawerPager button:focus-visible{outline:3px solid rgba(101,89,189,.42);outline-offset:3px;border-radius:8px}
 @media(max-width:420px){.drawerPager{gap:7px}.drawerPager button{gap:6px}.drawerPager button>span[aria-hidden="true"]{width:27px;height:27px}.drawerPager strong{max-width:88px;font-size:.66rem}}
 @media(prefers-reduced-motion:reduce){.drawerPager button>span[aria-hidden="true"],.drawerPager button:hover>span[aria-hidden="true"],.drawerPager button:first-child:hover>span[aria-hidden="true"]{transition:none;transform:none}}
+
+
+
+/* Contrast pass: these editorial sections sit on a light liquid-glass canvas. */
+.identitySection,.projectsSection,.orgSection,.skillsSection,.activitySection{
+  color:#25263b;
+}
+.identitySection .sectionIntro h2,
+.projectsSection .sectionIntro h2,
+.orgSection .sectionIntro h2,
+.skillsSection .sectionIntro h2,
+.activitySection .sectionIntro h2{
+  color:#25263b;
+}
+.identitySection .sectionIntro>p:last-child,
+.projectsSection .sectionIntro>p:last-child,
+.orgSection .sectionIntro>p:last-child,
+.skillsSection .sectionIntro>p:last-child,
+.activitySection .sectionIntro>p:last-child{
+  color:#6d6d7d;
+}
+.identitySection .identityQuote{color:#28283e}
+.identitySection .identityBio{color:#666a7d}
+.identitySection .identityLinks a{color:#292a40}
+.identitySection .identityLinks a span:last-child{color:#606579}
+.identitySection .idIdentity h3,
+.identitySection .idBackContent h3{color:#20233a}
+.identitySection .idIdentity>p:not(.idLabel){color:#5c6074}
+.identitySection .idBackContent>p:not(.idLabel){color:#5e6275}
+.identitySection .idTopline,.identitySection .idFooter{color:#777a8f}
+.identitySection .idLabel{color:#6155bd}
+.identitySection .idFooter button{color:#5145b8}
+.identitySection .idStatus{color:#42465b}
+.identitySection .idCardHint{color:#686a7c}
+.activitySection .activityCardHeader h3{color:#24263b}
+.activitySection .activityEyebrow{color:#6257c4}
+.activitySection .activityFooter{color:#73778b}
+.activitySection .activityFooter a{color:#5146b5}
+.activitySection .graphCaption{color:#74788a}
+.activitySection .githubBadgeHeading h4{color:#2a2d42}
+.activitySection .githubBadgeHeading>span{color:#6b7083}
+.activitySection .leetcodeHero strong{color:#292a40}
+.activitySection .leetcodeHero>div:first-child>span{color:#74778a}
+.activitySection .leetcodeMiniStats span{color:#70758a}
+.activitySection .leetcodeMiniStats strong{color:#2c2e43}
+.activitySection .difficultyRow{color:#565b70}
+.activitySection .difficultyRow strong{color:#2e3044}
+
+/* A deliberate, landscape engineer ID card with a cursor-following foil glow. */
+.idCardStage{
+  position:relative;
+  width:100%;
+  min-width:0;
+  transform-style:preserve-3d;
+  perspective:1300px;
+  --pointer-x:62%;
+  --pointer-y:35%;
+}
+.idCardStage::before{
+  content:"";
+  position:absolute;
+  inset:-22px;
+  z-index:-1;
+  border-radius:40px;
+  background:radial-gradient(ellipse at var(--pointer-x) var(--pointer-y),rgba(111,93,255,.19),rgba(111,93,255,0) 58%);
+  filter:blur(20px);
+  opacity:.78;
+  pointer-events:none;
+}
+.idCardStage[data-tilt="true"]{cursor:grab}
+.idCardStage[data-tilt="true"]:active{cursor:grabbing}
+.idCard{
+  position:relative;
+  width:100%;
+  min-height:0;
+  aspect-ratio:1.72;
+  transform-style:preserve-3d;
+  perspective:1300px;
+}
+.idFace{
+  border:1px solid rgba(255,255,255,.96);
+  border-radius:28px;
+  padding:clamp(18px,2.4vw,30px);
+  background:
+    radial-gradient(circle at 92% 5%,rgba(131,112,255,.2),transparent 28%),
+    linear-gradient(140deg,#fff 0%,#f7f6ff 49%,#e9f4ff 100%);
+  box-shadow:0 24px 58px rgba(40,38,77,.14),inset 0 1px 0 #fff;
+  color:#27283e;
+}
+.idFace::before{
+  width:245px;height:245px;right:-120px;top:-145px;
+  background:radial-gradient(circle,rgba(160,143,255,.25),rgba(160,143,255,0) 70%);
+}
+.idFace::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  border-radius:inherit;
+  background:linear-gradient(112deg,transparent 14%,rgba(255,255,255,0) 38%,rgba(255,255,255,.58) 49%,rgba(255,255,255,0) 59%,transparent 82%);
+  opacity:.38;
+  pointer-events:none;
+}
+.idFace>*{position:relative;z-index:1}
+.idFront{background:
+  radial-gradient(circle at 94% 4%,rgba(133,115,255,.19),transparent 28%),
+  linear-gradient(135deg,#fff 0%,#f8f6ff 51%,#eaf4ff 100%)}
+.idBack{background:
+  radial-gradient(circle at 94% 4%,rgba(105,91,210,.17),transparent 27%),
+  linear-gradient(145deg,#f9f7ff,#eef7ff 65%,#fff8f3)}
+.idTopline{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#71748a;font-size:.62rem;letter-spacing:.13em;font-weight:800}
+.idBrand{display:inline-flex;align-items:center;gap:9px;color:#3d3d56}
+.idNumber{padding:7px 9px;border:1px solid rgba(93,84,164,.15);border-radius:9px;background:rgba(255,255,255,.68);color:#5e5f78;white-space:nowrap;font-size:.57rem;letter-spacing:.1em}
+.idDot{width:8px;height:8px;flex-shrink:0;margin:0;border-radius:50%;background:#3dbb87;box-shadow:0 0 0 4px rgba(61,187,135,.15)}
+.idMain{grid-template-columns:clamp(104px,13vw,146px) minmax(0,1fr);gap:clamp(14px,2vw,24px);margin:22px 0 19px}
+.portrait{
+  width:100%;
+  height:auto;
+  aspect-ratio:4/5;
+  border-radius:18px;
+  border:1px solid #fff;
+  background:linear-gradient(145deg,#dcd5ff 0%,#d7eafa 56%,#f7ded1 100%);
+  box-shadow:0 10px 26px rgba(50,53,94,.12),inset 0 1px 0 rgba(255,255,255,.9);
+  isolation:isolate;
+}
+.portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 35%;border-radius:inherit}
+.portraitPlaceholder{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+  background:
+    radial-gradient(circle at 25% 20%,rgba(255,255,255,.8),transparent 35%),
+    linear-gradient(145deg,#dcd5ff 0%,#d7eafa 56%,#f7ded1 100%);
+  color:#514d78;
+}
+.portraitPlaceholder span{
+  display:grid;place-items:center;width:58px;height:58px;border-radius:20px;
+  border:1px solid rgba(255,255,255,.88);
+  background:rgba(255,255,255,.55);box-shadow:0 8px 20px rgba(75,63,130,.1);
+  font-size:1.6rem;font-weight:800;letter-spacing:-.07em
+}
+.portraitPlaceholder small{color:#615b86;font-size:.56rem;letter-spacing:.16em;font-weight:850}
+.portraitCorner{position:absolute;right:8px;bottom:8px;width:17px;height:17px;border:1px solid rgba(255,255,255,.9);border-radius:5px;background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(103,88,216,.2));pointer-events:none}
+.idIdentity{min-width:0}
+.idLabel{font-size:.58rem;line-height:1.5;letter-spacing:.11em;font-weight:850;color:#6155bd}
+.idIdentity h3{font-size:clamp(1.45rem,2.65vw,2.25rem);line-height:1.02;letter-spacing:-.06em;font-weight:760;margin:0 0 12px;overflow-wrap:anywhere}
+.idRole{font-size:.77rem!important;color:#555b75!important;font-weight:650}
+.idStatus{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:8px 10px;border:1px solid rgba(96,89,145,.1);border-radius:999px;background:rgba(255,255,255,.7);font-size:.65rem;font-weight:650;line-height:1.35}
+.idStatus span{width:6px;height:6px;flex:0 0 6px;background:#3ab484}
+.idFooter{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:15px;border-top:1px solid rgba(85,84,127,.15);font-size:.58rem;letter-spacing:.09em}
+.idSpecialism{color:#5a5c75;font-weight:850}
+.idBarcode{display:block;flex:0 0 64px;width:64px;height:21px;background:repeating-linear-gradient(90deg,#555570 0 2px,transparent 2px 4px,#555570 4px 5px,transparent 5px 8px,#555570 8px 9px,transparent 9px 12px);opacity:.62;border-radius:2px}
+.idFooter button{padding:8px 0;border:0;background:transparent;color:#5145b8;font:inherit;font-weight:750;letter-spacing:0;white-space:nowrap;cursor:pointer}
+.idBackContent{padding:20px 0}
+.idBackContent h3{max-width:400px;font-size:clamp(1.55rem,3vw,2.3rem);line-height:1.08}
+.idBackContent>p:not(.idLabel){max-width:390px;font-size:.82rem;line-height:1.6}
+.idQuickSkills{gap:7px}
+.idQuickSkills .idToolChip{display:inline-flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid rgba(111,101,170,.12);border-radius:10px;background:rgba(255,255,255,.72);color:#4d5066;font-size:.71rem}
+.idToolChip .skillTechIcon{width:22px;height:22px;flex:0 0 22px}
+.idQuickLinks{gap:13px;margin-top:16px}
+.idQuickLinks a{color:#5145b8}
+.idCardHint{display:flex;align-items:center;gap:8px;margin:17px 0 0;font-size:.72rem;line-height:1.5}
+.idCardHint span{color:#6256c9}
+.identitySection .identityLinks a:hover{color:#5145b8}
+
+/* Live technical logos that degrade to readable monograms if a logo CDN is unavailable. */
+.skillTechIcon{
+  position:relative;
+  display:inline-grid;
+  place-items:center;
+  flex:0 0 27px;
+  width:27px;height:27px;
+  overflow:hidden;
+  border-radius:8px;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(94,86,143,.1);
+}
+.skillTechFallback{font-size:.52rem;font-weight:850;letter-spacing:-.03em;color:#5b5686}
+.skillTechIcon img{
+  position:absolute;inset:3px;
+  display:block;width:calc(100% - 6px);height:calc(100% - 6px);
+  object-fit:contain;border-radius:3px;background:rgba(255,255,255,.96);
+}
+.skillTechIcon img[style*="display: none"]{display:none!important}
+.skillChipLabel{color:#3e4258;font-size:.79rem;font-weight:650;white-space:nowrap}
+.skillChipArrow{padding:0!important;border:0!important;background:transparent!important;color:#8479c7!important;font-size:.7rem!important}
+.skillChips .skillTechIcon{flex:0 0 27px}
+.allSkillChips button{display:inline-flex;align-items:center;gap:7px;padding:6px 8px}
+.allSkillChips button>span:not(.skillTechIcon){color:#68677e}
+
+/* The activity area balances the contribution graph against a topic-first LeetCode dashboard. */
+.githubGraph{min-height:150px;padding:16px 12px;background:linear-gradient(180deg,#fff,#fafbff);display:grid;place-items:center}
+.githubGraph img{width:100%;min-height:120px;object-fit:contain}
+.trophyLink{min-height:122px;padding:12px;display:grid;place-items:center;background:#fafaff}
+.trophyLink img{max-height:none;width:100%;min-height:84px;object-fit:contain}
+.leetcodeSubmissionMetrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:17px 0 4px}
+.leetcodeMetricTile{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;padding:15px 15px 14px;border:1px solid rgba(92,81,133,.09);border-radius:16px;background:linear-gradient(145deg,#f8f7ff,#f2f5fc)}
+.leetcodeMetricTile>span{color:#646880;font-size:.74rem;font-weight:650}
+.leetcodeMetricTile strong{color:#9253d3;font-size:clamp(1.7rem,3vw,2.45rem);font-weight:760;line-height:1;letter-spacing:-.055em}
+.leetcodeMetricTile:nth-child(2) strong{color:#16a34a}
+.leetcodeMetricTile small{color:#85899a;font-size:.62rem;line-height:1.4}
+.leetcodeTopicPanel{
+  margin:24px 0 19px;padding:17px 14px 14px;border-radius:20px;
+  border:1px solid rgba(26,28,38,.42);
+  background:
+    radial-gradient(circle at 90% 4%,rgba(74,222,128,.07),transparent 28%),
+    linear-gradient(155deg,#242427,#18181b 75%);
+  box-shadow:0 13px 28px rgba(20,20,30,.12),inset 0 1px 0 rgba(255,255,255,.05);
+  color:#f5f6fb;
+}
+.topicPanelHeader{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:15px}
+.topicPanelKicker{display:block;color:#5ce18d;font-size:.58rem;font-weight:850;letter-spacing:.16em;margin-bottom:7px}
+.topicPanelHeader h4{margin:0;color:#fafaff;font-size:1.13rem;font-weight:750;letter-spacing:-.025em}
+.topicPanelHeader p{margin:7px 0 0;max-width:310px;color:#b6b8c3;font-size:.73rem;line-height:1.55}
+.topicSource{display:inline-block;flex:0 0 auto;padding:6px 8px;border-radius:8px;border:1px solid rgba(97,223,139,.23);background:rgba(80,220,127,.08);color:#8be7a9;font-size:.53rem;font-weight:850;letter-spacing:.09em}
+.topicFilters{display:flex;gap:6px;overflow-x:auto;padding:0 0 9px;scrollbar-width:thin}
+.topicFilter,.topicFilterActive{flex:0 0 auto;padding:7px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#c7c8d0;font:inherit;font-size:.64rem;font-weight:650;cursor:pointer;transition:background .2s ease,color .2s ease,border-color .2s ease}
+.topicFilter:hover{background:rgba(255,255,255,.1);color:#fff}
+.topicFilterActive{background:#abf4ba;color:#18221b;border-color:#abf4ba}
+.leetcodeTopicCloud{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:7px;padding:15px 0 13px}
+.leetcodeTopicBubble{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  flex:0 0 auto;max-width:100%;padding:7px;overflow:hidden;border:1px solid #4a4a51;border-radius:50%;
+  background:#353539;color:#36df76;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 10px rgba(0,0,0,.12);
+  line-height:1.08;text-align:center;cursor:pointer;isolation:isolate;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease;
+}
+.leetcodeTopicBubble::after{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;height:var(--topic-fill,18%);border-radius:0 0 50% 50%;background:linear-gradient(0deg,rgba(121,236,147,.87),rgba(121,236,147,.24));opacity:.78;pointer-events:none}
+.leetcodeTopicBubble[data-level="intermediate"]{color:#7be59b}
+.leetcodeTopicBubble[data-level="advanced"]{color:#b4f6c7}
+.leetcodeTopicBubble[data-selected="true"]{border:2px solid #c0ffd0;background:#3b3b40;box-shadow:0 0 0 3px rgba(107,236,144,.14),0 9px 19px rgba(0,0,0,.16)}
+.leetcodeTopicBubble:hover{border-color:#b5f7c5;box-shadow:0 8px 19px rgba(0,0,0,.24)}
+.topicBubbleName{position:relative;z-index:1;max-width:100%;overflow-wrap:anywhere;color:inherit;font-size:clamp(.51rem,.72vw,.67rem);font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.22)}
+.topicBubbleCount{position:relative;z-index:1;color:#f4fff7;font-size:clamp(.62rem,.78vw,.77rem);font-variant-numeric:tabular-nums;font-weight:850;text-shadow:0 1px 4px rgba(0,0,0,.34)}
+.selectedTopicDetail{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:3px;padding:13px 12px;border-radius:13px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.095)}
+.selectedTopicDetail>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.selectedTopicDetail>div>span{color:#94e8ac;font-size:.52rem;font-weight:850;letter-spacing:.14em}
+.selectedTopicDetail>div>strong{color:#fff;font-size:.89rem;font-weight:750}
+.selectedTopicDetail>div>small{color:#b6bac4;font-size:.65rem;text-transform:capitalize}
+.selectedTopicDetail>a{flex:0 0 auto;padding:8px 10px;border-radius:9px;background:#b1f4bf;color:#172019;font-size:.64rem;font-weight:800;text-decoration:none;transition:transform .2s ease,background .2s ease}
+.selectedTopicDetail>a:hover{transform:translateY(-1px);background:#d0ffd8}
+.topicLegend{display:flex;flex-wrap:wrap;gap:7px 12px;align-items:center;margin-top:13px;color:#c0c2cd;font-size:.59rem}
+.topicLegend>span{display:inline-flex;align-items:center;gap:5px}
+.topicLegend i{width:7px;height:7px;display:inline-block;border-radius:50%;background:#8ee5a5}
+.topicLegend i[data-level="intermediate"]{background:#55d987}
+.topicLegend i[data-level="advanced"]{background:#c1f8cd}
+.topicLegend small{flex-basis:100%;color:#8e929d;font-size:.57rem;line-height:1.45}
+.leetcodeBadgesSection{margin-top:22px;padding-top:18px;border-top:1px solid rgba(92,81,133,.1)}
+.leetcodeBadges{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.leetcodeBadge{border:1px solid rgba(92,81,133,.1);font:inherit;cursor:pointer;text-align:left}
+.badgeIconWrap{position:relative;display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:10px;background:#fffaf0;overflow:hidden}
+.badgeIconWrap .badgeMonogram{position:absolute;inset:0;display:grid;place-items:center;width:auto;height:auto;border-radius:inherit;background:#f8edcf;color:#a47a2d}
+.badgeIconWrap img{position:absolute;z-index:1;inset:2px;width:30px!important;height:30px!important;object-fit:contain;background:#fff;border-radius:8px}
+.badgeDetail{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:#f4f1ff;color:#64617b;font-size:.75rem}
+.badgeDetail a{color:#5c50bd;text-decoration:none;font-weight:750}
+
+@media(max-width:760px){
+  .idCard{aspect-ratio:auto;min-height:330px}
+  .idMain{grid-template-columns:108px minmax(0,1fr);gap:14px}
+  .idTopline{font-size:.56rem}
+  .idNumber{font-size:.51rem;padding:6px 7px}
+  .activityGrid{grid-template-columns:minmax(0,1fr)}
+  .topicBubbleName{font-size:.63rem}
+  .topicBubbleCount{font-size:.76rem}
+}
+@media(max-width:420px){
+  .identitySection .sectionIntro h2{font-size:2.05rem}
+  .idFace{padding:16px;border-radius:22px}
+  .idCard{min-height:320px}
+  .idMain{grid-template-columns:86px minmax(0,1fr);gap:12px;margin:18px 0 16px}
+  .idIdentity h3{font-size:1.35rem}
+  .idIdentity .idLabel{font-size:.5rem;letter-spacing:.07em}
+  .idRole{font-size:.68rem!important}
+  .idStatus{align-items:flex-start;font-size:.57rem;padding:6px 8px}
+  .idTopline{align-items:flex-start}
+  .idBrand{gap:6px;font-size:.53rem}
+  .idNumber{font-size:.46rem;letter-spacing:.04em}
+  .idFooter{flex-wrap:wrap;gap:8px}
+  .idSpecialism{font-size:.53rem}
+  .idBarcode{flex-basis:42px;width:42px}
+  .idFooter button{font-size:.6rem}
+  .leetcodeSubmissionMetrics{gap:7px}
+  .leetcodeMetricTile{padding:12px 10px}
+  .topicPanelHeader{flex-direction:column}
+  .topicSource{align-self:flex-start}
+  .leetcodeTopicCloud{gap:6px}
+  .leetcodeTopicBubble{padding:5px}
+  .selectedTopicDetail{align-items:flex-start}
+  .selectedTopicDetail>a{align-self:center}
+  .leetcodeBadges{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){
+  .idCardStage::before{filter:none}
+  .topicFilter,.topicFilterActive,.leetcodeTopicBubble,.selectedTopicDetail>a{transition:none!important}
+  .selectedTopicDetail>a:hover{transform:none}
+}
