@@ -32,7 +32,7 @@ const contributions = [
     name: "Ansvisor",
     kind: "Developer tooling",
     description:
-      "A personal open-source project that I use to practice shipping software, solving real implementation problems, and improving developer workflows.",
+      "Open-source AI search-intelligence tooling; the repository link provides the implementation and public activity for verification.",
     repository: "https://github.com/knockknock10/ansvisor",
     repositoryLabel: "My repository",
   },
