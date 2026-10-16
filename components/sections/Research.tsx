@@ -70,7 +70,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
         <div className="research-feature-metrics" aria-label="Study scale">
           <div><strong>2,620</strong><span>test-clean utterances</span></div>
           <div><strong>5</strong><span>placement rules</span></div>
-          <div><strong>6</strong><span>embedding targets</span></div>
+          <div><strong>6</strong><span>SNR targets</span></div>
         </div>
         <p className="research-feature-finding">
           <strong>Key finding.</strong> In the reported experiments, joint placement was statistically indistinguishable from spectral-only placement; local spectral suitability was the stronger placement criterion.
@@ -107,7 +107,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
         <div className="research-feature-actions">
           {link ? (
             <a className="research-feature-primary" href={link} target="_blank" rel="noreferrer">
-              Explore repository <span aria-hidden="true">↗</span>
+              View implementation repo <span aria-hidden="true">↗</span>
             </a>
           ) : null}
           <span className="research-feature-note">{submittedToIEEE ? "Submitted to IEEE Signal Processing Letters · not yet published" : "Research manuscript · active work"}</span>
