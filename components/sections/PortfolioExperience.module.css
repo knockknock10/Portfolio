@@ -145,7 +145,7 @@
 
 .visitorBadgePlaceholder{display:inline-flex;align-items:center;justify-content:center;min-width:82px;height:22px;color:#7669c5;font-size:.65rem;font-weight:650}
 
-.skillChips button{display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border:1px solid rgba(108,98,164,.13);border-radius:12px;background:linear-gradient(135deg,#f7f5ff,#f5faff);color:#5c566d;font:inherit;font-size:.81rem;cursor:pointer;transition:border-color .22s ease,background .22s ease,box-shadow .22s ease}
+.skillChips button,.skillChip{display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border:1px solid rgba(108,98,164,.13);border-radius:12px;background:linear-gradient(135deg,#f7f5ff,#f5faff);color:#5c566d;font:inherit;font-size:.81rem;cursor:pointer;transition:border-color .22s ease,background .22s ease,box-shadow .22s ease}
 .skillChips button>span{padding:0;border:0;background:transparent;color:#8a7bd0;font-size:.72rem}
 .skillChips button:hover{border-color:rgba(101,89,189,.35);background:white;box-shadow:0 6px 18px rgba(52,42,85,.065)}
 .allSkillChips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
