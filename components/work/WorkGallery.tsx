@@ -173,6 +173,8 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
           {visibleItems.map((item) => (
             <motion.article
               className="work-card"
+              data-project={item.slug}
+              data-kind={item.type}
               key={`${item.type}-${item.slug}`}
               layout={variant === "full"}
               initial={
