@@ -573,12 +573,26 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
 }
 
 export function VisitorCounter() {
+  const [counterUrl, setCounterUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    // A unique query string prevents browser/CDN caching from suppressing page-view hits.
+    setCounterUrl(
+      "https://hits.sh/kr-sanjeev.netlify.app.svg?label=visitors&color=6554d7&labelColor=ffffff&v=" +
+        Date.now(),
+    )
+  }, [])
+
   return (
     <div className={styles.visitorLine}>
       <span className={styles.visitorSpark} />
       <span className={styles.visitorMessage}>You’re visitor number</span>
       <a className={styles.visitorBadgeLink} href="https://hits.sh/kr-sanjeev.netlify.app/" target="_blank" rel="noreferrer" aria-label="Open portfolio visit statistics">
-        <img src="https://hits.sh/kr-sanjeev.netlify.app.svg?label=visitors&color=6554d7&labelColor=ffffff" alt="Total portfolio visits" loading="lazy" />
+        {counterUrl ? (
+          <img src={counterUrl} alt="Total portfolio visits, updated on page visit" loading="eager" decoding="async" />
+        ) : (
+          <span className={styles.visitorBadgePlaceholder} aria-live="polite">counting…</span>
+        )}
       </a>
       <span className={styles.visitorEnd}>INCREMENTED ON VISIT</span>
     </div>
