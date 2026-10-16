@@ -153,3 +153,18 @@
 .allSkillChips button:hover{color:#5e52bd;border-color:rgba(101,89,189,.3);transform:translateY(-1px);background:white}
 .skillChips button:focus-visible,.allSkillChips button:focus-visible{outline:3px solid rgba(101,89,189,.42);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.skillChips button,.allSkillChips button,.skillChips button:hover,.allSkillChips button:hover{transition:none!important;transform:none!important}}
+
+.drawerContent{min-width:0}
+.drawerPager{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;margin-top:26px;padding-top:15px;border-top:1px solid rgba(80,75,100,.12)}
+.drawerPager button{display:flex;align-items:center;gap:9px;min-width:0;padding:8px 0;border:0;background:transparent;color:#6559bd;font:inherit;text-align:left;cursor:pointer}
+.drawerPager button:last-child{justify-content:flex-end;text-align:right}
+.drawerPager button>span[aria-hidden="true"]{display:grid;place-items:center;flex-shrink:0;width:31px;height:31px;border:1px solid rgba(92,81,133,.14);border-radius:50%;background:rgba(255,255,255,.72);font-size:1rem;transition:transform .2s ease,background .2s ease}
+.drawerPager button:hover>span[aria-hidden="true"]{transform:translateX(2px);background:#fff}
+.drawerPager button:first-child:hover>span[aria-hidden="true"]{transform:translateX(-2px)}
+.drawerPager button>span:not([aria-hidden="true"]){display:block;min-width:0}
+.drawerPager small{display:block;color:#a19aaa;font-size:.55rem;font-weight:800;letter-spacing:.11em}
+.drawerPager strong{display:block;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#5b5666;font-size:.73rem;font-weight:700}
+.drawerPagerPosition{color:#a19aaa;font-size:.65rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.drawerPager button:focus-visible{outline:3px solid rgba(101,89,189,.42);outline-offset:3px;border-radius:8px}
+@media(max-width:420px){.drawerPager{gap:7px}.drawerPager button{gap:6px}.drawerPager button>span[aria-hidden="true"]{width:27px;height:27px}.drawerPager strong{max-width:88px;font-size:.66rem}}
+@media(prefers-reduced-motion:reduce){.drawerPager button>span[aria-hidden="true"],.drawerPager button:hover>span[aria-hidden="true"],.drawerPager button:first-child:hover>span[aria-hidden="true"]{transition:none;transform:none}}
