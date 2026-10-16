@@ -176,7 +176,7 @@ export function Research({ items, standalone = false }: ResearchProps) {
                 const delay = reducedMotion ? 0 : Math.min(index * stagger, staggerCap)
                 return (
                   <motion.article
-                    className="research-row"
+                    className={item.title.toLowerCase().includes("nanosensor") ? "research-row research-nanosensor-row" : "research-row"}
                     key={item.title + "-" + item.year}
                     initial={reducedMotion ? false : { opacity: 0, y: 9 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -202,8 +202,17 @@ export function Research({ items, standalone = false }: ResearchProps) {
                       )}
                       {item.tags.length ? <p className="research-tags">{item.tags.join(" · ")}</p> : null}
                     </div>
-                    <div className="research-actions">
-                      {available(item.image) ? <img className="research-image" src={item.image} alt={item.title} loading="lazy" /> : null}
+                    <div className={item.title.toLowerCase().includes("nanosensor") ? "research-actions research-nanosensor-actions" : "research-actions"}>
+                      {available(item.image) ? (
+                        item.title.toLowerCase().includes("nanosensor") ? (
+                          <div className="research-nanosensor-media">
+                            <img className="research-nanosensor-visual" src={item.image} alt="Conceptual nanosensor network showing sensor nodes, multi-hop routing and packet delivery to a gateway" loading="lazy" decoding="async" />
+                            <p className="research-nanosensor-caption">Concept illustration · MATLAB research context</p>
+                          </div>
+                        ) : (
+                          <img className="research-image" src={item.image} alt={item.title} loading="lazy" />
+                        )
+                      ) : null}
                       {available(item.link) ? (
                         <a className="research-link" href={item.link} target="_blank" rel="noreferrer">
                           {paperLink(item.link) ? "Read paper" : "View source"}
