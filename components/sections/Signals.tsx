@@ -177,11 +177,12 @@ export function Signals({ data, standalone = false }: SignalsProps) {
     ? { duration: 0 }
     : { ...(spring ?? { type: "spring" as const }), duration: revealDuration }
   const githubStats = [
-    { key: "contributions", label: "Contributions · 365 days", value: numberLabel(data.github.contributionsLast365Days) },
+    { key: "contributions", label: "Contributions · 1 year", value: numberLabel(data.github.contributionsLast365Days) ?? numberLabel(data.github.contributionCalendar?.totalContributions ?? "MISSING") },
     { key: "current", label: "Current streak", value: numberLabel(data.github.currentStreak) },
     { key: "longest", label: "Longest streak", value: numberLabel(data.github.longestStreak) },
     { key: "repos", label: "Public repositories", value: numberLabel(data.github.totalRepos) },
     { key: "stars", label: "Total stars", value: numberLabel(data.github.totalStars) },
+    { key: "forks", label: "Repository forks", value: numberLabel(data.github.totalForks) },
   ].filter((stat): stat is { key: string; label: string; value: string } => stat.value !== null)
   const solved = data.leetcode
   const hasLeetcode = solved.available && [
