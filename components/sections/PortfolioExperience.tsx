@@ -624,6 +624,7 @@ type ContributionFilter = "all" | "merged" | "open"
 export function OpenSourceOrganizations() {
   const [contributionFilter, setContributionFilter] = useState<ContributionFilter>("all")
   const [showAllContributions, setShowAllContributions] = useState(false)
+  const [showAllOrganizations, setShowAllOrganizations] = useState(false)
   const reducedMotion = useReducedMotion()
 
   const contributionGroups = useMemo(
@@ -665,6 +666,7 @@ export function OpenSourceOrganizations() {
   const visibleContributions = showAllContributions
     ? filteredContributions
     : filteredContributions.slice(0, 4)
+  const visibleOrganizations = showAllOrganizations ? organizations : organizations.slice(0, 3)
 
   return (
     <section className={styles.orgSection} id="open-source" aria-labelledby="org-heading" tabIndex={-1}>
@@ -674,7 +676,7 @@ export function OpenSourceOrganizations() {
         <p>Open-source work means learning an unfamiliar codebase, testing assumptions, responding to review and improving software with maintainers. Here are the communities and projects I have contributed to.</p>
       </div>
       <div className={styles.orgGrid}>
-        {organizations.map((org, index) => (
+        {visibleOrganizations.map((org, index) => (
           <motion.article
             className={styles.orgCard}
             key={org.handle}
@@ -715,6 +717,17 @@ export function OpenSourceOrganizations() {
           </motion.article>
         ))}
       </div>
+      {organizations.length > 3 ? (
+        <button
+          type="button"
+          className={styles.organizationsMore}
+          aria-expanded={showAllOrganizations}
+          onClick={() => setShowAllOrganizations((current) => !current)}
+        >
+          {showAllOrganizations ? "Show featured organizations −" : "View all organizations +"}
+          <span>{showAllOrganizations ? "3 featured" : organizations.length + " communities"}</span>
+        </button>
+      ) : null}
 
       <div className={styles.contributionFeed} aria-labelledby="contribution-feed-heading">
         <div className={styles.contributionFeedIntro}>
