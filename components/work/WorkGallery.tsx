@@ -208,9 +208,9 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
                         sizes="(min-width: 80rem) 33vw, (min-width: 48rem) 50vw, 100vw"
                       />
                     ) : null}
-                    <span className={styles.cardArtTitle}>{item.title}</span>
+                    <span className={styles.cardArtTitle + " work-cover-title"}>{item.title}</span>
                     {cardAside(item) ? (
-                      <span className={styles.cardArtAside}>{cardAside(item)}</span>
+                      <span className={styles.cardArtAside + " work-cover-aside"}>{cardAside(item)}</span>
                     ) : null}
                   </div>
                   <motion.div className={styles.cardDetails} variants={cardVariants}>
