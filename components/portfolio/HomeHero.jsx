@@ -27,11 +27,7 @@ const socials = [
   },
 ];
 
-export function HomeHero({ content }) {
-  const fullName =
-    content?.identity?.professionalName ||
-    content?.identity?.fullName ||
-    "Sanjeev Kumar";
+export function HomeHero({ fullName = "Sanjeev Kumar" }) {
 
   return (
     <section id="home" className={styles.hero} aria-labelledby="hero-title" tabIndex={-1}>
