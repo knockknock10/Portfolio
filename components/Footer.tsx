@@ -66,7 +66,6 @@ export function Footer({ name, copyrightName, email, socials }: FooterProps) {
             © {year} {copyrightName}
           </p>
         ) : null}
-
       </div>
       </footer>
     </>
