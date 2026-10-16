@@ -142,3 +142,5 @@
 .orgProofLink>span:last-child{color:#7669c5;font-size:.8rem}
 .projectDrawer a:focus-visible,.projectDrawer button:focus-visible,.projectCard:focus-visible,.orgCard a:focus-visible,.skillTabs button:focus-visible,.skillsFooter button:focus-visible,.leetcodeBadge:focus-visible{outline:3px solid rgba(101,89,189,.42);outline-offset:3px}
 @media(max-width:420px){.visitorLine>span:last-child{white-space:normal}.visitorBadgeLink img{max-width:130px}}
+
+.visitorBadgePlaceholder{display:inline-flex;align-items:center;justify-content:center;min-width:82px;height:22px;color:#7669c5;font-size:.65rem;font-weight:650}
