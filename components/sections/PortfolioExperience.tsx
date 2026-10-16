@@ -1101,7 +1101,15 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
                   type="button"
                   aria-pressed={topicFilter === level}
                   className={topicFilter === level ? styles.topicFilterActive : styles.topicFilter}
-                  onClick={() => setTopicFilter(level)}
+                  onClick={() => {
+                    setTopicFilter(level)
+                    if (level === "all") {
+                      if (!topics.some((topic) => topic.tagSlug === selectedTopic.tagSlug)) setSelectedTopic(topics[0])
+                    } else if (selectedTopic.level !== level) {
+                      const firstMatchingTopic = topics.find((topic) => topic.level === level)
+                      if (firstMatchingTopic) setSelectedTopic(firstMatchingTopic)
+                    }
+                  }}
                 >
                   {label}
                 </button>
