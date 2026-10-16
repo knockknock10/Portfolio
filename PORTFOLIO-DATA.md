@@ -2994,14 +2994,14 @@ The records below are sourced from the project inventory and the résumé's Rese
     "year": "2026",
     "authors": [
       "Sanjeev Kumar",
-      "Biswajit Maity",
+      "Aditya Kumar Sahu",
       "Banashree Mandal",
-      "Aditya Kumar Sahu"
+      "Biswajit Maity"
     ],
-    "abstract": "Submitted manuscript presenting a controlled study of reference-based speech watermark placement. Across all 2,620 LibriSpeech test-clean utterances, five placement rules are compared at six embedding strengths. The HuBERT contribution map is informative, but joint placement is statistically indistinguishable from spectral-only placement; local spectral suitability is the stronger placement criterion in these experiments.",
+    "abstract": "A controlled study of reference-based speech-watermark placement across all 2,620 LibriSpeech test-clean utterances, comparing five placement rules over six target SNRs. The HuBERT contribution map is directionally informative: low-contribution placement changes fewer transcripts than high-contribution placement. However, spectral-only placement changes fewer Whisper tiny.en transcripts than joint placement at five of the six tested strengths, so the current joint fusion does not consistently outperform spectral-only placement. The paper identifies local spectral suitability as the stronger operational criterion.",
     "link": "https://github.com/knockknock10/SemBind_Audio",
     "status": "Submitted to IEEE Signal Processing Letters",
-    "image": "images/research/sembind-audio-lab.svg",
+    "image": "images/research/sembind-paper-fig1.svg",
     "tags": [
       "First author",
       "IEEE Signal Processing Letters",
@@ -3011,7 +3011,8 @@ The records below are sourced from the project inventory and the résumé's Rese
       "LibriSpeech",
       "Whisper tiny.en",
       "SHA-256"
-    ]
+    ],
+    "pdf": "MISSING"
   },
   {
     "title": "Nanosensor Network Communication Simulator",

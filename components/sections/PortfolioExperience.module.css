@@ -777,3 +777,42 @@
 @media(max-width:900px){.research-nanosensor-row{grid-template-columns:minmax(56px,.16fr) minmax(0,1fr) minmax(210px,.42fr)}}
 @media(max-width:680px){.research-nanosensor-row{grid-template-columns:minmax(0,1fr)!important}.research-nanosensor-actions{grid-column:auto!important;align-items:flex-start!important;width:100%}.research-nanosensor-media{max-width:360px}.research-nanosensor-caption{text-align:left}}
 @media(prefers-reduced-motion:reduce){.organizationsMore{transition:none}}
+
+
+/* Open-source community rail: three visible cards on desktop, with one-card smooth steps. */
+.orgCarouselHeader{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:24px 0 14px}
+.orgCarouselHeading{display:flex;flex-direction:column;gap:5px}
+.orgCarouselHeading strong{color:#34344c;font-size:.9rem;font-weight:800;letter-spacing:-.025em}
+.orgCarouselHeading span{color:#85859a;font-size:.71rem}
+.orgCarouselControls{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.orgCarouselControls>span{margin-right:5px;color:#838196;font-size:.65rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.08em}
+.orgCarouselControls button{
+  display:grid;place-items:center;width:38px;height:38px;border:1px solid rgba(95,83,145,.17);
+  border-radius:12px;background:rgba(255,255,255,.78);color:#5149a6;font-size:1.1rem;
+  box-shadow:0 4px 14px rgba(50,43,88,.035);cursor:pointer;
+  transition:background .2s ease,border-color .2s ease,color .2s ease,transform .2s ease;
+}
+.orgCarouselControls button:hover:not(:disabled){transform:translateY(-2px);background:#fff;border-color:rgba(95,83,145,.35)}
+.orgCarouselControls button:disabled{opacity:.35;cursor:not-allowed}
+.orgCarouselControls button:focus-visible{outline:3px solid rgba(101,88,245,.38);outline-offset:3px}
+.orgCarouselViewport{width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.orgCarouselViewport::-webkit-scrollbar{display:none}
+.orgCarouselViewport:focus-visible{outline:3px solid rgba(101,88,245,.38);outline-offset:3px;border-radius:16px}
+.orgGrid{display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:calc((100% - 30px)/3);gap:15px;align-items:stretch;padding:2px 2px 13px}
+.orgGrid>.orgCard{width:100%;min-width:0;height:100%;scroll-snap-align:start;display:flex;flex-direction:column}
+.orgCard .orgSummary{margin-bottom:8px}
+.orgCard .orgContribution{flex:1}
+.orgCard .orgLink{align-self:flex-start;margin-top:15px}
+.orgLogo{overflow:hidden}
+@media(max-width:960px){.orgGrid{grid-auto-columns:calc((100% - 15px)/2)}}
+@media(max-width:640px){
+  .orgCarouselHeader{align-items:flex-start;gap:12px}
+  .orgCarouselHeading span{max-width:22ch;line-height:1.5}
+  .orgCarouselControls{gap:6px}
+  .orgCarouselControls button{width:35px;height:35px}
+  .orgGrid{grid-auto-columns:88%}
+}
+@media(prefers-reduced-motion:reduce){.orgCarouselViewport{scroll-behavior:auto}.orgCarouselControls button{transition:none}}
+
+/* Remove green status LEDs throughout the hero; a calm typographic treatment feels more considered. */
+.portraitAvailabilityDot,.visitorSpark{display:none!important}

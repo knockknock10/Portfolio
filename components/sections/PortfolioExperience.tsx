@@ -13,7 +13,7 @@ const profile = {
   role: "Software Engineer · Open Source · Applied AI",
   email: "Sanjeev.kr10111@gmail.com",
   github: "https://github.com/knockknock10",
-  linkedin: "https://www.linkedin.com/in/-sanjeev-kr",
+  linkedin: "https://www.linkedin.com/in/sanjeev-kumar-ba567133a",
   leetcode: "https://leetcode.com/u/knockknock10/",
 }
 
@@ -523,8 +523,8 @@ export function FeaturedProjects() {
       <div className={styles.sectionIntro + " " + styles.projectsIntro}>
         <div>
           <p className={styles.eyebrow}>Selected work · Built from the source</p>
-          <h2 id="featured-projects-heading">Six repositories. Six different engineering problems.</h2>
-          <p>Open a project for its purpose, implementation notes, stack and direct source links. Frontend repositories and live demos are linked where available.</p>
+          <h2 id="featured-projects-heading">A few things I’ve been building.</h2>
+          <p>Selected builds across developer tooling, applied AI and full-stack systems. Open a project to explore its implementation, technology choices, frontend and source.</p>
         </div>
         <a className={styles.textLink} href="https://github.com/knockknock10?tab=repositories" target="_blank" rel="noreferrer">All repositories <span>↗</span></a>
       </div>
@@ -546,7 +546,7 @@ export function FeaturedProjects() {
             <span className={styles.projectArt}>
               {project.image ? <img src={project.image} alt={project.imageAlt ?? ""} loading="lazy" onError={(event) => { event.currentTarget.style.display = "none" }} /> : null}
               <span className={styles.projectArtOverlay} />
-              <span className={styles.projectIndex}>0{index + 1} / 06</span>
+              <span className={styles.projectIndex}>PROJECT / 0{index + 1}</span>
               <span className={styles.projectArtLabel}>{project.label}</span>
               <span className={styles.projectArtName}>{project.name}</span>
               <span className={styles.projectOpen} aria-hidden="true">↗</span>
@@ -624,7 +624,9 @@ type ContributionFilter = "all" | "merged" | "open"
 export function OpenSourceOrganizations() {
   const [contributionFilter, setContributionFilter] = useState<ContributionFilter>("all")
   const [showAllContributions, setShowAllContributions] = useState(false)
-  const [showAllOrganizations, setShowAllOrganizations] = useState(false)
+  const [orgCarouselIndex, setOrgCarouselIndex] = useState(0)
+  const [orgCanScrollNext, setOrgCanScrollNext] = useState(true)
+  const orgCarouselRef = useRef<HTMLDivElement>(null)
   const reducedMotion = useReducedMotion()
 
   const contributionGroups = useMemo(
@@ -666,7 +668,17 @@ export function OpenSourceOrganizations() {
   const visibleContributions = showAllContributions
     ? filteredContributions
     : filteredContributions.slice(0, 4)
-  const visibleOrganizations = showAllOrganizations ? organizations : organizations.slice(0, 3)
+  const moveOrganizations = (direction: -1 | 1) => {
+    const viewport = orgCarouselRef.current
+    const firstCard = viewport?.querySelector<HTMLElement>("[data-org-slide]")
+    if (!viewport || !firstCard) return
+    const track = firstCard.parentElement
+    const gap = track ? Number.parseFloat(window.getComputedStyle(track).columnGap || "15") || 15 : 15
+    viewport.scrollBy({
+      left: direction * (firstCard.getBoundingClientRect().width + gap),
+      behavior: reducedMotion ? "auto" : "smooth",
+    })
+  }
 
   return (
     <section className={styles.orgSection} id="open-source" aria-labelledby="org-heading" tabIndex={-1}>
@@ -675,8 +687,36 @@ export function OpenSourceOrganizations() {
         <h2 id="org-heading">Making upstream software a little better.</h2>
         <p>Open-source work means learning an unfamiliar codebase, testing assumptions, responding to review and improving software with maintainers. Here are the communities and projects I have contributed to.</p>
       </div>
-      <div className={styles.orgGrid}>
-        {visibleOrganizations.map((org, index) => (
+      <div className={styles.orgCarouselHeader}>
+        <div className={styles.orgCarouselHeading}>
+          <strong>Upstream communities</strong>
+          <span>Drag the row or use the arrows to browse.</span>
+        </div>
+        <div className={styles.orgCarouselControls}>
+          <span>{String(Math.min(orgCarouselIndex + 1, organizations.length)).padStart(2, "0")} / {String(organizations.length).padStart(2, "0")}</span>
+          <button type="button" onClick={() => moveOrganizations(-1)} disabled={orgCarouselIndex <= 0} aria-label="Previous organization">←</button>
+          <button type="button" onClick={() => moveOrganizations(1)} disabled={!orgCanScrollNext} aria-label="Next organization">→</button>
+        </div>
+      </div>
+      <div
+        className={styles.orgCarouselViewport}
+        ref={orgCarouselRef}
+        role="region"
+        tabIndex={0}
+        aria-label="Open-source organization carousel"
+        onScroll={(event) => {
+          const viewport = event.currentTarget
+          const firstCard = viewport.querySelector<HTMLElement>("[data-org-slide]")
+          if (firstCard) {
+            const track = firstCard.parentElement
+            const gap = track ? Number.parseFloat(window.getComputedStyle(track).columnGap || "15") || 15 : 15
+            setOrgCarouselIndex(Math.round(viewport.scrollLeft / (firstCard.getBoundingClientRect().width + gap)))
+          }
+          setOrgCanScrollNext(viewport.scrollLeft + viewport.clientWidth < viewport.scrollWidth - 3)
+        }}
+      >
+        <div className={styles.orgGrid} data-org-track>
+          {organizations.map((org, index) => (
           <motion.article
             className={styles.orgCard}
             key={org.handle}
@@ -716,18 +756,8 @@ export function OpenSourceOrganizations() {
             </a>
           </motion.article>
         ))}
+        </div>
       </div>
-      {organizations.length > 3 ? (
-        <button
-          type="button"
-          className={styles.organizationsMore}
-          aria-expanded={showAllOrganizations}
-          onClick={() => setShowAllOrganizations((current) => !current)}
-        >
-          {showAllOrganizations ? "Show featured organizations −" : "View all organizations +"}
-          <span>{showAllOrganizations ? "3 featured" : organizations.length + " communities"}</span>
-        </button>
-      ) : null}
 
       <div className={styles.contributionFeed} aria-labelledby="contribution-feed-heading">
         <div className={styles.contributionFeedIntro}>
