@@ -26,7 +26,7 @@
 .idBackContent{position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;flex:1;padding:22px 0}
 .idBackContent>p:not(.idLabel){max-width:390px;color:#74717e;line-height:1.6;font-size:.9rem}
 .idQuickSkills,.skillChips{display:flex;flex-wrap:wrap;gap:8px}
-.idQuickSkills span,.skillChips span{padding:8px 11px;border:1px solid rgba(118,106,180,.15);border-radius:999px;background:rgba(255,255,255,.62);font-size:.76rem;color:#5c566d}
+.idQuickSkills span,.skillChips>span{padding:8px 11px;border:1px solid rgba(118,106,180,.15);border-radius:999px;background:rgba(255,255,255,.62);font-size:.76rem;color:#5c566d}
 .idQuickLinks{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px}
 .idQuickLinks a{font-size:.77rem;font-weight:700;color:#5e52bd;text-decoration:none}
 .identityAside{padding:clamp(18px,3vw,30px) 0}
@@ -96,7 +96,7 @@
 .skillTab:hover{color:#6559bd;background:#f6f4ff}.skillTabActive{color:#5b4db7;background:#eeebff;border-color:rgba(101,89,189,.13);font-weight:750}
 .skillContent{min-height:175px;padding:24px 2px}
 .skillCategoryTitle{display:flex;align-items:center;gap:12px;margin-bottom:18px}.skillCategoryTitle span{color:#a39cc8;font-size:.7rem;font-weight:800}.skillCategoryTitle h3{margin:0;font-size:1.3rem;letter-spacing:-.03em}
-.skillChips span{padding:10px 13px;border-radius:12px;background:linear-gradient(135deg,#f7f5ff,#f5faff);border-color:rgba(108,98,164,.1);font-size:.81rem}
+.skillChips>span{padding:10px 13px;border-radius:12px;background:linear-gradient(135deg,#f7f5ff,#f5faff);border-color:rgba(108,98,164,.1);font-size:.81rem}
 .skillContext{margin:18px 0 0;color:#898592;font-size:.82rem;line-height:1.6}
 .skillsFooter{display:flex;justify-content:space-between;gap:16px;align-items:center;padding-top:16px;border-top:1px solid rgba(92,81,133,.1);color:#9995a3;font-size:.72rem}
 .skillsFooter button,.showBadges{border:0;background:none;color:#6559bd;font:inherit;font-size:.76rem;font-weight:750;cursor:pointer}
@@ -142,3 +142,29 @@
 .orgProofLink>span:last-child{color:#7669c5;font-size:.8rem}
 .projectDrawer a:focus-visible,.projectDrawer button:focus-visible,.projectCard:focus-visible,.orgCard a:focus-visible,.skillTabs button:focus-visible,.skillsFooter button:focus-visible,.leetcodeBadge:focus-visible{outline:3px solid rgba(101,89,189,.42);outline-offset:3px}
 @media(max-width:420px){.visitorLine>span:last-child{white-space:normal}.visitorBadgeLink img{max-width:130px}}
+
+.visitorBadgePlaceholder{display:inline-flex;align-items:center;justify-content:center;min-width:82px;height:22px;color:#7669c5;font-size:.65rem;font-weight:650}
+
+.skillChips button,.skillChip{display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border:1px solid rgba(108,98,164,.13);border-radius:12px;background:linear-gradient(135deg,#f7f5ff,#f5faff);color:#5c566d;font:inherit;font-size:.81rem;cursor:pointer;transition:border-color .22s ease,background .22s ease,box-shadow .22s ease}
+.skillChips button>span{padding:0;border:0;background:transparent;color:#8a7bd0;font-size:.72rem}
+.skillChips button:hover{border-color:rgba(101,89,189,.35);background:white;box-shadow:0 6px 18px rgba(52,42,85,.065)}
+.allSkillChips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.allSkillChips button{padding:7px 9px;border:1px solid rgba(108,98,164,.12);border-radius:9px;background:rgba(248,247,252,.8);color:#797383;font:inherit;font-size:.67rem;cursor:pointer;transition:color .2s ease,border-color .2s ease,transform .2s ease}
+.allSkillChips button:hover{color:#5e52bd;border-color:rgba(101,89,189,.3);transform:translateY(-1px);background:white}
+.skillChips button:focus-visible,.allSkillChips button:focus-visible{outline:3px solid rgba(101,89,189,.42);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.skillChips button,.allSkillChips button,.skillChips button:hover,.allSkillChips button:hover{transition:none!important;transform:none!important}}
+
+.drawerContent{min-width:0}
+.drawerPager{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;margin-top:26px;padding-top:15px;border-top:1px solid rgba(80,75,100,.12)}
+.drawerPager button{display:flex;align-items:center;gap:9px;min-width:0;padding:8px 0;border:0;background:transparent;color:#6559bd;font:inherit;text-align:left;cursor:pointer}
+.drawerPager button:last-child{justify-content:flex-end;text-align:right}
+.drawerPager button>span[aria-hidden="true"]{display:grid;place-items:center;flex-shrink:0;width:31px;height:31px;border:1px solid rgba(92,81,133,.14);border-radius:50%;background:rgba(255,255,255,.72);font-size:1rem;transition:transform .2s ease,background .2s ease}
+.drawerPager button:hover>span[aria-hidden="true"]{transform:translateX(2px);background:#fff}
+.drawerPager button:first-child:hover>span[aria-hidden="true"]{transform:translateX(-2px)}
+.drawerPager button>span:not([aria-hidden="true"]){display:block;min-width:0}
+.drawerPager small{display:block;color:#a19aaa;font-size:.55rem;font-weight:800;letter-spacing:.11em}
+.drawerPager strong{display:block;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#5b5666;font-size:.73rem;font-weight:700}
+.drawerPagerPosition{color:#a19aaa;font-size:.65rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.drawerPager button:focus-visible{outline:3px solid rgba(101,89,189,.42);outline-offset:3px;border-radius:8px}
+@media(max-width:420px){.drawerPager{gap:7px}.drawerPager button{gap:6px}.drawerPager button>span[aria-hidden="true"]{width:27px;height:27px}.drawerPager strong{max-width:88px;font-size:.66rem}}
+@media(prefers-reduced-motion:reduce){.drawerPager button>span[aria-hidden="true"],.drawerPager button:hover>span[aria-hidden="true"],.drawerPager button:first-child:hover>span[aria-hidden="true"]{transition:none;transform:none}}

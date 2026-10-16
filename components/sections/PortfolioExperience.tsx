@@ -3,6 +3,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import type { SignalStats } from "@/lib/signals"
+import { useLenis } from "@/components/SmoothScrollProvider"
+import { readDurationToken } from "@/components/primitives/motionTokens"
 import styles from "./PortfolioExperience.module.css"
 
 const profile = {
@@ -24,6 +26,51 @@ const skillGroups = {
 } as const
 
 const skillCategories = Object.keys(skillGroups) as Array<keyof typeof skillGroups>
+
+type SkillDestination =
+  | { kind: "project"; projectName: string }
+  | { kind: "section"; sectionId: string }
+
+const skillDestinations: Record<string, SkillDestination> = {
+  Go: { kind: "project", projectName: "Aevor Platform" },
+  Java: { kind: "section", sectionId: "signals" },
+  C: { kind: "section", sectionId: "signals" },
+  "C++": { kind: "section", sectionId: "signals" },
+  JavaScript: { kind: "project", projectName: "NovaFest" },
+  Python: { kind: "section", sectionId: "research" },
+  SQL: { kind: "project", projectName: "Aevor Platform" },
+  React: { kind: "project", projectName: "CommitHub" },
+  Vite: { kind: "project", projectName: "Aevor Frontend" },
+  HTML: { kind: "project", projectName: "NovaFest" },
+  CSS: { kind: "project", projectName: "NovaFest" },
+  "Tailwind CSS": { kind: "project", projectName: "NovaFest" },
+  "Framer Motion": { kind: "section", sectionId: "identity" },
+  "Node.js": { kind: "project", projectName: "Wandera" },
+  Express: { kind: "project", projectName: "Wandera" },
+  Gin: { kind: "project", projectName: "Aevor Platform" },
+  "REST APIs": { kind: "project", projectName: "Aevor Platform" },
+  JWT: { kind: "project", projectName: "CommitHub" },
+  "OAuth 2.0": { kind: "project", projectName: "Aevor Platform" },
+  PostgreSQL: { kind: "project", projectName: "Aevor Platform" },
+  MongoDB: { kind: "project", projectName: "CommitHub" },
+  Docker: { kind: "project", projectName: "Aevor Platform" },
+  Kubernetes: { kind: "section", sectionId: "open-source" },
+  AWS: { kind: "section", sectionId: "open-source" },
+  "GitHub Actions": { kind: "section", sectionId: "open-source" },
+  "CI/CD": { kind: "section", sectionId: "open-source" },
+  PyTorch: { kind: "section", sectionId: "research" },
+  "Hugging Face Transformers": { kind: "section", sectionId: "research" },
+  HuBERT: { kind: "section", sectionId: "research" },
+  "Audio ML": { kind: "section", sectionId: "research" },
+  STFT: { kind: "section", sectionId: "research" },
+  "SHA-256": { kind: "section", sectionId: "research" },
+  Git: { kind: "section", sectionId: "open-source" },
+  Linux: { kind: "section", sectionId: "open-source" },
+  Jest: { kind: "section", sectionId: "open-source" },
+  Vitest: { kind: "project", projectName: "Aevor Frontend" },
+  "Node test runner": { kind: "project", projectName: "CommitHub" },
+  "Code review": { kind: "project", projectName: "CommitHub" },
+}
 
 type Project = {
   name: string
@@ -302,7 +349,10 @@ export function ProfileIdCard({ tools }: ProfileIdCardProps) {
 
 export function FeaturedProjects() {
   const [selected, setSelected] = useState<Project | null>(null)
+  const isOpen = selected !== null
+  const selectedIndex = selected ? projects.findIndex((project) => project.name === selected.name) : -1
   const reduceMotion = useReducedMotion()
+  const lenis = useLenis()
   const returnFocusRef = useRef<HTMLElement | null>(null)
   const close = useCallback(() => setSelected(null), [])
   const openProject = useCallback((project: Project) => {
@@ -311,7 +361,7 @@ export function FeaturedProjects() {
   }, [])
 
   useEffect(() => {
-    if (!selected) return
+    if (!isOpen) return
     const previousOverflow = document.body.style.overflow
     const focusFrame = window.requestAnimationFrame(() => {
       document.querySelector<HTMLElement>('[role="dialog"] button')?.focus()
@@ -351,7 +401,55 @@ export function FeaturedProjects() {
       document.body.style.overflow = previousOverflow
       if (returnFocusRef.current?.isConnected) returnFocusRef.current.focus({ preventScroll: true })
     }
-  }, [selected, close])
+  }, [isOpen, close])
+
+  const changeProject = useCallback((direction: -1 | 1) => {
+    if (!selected) return
+    const currentIndex = projects.findIndex((project) => project.name === selected.name)
+    const nextIndex = (currentIndex + direction + projects.length) % projects.length
+    const nextProject = projects[nextIndex]
+    const nextCard = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("[data-project-card]"),
+    ).find((item) => item.dataset.projectCard === nextProject.name)
+    if (nextCard) returnFocusRef.current = nextCard
+    setSelected(nextProject)
+  }, [selected])
+
+  useEffect(() => {
+    const onSkillProjectRequest = (event: Event) => {
+      const detail = (event as CustomEvent<{ projectName?: string }>).detail
+      const project = projects.find((item) => item.name === detail?.projectName)
+      if (!project) return
+
+      // Finish the smooth scroll before opening the drawer so the visitor returns to the project, not the skills section.
+      const workSection = document.getElementById("work")
+      const card = Array.from(
+        document.querySelectorAll<HTMLButtonElement>("[data-project-card]"),
+      ).find((item) => item.dataset.projectCard === project.name)
+      returnFocusRef.current = card ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null)
+      const openDrawer = () => setSelected(project)
+
+      if (workSection && lenis) {
+        const scrollMargin = Number.parseFloat(window.getComputedStyle(workSection).scrollMarginTop) || 0
+        lenis.scrollTo(workSection, {
+          offset: -scrollMargin,
+          duration: reduceMotion ? 0 : readDurationToken("--duration-base"),
+          immediate: reduceMotion === true,
+          force: true,
+          onComplete: openDrawer,
+        })
+      } else {
+        workSection?.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start",
+        })
+        openDrawer()
+      }
+    }
+
+    window.addEventListener("portfolio:open-project", onSkillProjectRequest)
+    return () => window.removeEventListener("portfolio:open-project", onSkillProjectRequest)
+  }, [lenis, reduceMotion])
 
   return (
     <section className={styles.projectsSection} id="work" aria-labelledby="featured-projects-heading">
@@ -370,6 +468,7 @@ export function FeaturedProjects() {
             key={project.name}
             className={styles.projectCard}
             data-accent={project.accent}
+            data-project-card={project.name}
             onClick={() => openProject(project)}
             whileHover={reduceMotion ? undefined : { y: -5 }}
             whileTap={reduceMotion ? undefined : { scale: 0.99 }}
@@ -409,20 +508,42 @@ export function FeaturedProjects() {
               transition={{ type: "spring", stiffness: 260, damping: 28 }}
             >
               <div className={styles.drawerTop}><span>PROJECT NOTES / {selected.status.toUpperCase()}</span><button type="button" onClick={close} aria-label="Close project details">×</button></div>
-              <p className={styles.eyebrow}>{selected.label}</p>
-              <h3 id="project-drawer-title">{selected.name}</h3>
-              <p className={styles.drawerDescription} id="project-drawer-description">{selected.detail}</p>
-              <div className={styles.drawerHighlights}>
-                <h4>What’s inside</h4>
-                <ul>{selected.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
-              </div>
-              <div className={styles.drawerStack}><h4>Technology</h4><div>{selected.stack.map((tech) => <span key={tech}>{tech}</span>)}</div></div>
-              <div className={styles.drawerActions}>
-                <a href={selected.repo} target="_blank" rel="noreferrer">Open repository <span>↗</span></a>
-                {selected.frontend ? <a href={selected.frontend} target="_blank" rel="noreferrer">Explore frontend <span>↗</span></a> : null}
-                {selected.live ? <a href={selected.live} target="_blank" rel="noreferrer">Live demo <span>↗</span></a> : null}
-              </div>
-              <p className={styles.drawerFootnote}>Details are based on the public repository and README; early-stage work is labelled honestly.</p>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={selected.name}
+                  className={styles.drawerContent}
+                  initial={reduceMotion ? false : { opacity: 0, y: 7 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.18 }}
+                >
+                  <p className={styles.eyebrow}>{selected.label}</p>
+                  <h3 id="project-drawer-title">{selected.name}</h3>
+                  <p className={styles.drawerDescription} id="project-drawer-description">{selected.detail}</p>
+                  <div className={styles.drawerHighlights}>
+                    <h4>What’s inside</h4>
+                    <ul>{selected.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
+                  </div>
+                  <div className={styles.drawerStack}><h4>Technology</h4><div>{selected.stack.map((tech) => <span key={tech}>{tech}</span>)}</div></div>
+                  <div className={styles.drawerActions}>
+                    <a href={selected.repo} target="_blank" rel="noreferrer">Open repository <span>↗</span></a>
+                    {selected.frontend ? <a href={selected.frontend} target="_blank" rel="noreferrer">Explore frontend <span>↗</span></a> : null}
+                    {selected.live ? <a href={selected.live} target="_blank" rel="noreferrer">Live demo <span>↗</span></a> : null}
+                  </div>
+                  <p className={styles.drawerFootnote}>Details are based on the public repository and README; early-stage work is labelled honestly.</p>
+                </motion.div>
+              </AnimatePresence>
+              <nav className={styles.drawerPager} aria-label="Browse selected projects">
+                <button type="button" onClick={() => changeProject(-1)} aria-label={"Previous project: " + projects[(selectedIndex - 1 + projects.length) % projects.length].name}>
+                  <span aria-hidden="true">←</span>
+                  <span><small>PREVIOUS</small><strong>{projects[(selectedIndex - 1 + projects.length) % projects.length].name}</strong></span>
+                </button>
+                <span className={styles.drawerPagerPosition}>{selectedIndex + 1} / {projects.length}</span>
+                <button type="button" onClick={() => changeProject(1)} aria-label={"Next project: " + projects[(selectedIndex + 1) % projects.length].name}>
+                  <span><small>NEXT</small><strong>{projects[(selectedIndex + 1) % projects.length].name}</strong></span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </nav>
             </motion.aside>
           </motion.div>
         ) : null}
@@ -472,27 +593,119 @@ export function SkillsExplorer() {
   const [active, setActive] = useState<keyof typeof skillGroups>("Languages")
   const [showAll, setShowAll] = useState(false)
   const current = skillGroups[active]
+  const lenis = useLenis()
+  const reduceMotion = useReducedMotion()
   const allSkills = useMemo(() => categories.flatMap((category) => skillGroups[category]), [categories])
+  const exploreSkill = useCallback((skill: string) => {
+    const destination = skillDestinations[skill]
+    if (destination.kind === "project") {
+      window.dispatchEvent(
+        new CustomEvent("portfolio:open-project", {
+          detail: { projectName: destination.projectName, skill },
+        }),
+      )
+      return
+    }
+
+    const target = document.getElementById(destination.sectionId)
+    if (target) {
+      const scrollMargin = Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || 0
+      if (lenis) {
+        lenis.scrollTo(target, {
+          offset: -scrollMargin,
+          duration: reduceMotion ? 0 : readDurationToken("--duration-base"),
+          immediate: reduceMotion === true,
+          force: true,
+        })
+      } else {
+        target.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start",
+        })
+      }
+      return
+    }
+    window.location.assign("/#" + destination.sectionId)
+  }, [lenis, reduceMotion])
+
   return (
     <section className={styles.skillsSection} id="skills" aria-labelledby="skills-heading">
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Tools I reach for</p>
         <h2 id="skills-heading">A toolkit shaped by the work.</h2>
-        <p>Choose a layer to explore the languages and tools used across my projects, research and open-source contributions.</p>
+        <p>Choose a layer, then select any technology to open the most relevant project drawer or jump to the related research/open-source proof. You stay in one connected page flow.</p>
       </div>
       <div className={styles.skillsPanel}>
         <div className={styles.skillTabs} role="tablist" aria-label="Technology categories">
-          {categories.map((category) => <button key={category} type="button" role="tab" aria-selected={active === category} className={active === category ? styles.skillTabActive : styles.skillTab} onClick={() => setActive(category)}>{category}</button>)}
+          {categories.map((category) => (
+            <button
+              key={category}
+              type="button"
+              role="tab"
+              id={"skill-tab-" + categories.indexOf(category)}
+              aria-controls="skill-panel"
+              aria-selected={active === category}
+              className={active === category ? styles.skillTabActive : styles.skillTab}
+              onClick={() => setActive(category)}
+            >
+              {category}
+            </button>
+          ))}
         </div>
         <AnimatePresence mode="wait">
-          <motion.div key={active} className={styles.skillContent} role="tabpanel" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.2 }}>
+          <motion.div
+            key={active}
+            className={styles.skillContent}
+            id="skill-panel"
+            role="tabpanel"
+            aria-labelledby={"skill-tab-" + categories.indexOf(active)}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.2 }}
+          >
             <div className={styles.skillCategoryTitle}><span>0{categories.indexOf(active) + 1}</span><h3>{active}</h3></div>
-            <div className={styles.skillChips}>{current.map((skill, index) => <motion.span key={skill} initial={{ opacity: 0, y: 7 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.035 }}>{skill}</motion.span>)}</div>
-            <p className={styles.skillContext}>{active === "AI & research" ? "Used in semantic audio representation, spectrogram analysis and research evaluation." : active === "Data & infrastructure" ? "Applied to containerized services, persistence, deployment workflows and automation." : active === "Backend & APIs" ? "Used to build authenticated APIs, service boundaries and integrations." : active === "Frontend" ? "Used for interactive interfaces, responsive layouts and polished user experiences." : active === "Quality & workflow" ? "Used to test changes, investigate failures and collaborate through source control." : "A practical foundation for problem solving and building maintainable systems."}</p>
+            <div className={styles.skillChips}>
+              {current.map((skill, index) => (
+                <motion.button
+                  key={skill}
+                  type="button"
+                  className={styles.skillChip}
+                  aria-label={"Explore " + skill + " in related work"}
+                  title={"Open related work for " + skill}
+                  onClick={() => exploreSkill(skill)}
+                  initial={{ opacity: 0, y: 7 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.035 }}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {skill}<span aria-hidden="true">↗</span>
+                </motion.button>
+              ))}
+            </div>
+            <p className={styles.skillContext}>{active === "AI & research" ? "Select a model or signal-processing tool to jump to the SemBind-Audio research story." : active === "Data & infrastructure" ? "Select a database or container tool to open the project where it appears, or jump to upstream infrastructure work." : active === "Backend & APIs" ? "Select an API technology to open the relevant service or backend project." : active === "Frontend" ? "Select a UI tool to open the frontend project that uses it." : active === "Quality & workflow" ? "Select a testing or collaboration tool to open a related repository or contribution." : "Select a language to open a related project or the problem-solving activity panel."}</p>
           </motion.div>
         </AnimatePresence>
         <div className={styles.skillsFooter}><span>{allSkills.length} tools across {categories.length} categories</span><button type="button" onClick={() => setShowAll((value) => !value)} aria-expanded={showAll}>{showAll ? "Show selected layer −" : "View complete toolkit +"}</button></div>
-        <AnimatePresence>{showAll ? <motion.div className={styles.allSkills} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}><div>{categories.map((category) => <div key={category}><h4>{category}</h4><p>{skillGroups[category].join(" · ")}</p></div>)}</div></motion.div> : null}</AnimatePresence>
+        <AnimatePresence>
+          {showAll ? (
+            <motion.div className={styles.allSkills} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
+              <div>
+                {categories.map((category) => (
+                  <div key={category}>
+                    <h4>{category}</h4>
+                    <div className={styles.allSkillChips}>
+                      {skillGroups[category].map((skill) => (
+                        <button type="button" key={skill} onClick={() => exploreSkill(skill)}>{skill} ↗</button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </div>
     </section>
   )
@@ -573,12 +786,26 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
 }
 
 export function VisitorCounter() {
+  const [counterUrl, setCounterUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    // A unique query string prevents browser/CDN caching from suppressing page-view hits.
+    setCounterUrl(
+      "https://hits.sh/kr-sanjeev.netlify.app.svg?label=visitors&color=6554d7&labelColor=ffffff&v=" +
+        Date.now(),
+    )
+  }, [])
+
   return (
     <div className={styles.visitorLine}>
       <span className={styles.visitorSpark} />
       <span className={styles.visitorMessage}>You’re visitor number</span>
       <a className={styles.visitorBadgeLink} href="https://hits.sh/kr-sanjeev.netlify.app/" target="_blank" rel="noreferrer" aria-label="Open portfolio visit statistics">
-        <img src="https://hits.sh/kr-sanjeev.netlify.app.svg?label=visitors&color=6554d7&labelColor=ffffff" alt="Total portfolio visits" loading="lazy" />
+        {counterUrl ? (
+          <img src={counterUrl} alt="Total portfolio visits, updated on page visit" loading="eager" decoding="async" />
+        ) : (
+          <span className={styles.visitorBadgePlaceholder} aria-live="polite">counting…</span>
+        )}
       </a>
       <span className={styles.visitorEnd}>INCREMENTED ON VISIT</span>
     </div>
