@@ -25,6 +25,7 @@ export interface SignalStats {
     available: boolean
     username: string
     totalSolved: SignalNumber
+    totalQuestions: SignalNumber
     easySolved: SignalNumber
     mediumSolved: SignalNumber
     hardSolved: SignalNumber
@@ -83,6 +84,7 @@ export function getSignalsData(): SignalStats {
       available: Boolean(leetcode),
       username: leetcode?.username ?? "",
       totalSolved: row("All"),
+      totalQuestions: numberValue(leetcode?.solved.find((item) => item.difficulty === "All")?.totalQuestions),
       easySolved: row("Easy"),
       mediumSolved: row("Medium"),
       hardSolved: row("Hard"),
