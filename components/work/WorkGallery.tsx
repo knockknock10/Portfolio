@@ -248,13 +248,6 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
       </motion.div>
 
       {!visibleItems.length ? <p role="status">No matching work items.</p> : null}
-      {variant === "preview" ? (
-        <p className={styles.viewAllRow}>
-          <Link className={styles.viewAllLink} href="/work">
-            View all work →
-          </Link>
-        </p>
-      ) : null}
       <p className="sr-only" aria-live="polite">
         Showing {visibleItems.length} of {items.length} work items.
       </p>
