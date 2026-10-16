@@ -1,7 +1,7 @@
 "use client"
 
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion"
-import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent } from "react"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import type { SignalStats } from "@/lib/signals"
 import { useLenis } from "@/components/SmoothScrollProvider"
@@ -326,20 +326,15 @@ function SkillLogo({ name }: { name: string }) {
 }
 
 
-type ProfileIdCardProps = { tools: string[] | null }
+type ProfilePortraitProps = { tools: string[] | null }
 
-export function ProfileIdCard({ tools }: ProfileIdCardProps) {
-  const [flipped, setFlipped] = useState(false)
+export function ProfilePortrait({ tools }: ProfilePortraitProps) {
   const [portraitAvailable, setPortraitAvailable] = useState(false)
   const reduceMotion = useReducedMotion()
-  const toolCount = tools?.filter(Boolean).length ?? 0
-  const tiltX = useSpring(useMotionValue(0), { stiffness: 190, damping: 24, mass: 0.55 })
-  const tiltY = useSpring(useMotionValue(0), { stiffness: 190, damping: 24, mass: 0.55 })
   const portraitSrc = "/images/sanjeev-portrait.jpg"
+  const portraitTools = (tools ?? ["Go", "React", "Docker", "PostgreSQL", "PyTorch", "Kubernetes"]).filter(Boolean).slice(0, 7)
 
   useEffect(() => {
-    // Start with initials, then upgrade to the real photo if the file is present.
-    // This avoids ever showing a broken-image glyph on the initial render.
     const image = new Image()
     image.onload = () => setPortraitAvailable(true)
     image.onerror = () => setPortraitAvailable(false)
@@ -350,122 +345,69 @@ export function ProfileIdCard({ tools }: ProfileIdCardProps) {
     }
   }, [])
 
-  const handleCardMove = useCallback((event: ReactMouseEvent<HTMLDivElement>) => {
-    if (reduceMotion) return
-    const bounds = event.currentTarget.getBoundingClientRect()
-    if (!bounds.width || !bounds.height) return
-    const x = (event.clientX - bounds.left) / bounds.width
-    const y = (event.clientY - bounds.top) / bounds.height
-    tiltX.set((0.5 - y) * 8)
-    tiltY.set((x - 0.5) * 11)
-    event.currentTarget.style.setProperty("--pointer-x", Math.round(x * 100) + "%")
-    event.currentTarget.style.setProperty("--pointer-y", Math.round(y * 100) + "%")
-  }, [reduceMotion, tiltX, tiltY])
-
-  const handleCardLeave = useCallback((event: ReactMouseEvent<HTMLDivElement>) => {
-    tiltX.set(0)
-    tiltY.set(0)
-    event.currentTarget.style.setProperty("--pointer-x", "62%")
-    event.currentTarget.style.setProperty("--pointer-y", "35%")
-  }, [tiltX, tiltY])
-
   return (
     <section className={styles.identitySection} id="identity" aria-labelledby="identity-heading" tabIndex={-1}>
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>A little about the engineer</p>
         <h2 id="identity-heading">The person behind the pull requests.</h2>
-        <p>A compact engineering ID card, made to flip, with the details and tools behind the work.</p>
+        <p>Engineering is the work. The person, the curiosity and the research behind it deserve the frame.</p>
       </div>
-      <div className={styles.identityLayout}>
+
+      <div className={styles.portraitProfileLayout}>
         <motion.div
-          className={styles.idCardStage}
-          style={{ rotateX: reduceMotion ? 0 : tiltX, rotateY: reduceMotion ? 0 : tiltY }}
-          onMouseMove={handleCardMove}
-          onMouseLeave={handleCardLeave}
-          data-tilt={!reduceMotion}
+          className={styles.portraitFeatureFrame}
+          whileHover={reduceMotion ? undefined : { y: -4, scale: 1.008 }}
+          transition={{ type: "spring", stiffness: 220, damping: 23 }}
         >
-          <motion.div
-            className={styles.idCard}
-            animate={reduceMotion ? undefined : { rotateY: flipped ? 180 : 0 }}
-            transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 100, damping: 19, mass: 0.72 }}
-          >
-            <div className={styles.idFace + " " + styles.idFront}>
-              <div className={styles.idTopline}>
-                <span className={styles.idBrand}><span className={styles.idDot} /> ENGINEERING PROFILE</span>
-                <span className={styles.idNumber}>SK · CSE · 26</span>
+          <div className={styles.portraitFeaturePhoto}>
+            {portraitAvailable ? (
+              <img src={portraitSrc} alt="Portrait of Sanjeev Kumar" loading="eager" decoding="async" />
+            ) : (
+              <div className={styles.portraitPlaceholder} aria-label="Portrait image will appear when your photo is added">
+                <span>SK</span>
+                <small>YOUR PORTRAIT</small>
               </div>
-              <div className={styles.idMain}>
-                <div className={styles.portrait}>
-                  {portraitAvailable ? (
-                    <img src={portraitSrc} alt="Portrait of Sanjeev Kumar" />
-                  ) : (
-                    <div className={styles.portraitPlaceholder} aria-label="Portrait photo slot">
-                      <span>SK</span>
-                      <small>PHOTO SLOT</small>
-                    </div>
-                  )}
-                  <span className={styles.portraitCorner} aria-hidden="true" />
-                </div>
-                <div className={styles.idIdentity}>
-                  <p className={styles.idLabel}>SOFTWARE ENGINEER IN THE MAKING</p>
-                  <h3>{profile.name}</h3>
-                  <p>Computer Science &amp; Engineering</p>
-                  <p>SRM University AP · India</p>
-                  <div className={styles.idStatus}><span /> Building · Learning · Contributing</div>
-                </div>
-              </div>
-              <div className={styles.idFooter}>
-                <span className={styles.idSpecialism}>BACKEND / OSS / APPLIED AI</span>
-                <span className={styles.idBarcode} aria-hidden="true" />
-                <button type="button" onClick={() => setFlipped(true)} aria-label="Flip profile card to see skills">Flip card <span aria-hidden="true">↗</span></button>
-              </div>
+            )}
+            <div className={styles.portraitImageWash} aria-hidden="true" />
+            <div className={styles.portraitPhotoStamp}>
+              <span className={styles.portraitAvailabilityDot} />
+              <span>CS ENGINEERING · INDIA</span>
             </div>
-            <div className={styles.idFace + " " + styles.idBack}>
-              <div className={styles.idTopline}>
-                <span className={styles.idBrand}><span className={styles.idDot} /> ENGINEERING TOOLKIT</span>
-                <span className={styles.idNumber}>{toolCount || "—"} TOOLS</span>
-              </div>
-              <div className={styles.idBackContent}>
-                <p className={styles.idLabel}>HOW I BUILD</p>
-                <h3>From interfaces to infrastructure.</h3>
-                <p>Full-stack systems, Go services, open-source maintenance, and applied audio ML.</p>
-                <div className={styles.idQuickSkills}>
-                  {["Go", "React", "Node.js", "PostgreSQL", "Docker", "PyTorch"].map((item) => {
-                    const logo = skillLogos[item]
-                    return (
-                      <span className={styles.idToolChip} key={item}>
-                        <span className={styles.idToolIcon + (logo ? "" : " " + styles.skillLogoFallback)}>
-                          <span>{item.slice(0, 2).toUpperCase()}</span>
-                          {logo ? <img src={logo} alt="" onError={(event) => { event.currentTarget.style.display = "none"; event.currentTarget.parentElement?.classList.add(styles.skillLogoFallback) }} /> : null}
-                        </span>
-                        {item}
-                      </span>
-                    )
-                  })}
-                </div>
-                <div className={styles.idQuickLinks}>
-                  <a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a>
-                  <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
-                  <a href={"mailto:" + profile.email}>Email ↗</a>
-                </div>
-              </div>
-              <div className={styles.idFooter}>
-                <span className={styles.idSpecialism}>HUMAN-REVIEWED. BUILT WITH CARE.</span>
-                <span className={styles.idBarcode} aria-hidden="true" />
-                <button type="button" onClick={() => setFlipped(false)} aria-label="Flip profile card to the front">Front <span aria-hidden="true">↗</span></button>
-              </div>
-            </div>
-          </motion.div>
+            <span className={styles.portraitPhotoIndex}>SK / 001</span>
+          </div>
+          <div className={styles.portraitFeatureCaption}>
+            <span>BUILD WITH CURIOSITY</span>
+            <span>BACKEND · OSS · APPLIED AI</span>
+          </div>
         </motion.div>
-        <div className={styles.identityAside}>
-          <p className={styles.identityQuote}>“I learn fastest by building something real, tracing the edge cases, and improving it with feedback.”</p>
-          <p className={styles.identityBio}>Third-year B.Tech CSE student focused on backend engineering, developer tooling, open source, and applied AI research.</p>
-          <div className={styles.identityLinks}>
-            <a href={profile.github} target="_blank" rel="noreferrer"><span>GitHub</span><span>Projects &amp; contributions ↗</span></a>
+
+        <div className={styles.portraitProfileCopy}>
+          <p className={styles.portraitKicker}>SOFTWARE ENGINEERING · OPEN SOURCE · APPLIED AI</p>
+          <h3>Sanjeev Kumar</h3>
+          <p className={styles.portraitLead}>I build systems, contribute to upstream projects and investigate how machine learning can solve concrete engineering problems.</p>
+          <p className={styles.portraitBio}>Third-year B.Tech Computer Science student at SRM University AP, focused on backend engineering, developer tooling, open-source collaboration and applied audio research.</p>
+
+          <div className={styles.portraitLinks} aria-label="Connect with Sanjeev">
+            <a href={profile.github} target="_blank" rel="noreferrer"><span>GitHub</span><span>Code & contributions ↗</span></a>
             <a href={profile.linkedin} target="_blank" rel="noreferrer"><span>LinkedIn</span><span>Connect professionally ↗</span></a>
             <a href={"mailto:" + profile.email}><span>Email</span><span>{profile.email} ↗</span></a>
           </div>
-          <p className={styles.idCardHint}><span aria-hidden="true">✦</span> Move your cursor over the ID to tilt it. Flip it to reveal the toolkit.</p>
+
+          <div className={styles.portraitToolkit}>
+            <div className={styles.portraitToolkitHeader}>
+              <span>TOOLS I WORK WITH</span>
+              <span>{portraitTools.length} highlights</span>
+            </div>
+            <div className={styles.portraitToolChips}>
+              {portraitTools.map((tool) => (
+                <span className={styles.portraitToolChip} key={tool}>
+                  <SkillLogo name={tool} />
+                  <span>{tool}</span>
+                </span>
+              ))}
+            </div>
+            <a className={styles.portraitToolkitLink} href="#skills">Explore the full toolkit <span aria-hidden="true">↓</span></a>
+          </div>
         </div>
       </div>
     </section>
@@ -682,6 +624,7 @@ type ContributionFilter = "all" | "merged" | "open"
 export function OpenSourceOrganizations() {
   const [contributionFilter, setContributionFilter] = useState<ContributionFilter>("all")
   const [showAllContributions, setShowAllContributions] = useState(false)
+  const [showAllOrganizations, setShowAllOrganizations] = useState(false)
   const reducedMotion = useReducedMotion()
 
   const contributionGroups = useMemo(
@@ -723,6 +666,7 @@ export function OpenSourceOrganizations() {
   const visibleContributions = showAllContributions
     ? filteredContributions
     : filteredContributions.slice(0, 4)
+  const visibleOrganizations = showAllOrganizations ? organizations : organizations.slice(0, 3)
 
   return (
     <section className={styles.orgSection} id="open-source" aria-labelledby="org-heading" tabIndex={-1}>
@@ -732,7 +676,7 @@ export function OpenSourceOrganizations() {
         <p>Open-source work means learning an unfamiliar codebase, testing assumptions, responding to review and improving software with maintainers. Here are the communities and projects I have contributed to.</p>
       </div>
       <div className={styles.orgGrid}>
-        {organizations.map((org, index) => (
+        {visibleOrganizations.map((org, index) => (
           <motion.article
             className={styles.orgCard}
             key={org.handle}
@@ -773,6 +717,17 @@ export function OpenSourceOrganizations() {
           </motion.article>
         ))}
       </div>
+      {organizations.length > 3 ? (
+        <button
+          type="button"
+          className={styles.organizationsMore}
+          aria-expanded={showAllOrganizations}
+          onClick={() => setShowAllOrganizations((current) => !current)}
+        >
+          {showAllOrganizations ? "Show featured organizations −" : "View all organizations +"}
+          <span>{showAllOrganizations ? "3 featured" : organizations.length + " communities"}</span>
+        </button>
+      ) : null}
 
       <div className={styles.contributionFeed} aria-labelledby="contribution-feed-heading">
         <div className={styles.contributionFeedIntro}>
@@ -975,6 +930,11 @@ export function SkillsExplorer() {
 }
 
 
+type GitHubContributionDay = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 }
+type GitHubContributionPayload = {
+  total?: Record<string, number>
+  contributions?: GitHubContributionDay[]
+}
 type Badge = { displayName?: string; name?: string; icon?: string; creationDate?: string | number }
 type TopicLevel = "fundamental" | "intermediate" | "advanced"
 type TopicFilter = "all" | TopicLevel
@@ -1050,12 +1010,46 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
   const [badgePeek, setBadgePeek] = useState<string | null>(null)
   const [githubGraphFailed, setGithubGraphFailed] = useState(false)
   const [githubTrophiesFailed, setGithubTrophiesFailed] = useState(false)
+  const [githubContributionHistory, setGithubContributionHistory] = useState<GitHubContributionDay[]>([])
+  const [githubContributionTotals, setGithubContributionTotals] = useState<Record<string, number>>({})
+  const [githubCalendarStatus, setGithubCalendarStatus] = useState<"loading" | "live" | "fallback">("loading")
+  const [selectedGitHubYear, setSelectedGitHubYear] = useState<number | null>(null)
   const reducedMotion = Boolean(useReducedMotion())
 
   useEffect(() => {
     const controller = new AbortController()
     let disposed = false
     const timeout = window.setTimeout(() => controller.abort(), 18000)
+
+
+    const requestGitHubCalendar = fetch("https://github-contributions-api.jogruber.de/v4/knockknock10?y=all", { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("GitHub contribution history unavailable")))
+      .then((payload: GitHubContributionPayload) => {
+        const contributions = Array.isArray(payload.contributions)
+          ? payload.contributions.filter((day) =>
+              day &&
+              /^\d{4}-\d{2}-\d{2}$/.test(day.date) &&
+              Number.isFinite(day.count) &&
+              day.count >= 0 &&
+              [0, 1, 2, 3, 4].includes(day.level),
+            )
+          : []
+        const totals = payload.total && typeof payload.total === "object"
+          ? Object.fromEntries(
+              Object.entries(payload.total).filter(([year, count]) =>
+                /^\d{4}$/.test(year) && typeof count === "number" && Number.isFinite(count),
+              ),
+            )
+          : {}
+        if (!contributions.length || !Object.keys(totals).length) throw new Error("GitHub history was empty")
+        setGithubContributionHistory(contributions)
+        setGithubContributionTotals(totals)
+        setSelectedGitHubYear((current) => current ?? Math.max(...Object.keys(totals).map(Number)))
+        setGithubCalendarStatus("live")
+      })
+      .catch(() => {
+        if (!disposed) setGithubCalendarStatus("fallback")
+      })
 
     const requestTopics = fetch("https://alfa-leetcode-api.onrender.com/knockknock10/skill", { signal: controller.signal })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error("Topic stats unavailable")))
@@ -1109,7 +1103,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
         if (!disposed) setBadgeStatus("snapshot")
       })
 
-    Promise.allSettled([requestTopics, requestProfile, requestBadges]).finally(() => window.clearTimeout(timeout))
+    Promise.allSettled([requestGitHubCalendar, requestTopics, requestProfile, requestBadges]).finally(() => window.clearTimeout(timeout))
     return () => {
       disposed = true
       window.clearTimeout(timeout)
@@ -1123,12 +1117,35 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
     [topicFilter, topics],
   )
   const shownBadges = badges.length ? badges : fallbackBadges
-  const contributionTotal =
-    typeof data.github.contributionsLast365Days === "number"
-      ? data.github.contributionsLast365Days
-      : typeof data.github.contributionCalendar?.totalContributions === "number"
-        ? data.github.contributionCalendar.totalContributions
-        : null
+  const availableGitHubYears = useMemo(
+    () => Object.keys(githubContributionTotals).filter((year) => /^\d{4}$/.test(year)).map(Number).sort((a, b) => b - a),
+    [githubContributionTotals],
+  )
+  const activeGitHubYear = selectedGitHubYear ?? availableGitHubYears[0] ?? new Date().getFullYear()
+  const selectedGitHubDays = useMemo(
+    () => githubContributionHistory
+      .filter((day) => day.date.startsWith(String(activeGitHubYear) + "-"))
+      .sort((a, b) => a.date.localeCompare(b.date)),
+    [githubContributionHistory, activeGitHubYear],
+  )
+  const paddedGitHubDays = useMemo(() => {
+    if (!selectedGitHubDays.length) return [] as Array<GitHubContributionDay | null>
+    const firstWeekday = new Date(selectedGitHubDays[0].date + "T00:00:00Z").getUTCDay()
+    return [...Array.from({ length: firstWeekday }, () => null), ...selectedGitHubDays]
+  }, [selectedGitHubDays])
+  const githubWeekCount = Math.ceil(paddedGitHubDays.length / 7)
+  const githubMonthMarkers = useMemo(() => {
+    const markers: Array<{ label: string; week: number }> = []
+    paddedGitHubDays.forEach((day, index) => {
+      if (day && day.date.slice(-2) === "01") {
+        const label = new Date(day.date + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", timeZone: "UTC" })
+        markers.push({ label, week: Math.floor(index / 7) })
+      }
+    })
+    return markers
+  }, [paddedGitHubDays])
+  const activeGitHubTotal = githubContributionTotals[String(activeGitHubYear)] ??
+    selectedGitHubDays.reduce((total, day) => total + day.count, 0)
   const solvedValue = liveSolved ?? (typeof data.leetcode.totalSolved === "number" ? data.leetcode.totalSolved : null)
   const questionValue = totalQuestions ?? (typeof data.leetcode.totalQuestions === "number" ? data.leetcode.totalQuestions : null)
   const acceptanceRaw = liveAcceptance ?? (data.leetcode.acceptanceRate !== "MISSING" ? data.leetcode.acceptanceRate : "87.2%")
@@ -1147,32 +1164,105 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
         <p>A real snapshot of the topics you work on, plus the activity and badges behind the profile—every metric links back to LeetCode or GitHub.</p>
       </div>
 
-      <div className={styles.activityGrid}>
+      <div className={styles.activityStack}>
         <article className={styles.activityCard + " " + styles.githubActivity}>
           <div className={styles.activityCardHeader}>
             <div><span className={styles.activityEyebrow}>01 / GITHUB</span><h3>Building in public</h3></div>
             <a href={profile.github} target="_blank" rel="noreferrer" aria-label="Open GitHub profile">↗</a>
           </div>
 
-          <div className={styles.githubGraph}>
-            {githubGraphFailed ? (
-              <div className={styles.activityMediaFallback}>
-                <span className={styles.activityFallbackMark} aria-hidden="true">GH</span>
-                <div><strong>Contribution graph unavailable</strong><p>Open the live GitHub profile to inspect current activity.</p></div>
-                <a href={profile.github} target="_blank" rel="noreferrer">Open profile ↗</a>
+          <div className={styles.githubYearExplorer}>
+            <div className={styles.githubYearIntro}>
+              <div>
+                <span className={styles.githubYearKicker}>GITHUB CONTRIBUTION CALENDAR</span>
+                <p>Choose a year to inspect the public activity recorded for this profile.</p>
+              </div>
+              <div className={styles.githubYearTotal}>
+                <strong>{githubCalendarStatus === "live" ? activeGitHubTotal.toLocaleString() : "—"}</strong>
+                <span>{githubCalendarStatus === "live" ? "contributions in " + activeGitHubYear : "yearly history"}</span>
+              </div>
+            </div>
+
+            {githubCalendarStatus === "live" && selectedGitHubDays.length ? (
+              <>
+                <div className={styles.githubYearPicker} role="group" aria-label="Select GitHub contribution year">
+                  {availableGitHubYears.map((year) => (
+                    <button
+                      key={year}
+                      type="button"
+                      className={activeGitHubYear === year ? styles.githubYearActive : styles.githubYearButton}
+                      aria-pressed={activeGitHubYear === year}
+                      onClick={() => setSelectedGitHubYear(year)}
+                    >
+                      {year}
+                    </button>
+                  ))}
+                </div>
+                <div className={styles.githubCalendarViewport} tabIndex={0} aria-label={"Contribution calendar for " + activeGitHubYear}>
+                  <div className={styles.githubCalendarInner}>
+                    <div className={styles.githubMonths} aria-hidden="true">
+                      {githubMonthMarkers.map((month) => (
+                        <span
+                          key={month.label + month.week}
+                          style={{ left: (month.week / Math.max(1, githubWeekCount)) * 100 + "%" }}
+                        >
+                          {month.label}
+                        </span>
+                      ))}
+                    </div>
+                    <div
+                      className={styles.githubCalendarGrid}
+                      style={{ gridTemplateColumns: "repeat(" + githubWeekCount + ", minmax(0, 1fr))" }}
+                      role="img"
+                      aria-label={activeGitHubTotal.toLocaleString() + " GitHub contributions in " + activeGitHubYear + "; daily counts shown as a contribution heatmap."}
+                    >
+                      {paddedGitHubDays.map((day, index) => day ? (
+                        <span
+                          key={day.date}
+                          className={styles.githubCalendarCell}
+                          data-level={day.level}
+                          title={day.date + ": " + day.count + (day.count === 1 ? " contribution" : " contributions")}
+                          aria-label={day.date + ": " + day.count + (day.count === 1 ? " contribution" : " contributions")}
+                        />
+                      ) : (
+                        <span key={"pad-" + index} className={styles.githubCalendarPad} aria-hidden="true" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.githubCalendarLegend}>
+                  <span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><i data-level="4" /><span>More</span>
+                  <small>Daily commits, pull requests, reviews and other GitHub contributions.</small>
+                </div>
+              </>
+            ) : githubCalendarStatus === "loading" ? (
+              <div className={styles.githubCalendarLoading} aria-live="polite">
+                <span className={styles.githubLoadingPulse} />
+                <span>Loading yearly contribution history from GitHub…</span>
               </div>
             ) : (
-              <img
-                src="https://ghchart.rshah.org/6554d7/knockknock10"
-                alt="GitHub contribution graph for knockknock10"
-                loading="lazy"
-                onError={() => setGithubGraphFailed(true)}
-              />
+              <div className={styles.githubGraphFallback}>
+                {githubGraphFailed ? (
+                  <div className={styles.activityMediaFallback}>
+                    <span className={styles.activityFallbackMark} aria-hidden="true">GH</span>
+                    <div><strong>Contribution history unavailable</strong><p>Open GitHub to switch years and view the complete profile calendar.</p></div>
+                    <a href={profile.github} target="_blank" rel="noreferrer">Open profile ↗</a>
+                  </div>
+                ) : (
+                  <img
+                    src="https://ghchart.rshah.org/6554d7/knockknock10"
+                    alt="Fallback GitHub contribution graph for knockknock10 showing recent activity"
+                    loading="lazy"
+                    onError={() => setGithubGraphFailed(true)}
+                  />
+                )}
+                <p>Year filtering is temporarily unavailable; the fallback graph shows recent activity.</p>
+              </div>
             )}
           </div>
           <div className={styles.graphCaption}>
-            <span>Daily contributions · last year</span>
-            <span>{contributionTotal !== null ? contributionTotal.toLocaleString() + " reported" : "Live from GitHub"}</span>
+            <span>Contribution history · refreshed by the public profile-data service</span>
+            <span><a href={profile.github} target="_blank" rel="noreferrer">Open GitHub ↗</a></span>
           </div>
 
           <div className={styles.githubBadgeHeading}>
@@ -1361,7 +1451,7 @@ export function VisitorCounter() {
   useEffect(() => {
     // A unique query string prevents browser/CDN caching from suppressing page-view hits.
     setCounterUrl(
-      "https://hits.sh/kr-sanjeev.netlify.app.svg?label=visitors&color=6554d7&labelColor=ffffff&v=" +
+      "https://hits.sh/kr-sanjeev.netlify.app.svg?label=visitor%20number&color=6554d7&labelColor=ffffff&v=" +
         Date.now(),
     )
   }, [])
@@ -1369,15 +1459,15 @@ export function VisitorCounter() {
   return (
     <div className={styles.visitorLine}>
       <span className={styles.visitorSpark} />
-      <span className={styles.visitorMessage}>You’re visitor number</span>
+      <span className={styles.visitorMessage}>You are</span>
       <a className={styles.visitorBadgeLink} href="https://hits.sh/kr-sanjeev.netlify.app/" target="_blank" rel="noreferrer" aria-label="Open portfolio visit statistics">
         {counterUrl && !counterFailed ? (
-          <img src={counterUrl} alt="Total portfolio visits, updated on page visit" loading="eager" decoding="async" onError={() => setCounterFailed(true)} />
+          <img src={counterUrl} alt="Portfolio visitor number, updated on each page visit" loading="eager" decoding="async" onError={() => setCounterFailed(true)} />
         ) : (
           <span className={styles.visitorBadgePlaceholder} aria-live="polite">{counterFailed ? "visit counter unavailable" : "counting…"}</span>
         )}
       </a>
-      <span className={styles.visitorEnd}>INCREMENTED ON VISIT</span>
+      <span className={styles.visitorEnd}>COUNTER UPDATES ON EVERY VISIT</span>
     </div>
   )
 }

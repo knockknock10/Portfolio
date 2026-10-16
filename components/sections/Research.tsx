@@ -41,6 +41,9 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
   const reducedMotion = Boolean(useReducedMotion())
   const [methodOpen, setMethodOpen] = useState(false)
   const link = available(item.link) ? item.link : null
+  const authors = Array.isArray(item.authors) ? item.authors : []
+  const submittedToIEEE = available(item.status) && /submitted/i.test(item.status)
+  const venue = available(item.venue) ? item.venue : "Research manuscript"
 
   return (
     <motion.article
@@ -52,13 +55,29 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
     >
       <div className="research-feature-copy">
         <div className="research-feature-kicker">
-          <span className="research-feature-index">01 / FEATURED RESEARCH</span>
-          <span className="research-feature-status"><i /> In progress</span>
+          <span className="research-feature-index">01 / FIRST-AUTHOR RESEARCH</span>
+          <span className="research-feature-firstauthor">FIRST AUTHOR</span>
+          <span className="research-feature-status"><i /> {submittedToIEEE ? "SUBMITTED MANUSCRIPT" : "ACTIVE RESEARCH"}</span>
         </div>
+        <p className="research-feature-venue">{venue} · {available(item.year) ? item.year : "Submission"}</p>
         <h3>{item.title}</h3>
+        <p className="research-feature-authors" aria-label="Authors in manuscript order">
+          {authors.map((author, index) => (
+            <span key={author} className={index === 0 ? "research-feature-author is-first-author" : "research-feature-author"}>
+              {author}
+            </span>
+          ))}
+        </p>
         <p className="research-feature-lede">
-          A semantic-aware audio watermarking framework that uses transformer representations to
-          select embedding regions and cryptographic binding to verify the payload.
+          {available(item.abstract) ? item.abstract : "A controlled study of reference-based speech-watermark placement, evaluating semantic contribution and spectral suitability on a full speech corpus."}
+        </p>
+        <div className="research-feature-metrics" aria-label="Study scale">
+          <div><strong>2,620</strong><span>test-clean utterances</span></div>
+          <div><strong>5</strong><span>placement rules</span></div>
+          <div><strong>6</strong><span>SNR targets</span></div>
+        </div>
+        <p className="research-feature-finding">
+          <strong>Key finding.</strong> In the reported experiments, joint placement was statistically indistinguishable from spectral-only placement; local spectral suitability was the stronger placement criterion.
         </p>
 
         <div className="research-feature-tags" aria-label="Research technologies">
@@ -92,21 +111,21 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
         <div className="research-feature-actions">
           {link ? (
             <a className="research-feature-primary" href={link} target="_blank" rel="noreferrer">
-              Explore repository <span aria-hidden="true">↗</span>
+              View implementation repo <span aria-hidden="true">↗</span>
             </a>
           ) : null}
-          <span className="research-feature-note">Implementation · evaluation · manuscript in progress</span>
+          <span className="research-feature-note">{submittedToIEEE ? "Submitted to IEEE Signal Processing Letters · not yet published" : "Research manuscript · active work"}</span>
         </div>
       </div>
 
       <div className="research-feature-visual">
         <img
-          src="/images/research/sembind-audio-lab.svg"
-          alt="Illustration of an audio waveform, spectrogram, semantic feature network and cryptographic watermark"
+          src={available(item.image) ? item.image : "/images/research/sembind-audio-lab.svg"}
+          alt="SemBind workflow illustration: speech waveform, spectrogram and semantic-spectral placement followed by reference-based verification"
           loading="lazy"
           decoding="async"
         />
-        <span className="research-visual-caption"><i /> SIGNAL → SEMANTICS → PROOF</span>
+        <span className="research-visual-caption"><i /> HU BERT · STFT · REFERENCE-BASED PROOF</span>
       </div>
     </motion.article>
   )
@@ -126,7 +145,7 @@ export function Research({ items, standalone = false }: ResearchProps) {
 
   const Heading = standalone ? "h1" : "h2"
   const featuredResearch = items.find(
-    (item) => item.title.toLowerCase().includes("sembind-audio"),
+    (item) => item.title.toLowerCase().includes("sembind"),
   )
   const secondaryItems = featuredResearch
     ? items.filter((item) => item !== featuredResearch)
@@ -161,7 +180,7 @@ export function Research({ items, standalone = false }: ResearchProps) {
                 const delay = reducedMotion ? 0 : Math.min(index * stagger, staggerCap)
                 return (
                   <motion.article
-                    className="research-row"
+                    className={item.title.toLowerCase().includes("nanosensor") ? "research-row research-nanosensor-row" : "research-row"}
                     key={item.title + "-" + item.year}
                     initial={reducedMotion ? false : { opacity: 0, y: 9 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -187,8 +206,17 @@ export function Research({ items, standalone = false }: ResearchProps) {
                       )}
                       {item.tags.length ? <p className="research-tags">{item.tags.join(" · ")}</p> : null}
                     </div>
-                    <div className="research-actions">
-                      {available(item.image) ? <img className="research-image" src={item.image} alt={item.title} loading="lazy" /> : null}
+                    <div className={item.title.toLowerCase().includes("nanosensor") ? "research-actions research-nanosensor-actions" : "research-actions"}>
+                      {available(item.image) ? (
+                        item.title.toLowerCase().includes("nanosensor") ? (
+                          <div className="research-nanosensor-media">
+                            <img className="research-nanosensor-visual" src={item.image} alt="Conceptual nanosensor network showing sensor nodes, multi-hop routing and packet delivery to a gateway" loading="lazy" decoding="async" />
+                            <p className="research-nanosensor-caption">Concept illustration · MATLAB research context</p>
+                          </div>
+                        ) : (
+                          <img className="research-image" src={item.image} alt={item.title} loading="lazy" />
+                        )
+                      ) : null}
                       {available(item.link) ? (
                         <a className="research-link" href={item.link} target="_blank" rel="noreferrer">
                           {paperLink(item.link) ? "Read paper" : "View source"}

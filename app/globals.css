@@ -6189,3 +6189,68 @@ body {
     scroll-margin-top:calc(var(--nav-height-mobile) + var(--spacing-6));
   }
 }
+
+/* First-author IEEE manuscript hierarchy: ownership, authorship and status are explicit. */
+.research-feature-kicker{align-items:center}
+.research-feature-firstauthor{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 9px;
+  border:1px solid rgba(255,231,164,.28);border-radius:999px;
+  background:rgba(255,214,110,.1);color:#ffdf8a;
+  font-size:.61rem;font-weight:900;letter-spacing:.1em;
+}
+.research-feature-venue{
+  margin:-13px 0 14px;color:#bfb9ee;
+  font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+}
+.research-feature-copy h3{font-size:clamp(1.85rem,3vw,2.8rem);line-height:1.04;letter-spacing:-.055em}
+.research-feature-authors{
+  max-width:590px;margin:14px 0 0;color:#d6d4ee;font-size:.76rem;line-height:1.6;
+}
+.research-feature-authors::before{
+  content:"AUTHOR ORDER";display:block;margin-bottom:5px;color:#a9a1dd;font-size:.53rem;font-weight:850;letter-spacing:.13em;
+}
+.research-feature-metrics{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;margin-top:19px;
+}
+.research-feature-metrics>div{
+  display:flex;flex-direction:column;gap:4px;min-width:0;padding:12px 10px;
+  border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.045);
+}
+.research-feature-metrics strong{color:#fff;font-size:1.35rem;line-height:1;font-weight:780;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.research-feature-metrics span{color:#c2c3df;font-size:.62rem;line-height:1.4}
+.research-feature-finding{
+  margin:13px 0 0;padding:11px 13px;border-left:2px solid #9c8df7;
+  background:rgba(165,150,255,.075);color:#d8d8ed;font-size:.72rem;line-height:1.65;
+}
+.research-feature-finding strong{color:#fff}
+.research-feature-tags{margin-top:16px}
+.research-feature-actions{gap:12px 14px}
+.research-feature-note{max-width:230px}
+.research-feature-visual img{max-width:100%}
+.research-nanosensor-visual{
+  display:block;width:min(100%,300px);height:auto;aspect-ratio:1000/720;object-fit:contain;
+  border:1px solid rgba(116,113,194,.16);border-radius:13px;background:#edf0ff;
+  box-shadow:0 8px 22px rgba(55,54,105,.08);
+}
+.research-nanosensor-caption{
+  margin:6px 0 0;color:#83849d;font-size:.56rem;line-height:1.45;text-align:center;
+}
+.research-secondary-description{max-width:65ch}
+@media(max-width:900px){
+  .research-feature-copy h3{font-size:clamp(1.85rem,3.2vw,2.5rem)}
+}
+@media(max-width:680px){
+  .research-feature-copy h3{font-size:clamp(1.85rem,7vw,2.5rem)}
+  .research-feature-metrics{gap:6px}
+  .research-feature-metrics>div{padding:10px 8px}
+  .research-feature-metrics strong{font-size:1.15rem}
+  .research-feature-metrics span{font-size:.58rem}
+  .research-feature-note{max-width:none}
+  .research-nanosensor-visual{width:100%;max-width:240px}
+}
+
+.research-feature-authors{display:flex;flex-wrap:wrap;align-items:center;gap:5px 9px}
+.research-feature-authors::before{width:100%;flex-basis:100%;margin-bottom:2px}
+.research-feature-author{color:#d6d4ee;font-size:.76rem;line-height:1.55}
+.research-feature-author+.research-feature-author::before{content:"·";margin-right:9px;color:#8f87c7}
+.research-feature-author.is-first-author{color:#fff;font-weight:850}

@@ -2988,28 +2988,47 @@ The records below are sourced from the project inventory and the résumé's Rese
 ~~~json
 [
   {
-    "title": "SemBind-Audio",
-    "type": "ongoing project",
-    "venue": "MISSING",
-    "year": "MISSING",
-    "authors": "MISSING",
-    "abstract": "MISSING",
+    "title": "SemBind: Inspectable Self-Supervised and Spectral Placement for Reference-Based Speech Watermarking",
+    "type": "First-author manuscript",
+    "venue": "IEEE Signal Processing Letters",
+    "year": "2026",
+    "authors": [
+      "Sanjeev Kumar",
+      "Biswajit Maity",
+      "Banashree Mandal",
+      "Aditya Kumar Sahu"
+    ],
+    "abstract": "Submitted manuscript presenting a controlled study of reference-based speech watermark placement. Across all 2,620 LibriSpeech test-clean utterances, five placement rules are compared at six embedding strengths. The HuBERT contribution map is informative, but joint placement is statistically indistinguishable from spectral-only placement; local spectral suitability is the stronger placement criterion in these experiments.",
     "link": "https://github.com/knockknock10/SemBind_Audio",
-    "status": "in progress",
-    "image": "MISSING",
-    "tags": ["Python", "PyTorch", "HuBERT", "STFT", "Audio ML", "SHA-256"]
+    "status": "Submitted to IEEE Signal Processing Letters",
+    "image": "images/research/sembind-audio-lab.svg",
+    "tags": [
+      "First author",
+      "IEEE Signal Processing Letters",
+      "HuBERT",
+      "STFT",
+      "Speech watermarking",
+      "LibriSpeech",
+      "Whisper tiny.en",
+      "SHA-256"
+    ]
   },
   {
     "title": "Nanosensor Network Communication Simulator",
-    "type": "research experience",
+    "type": "Research experience",
     "venue": "MISSING",
     "year": "MISSING",
     "authors": "MISSING",
-    "abstract": "MISSING",
+    "abstract": "MATLAB-based research experience focused on nano-scale sensor-network communication, including routing and packet propagation.",
     "link": "MISSING",
     "status": "MISSING",
-    "image": "MISSING",
-    "tags": ["MATLAB", "nano-scale sensor networks", "routing", "packet propagation"]
+    "image": "images/research/nanosensor-network.svg",
+    "tags": [
+      "MATLAB",
+      "Nano-scale sensor networks",
+      "Routing",
+      "Packet propagation"
+    ]
   }
 ]
 ~~~

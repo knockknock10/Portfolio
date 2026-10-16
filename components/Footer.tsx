@@ -17,7 +17,9 @@ export function Footer({ name, copyrightName, email, socials }: FooterProps) {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="site-footer">
+    <>
+      <VisitorCounter />
+      <footer className="site-footer">
       <div className="footer-inner">
         <div className="footer-identity">
           {name ? (
@@ -64,9 +66,8 @@ export function Footer({ name, copyrightName, email, socials }: FooterProps) {
             © {year} {copyrightName}
           </p>
         ) : null}
-
-        <VisitorCounter />
       </div>
-    </footer>
+      </footer>
+    </>
   )
 }

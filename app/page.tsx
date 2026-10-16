@@ -9,7 +9,7 @@ import {
   ActivityShowcase,
   FeaturedProjects,
   OpenSourceOrganizations,
-  ProfileIdCard,
+  ProfilePortrait,
   SkillsExplorer,
 } from "@/components/sections/PortfolioExperience"
 import { getContent } from "@/lib/content.server"
@@ -57,7 +57,7 @@ export default async function HomePage() {
           splitName={heading === content.identity.fullName}
         />
       </section>
-      <ProfileIdCard tools={content.tools} />
+      <ProfilePortrait tools={content.tools} />
       <FeaturedProjects />
       <Research items={researchItems} />
       <OpenSourceOrganizations />

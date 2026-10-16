@@ -607,3 +607,173 @@
 .activityTrophyFallback small{color:#6f7185;font-size:.66rem}
 @media(max-width:420px){.activityMediaFallback{align-items:flex-start;flex-wrap:wrap}.activityMediaFallback>a{margin-left:52px}}
 @media(prefers-reduced-motion:reduce){.activityMediaFallback>a{transition:none}}
+
+
+/* Portrait-led identity section: the photo is the visual anchor, not a faux ID card. */
+.portraitProfileLayout{
+  display:grid;grid-template-columns:minmax(260px,.82fr) minmax(0,1.18fr);
+  gap:clamp(26px,5vw,68px);align-items:center;
+}
+.portraitFeatureFrame{
+  position:relative;min-width:0;max-width:450px;width:100%;
+  padding:10px;border:1px solid rgba(255,255,255,.9);border-radius:30px;
+  background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(247,245,255,.7) 50%,rgba(229,244,255,.83));
+  box-shadow:0 24px 64px rgba(40,36,80,.12),inset 0 1px 0 #fff;
+}
+.portraitFeaturePhoto{
+  position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:22px;
+  background:radial-gradient(circle at 25% 18%,rgba(255,255,255,.8),transparent 33%),linear-gradient(145deg,#ded8ff,#dcecf8 56%,#f8dfd4);
+  isolation:isolate;
+}
+.portraitFeaturePhoto>img{
+  position:absolute;inset:0;display:block;width:100%;height:100%;
+  object-fit:cover;object-position:center 32%;border-radius:inherit;
+}
+.portraitFeaturePhoto>.portraitPlaceholder{
+  position:absolute;inset:0;display:flex;min-height:100%;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 28% 20%,rgba(255,255,255,.82),transparent 36%),linear-gradient(145deg,#ded8ff,#dcecf8 56%,#f8dfd4);
+}
+.portraitFeaturePhoto>.portraitPlaceholder span{width:90px;height:90px;border-radius:30px;font-size:2rem;box-shadow:0 10px 27px rgba(70,64,122,.1)}
+.portraitFeaturePhoto>.portraitPlaceholder small{font-size:.63rem;letter-spacing:.16em;color:#666088}
+.portraitImageWash{
+  position:absolute;z-index:1;inset:35% 0 0;
+  background:linear-gradient(180deg,transparent,rgba(25,27,51,.64));
+  pointer-events:none;
+}
+.portraitPhotoStamp{
+  position:absolute;z-index:2;left:15px;right:15px;bottom:17px;
+  display:flex;align-items:center;gap:8px;
+  padding:10px 12px;border:1px solid rgba(255,255,255,.25);border-radius:12px;
+  background:rgba(30,30,57,.42);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  color:#fff;font-size:.61rem;font-weight:800;letter-spacing:.1em;
+}
+.portraitAvailabilityDot{width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#85edb8;box-shadow:0 0 0 4px rgba(133,237,184,.14)}
+.portraitPhotoIndex{
+  position:absolute;z-index:2;top:15px;right:15px;padding:7px 9px;
+  border:1px solid rgba(255,255,255,.28);border-radius:9px;
+  background:rgba(30,30,57,.35);backdrop-filter:blur(12px);color:#fff;
+  font-size:.6rem;font-weight:800;letter-spacing:.13em;
+}
+.portraitFeatureCaption{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 8px 5px;color:#79758f;font-size:.58rem;letter-spacing:.1em;font-weight:850}
+.portraitFeatureCaption span:last-child{color:#5c51b5;text-align:right}
+.portraitProfileCopy{min-width:0}
+.portraitKicker{margin:0 0 12px;color:#6257c4;font-size:.67rem;font-weight:850;letter-spacing:.14em;line-height:1.6}
+.portraitProfileCopy h3{margin:0;color:#26273e;font-size:clamp(2.45rem,5.1vw,4.4rem);line-height:.98;font-weight:720;letter-spacing:-.07em;text-wrap:balance}
+.portraitLead{max-width:620px;margin:19px 0 0;color:#45495f;font-size:clamp(1.04rem,1.45vw,1.23rem);line-height:1.65;font-weight:550}
+.portraitBio{max-width:610px;margin:12px 0 25px;color:#6c6e80;font-size:.89rem;line-height:1.75}
+.portraitLinks{display:grid;border-top:1px solid rgba(80,75,100,.13)}
+.portraitLinks>a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid rgba(80,75,100,.13);text-decoration:none;color:#292b42;transition:padding .22s ease,color .22s ease}
+.portraitLinks>a:hover{padding-left:5px;color:#5b4fba}
+.portraitLinks>a>span:first-child{font-size:.83rem;font-weight:800}
+.portraitLinks>a>span:last-child{color:#6f7287;font-size:.73rem;text-align:right}
+.portraitToolkit{margin-top:21px;padding:16px;border:1px solid rgba(92,81,133,.1);border-radius:18px;background:rgba(255,255,255,.53)}
+.portraitToolkitHeader{display:flex;justify-content:space-between;gap:12px;margin-bottom:12px;color:#625c81;font-size:.59rem;font-weight:850;letter-spacing:.12em}
+.portraitToolkitHeader>span:last-child{color:#9691a8;font-size:.58rem;letter-spacing:.02em;font-weight:600}
+.portraitToolChips{display:flex;flex-wrap:wrap;gap:7px}
+.portraitToolChip{display:inline-flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid rgba(92,81,133,.09);border-radius:11px;background:rgba(255,255,255,.85);color:#494b62;font-size:.71rem;font-weight:650}
+.portraitToolChip .skillTechIcon{width:22px;height:22px;flex-basis:22px;border-radius:6px}
+.portraitToolkitLink{display:inline-flex;align-items:center;gap:8px;margin-top:15px;color:#5e52bd;font-size:.74rem;font-weight:800;text-decoration:none}
+.portraitToolkitLink:hover{text-decoration:underline;text-underline-offset:4px}
+.portraitLinks>a:focus-visible,.portraitToolkitLink:focus-visible{outline:3px solid rgba(101,88,245,.42);outline-offset:4px;border-radius:4px}
+@media(max-width:900px){
+  .portraitProfileLayout{grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr);gap:28px}
+  .portraitProfileCopy h3{font-size:clamp(2.3rem,5vw,3.7rem)}
+}
+@media(max-width:760px){
+  .portraitProfileLayout{grid-template-columns:minmax(0,1fr);gap:25px}
+  .portraitFeatureFrame{max-width:460px;margin-inline:auto}
+  .portraitProfileCopy h3{font-size:clamp(2.7rem,10vw,4rem)}
+  .portraitBio{margin-bottom:18px}
+}
+@media(max-width:420px){
+  .portraitFeatureFrame{padding:7px;border-radius:23px}
+  .portraitFeaturePhoto{border-radius:17px}
+  .portraitFeatureCaption{align-items:flex-start;flex-direction:column;gap:5px;font-size:.56rem}
+  .portraitPhotoStamp{left:11px;right:11px;bottom:12px;padding:8px 10px;font-size:.53rem}
+  .portraitProfileCopy h3{font-size:2.6rem}
+  .portraitLinks>a{align-items:flex-start;flex-direction:column;gap:4px}
+  .portraitLinks>a>span:last-child{text-align:left}
+  .portraitToolkit{padding:13px}
+  .portraitToolkitHeader{flex-direction:column;gap:5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .portraitLinks>a{transition:none}
+}
+
+
+/* Activity reads vertically: full GitHub year grid + trophies, then LeetCode below. */
+.activityStack{display:grid;grid-template-columns:minmax(0,1fr);gap:21px;align-items:start}
+.activityStack>.activityCard{width:100%;min-width:0;max-width:none}
+.activityStack>.githubActivity{background:linear-gradient(145deg,rgba(255,255,255,.93),rgba(246,244,255,.77))}
+.activityStack>.leetcodeActivity{background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(255,247,239,.78))}
+.githubYearExplorer{padding:clamp(14px,2vw,21px);border:1px solid rgba(92,81,133,.1);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(249,249,255,.7))}
+.githubYearIntro{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-bottom:16px}
+.githubYearKicker{display:block;color:#6559bd;font-size:.63rem;font-weight:850;letter-spacing:.12em}
+.githubYearIntro p{margin:6px 0 0;color:#74758a;font-size:.77rem;line-height:1.55}
+.githubYearTotal{display:flex;align-items:baseline;justify-content:flex-end;gap:7px;flex-wrap:wrap;flex:0 0 auto}
+.githubYearTotal strong{color:#282a40;font-size:clamp(1.6rem,3vw,2.35rem);font-weight:800;letter-spacing:-.055em;font-variant-numeric:tabular-nums}
+.githubYearTotal span{color:#77798d;font-size:.72rem}
+.githubYearPicker{display:flex;gap:7px;max-width:100%;overflow-x:auto;padding:0 0 12px;scrollbar-width:thin}
+.githubYearButton,.githubYearActive{flex:0 0 auto;min-width:58px;padding:8px 11px;border:1px solid rgba(98,88,152,.12);border-radius:9px;background:rgba(255,255,255,.76);color:#72728a;font:inherit;font-size:.73rem;font-weight:750;cursor:pointer;transition:color .2s ease,border-color .2s ease,background .2s ease,transform .2s ease}
+.githubYearButton:hover{border-color:rgba(101,88,189,.3);background:#fff;transform:translateY(-1px)}
+.githubYearActive{border-color:#5e51c3;background:#5e51c3;color:#fff;box-shadow:0 5px 13px rgba(94,81,195,.18)}
+.githubCalendarViewport{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;outline-offset:3px;scrollbar-color:#c9c5e8 transparent;scrollbar-width:thin}
+.githubCalendarViewport:focus-visible{outline:3px solid rgba(101,88,245,.4);border-radius:8px}
+.githubCalendarInner{width:100%;min-width:760px;padding:2px 0 8px}
+.githubMonths{position:relative;width:100%;height:20px}
+.githubMonths>span{position:absolute;top:0;transform:translateX(-1px);color:#77798d;font-size:.63rem;line-height:1.2;white-space:nowrap}
+.githubCalendarGrid{display:grid;grid-template-rows:repeat(7,11px);grid-auto-flow:column;gap:3px;width:100%}
+.githubCalendarCell,.githubCalendarPad{display:block;min-width:0;min-height:0;aspect-ratio:1;border-radius:3px}
+.githubCalendarCell{background:#ebedf0;box-shadow:inset 0 0 0 1px rgba(40,44,52,.025);transition:transform .15s ease,outline-color .15s ease}
+.githubCalendarCell[data-level="1"]{background:#b7e6be}.githubCalendarCell[data-level="2"]{background:#7ed28d}.githubCalendarCell[data-level="3"]{background:#43b867}.githubCalendarCell[data-level="4"]{background:#238c4d}
+.githubCalendarCell:hover{outline:2px solid #5d52b9;outline-offset:1px;transform:scale(1.08)}
+.githubCalendarPad{background:transparent}
+.githubCalendarLegend{display:flex;align-items:center;gap:5px;margin-top:10px;color:#85869a;font-size:.61rem}
+.githubCalendarLegend i{display:block;width:11px;height:11px;border-radius:3px;background:#ebedf0}
+.githubCalendarLegend i[data-level="1"]{background:#b7e6be}.githubCalendarLegend i[data-level="2"]{background:#7ed28d}.githubCalendarLegend i[data-level="3"]{background:#43b867}.githubCalendarLegend i[data-level="4"]{background:#238c4d}
+.githubCalendarLegend>span:first-child{margin-right:2px}.githubCalendarLegend>span:nth-last-of-type(1){margin-left:2px}
+.githubCalendarLegend small{margin-left:auto;color:#85869a;font-size:.61rem;line-height:1.5}
+.githubCalendarLoading{display:flex;align-items:center;gap:11px;min-height:110px;padding:14px;border:1px dashed rgba(98,88,152,.18);border-radius:12px;background:rgba(255,255,255,.54);color:#74758a;font-size:.78rem}
+.githubLoadingPulse{width:11px;height:11px;flex:0 0 11px;border-radius:50%;background:#8275db;box-shadow:0 0 0 5px rgba(130,117,219,.12);animation:github-calendar-pulse 1.4s ease-in-out infinite}
+@keyframes github-calendar-pulse{50%{opacity:.4;transform:scale(.84)}}
+.githubGraphFallback{padding:13px 10px;border:1px solid rgba(92,81,133,.09);border-radius:14px;background:rgba(255,255,255,.8)}
+.githubGraphFallback>img{display:block;width:100%;height:auto;min-height:70px;object-fit:contain}
+.githubGraphFallback>p{margin:8px 0 0;color:#77798d;font-size:.64rem;line-height:1.5}
+.graphCaption{color:#74768b}.graphCaption a{color:#574ab6;font-size:.66rem;font-weight:750;text-decoration:none}.graphCaption a:hover{text-decoration:underline;text-underline-offset:3px}
+.githubActivity .githubBadgeHeading{margin-top:18px}
+.leetcodeActivity .leetcodeHero,.leetcodeActivity .leetcodeSubmissionMetrics,.leetcodeActivity .difficultyRows,.leetcodeActivity .leetcodeTopicPanel,.leetcodeActivity .leetcodeMiniStats,.leetcodeActivity .leetcodeBadgesSection{width:100%}
+.leetcodeActivity .leetcodeTopicCloud{justify-content:center}
+@media(max-width:760px){.activityStack{gap:15px}.githubYearIntro{align-items:flex-start;flex-direction:column;gap:8px}.githubYearTotal{justify-content:flex-start;gap:7px}.githubCalendarLegend{flex-wrap:wrap}.githubCalendarLegend small{flex-basis:100%;margin-left:0}.githubYearPicker{margin-bottom:2px}}
+@media(prefers-reduced-motion:reduce){.githubCalendarCell,.githubYearButton,.githubYearActive{transition:none!important}.githubCalendarCell:hover,.githubYearButton:hover{transform:none}.githubLoadingPulse{animation:none}}
+
+/* Three organizations across a row, with a concise featured preview. */
+.orgGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.orgCard{padding:clamp(16px,1.7vw,22px)}
+.orgCardTop{align-items:flex-start;gap:10px}
+.orgLogo{width:46px;height:46px;flex:0 0 46px;border-radius:13px}
+.orgIdentity h3{font-size:1rem;overflow-wrap:anywhere}.orgIdentity>span{font-size:.55rem;letter-spacing:.1em}
+.orgContribution{font-size:.78rem;line-height:1.64}.orgRepos span{font-size:.63rem}
+.organizationsMore{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;margin-top:13px;padding:12px 1px 0;border:0;background:transparent;color:#5a4cba;font:inherit;font-size:.78rem;font-weight:800;text-align:left;cursor:pointer}
+.organizationsMore>span{color:#8d8a9c;font-size:.69rem;font-weight:550}.organizationsMore:hover{color:#4033a0}
+.organizationsMore:focus-visible{outline:3px solid rgba(101,88,245,.4);outline-offset:4px}
+.contributionStatus{border-radius:7px}
+@media(max-width:960px){.orgGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.orgGrid{grid-template-columns:minmax(0,1fr)}}
+
+/* Single-line visitor signature immediately before the footer. */
+.visitorLine{width:min(1180px,calc(100% - 48px));max-width:1180px;margin:14px auto 0;padding:15px 0;display:flex;align-items:center;justify-content:center;flex-wrap:nowrap;gap:clamp(7px,1.1vw,12px);border-top:1px solid rgba(92,81,133,.1);color:#858397;font-size:.7rem;line-height:1.25}
+.visitorMessage{flex:0 0 auto;min-width:0;color:#686980;white-space:nowrap}
+.visitorLine .visitorBadgeLink{flex:0 0 auto;display:inline-flex;align-items:center}
+.visitorLine .visitorBadgeLink img{display:block;width:auto;height:21px;max-width:130px}
+.visitorLine .visitorEnd{flex:0 0 auto;white-space:nowrap;color:#8b879e;font-size:.53rem;letter-spacing:.09em;font-weight:800}
+@media(max-width:420px){.visitorLine{width:calc(100% - 32px);gap:7px;padding:13px 0}.visitorSpark{width:6px;height:6px;box-shadow:0 0 0 3px rgba(141,125,228,.11)}.visitorMessage{font-size:.62rem}.visitorLine .visitorBadgeLink img{max-width:92px;height:19px}.visitorLine .visitorEnd{font-size:.45rem;letter-spacing:.045em}}
+
+/* Keep the nanosensor schematic readable as a research artifact. */
+.research-nanosensor-row{grid-template-columns:minmax(68px,.16fr) minmax(0,1fr) minmax(230px,.42fr)}
+.research-nanosensor-actions{width:100%;min-width:0;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.research-nanosensor-media{width:100%;max-width:310px}
+.research-nanosensor-visual{display:block;width:100%;height:auto;aspect-ratio:1000/720;object-fit:contain;border:1px solid rgba(116,113,194,.16);border-radius:13px;background:#edf0ff;box-shadow:0 8px 22px rgba(55,54,105,.08)}
+.research-nanosensor-caption{margin:0;color:#83849d;font-size:.56rem;line-height:1.45;text-align:right}
+@media(max-width:900px){.research-nanosensor-row{grid-template-columns:minmax(56px,.16fr) minmax(0,1fr) minmax(210px,.42fr)}}
+@media(max-width:680px){.research-nanosensor-row{grid-template-columns:minmax(0,1fr)!important}.research-nanosensor-actions{grid-column:auto!important;align-items:flex-start!important;width:100%}.research-nanosensor-media{max-width:360px}.research-nanosensor-caption{text-align:left}}
+@media(prefers-reduced-motion:reduce){.organizationsMore{transition:none}}
