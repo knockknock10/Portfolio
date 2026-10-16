@@ -40,10 +40,19 @@ function AbstractDisclosure({ abstract }: { abstract: string }) {
 function FeaturedResearch({ item }: { item: ResearchItem }) {
   const reducedMotion = Boolean(useReducedMotion())
   const [methodOpen, setMethodOpen] = useState(false)
+  const [paperOpen, setPaperOpen] = useState(false)
+  const [selectedFigure, setSelectedFigure] = useState<"placement" | "architecture">("placement")
   const link = available(item.link) ? item.link : null
   const authors = Array.isArray(item.authors) ? item.authors : []
+  const featuredAuthors = authors.filter((author) => author === "Sanjeev Kumar" || author === "Biswajit Maity")
   const submittedToIEEE = available(item.status) && /submitted/i.test(item.status)
   const venue = available(item.venue) ? item.venue : "Research manuscript"
+  const figureSrc = selectedFigure === "placement"
+    ? "/images/research/sembind-fig3.webp"
+    : "/images/research/sembind-fig1.webp"
+  const figureAlt = selectedFigure === "placement"
+    ? "Figure 3 from the submitted manuscript: spectrogram, spectral and representation suitability curves, joint score, and selected embedding regions across a 7.9-second utterance."
+    : "Figure 1 from the submitted manuscript: SemBind embedding pipeline combining frozen HuBERT contribution, STFT spectral suitability, placement selection, and SHA-256-bound payload."
 
   return (
     <motion.article
@@ -61,13 +70,15 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
         </div>
         <p className="research-feature-venue">{venue} · {available(item.year) ? item.year : "Submission"}</p>
         <h3>{item.title}</h3>
-        <p className="research-feature-authors" aria-label="Authors in manuscript order">
-          {authors.map((author, index) => (
-            <span key={author} className={index === 0 ? "research-feature-author is-first-author" : "research-feature-author"}>
-              {author}
+        <div className="research-feature-authors" aria-label="Featured research credits">
+          {featuredAuthors.map((author) => (
+            <span key={author} className={author === "Sanjeev Kumar" ? "research-feature-author is-first-author" : "research-feature-author"}>
+              <small>{author === "Sanjeev Kumar" ? "FIRST AUTHOR" : "FACULTY CO-AUTHOR"}</small>
+              <strong>{author}</strong>
             </span>
           ))}
-        </p>
+          <p>The portfolio highlights these two credits; the PDF preserves the full submitted manuscript byline.</p>
+        </div>
         <p className="research-feature-lede">
           {available(item.abstract) ? item.abstract : "A controlled study of reference-based speech-watermark placement, evaluating semantic contribution and spectral suitability on a full speech corpus."}
         </p>
@@ -77,7 +88,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
           <div><strong>6</strong><span>SNR targets</span></div>
         </div>
         <p className="research-feature-finding">
-          <strong>Key finding.</strong> In the reported experiments, joint placement was statistically indistinguishable from spectral-only placement; local spectral suitability was the stronger placement criterion.
+          <strong>Key finding.</strong> Spectral-only placement changed fewer Whisper tiny.en transcripts than joint placement at five of the six tested strengths. The current joint fusion does not consistently outperform spectral-only placement; local signal energy is the stronger operational criterion in these experiments.
         </p>
 
         <div className="research-feature-tags" aria-label="Research technologies">
@@ -119,13 +130,55 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
       </div>
 
       <div className="research-feature-visual">
-        <img
-          src={available(item.image) ? item.image : "/images/research/sembind-audio-lab.svg"}
-          alt="SemBind workflow illustration: speech waveform, spectrogram and semantic-spectral placement followed by reference-based verification"
-          loading="lazy"
-          decoding="async"
-        />
-        <span className="research-visual-caption"><i /> HU BERT · STFT · REFERENCE-BASED PROOF</span>
+        <div className="research-figure-switcher" role="group" aria-label="Choose a figure from the IEEE submission">
+          <button
+            type="button"
+            className={selectedFigure === "placement" ? "research-figure-switch active" : "research-figure-switch"}
+            aria-pressed={selectedFigure === "placement"}
+            onClick={() => setSelectedFigure("placement")}
+          >
+            Placement analysis
+          </button>
+          <button
+            type="button"
+            className={selectedFigure === "architecture" ? "research-figure-switch active" : "research-figure-switch"}
+            aria-pressed={selectedFigure === "architecture"}
+            onClick={() => setSelectedFigure("architecture")}
+          >
+            Method pipeline
+          </button>
+        </div>
+        <figure className="research-paper-figure">
+          <img src={figureSrc} alt={figureAlt} loading="lazy" decoding="async" />
+          <figcaption>
+            {selectedFigure === "placement"
+              ? "Fig. 3 · Spectrogram, placement scores and selected frames (PDF, page 3)"
+              : "Fig. 1 · SemBind embedding pipeline (PDF, page 1)"}
+          </figcaption>
+        </figure>
+        <div className="research-paper-actions">
+          <a className="research-paper-open" href="/papers/SemBind.pdf" target="_blank" rel="noreferrer">Open full IEEE submission ↗</a>
+          <a className="research-paper-download" href="/papers/SemBind.pdf" download="SemBind.pdf">Download PDF ↓</a>
+        </div>
+        <button
+          type="button"
+          className="research-paper-toggle"
+          aria-expanded={paperOpen}
+          aria-controls="sembind-paper-preview"
+          onClick={() => setPaperOpen((current) => !current)}
+        >
+          {paperOpen ? "Close paper preview −" : "Read the paper here +"}
+        </button>
+        {paperOpen ? (
+          <div className="research-paper-preview" id="sembind-paper-preview">
+            <iframe
+              src="/papers/SemBind.pdf#view=FitH"
+              title="SemBind IEEE Signal Processing Letters submission by Sanjeev Kumar and co-authors"
+              loading="lazy"
+            />
+            <p>PDF preview depends on your browser's built-in PDF viewer. The open and download links remain available above.</p>
+          </div>
+        ) : null}
       </div>
     </motion.article>
   )
