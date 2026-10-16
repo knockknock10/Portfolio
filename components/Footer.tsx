@@ -31,6 +31,17 @@ export function Footer({ name, copyrightName, email, socials }: FooterProps) {
           ) : null}
         </div>
 
+        <nav className="footer-navigation" aria-label="Explore portfolio">
+          <Link href="/work">Work</Link>
+          <Link href="/open-source">Open source</Link>
+          <Link href="/problem-solving">Problem solving</Link>
+          <Link href="/research">Research</Link>
+          <Link href="/internships">Experience</Link>
+          <Link href="/certifications">Certifications</Link>
+          <Link href="/about">About</Link>
+          <Link href="/contact">Contact</Link>
+        </nav>
+
         {socials.length > 0 ? (
           <nav className="footer-socials" aria-label="Social links">
             {socials.map((social) => (
