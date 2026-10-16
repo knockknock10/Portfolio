@@ -4946,3 +4946,17 @@ body {
   .home-oss-card, .contact-email, .contact-social-link { transition: none; }
   .home-oss-card:hover, .contact-email:hover, .contact-social-link:hover { transform: none; }
 }
+
+
+/* Keep the expanded navigation usable without letting it crowd the hero. */
+.nav-desktop-links { gap: 2px; }
+.nav-desktop-links .nav-link {
+  padding-inline: clamp(5px, .65vw, 10px);
+  font-size: .78rem;
+  white-space: nowrap;
+}
+@media (max-width: 1100px) {
+  .nav-wordmark { font-size: .84rem; }
+  .nav-pill { padding-inline: 12px; }
+  .nav-desktop-links .nav-link { padding-inline: 6px; }
+}
