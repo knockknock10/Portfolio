@@ -54,8 +54,8 @@ export function Research({ items, standalone = false }: ResearchProps) {
     <section className="research-section" id={standalone ? undefined : "research"} aria-labelledby="research-heading" tabIndex={-1}>
       <div className="research-inner">
         <header className="research-header">
-          <p className="research-eyebrow">Research</p>
-          <Heading id="research-heading" className="research-title">Research</Heading>
+          <p className="research-eyebrow">Applied AI · Investigation</p>
+          <Heading id="research-heading" className="research-title">Research that connects ideas to systems.</Heading>
         </header>
         <div className="research-list">
           {items.map((item, index) => {

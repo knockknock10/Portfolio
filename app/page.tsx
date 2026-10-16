@@ -2,20 +2,25 @@ import { About } from "@/components/sections/About"
 import { Contact } from "@/components/sections/Contact"
 import { Craft } from "@/components/sections/Craft"
 import { Hero } from "@/components/sections/Hero"
-import { Work } from "@/components/sections/Work"
-import { Signals } from "@/components/sections/Signals"
 import { Research } from "@/components/sections/Research"
+import { Internships } from "@/components/sections/Internships"
+import { Certifications } from "@/components/sections/Certifications"
+import {
+  ActivityShowcase,
+  FeaturedProjects,
+  OpenSourceOrganizations,
+  ProfileIdCard,
+  SkillsExplorer,
+} from "@/components/sections/PortfolioExperience"
 import { getContent } from "@/lib/content.server"
 import { getCraftData } from "@/lib/craft"
 import { getSignalsData } from "@/lib/signals"
 import { getResearchData } from "@/lib/research"
-import { Internships } from "@/components/sections/Internships"
 import { getInternshipsData } from "@/lib/internships"
-import { Certifications } from "@/components/sections/Certifications"
 import { getCertificationsData } from "@/lib/certifications"
 import styles from "@/components/sections/HomeAnchors.module.css"
 
-export default function HomePage() {
+export default async function HomePage() {
   const content = getContent()
   const craftSteps = getCraftData()
   const signalsData = getSignalsData()
@@ -52,15 +57,11 @@ export default function HomePage() {
           splitName={heading === content.identity.fullName}
         />
       </section>
-      <section
-        id="work"
-        className={styles.anchorSection}
-        aria-labelledby="work-preview-heading"
-        tabIndex={-1}
-      >
-        <Work variant="preview" />
-      </section>
-      <Signals data={signalsData} />
+      <ProfileIdCard tools={content.tools} />
+      <FeaturedProjects />
+      <OpenSourceOrganizations />
+      <ActivityShowcase data={signalsData} />
+      <SkillsExplorer />
       <Research items={researchItems} />
       <Internships items={internships} />
       <Certifications items={certifications} />

@@ -16,6 +16,7 @@ export interface SignalStats {
   github: {
     totalRepos: SignalNumber
     totalStars: SignalNumber
+    totalForks: SignalNumber
     contributionsLast365Days: SignalNumber
     currentStreak: SignalNumber
     longestStreak: SignalNumber
@@ -25,6 +26,7 @@ export interface SignalStats {
     available: boolean
     username: string
     totalSolved: SignalNumber
+    totalQuestions: SignalNumber
     easySolved: SignalNumber
     mediumSolved: SignalNumber
     hardSolved: SignalNumber
@@ -74,6 +76,7 @@ export function getSignalsData(): SignalStats {
     github: {
       totalRepos: numberValue(data.stats.totalRepos),
       totalStars: numberValue(data.stats.totalStars),
+      totalForks: numberValue(data.stats.totalForks),
       contributionsLast365Days: numberValue(data.stats.contributionsLast365Days),
       currentStreak: numberValue(data.stats.currentStreak),
       longestStreak: numberValue(data.stats.longestStreak),
@@ -83,6 +86,7 @@ export function getSignalsData(): SignalStats {
       available: Boolean(leetcode),
       username: leetcode?.username ?? "",
       totalSolved: row("All"),
+      totalQuestions: numberValue(leetcode?.solved.find((item) => item.difficulty === "All")?.totalQuestions),
       easySolved: row("Easy"),
       mediumSolved: row("Medium"),
       hardSolved: row("Hard"),

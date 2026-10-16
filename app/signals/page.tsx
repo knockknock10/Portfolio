@@ -1,16 +1,12 @@
 import type { Metadata } from "next"
-import { Signals } from "@/components/sections/Signals"
+import { ActivityShowcase } from "@/components/sections/PortfolioExperience"
 import { getSignalsData } from "@/lib/signals"
 
 export const metadata: Metadata = {
-  title: "Signals",
-  description: "Public GitHub and LeetCode activity for Sanjeev Kumar.",
+  title: "Engineering Activity",
+  description: "GitHub contributions, profile achievements and LeetCode badges and problem-solving progress by Sanjeev Kumar.",
 }
 
 export default function SignalsPage() {
-  return (
-    <main className="editorial-page signals-page">
-      <Signals data={getSignalsData()} standalone />
-    </main>
-  )
+  return <ActivityShowcase data={getSignalsData()} />
 }

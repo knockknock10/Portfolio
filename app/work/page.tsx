@@ -1,12 +1,11 @@
 import type { Metadata } from "next"
-import { Work } from "@/components/sections/Work"
+import { FeaturedProjects } from "@/components/sections/PortfolioExperience"
 
 export const metadata: Metadata = {
   title: "Selected Work",
-  description:
-    "Selected projects in developer tooling, full-stack engineering, reliability, and applied AI research.",
+  description: "Six source-linked projects across developer tooling, full-stack engineering and distributed systems.",
 }
 
 export default function WorkPage() {
-  return <Work variant="full" />
+  return <FeaturedProjects />
 }

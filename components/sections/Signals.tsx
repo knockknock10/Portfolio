@@ -76,14 +76,19 @@ function ContributionHeatmap({
     <div className="signals-block signals-calendar-block">
       <div className="signals-block-heading">
         <div>
-          <p className="signals-eyebrow">GitHub</p>
+          <p className="signals-eyebrow">GitHub · Open source</p>
           <h3>Contribution calendar</h3>
         </div>
-        {typeof calendar.totalContributions === "number" ? (
-          <p className="signals-calendar-total">
-            {numberLabel(calendar.totalContributions)} contributions
-          </p>
-        ) : null}
+        <div className="signals-calendar-actions">
+          {typeof calendar.totalContributions === "number" ? (
+            <p className="signals-calendar-total">
+              {numberLabel(calendar.totalContributions)} contributions
+            </p>
+          ) : null}
+          <a className="signals-inline-link" href="https://github.com/knockknock10" target="_blank" rel="noreferrer">
+            View profile <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
       <div className="signals-heatmap-scroll" tabIndex={0} aria-label="Scrollable GitHub contribution calendar">
         <motion.svg
@@ -172,11 +177,12 @@ export function Signals({ data, standalone = false }: SignalsProps) {
     ? { duration: 0 }
     : { ...(spring ?? { type: "spring" as const }), duration: revealDuration }
   const githubStats = [
-    { key: "contributions", label: "Contributions · 365 days", value: numberLabel(data.github.contributionsLast365Days) },
+    { key: "contributions", label: "Contributions · 1 year", value: numberLabel(data.github.contributionsLast365Days) ?? numberLabel(data.github.contributionCalendar?.totalContributions ?? "MISSING") },
     { key: "current", label: "Current streak", value: numberLabel(data.github.currentStreak) },
     { key: "longest", label: "Longest streak", value: numberLabel(data.github.longestStreak) },
     { key: "repos", label: "Public repositories", value: numberLabel(data.github.totalRepos) },
     { key: "stars", label: "Total stars", value: numberLabel(data.github.totalStars) },
+    { key: "forks", label: "Repository forks", value: numberLabel(data.github.totalForks) },
   ].filter((stat): stat is { key: string; label: string; value: string } => stat.value !== null)
   const solved = data.leetcode
   const hasLeetcode = solved.available && [
@@ -190,7 +196,6 @@ export function Signals({ data, standalone = false }: SignalsProps) {
     solved.contestRank,
   ].some((value) => value !== "MISSING")
   const hasCalendar = Boolean(data.github.contributionCalendar?.weeks.length)
-  if (!hasCalendar && githubStats.length === 0 && !hasLeetcode) return null
 
   const Heading = standalone ? "h1" : "h2"
   const easy = hasNumber(solved.easySolved) ? solved.easySolved : 0
@@ -209,12 +214,26 @@ export function Signals({ data, standalone = false }: SignalsProps) {
     >
       <div className="signals-inner">
         <header className="signals-header">
-          <p className="signals-eyebrow">Activity</p>
-          <Heading className="signals-title">{standalone ? "Signals" : "Signals"}</Heading>
+          <p className="signals-eyebrow">Engineering activity</p>
+          <Heading className="signals-title">Build in public. Practice with intent.</Heading>
+          <p className="signals-intro">
+            A live-looking snapshot of the work behind the portfolio: open-source contributions,
+            consistency over time, and problem-solving practice. Each profile remains its own thing.
+          </p>
         </header>
 
+        {!hasCalendar && githubStats.length === 0 && !hasLeetcode ? (
+          <div className="signals-empty-state">
+            <p>Profile metrics could not be loaded right now. The source profiles are still available.</p>
+            <div className="signals-empty-links">
+              <a href="https://github.com/knockknock10" target="_blank" rel="noreferrer">GitHub profile ↗</a>
+              <a href={"https://leetcode.com/u/" + encodeURIComponent(solved.username || "knockknock10") + "/"} target="_blank" rel="noreferrer">LeetCode profile ↗</a>
+            </div>
+          </div>
+        ) : null}
         {hasCalendar ? (
           <motion.div
+            className="signals-calendar-wrap"
             initial={reducedMotion ? false : { opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.12 }}
@@ -236,8 +255,11 @@ export function Signals({ data, standalone = false }: SignalsProps) {
             <div className="signals-block-heading">
               <div>
                 <p className="signals-eyebrow">GitHub</p>
-                <h3>Totals and streaks</h3>
+                <h3>Building in public</h3>
               </div>
+              <a className="signals-inline-link" href="https://github.com/knockknock10" target="_blank" rel="noreferrer">
+                GitHub profile <span aria-hidden="true">↗</span>
+              </a>
             </div>
             <dl className="signals-stat-strip">
               {githubStats.map((stat) => (

@@ -173,6 +173,8 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
           {visibleItems.map((item) => (
             <motion.article
               className="work-card"
+              data-project={item.slug}
+              data-kind={item.type}
               key={`${item.type}-${item.slug}`}
               layout={variant === "full"}
               initial={
@@ -206,9 +208,9 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
                         sizes="(min-width: 80rem) 33vw, (min-width: 48rem) 50vw, 100vw"
                       />
                     ) : null}
-                    <span className={styles.cardArtTitle}>{item.title}</span>
+                    <span className={styles.cardArtTitle + " work-cover-title"}>{item.title}</span>
                     {cardAside(item) ? (
-                      <span className={styles.cardArtAside}>{cardAside(item)}</span>
+                      <span className={styles.cardArtAside + " work-cover-aside"}>{cardAside(item)}</span>
                     ) : null}
                   </div>
                   <motion.div className={styles.cardDetails} variants={cardVariants}>
@@ -248,13 +250,6 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
       </motion.div>
 
       {!visibleItems.length ? <p role="status">No matching work items.</p> : null}
-      {variant === "preview" ? (
-        <p className={styles.viewAllRow}>
-          <Link className={styles.viewAllLink} href="/work">
-            View all work →
-          </Link>
-        </p>
-      ) : null}
       <p className="sr-only" aria-live="polite">
         Showing {visibleItems.length} of {items.length} work items.
       </p>

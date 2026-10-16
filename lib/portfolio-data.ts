@@ -22,14 +22,14 @@ export const portfolioContent: PortfolioContent = {
     availabilityStatement: null,
   },
   contact: {
-    email: "sanjeevkumar_s@srmap.edu.in",
+    email: "Sanjeev.kr10111@gmail.com",
     phone: null,
     location: "Amaravati, Andhra Pradesh, India",
   },
   socials: [
     { platform: "GitHub profile", url: "https://github.com/knockknock10" },
     { platform: "LeetCode profile", url: "https://leetcode.com/u/knockknock10/" },
-    { platform: "LinkedIn", url: null },
+    { platform: "LinkedIn", url: "https://www.linkedin.com/in/-sanjeev-kr" },
   ],
   projects: [
     {
