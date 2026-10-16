@@ -353,7 +353,7 @@ export function OpenSourceOrganizations() {
         {organizations.map((org, index) => (
           <article className={styles.orgCard} key={org.handle}>
             <div className={styles.orgCardTop}>
-              <div className={styles.orgLogo}><img src={org.logo} alt={org.name + " logo"} loading="lazy" onError={(event) => { event.currentTarget.style.display = "none" }} /></div>
+              <div className={styles.orgLogo}><span>{org.name.slice(0, 2).toUpperCase()}</span><img src={org.logo} alt={org.name + " logo"} loading="lazy" onError={(event) => { event.currentTarget.style.display = "none" }} /></div>
               <div className={styles.orgIdentity}><span>0{index + 1} / CONTRIBUTION</span><h3>{org.name}</h3><p>@{org.handle}</p></div>
               <a className={styles.orgArrow} href={org.url} target="_blank" rel="noreferrer" aria-label={"Visit " + org.name}>↗</a>
             </div>
