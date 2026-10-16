@@ -5387,3 +5387,156 @@ body {
   .work-preview-all,
   .work-preview-all:hover { transition: none; transform: none; }
 }
+
+
+/* Shared editorial grid: keep research, experience, craft and about aligned with projects. */
+.research-section,
+.internships-section,
+.certifications-section {
+  width: min(calc(100% - clamp(2rem, 6vw, 5rem)), 1240px);
+  padding-block: clamp(4.5rem, 8vw, 7rem);
+  border-top: 1px solid rgba(101,88,245,.12);
+}
+.research-inner,
+.internships-inner,
+.certifications-inner { gap: clamp(1.5rem, 3vw, 2.25rem); }
+.research-title,
+.internships-title,
+.certifications-title {
+  color: #24263a;
+  font-size: clamp(2.35rem, 5.5vw, 4.5rem);
+  line-height: .98;
+  letter-spacing: -.055em;
+  font-weight: 620;
+}
+.research-row { border-color: rgba(101,88,245,.13); }
+.research-row h3,
+.internships-title-role h3,
+.certification-item h3 { color: #24263a; }
+.research-authors,
+.research-venue,
+.research-abstract,
+.research-tags,
+.internships-summary,
+.internships-responsibilities,
+.certification-skills { color: #646981; }
+.internships-item { border-color: rgba(101,88,245,.15); }
+.certification-item {
+  border: 1px solid rgba(255,255,255,.88);
+  border-radius: 1.35rem;
+  background: linear-gradient(150deg, rgba(255,255,255,.82), rgba(255,255,255,.52));
+  box-shadow: 0 14px 42px rgba(57,61,112,.06), inset 0 1px 0 rgba(255,255,255,.95);
+}
+.craft-section {
+  width: min(calc(100% - clamp(2rem, 6vw, 5rem)), 1240px);
+  margin-inline: auto;
+  padding-block: clamp(4.5rem, 8vw, 7rem);
+  border-top: 1px solid rgba(101,88,245,.12);
+}
+.craft-section > .section-heading {
+  margin: 0 0 clamp(1.5rem, 3vw, 2.25rem);
+  color: #24263a;
+  font-size: clamp(2.35rem, 5.5vw, 4.5rem);
+  line-height: .98;
+  letter-spacing: -.055em;
+  font-weight: 620;
+}
+.craft-empty-copy { color: #646981; }
+.about-section {
+  width: min(calc(100% - clamp(2rem, 6vw, 5rem)), 1240px);
+  margin-inline: auto;
+  padding-block: clamp(4.5rem, 8vw, 7rem);
+  border-top: 1px solid rgba(101,88,245,.12);
+}
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(150px, .32fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(2rem, 6vw, 6rem);
+}
+.about-portrait {
+  position: sticky;
+  top: 7rem;
+  display: grid;
+  place-items: center;
+  width: min(100%, 230px);
+  aspect-ratio: 4 / 5;
+  border: 1px solid rgba(255,255,255,.9);
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255,255,255,.95), transparent 34%),
+    linear-gradient(145deg, rgba(155,143,255,.35), rgba(155,220,255,.25) 52%, rgba(255,205,190,.3));
+  box-shadow: 0 24px 65px rgba(57,61,112,.10), inset 0 1px 0 white;
+}
+.about-portrait span {
+  color: #5148c7;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: -.08em;
+}
+.about-copy { display: grid; gap: 1.5rem; min-width: 0; }
+.about-copy .section-heading {
+  margin: 0;
+  color: #24263a;
+  font-size: clamp(2.35rem, 5.5vw, 4.5rem);
+  line-height: .98;
+  letter-spacing: -.055em;
+  font-weight: 620;
+}
+.about-bio-list { display: grid; gap: 1rem; max-width: 72ch; }
+.about-bio {
+  margin: 0;
+  color: #555b72;
+  font-size: clamp(1rem, 1.45vw, 1.12rem);
+  line-height: 1.85;
+}
+.about-list-block { display: grid; gap: .8rem; }
+.about-list-heading {
+  margin: 0;
+  color: #24263a;
+  font-size: .76rem;
+  font-weight: 750;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.about-tools-list,
+.about-influences-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.about-tool-chip {
+  padding: .55rem .8rem;
+  border: 1px solid rgba(255,255,255,.92);
+  border-radius: 999px;
+  color: #5148c7;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 6px 20px rgba(57,61,112,.045);
+  font-size: .78rem;
+  font-weight: 650;
+}
+.about-influences-list li {
+  padding: .45rem 0;
+  color: #646981;
+  font-size: .9rem;
+}
+@media (max-width: 760px) {
+  .research-section,
+  .internships-section,
+  .certifications-section,
+  .craft-section,
+  .about-section {
+    width: min(calc(100% - 2rem), 680px);
+    padding-block: 4rem;
+  }
+  .about-layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .about-portrait {
+    position: relative;
+    top: auto;
+    width: 112px;
+    aspect-ratio: 1;
+  }
+  .about-portrait span { font-size: 2.4rem; }
+}
