@@ -65,7 +65,7 @@ export default function ProblemSolvingPage() {
             <p className="route-kicker">Problems solved</p>
             <p className="problem-solving-solved-number">
               {typeof activity.totalSolved === "number" ? activity.totalSolved.toLocaleString("en-US") : "—"}
-              <span> / 4,073 tracked questions</span>
+              <span> / {typeof activity.totalQuestions === "number" ? activity.totalQuestions.toLocaleString("en-US") : "—"} tracked questions</span>
             </p>
             <div className="problem-solving-difficulty" aria-label="Solved problems by difficulty">
               <div className="problem-solving-difficulty-segment is-easy" style={{ width: (typeof activity.easySolved === "number" ? activity.easySolved / Math.max(typeof activity.totalSolved === "number" ? activity.totalSolved : 1, 1) * 100 : 0) + "%" }} />
