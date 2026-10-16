@@ -25,6 +25,51 @@ const skillGroups = {
 
 const skillCategories = Object.keys(skillGroups) as Array<keyof typeof skillGroups>
 
+type SkillDestination =
+  | { kind: "project"; projectName: string }
+  | { kind: "section"; sectionId: string }
+
+const skillDestinations: Record<string, SkillDestination> = {
+  Go: { kind: "project", projectName: "Aevor Platform" },
+  Java: { kind: "section", sectionId: "signals" },
+  C: { kind: "section", sectionId: "signals" },
+  "C++": { kind: "section", sectionId: "signals" },
+  JavaScript: { kind: "project", projectName: "NovaFest" },
+  Python: { kind: "section", sectionId: "research" },
+  SQL: { kind: "project", projectName: "Aevor Platform" },
+  React: { kind: "project", projectName: "CommitHub" },
+  Vite: { kind: "project", projectName: "Aevor Frontend" },
+  HTML: { kind: "project", projectName: "NovaFest" },
+  CSS: { kind: "project", projectName: "NovaFest" },
+  "Tailwind CSS": { kind: "project", projectName: "NovaFest" },
+  "Framer Motion": { kind: "section", sectionId: "identity" },
+  "Node.js": { kind: "project", projectName: "Wandera" },
+  Express: { kind: "project", projectName: "Wandera" },
+  Gin: { kind: "project", projectName: "Aevor Platform" },
+  "REST APIs": { kind: "project", projectName: "Aevor Platform" },
+  JWT: { kind: "project", projectName: "CommitHub" },
+  "OAuth 2.0": { kind: "project", projectName: "Aevor Platform" },
+  PostgreSQL: { kind: "project", projectName: "Aevor Platform" },
+  MongoDB: { kind: "project", projectName: "CommitHub" },
+  Docker: { kind: "project", projectName: "Aevor Platform" },
+  Kubernetes: { kind: "section", sectionId: "open-source" },
+  AWS: { kind: "section", sectionId: "open-source" },
+  "GitHub Actions": { kind: "section", sectionId: "open-source" },
+  "CI/CD": { kind: "section", sectionId: "open-source" },
+  PyTorch: { kind: "section", sectionId: "research" },
+  "Hugging Face Transformers": { kind: "section", sectionId: "research" },
+  HuBERT: { kind: "section", sectionId: "research" },
+  "Audio ML": { kind: "section", sectionId: "research" },
+  STFT: { kind: "section", sectionId: "research" },
+  "SHA-256": { kind: "section", sectionId: "research" },
+  Git: { kind: "section", sectionId: "open-source" },
+  Linux: { kind: "section", sectionId: "open-source" },
+  Jest: { kind: "section", sectionId: "open-source" },
+  Vitest: { kind: "project", projectName: "Aevor Frontend" },
+  "Node test runner": { kind: "project", projectName: "CommitHub" },
+  "Code review": { kind: "project", projectName: "CommitHub" },
+}
+
 type Project = {
   name: string
   label: string
@@ -353,6 +398,28 @@ export function FeaturedProjects() {
     }
   }, [selected, close])
 
+  useEffect(() => {
+    const onSkillProjectRequest = (event: Event) => {
+      const detail = (event as CustomEvent<{ projectName?: string }>).detail
+      const project = projects.find((item) => item.name === detail?.projectName)
+      if (!project) return
+
+      // Keep the visual path connected: reveal the work section, then open its in-page drawer.
+      document.getElementById("work")?.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start",
+      })
+      const card = Array.from(
+        document.querySelectorAll<HTMLButtonElement>("[data-project-card]"),
+      ).find((item) => item.dataset.projectCard === project.name)
+      returnFocusRef.current = card ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null)
+      setSelected(project)
+    }
+
+    window.addEventListener("portfolio:open-project", onSkillProjectRequest)
+    return () => window.removeEventListener("portfolio:open-project", onSkillProjectRequest)
+  }, [reduceMotion])
+
   return (
     <section className={styles.projectsSection} id="work" aria-labelledby="featured-projects-heading">
       <div className={styles.sectionIntro + " " + styles.projectsIntro}>
@@ -370,6 +437,7 @@ export function FeaturedProjects() {
             key={project.name}
             className={styles.projectCard}
             data-accent={project.accent}
+            data-project-card={project.name}
             onClick={() => openProject(project)}
             whileHover={reduceMotion ? undefined : { y: -5 }}
             whileTap={reduceMotion ? undefined : { scale: 0.99 }}
@@ -473,26 +541,106 @@ export function SkillsExplorer() {
   const [showAll, setShowAll] = useState(false)
   const current = skillGroups[active]
   const allSkills = useMemo(() => categories.flatMap((category) => skillGroups[category]), [categories])
+  const exploreSkill = useCallback((skill: string) => {
+    const destination = skillDestinations[skill]
+    if (destination.kind === "project") {
+      window.dispatchEvent(
+        new CustomEvent("portfolio:open-project", {
+          detail: { projectName: destination.projectName, skill },
+        }),
+      )
+      return
+    }
+
+    const target = document.getElementById(destination.sectionId)
+    if (target) {
+      target.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start",
+      })
+      return
+    }
+    window.location.assign("/#" + destination.sectionId)
+  }, [])
+
   return (
     <section className={styles.skillsSection} id="skills" aria-labelledby="skills-heading">
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Tools I reach for</p>
         <h2 id="skills-heading">A toolkit shaped by the work.</h2>
-        <p>Choose a layer to explore the languages and tools used across my projects, research and open-source contributions.</p>
+        <p>Choose a layer, then select any technology to open the most relevant project drawer or jump to the related research/open-source proof. You stay in one connected page flow.</p>
       </div>
       <div className={styles.skillsPanel}>
         <div className={styles.skillTabs} role="tablist" aria-label="Technology categories">
-          {categories.map((category) => <button key={category} type="button" role="tab" aria-selected={active === category} className={active === category ? styles.skillTabActive : styles.skillTab} onClick={() => setActive(category)}>{category}</button>)}
+          {categories.map((category) => (
+            <button
+              key={category}
+              type="button"
+              role="tab"
+              id={"skill-tab-" + categories.indexOf(category)}
+              aria-controls="skill-panel"
+              aria-selected={active === category}
+              className={active === category ? styles.skillTabActive : styles.skillTab}
+              onClick={() => setActive(category)}
+            >
+              {category}
+            </button>
+          ))}
         </div>
         <AnimatePresence mode="wait">
-          <motion.div key={active} className={styles.skillContent} role="tabpanel" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.2 }}>
+          <motion.div
+            key={active}
+            className={styles.skillContent}
+            id="skill-panel"
+            role="tabpanel"
+            aria-labelledby={"skill-tab-" + categories.indexOf(active)}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.2 }}
+          >
             <div className={styles.skillCategoryTitle}><span>0{categories.indexOf(active) + 1}</span><h3>{active}</h3></div>
-            <div className={styles.skillChips}>{current.map((skill, index) => <motion.span key={skill} initial={{ opacity: 0, y: 7 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.035 }}>{skill}</motion.span>)}</div>
-            <p className={styles.skillContext}>{active === "AI & research" ? "Used in semantic audio representation, spectrogram analysis and research evaluation." : active === "Data & infrastructure" ? "Applied to containerized services, persistence, deployment workflows and automation." : active === "Backend & APIs" ? "Used to build authenticated APIs, service boundaries and integrations." : active === "Frontend" ? "Used for interactive interfaces, responsive layouts and polished user experiences." : active === "Quality & workflow" ? "Used to test changes, investigate failures and collaborate through source control." : "A practical foundation for problem solving and building maintainable systems."}</p>
+            <div className={styles.skillChips}>
+              {current.map((skill, index) => (
+                <motion.button
+                  key={skill}
+                  type="button"
+                  className={styles.skillChip}
+                  aria-label={"Explore " + skill + " in related work"}
+                  title={"Open related work for " + skill}
+                  onClick={() => exploreSkill(skill)}
+                  initial={{ opacity: 0, y: 7 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.035 }}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {skill}<span aria-hidden="true">↗</span>
+                </motion.button>
+              ))}
+            </div>
+            <p className={styles.skillContext}>{active === "AI & research" ? "Select a model or signal-processing tool to jump to the SemBind-Audio research story." : active === "Data & infrastructure" ? "Select a database or container tool to open the project where it appears, or jump to upstream infrastructure work." : active === "Backend & APIs" ? "Select an API technology to open the relevant service or backend project." : active === "Frontend" ? "Select a UI tool to open the frontend project that uses it." : active === "Quality & workflow" ? "Select a testing or collaboration tool to open a related repository or contribution." : "Select a language to open a related project or the problem-solving activity panel."}</p>
           </motion.div>
         </AnimatePresence>
         <div className={styles.skillsFooter}><span>{allSkills.length} tools across {categories.length} categories</span><button type="button" onClick={() => setShowAll((value) => !value)} aria-expanded={showAll}>{showAll ? "Show selected layer −" : "View complete toolkit +"}</button></div>
-        <AnimatePresence>{showAll ? <motion.div className={styles.allSkills} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}><div>{categories.map((category) => <div key={category}><h4>{category}</h4><p>{skillGroups[category].join(" · ")}</p></div>)}</div></motion.div> : null}</AnimatePresence>
+        <AnimatePresence>
+          {showAll ? (
+            <motion.div className={styles.allSkills} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
+              <div>
+                {categories.map((category) => (
+                  <div key={category}>
+                    <h4>{category}</h4>
+                    <div className={styles.allSkillChips}>
+                      {skillGroups[category].map((skill) => (
+                        <button type="button" key={skill} onClick={() => exploreSkill(skill)}>{skill} ↗</button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </div>
     </section>
   )
