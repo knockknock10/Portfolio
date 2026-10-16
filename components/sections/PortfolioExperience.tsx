@@ -463,19 +463,14 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
 }
 
 export function VisitorCounter() {
-  const [count, setCount] = useState<number | null>(null)
-  const [status, setStatus] = useState<"loading" | "loaded" | "unavailable">("loading")
-  useEffect(() => {
-    const controller = new AbortController()
-    fetch("https://api.counterapi.dev/v1/kr-sanjeev-portfolio/visits/up", { signal: controller.signal })
-      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Counter unavailable")))
-      .then((payload: { count?: number; data?: { count?: number } }) => {
-        const value = payload.count ?? payload.data?.count
-        if (typeof value === "number" && Number.isFinite(value)) { setCount(value); setStatus("loaded") }
-        else setStatus("unavailable")
-      })
-      .catch(() => setStatus("unavailable"))
-    return () => controller.abort()
-  }, [])
-  return <p className={styles.visitorLine}><span className={styles.visitorSpark} />{status === "loaded" && count !== null ? <>You’re visitor <strong>#{count.toLocaleString()}</strong> — thanks for stopping by.</> : status === "loading" ? "Counting visits as you explore…" : <>Every visit adds to the story. <a href="https://github.com/knockknock10/Portfolio" target="_blank" rel="noreferrer">Built in public, with care ↗</a></>}<span className={styles.visitorEnd}>MADE TO BE EXPLORED</span></p>
+  return (
+    <div className={styles.visitorLine}>
+      <span className={styles.visitorSpark} />
+      <span className={styles.visitorMessage}>You’re visitor number</span>
+      <a className={styles.visitorBadgeLink} href="https://hits.sh/kr-sanjeev.netlify.app/" target="_blank" rel="noreferrer" aria-label="Open portfolio visit statistics">
+        <img src="https://hits.sh/kr-sanjeev.netlify.app.svg?label=visitors&color=6554d7&labelColor=ffffff" alt="Total portfolio visits" loading="lazy" />
+      </a>
+      <span className={styles.visitorEnd}>INCREMENTED ON VISIT</span>
+    </div>
+  )
 }
