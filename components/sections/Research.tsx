@@ -42,6 +42,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
   const [methodOpen, setMethodOpen] = useState(false)
   const [paperOpen, setPaperOpen] = useState(false)
   const [selectedFigure, setSelectedFigure] = useState<"placement" | "architecture">("placement")
+  const [figureLoadFailed, setFigureLoadFailed] = useState(false)
   const link = available(item.link) ? item.link : null
   const authors = Array.isArray(item.authors) ? item.authors : []
   const featuredAuthors = authors.filter((author) => author === "Sanjeev Kumar" || author === "Biswajit Maity")
@@ -49,7 +50,10 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
   const venue = available(item.venue) ? item.venue : "Research manuscript"
   const figureSrc = selectedFigure === "placement"
     ? "https://raw.githubusercontent.com/knockknock10/SemBind_Audio/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG2_embedding_locations.png"
-    : "https://raw.githubusercontent.com/knockknock10/SemBind_Audio/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG1_architecture.svg"
+    : "https://raw.githubusercontent.com/knockknock10/SemBind_Audio/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG1_architecture.png"
+  const figureSourceUrl = selectedFigure === "placement"
+    ? "https://github.com/knockknock10/SemBind_Audio/blob/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG2_embedding_locations.png"
+    : "https://github.com/knockknock10/SemBind_Audio/blob/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG1_architecture.png"
   const figureAlt = selectedFigure === "placement"
     ? "Figure 3 from the submitted manuscript: spectrogram, spectral and representation suitability curves, joint score, and selected embedding regions across a 7.9-second utterance."
     : "Figure 1 from the submitted manuscript: SemBind embedding pipeline combining frozen HuBERT contribution, STFT spectral suitability, placement selection, and SHA-256-bound payload."
@@ -143,7 +147,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
             type="button"
             className={selectedFigure === "placement" ? "research-figure-switch active" : "research-figure-switch"}
             aria-pressed={selectedFigure === "placement"}
-            onClick={() => setSelectedFigure("placement")}
+            onClick={() => { setFigureLoadFailed(false); setSelectedFigure("placement") }}
           >
             Placement analysis
           </button>
@@ -151,17 +155,30 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
             type="button"
             className={selectedFigure === "architecture" ? "research-figure-switch active" : "research-figure-switch"}
             aria-pressed={selectedFigure === "architecture"}
-            onClick={() => setSelectedFigure("architecture")}
+            onClick={() => { setFigureLoadFailed(false); setSelectedFigure("architecture") }}
           >
             Method pipeline
           </button>
         </div>
         <figure className="research-paper-figure">
-          <img src={figureSrc} alt={figureAlt} loading="lazy" decoding="async" />
+          {figureLoadFailed ? (
+            <div className="research-figure-fallback">
+              <span>Figure preview unavailable</span>
+              <a href={figureSourceUrl} target="_blank" rel="noreferrer">Open original figure ↗</a>
+            </div>
+          ) : (
+            <img
+              src={figureSrc}
+              alt={figureAlt}
+              loading="lazy"
+              decoding="async"
+              onError={() => setFigureLoadFailed(true)}
+            />
+          )}
           <figcaption>
             {selectedFigure === "placement"
-              ? "Embedding-location diagnostic · figure from the SemBind research evidence package"
-              : "SemBind-Audio pipeline architecture · figure from the research evidence package"}
+              ? "Fig. 3 · Placement on one 7.9-second utterance: spectrogram, scores and selected frames (submitted PDF, page 3)."
+              : "Fig. 1 · SemBind embedding architecture: HuBERT contribution map and STFT-domain embedding (submitted PDF, page 1)."}
           </figcaption>
         </figure>
         {available(item.pdf) ? (
@@ -187,9 +204,12 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
             ) : null}
           </>
         ) : (
-          <a className="research-paper-open" href="https://github.com/knockknock10/SemBind_Audio/tree/main/PAPER_EVIDENCE_PACKAGE" target="_blank" rel="noreferrer">
-            Explore the paper evidence package ↗
-          </a>
+          <div className="research-pdf-unhosted">
+            <p>The uploaded IEEE PDF is not yet stored as a public file in this repository, so the in-page PDF reader is hidden instead of pointing to a broken link.</p>
+            <a className="research-paper-open" href="https://github.com/knockknock10/SemBind_Audio/tree/main/PAPER_EVIDENCE_PACKAGE" target="_blank" rel="noreferrer">
+              Open the original figure evidence ↗
+            </a>
+          </div>
         )}
       </div>
     </motion.article>
