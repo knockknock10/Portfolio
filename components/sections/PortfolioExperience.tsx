@@ -13,7 +13,7 @@ const profile = {
   role: "Software Engineer · Open Source · Applied AI",
   email: "Sanjeev.kr10111@gmail.com",
   github: "https://github.com/knockknock10",
-  linkedin: "https://www.linkedin.com/in/-sanjeev-kr",
+  linkedin: "https://www.linkedin.com/in/sanjeev-kumar-ba567133a",
   leetcode: "https://leetcode.com/u/knockknock10/",
 }
 
@@ -701,6 +701,9 @@ export function OpenSourceOrganizations() {
       <div
         className={styles.orgCarouselViewport}
         ref={orgCarouselRef}
+        role="region"
+        tabIndex={0}
+        aria-label="Open-source organization carousel"
         onScroll={(event) => {
           const viewport = event.currentTarget
           const firstCard = viewport.querySelector<HTMLElement>("[data-org-slide]")
