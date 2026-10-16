@@ -5782,3 +5782,11 @@ body {
   .contact-page .contact-email-link:hover,
   .contact-social-links a:hover { transform: none; }
 }
+
+.signals-solved-bar { display: flex; align-items: stretch; overflow: hidden; }
+.signals-solved-segment { display: block; height: 100%; min-width: 0; }
+.signals-badges-label { color: #6558f5; }
+.signals-calendar-block { min-width: 0; }
+.signals-calendar-wrap { min-width: 0; }
+.signals-heatmap-scroll { max-width: 100%; }
+.signals-heatmap-svg { max-width: none; }
