@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { VisitorCounter } from "@/components/sections/PortfolioExperience"
 
 export type FooterSocial = {
   platform: string
@@ -57,6 +58,8 @@ export function Footer({ name, copyrightName, email, socials }: FooterProps) {
             ))}
           </nav>
         ) : null}
+
+        <VisitorCounter />
 
         {copyrightName ? (
           <p className="footer-copyright">
