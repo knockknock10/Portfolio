@@ -1,6 +1,5 @@
 import { About } from "@/components/sections/About"
 import { Contact } from "@/components/sections/Contact"
-import { Craft } from "@/components/sections/Craft"
 import { Hero } from "@/components/sections/Hero"
 import { Research } from "@/components/sections/Research"
 import { Internships } from "@/components/sections/Internships"
@@ -13,7 +12,6 @@ import {
   SkillsExplorer,
 } from "@/components/sections/PortfolioExperience"
 import { getContent } from "@/lib/content.server"
-import { getCraftData } from "@/lib/craft"
 import { getSignalsData } from "@/lib/signals"
 import { getResearchData } from "@/lib/research"
 import { getInternshipsData } from "@/lib/internships"
@@ -22,7 +20,6 @@ import styles from "@/components/sections/HomeAnchors.module.css"
 
 export default async function HomePage() {
   const content = getContent()
-  const craftSteps = getCraftData()
   const signalsData = getSignalsData()
   const researchItems = getResearchData()
   const internships = getInternshipsData()
@@ -65,14 +62,6 @@ export default async function HomePage() {
       <SkillsExplorer />
       <Internships items={internships} />
       <Certifications items={certifications} />
-      <section
-        id="craft"
-        className={styles.anchorSection}
-        aria-labelledby="craft-heading"
-        tabIndex={-1}
-      >
-        <Craft steps={craftSteps} />
-      </section>
       <section
         id="about"
         className={styles.anchorSection}
