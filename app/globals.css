@@ -6179,3 +6179,13 @@ body {
 @media(max-width:900px){.research-feature{grid-template-columns:minmax(0,1fr) minmax(0,.88fr)}.research-feature-copy{padding:24px}.research-feature-visual{padding:12px}.research-feature-copy h3{font-size:clamp(1.9rem,4.2vw,2.7rem)}.research-feature-actions{align-items:flex-start;flex-direction:column;gap:10px}}
 @media(max-width:680px){.research-feature{grid-template-columns:minmax(0,1fr);border-radius:24px}.research-feature-visual{order:-1;padding:12px 12px 0}.research-feature-visual img{border-radius:18px}.research-feature-copy{padding:22px}.research-feature-copy h3{font-size:clamp(2.1rem,9vw,2.8rem)}.research-feature-actions{flex-direction:row}.research-visual-caption{right:23px;bottom:12px;font-size:.5rem}.research-more-heading{align-items:flex-start;flex-direction:column;gap:5px}.research-row{grid-template-columns:1fr!important;gap:9px}.research-year{font-size:.82rem!important}.research-actions{grid-column:auto!important;flex-direction:row;align-items:center;justify-content:flex-start!important}}
 @media(prefers-reduced-motion:reduce){.research-method-panel{animation:none!important}.research-feature-primary,.research-feature-visual img,.research-method-toggle,.research-row,.research-title-line h3{transition:none!important}.research-feature:hover .research-feature-visual img,.research-feature-primary:hover{transform:none!important}}
+
+/* Fixed navigation should never cover a target reached by a section link. */
+[id="identity"],[id="work"],[id="open-source"],[id="signals"],[id="skills"]{
+  scroll-margin-top:calc(var(--nav-height-desktop) + var(--spacing-6));
+}
+@media(max-width:47.999rem){
+  [id="identity"],[id="work"],[id="open-source"],[id="signals"],[id="skills"]{
+    scroll-margin-top:calc(var(--nav-height-mobile) + var(--spacing-6));
+  }
+}
