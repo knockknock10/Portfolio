@@ -66,7 +66,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
         <div className="research-feature-kicker">
           <span className="research-feature-index">01 / FIRST-AUTHOR RESEARCH</span>
           <span className="research-feature-firstauthor">FIRST AUTHOR</span>
-          <span className="research-feature-status"><i /> {submittedToIEEE ? "SUBMITTED MANUSCRIPT" : "ACTIVE RESEARCH"}</span>
+          <span className="research-feature-status">{submittedToIEEE ? "SUBMITTED MANUSCRIPT" : "ACTIVE RESEARCH"}</span>
         </div>
         <p className="research-feature-venue">{venue} · {available(item.year) ? item.year : "Submission"}</p>
         <h3>{item.title}</h3>
