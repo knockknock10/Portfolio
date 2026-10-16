@@ -16,6 +16,7 @@ export interface SignalStats {
   github: {
     totalRepos: SignalNumber
     totalStars: SignalNumber
+    totalForks: SignalNumber
     contributionsLast365Days: SignalNumber
     currentStreak: SignalNumber
     longestStreak: SignalNumber
@@ -75,6 +76,7 @@ export function getSignalsData(): SignalStats {
     github: {
       totalRepos: numberValue(data.stats.totalRepos),
       totalStars: numberValue(data.stats.totalStars),
+      totalForks: numberValue(data.stats.totalForks),
       contributionsLast365Days: numberValue(data.stats.contributionsLast365Days),
       currentStreak: numberValue(data.stats.currentStreak),
       longestStreak: numberValue(data.stats.longestStreak),
