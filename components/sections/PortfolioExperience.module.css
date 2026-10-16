@@ -48,12 +48,12 @@
 .projectCard[data-accent="mint"] .projectArt{background:linear-gradient(135deg,#d9f4e7,#e2f2fa 60%,#e9e5ff)}
 .projectCard[data-accent="amber"] .projectArt{background:linear-gradient(135deg,#f8e8c6,#f7f1e5 55%,#dcefe7)}
 .projectCard[data-accent="pink"] .projectArt{background:linear-gradient(135deg,#ffdce8,#f0e6ff 55%,#d9edff)}
-.projectArt img{position:absolute;z-index:-2;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .65s cubic-bezier(.2,.7,.2,1)}
+.projectArt img{position:absolute;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .65s cubic-bezier(.2,.7,.2,1)}
 .projectCard:hover .projectArt img{transform:scale(1.045)}
-.projectArtOverlay{position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(28,24,48,.08),rgba(28,24,48,.06) 30%,rgba(28,24,48,.65));pointer-events:none}
-.projectArtLabel,.projectIndex{position:relative;z-index:1;color:#fff;font-size:.64rem;font-weight:750;letter-spacing:.11em;text-transform:uppercase;text-shadow:0 1px 10px rgba(0,0,0,.24)}
-.projectArtName{position:relative;z-index:1;max-width:80%;color:white;font-size:clamp(1.7rem,3vw,2.7rem);font-weight:680;letter-spacing:-.06em;line-height:1;text-shadow:0 2px 16px rgba(0,0,0,.2)}
-.projectOpen{position:absolute;right:20px;bottom:20px;z-index:1;display:grid;place-items:center;width:38px;height:38px;border:1px solid rgba(255,255,255,.5);border-radius:50%;color:#fff;background:rgba(255,255,255,.13);backdrop-filter:blur(12px);transition:transform .25s ease,background .25s ease}
+.projectArtOverlay{position:absolute;z-index:1;inset:0;background:linear-gradient(180deg,rgba(28,24,48,.08),rgba(28,24,48,.06) 30%,rgba(28,24,48,.65));pointer-events:none}
+.projectArtLabel,.projectIndex{position:relative;z-index:2;color:#fff;font-size:.64rem;font-weight:750;letter-spacing:.11em;text-transform:uppercase;text-shadow:0 1px 10px rgba(0,0,0,.24)}
+.projectArtName{position:relative;z-index:2;max-width:80%;color:white;font-size:clamp(1.7rem,3vw,2.7rem);font-weight:680;letter-spacing:-.06em;line-height:1;text-shadow:0 2px 16px rgba(0,0,0,.2)}
+.projectOpen{position:absolute;right:20px;bottom:20px;z-index:2;display:grid;place-items:center;width:38px;height:38px;border:1px solid rgba(255,255,255,.5);border-radius:50%;color:#fff;background:rgba(255,255,255,.13);backdrop-filter:blur(12px);transition:transform .25s ease,background .25s ease}
 .projectCard:hover .projectOpen{transform:translate(2px,-2px);background:rgba(255,255,255,.25)}
 .projectCardBody{display:flex;flex-direction:column;align-items:flex-start;padding:22px 23px 20px}
 .projectStatus{display:inline-flex;padding:6px 9px;border-radius:999px;background:#f3f0ff;color:#7668b9;font-size:.67rem;font-weight:750}
@@ -129,3 +129,16 @@
 @media(prefers-reduced-motion:reduce){.projectCard,.projectArt img,.projectOpen,.orgCard,.identityLinks a,.leetcodeBadge,.drawerActions a,.idFooter button{transition:none!important}.projectCard:hover,.orgCard:hover,.leetcodeBadge:hover,.drawerActions a:hover{transform:none}}
 
 .orgLogo>span{display:none;color:#675bc1;font-size:.92rem;font-weight:800;letter-spacing:-.05em}.orgLogoFallback>span{display:block}
+
+.visitorMessage{flex:1;min-width:120px}.visitorBadgeLink{display:inline-flex;align-items:center;flex-shrink:0}.visitorBadgeLink img{display:block;width:auto;height:22px;max-width:150px}.visitorLine>span:last-child{white-space:nowrap}
+
+/* Source-backed PR proof belongs inside each organization card, not behind another route. */
+.orgProofLinks{display:grid;gap:7px;margin-top:15px}
+.orgProofLink{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;padding:9px 10px;border:1px solid rgba(92,81,133,.09);border-radius:11px;background:rgba(248,247,252,.65);color:#706b7c;text-decoration:none;font-size:.68rem;line-height:1.45;transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.orgProofLink:hover{transform:translateX(2px);background:white;border-color:rgba(101,89,189,.23)}
+.orgProofLink>span:nth-child(2){min-width:0}
+.orgProofStatus{padding:4px 6px;border-radius:6px;background:#e5f5ec;color:#3b8b64;font-size:.57rem;font-weight:800;text-transform:uppercase;letter-spacing:.035em}
+.orgProofStatus[data-status="open"]{background:#fff1d8;color:#a36d1b}
+.orgProofLink>span:last-child{color:#7669c5;font-size:.8rem}
+.projectDrawer a:focus-visible,.projectDrawer button:focus-visible,.projectCard:focus-visible,.orgCard a:focus-visible,.skillTabs button:focus-visible,.skillsFooter button:focus-visible,.leetcodeBadge:focus-visible{outline:3px solid rgba(101,89,189,.42);outline-offset:3px}
+@media(max-width:420px){.visitorLine>span:last-child{white-space:normal}.visitorBadgeLink img{max-width:130px}}

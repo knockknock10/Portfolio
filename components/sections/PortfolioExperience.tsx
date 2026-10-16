@@ -1,7 +1,7 @@
 "use client"
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import type { SignalStats } from "@/lib/signals"
 import styles from "./PortfolioExperience.module.css"
 
@@ -48,6 +48,8 @@ const projects: Project[] = [
     description: "A Git-inspired collaboration platform built around real repository and review workflows.",
     detail: "CommitHub goes beyond CRUD screens: it models repository trees, branches, commits, pull requests, reviews, merge conflicts, branch protection and team permissions. The implementation includes a React client, Express API, MongoDB persistence, JWT authentication and real-time Socket.io events.",
     repo: "https://github.com/knockknock10/CommitHub",
+    image: "https://raw.githubusercontent.com/knockknock10/CommitHub/main/commithub-frontend/src/assets/hero.png",
+    imageAlt: "CommitHub frontend hero asset from its source repository",
     live: "https://knockknock10.github.io/CommitHub/",
     frontend: "https://github.com/knockknock10/CommitHub/tree/main/commithub-frontend",
     stack: ["React 19", "React Router", "Vite", "Node.js", "Express", "MongoDB", "Socket.io", "JWT", "Docker"],
@@ -87,6 +89,8 @@ const projects: Project[] = [
     description: "The separate web interface repository for the Aevor developer-tooling platform.",
     detail: "This repository is a Vite-powered React application using React Router, with linting and Vitest configured. It is presented separately so the frontend codebase and the Go API can each be explored directly.",
     repo: "https://github.com/Aevor/Frontend",
+    image: "https://raw.githubusercontent.com/Aevor/Frontend/main/src/assets/hero.png",
+    imageAlt: "Aevor frontend hero asset from its source repository",
     stack: ["React", "React Router", "Vite", "Vitest", "Testing Library", "Oxlint"],
     status: "In development",
     accent: "mint",
@@ -130,6 +134,11 @@ const organizations = [
     url: "https://github.com/kestra-io",
     workUrl: "https://github.com/knockknock10?tab=repositories",
     logo: "https://github.com/kestra-io.png",
+    pullRequests: [
+      { label: "plugin-databricks #290 · DBFS trigger", status: "Merged", url: "https://github.com/kestra-io/plugin-databricks/pull/290" },
+      { label: "plugin-snyk #27 · issue polling trigger", status: "Open", url: "https://github.com/kestra-io/plugin-snyk/pull/27" },
+      { label: "Terraform provider #308 · list import", status: "Merged", url: "https://github.com/kestra-io/terraform-provider-kestra/pull/308" },
+    ],
   },
   {
     name: "Apache Software Foundation",
@@ -140,6 +149,9 @@ const organizations = [
     url: "https://github.com/apache/camel-k",
     workUrl: "https://github.com/knockknock10/camel-k",
     logo: "https://github.com/apache.png",
+    pullRequests: [
+      { label: "Camel K #6866 · NetworkPolicy cleanup", status: "Merged", url: "https://github.com/apache/camel-k/pull/6866" },
+    ],
   },
   {
     name: "Wanaku",
@@ -150,6 +162,9 @@ const organizations = [
     url: "https://github.com/wanaku-ai",
     workUrl: "https://github.com/knockknock10/wanaku-tests",
     logo: "https://github.com/wanaku-ai.png",
+    pullRequests: [
+      { label: "wanaku-tests #245 · policy lifecycle", status: "Merged", url: "https://github.com/wanaku-ai/wanaku-tests/pull/245" },
+    ],
   },
   {
     name: "Podiom",
@@ -160,6 +175,9 @@ const organizations = [
     url: "https://github.com/Podiom",
     workUrl: "https://github.com/knockknock10/Podiom",
     logo: "https://github.com/Podiom.png",
+    pullRequests: [
+      { label: "Podiom #335 · native activity tests", status: "Merged", url: "https://github.com/Podiom/Podiom/pull/335" },
+    ],
   },
   {
     name: "Aevor",
@@ -170,6 +188,10 @@ const organizations = [
     url: "https://github.com/Aevor",
     workUrl: "https://github.com/Aevor/platform",
     logo: "https://avatars.githubusercontent.com/u/291477028?v=4",
+    pullRequests: [
+      { label: "platform #105 · pull-request handlers", status: "Merged", url: "https://github.com/Aevor/platform/pull/105" },
+      { label: "platform #114 · AI limit package", status: "Merged", url: "https://github.com/Aevor/platform/pull/114" },
+    ],
   },
 ]
 
@@ -253,16 +275,53 @@ export function ProfileIdCard({ tools }: ProfileIdCardProps) {
 export function FeaturedProjects() {
   const [selected, setSelected] = useState<Project | null>(null)
   const reduceMotion = useReducedMotion()
+  const returnFocusRef = useRef<HTMLElement | null>(null)
   const close = useCallback(() => setSelected(null), [])
+  const openProject = useCallback((project: Project) => {
+    returnFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    setSelected(project)
+  }, [])
 
   useEffect(() => {
     if (!selected) return
-    const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") close() }
+    const previousOverflow = document.body.style.overflow
+    const focusFrame = window.requestAnimationFrame(() => {
+      document.querySelector<HTMLElement>('[role="dialog"] button')?.focus()
+    })
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault()
+        close()
+        return
+      }
+      if (event.key !== "Tab") return
+      const dialog = document.querySelector<HTMLElement>('[role="dialog"][aria-modal="true"]')
+      const focusable = Array.from(
+        dialog?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])') ?? [],
+      )
+      if (!focusable.length) {
+        event.preventDefault()
+        return
+      }
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && (document.activeElement === first || !dialog?.contains(document.activeElement))) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
     window.addEventListener("keydown", onKeyDown)
     document.body.style.overflow = "hidden"
     return () => {
+      window.cancelAnimationFrame(focusFrame)
       window.removeEventListener("keydown", onKeyDown)
-      document.body.style.overflow = ""
+      document.body.style.overflow = previousOverflow
+      if (returnFocusRef.current?.isConnected) returnFocusRef.current.focus({ preventScroll: true })
     }
   }, [selected, close])
 
@@ -283,7 +342,7 @@ export function FeaturedProjects() {
             key={project.name}
             className={styles.projectCard}
             data-accent={project.accent}
-            onClick={() => setSelected(project)}
+            onClick={() => openProject(project)}
             whileHover={reduceMotion ? undefined : { y: -5 }}
             whileTap={reduceMotion ? undefined : { scale: 0.99 }}
             transition={{ type: "spring", stiffness: 280, damping: 24 }}
@@ -315,6 +374,7 @@ export function FeaturedProjects() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="project-drawer-title"
+              aria-describedby="project-drawer-description"
               initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 48 }}
               animate={{ opacity: 1, x: 0 }}
               exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 48 }}
@@ -323,7 +383,7 @@ export function FeaturedProjects() {
               <div className={styles.drawerTop}><span>PROJECT NOTES / {selected.status.toUpperCase()}</span><button type="button" onClick={close} aria-label="Close project details">×</button></div>
               <p className={styles.eyebrow}>{selected.label}</p>
               <h3 id="project-drawer-title">{selected.name}</h3>
-              <p className={styles.drawerDescription}>{selected.detail}</p>
+              <p className={styles.drawerDescription} id="project-drawer-description">{selected.detail}</p>
               <div className={styles.drawerHighlights}>
                 <h4>What’s inside</h4>
                 <ul>{selected.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
@@ -362,7 +422,16 @@ export function OpenSourceOrganizations() {
             <p className={styles.orgSummary}>{org.summary}</p>
             <p className={styles.orgContribution}>{org.contribution}</p>
             <div className={styles.orgRepos}>{org.repos.map((repo) => <span key={repo}>{repo}</span>)}</div>
-            <a className={styles.orgLink} href={org.workUrl} target="_blank" rel="noreferrer">Explore source <span>↗</span></a>
+            <div className={styles.orgProofLinks} aria-label={org.name + " verified pull requests"}>
+              {org.pullRequests.map((item) => (
+                <a className={styles.orgProofLink} href={item.url} target="_blank" rel="noreferrer" key={item.url}>
+                  <span className={styles.orgProofStatus} data-status={item.status.toLowerCase()}>{item.status}</span>
+                  <span>{item.label}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </div>
+            <a className={styles.orgLink} href={org.url} target="_blank" rel="noreferrer">Explore organization <span>↗</span></a>
           </article>
         ))}
       </div>
@@ -406,23 +475,40 @@ type Badge = { displayName?: string; name?: string; icon?: string; creationDate?
 export function ActivityShowcase({ data }: { data: SignalStats }) {
   const [badges, setBadges] = useState<Badge[]>([])
   const [badgeStatus, setBadgeStatus] = useState<"loading" | "loaded" | "fallback">("loading")
-  const [expandedBadges, setExpandedBadges] = useState(false)
+  const [expandedBadges, setExpandedBadges] = useState(true)
 
   useEffect(() => {
     const controller = new AbortController()
+    const timeout = window.setTimeout(() => controller.abort(), 18000)
     fetch("https://alfa-leetcode-api.onrender.com/knockknock10/badges", { signal: controller.signal })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error("Badge service unavailable")))
       .then((payload: { badges?: Badge[]; data?: { badges?: Badge[] } }) => {
         const found = Array.isArray(payload.badges) ? payload.badges : Array.isArray(payload.data?.badges) ? payload.data.badges : []
-        setBadges(found.filter((badge) => badge.displayName || badge.name))
-        setBadgeStatus(found.length ? "loaded" : "fallback")
+        const earned = found.filter((badge) => badge.displayName || badge.name)
+        setBadges(earned)
+        setBadgeStatus(earned.length ? "loaded" : "fallback")
       })
       .catch(() => setBadgeStatus("fallback"))
-    return () => controller.abort()
+      .finally(() => window.clearTimeout(timeout))
+    return () => {
+      window.clearTimeout(timeout)
+      controller.abort()
+    }
   }, [])
 
-  const fallbackBadge = data.leetcode.badges[0] ?? "Knight"
-  const shownBadges = badges.length ? badges : [{ displayName: fallbackBadge, icon: "https://leetcode.com/static/images/badges/knight.png" }]
+  // Snapshot fallback from the public LeetCode badges endpoint (refreshed live above).
+  // Keep the earned badges visible even while the profile API is cold or unavailable.
+  const fallbackBadges: Badge[] = [
+    { displayName: "Knight", icon: "https://leetcode.com/static/images/badges/knight.png" },
+    { displayName: "100 Days Badge 2026", icon: "https://assets.leetcode.com/static_assets/others/100_1080_1080.png" },
+    { displayName: "50 Days Badge 2026", icon: "https://assets.leetcode.com/static_assets/others/50_1080_1080.png" },
+    { displayName: "100 Days Badge 2025", icon: "https://assets.leetcode.com/static_assets/others/lg25100.png" },
+    { displayName: "50 Days Badge 2025", icon: "https://assets.leetcode.com/static_assets/others/lg2550.png" },
+    { displayName: "Sep LeetCoding Challenge", icon: "https://leetcode.com/static/images/badges/dcc-2026-9.png" },
+    { displayName: "Jul LeetCoding Challenge", icon: "https://leetcode.com/static/images/badges/dcc-2025-7.png" },
+    { displayName: "Jun LeetCoding Challenge", icon: "https://leetcode.com/static/images/badges/dcc-2025-6.png" },
+  ]
+  const shownBadges = badges.length ? badges : fallbackBadges
   const contributions = typeof data.github.contributionsLast365Days === "number" ? data.github.contributionsLast365Days : typeof data.github.contributionCalendar?.totalContributions === "number" ? data.github.contributionCalendar.totalContributions : null
 
   return (
@@ -449,8 +535,8 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
           </div>
           <div className={styles.leetcodeMiniStats}><div><span>Contest rating</span><strong>{typeof data.leetcode.contestRating === "number" ? Math.round(data.leetcode.contestRating) : "—"}</strong></div><div><span>Acceptance</span><strong>{data.leetcode.acceptanceRate !== "MISSING" ? data.leetcode.acceptanceRate : "—"}</strong></div><div><span>Global rank</span><strong>{typeof data.leetcode.profileRank === "number" ? data.leetcode.profileRank.toLocaleString() : "—"}</strong></div></div>
           <div className={styles.githubBadgeHeading}><h4>Earned badges</h4><span>{badgeStatus === "loaded" ? badges.length + " fetched from profile" : badgeStatus === "loading" ? "Checking public profile…" : "Profile-linked fallback"}</span></div>
-          <div className={styles.leetcodeBadges}>{shownBadges.slice(0, expandedBadges ? shownBadges.length : 6).map((badge, index) => <a href={profile.leetcode} target="_blank" rel="noreferrer" className={styles.leetcodeBadge} key={(badge.displayName ?? badge.name ?? "badge") + index}>{badge.icon ? <img src={badge.icon.startsWith("http") ? badge.icon : "https://leetcode.com" + badge.icon} alt="" loading="lazy" /> : <span className={styles.badgeMonogram}>★</span>}<span>{badge.displayName ?? badge.name}</span></a>)}</div>
-          {shownBadges.length > 6 ? <button className={styles.showBadges} type="button" onClick={() => setExpandedBadges((value) => !value)}>{expandedBadges ? "Show fewer badges −" : "Show all " + shownBadges.length + " badges +"}</button> : null}
+          <div id="leetcode-badges" className={styles.leetcodeBadges}>{shownBadges.slice(0, expandedBadges ? shownBadges.length : 6).map((badge, index) => <a href={profile.leetcode} target="_blank" rel="noreferrer" className={styles.leetcodeBadge} key={(badge.displayName ?? badge.name ?? "badge") + index}>{badge.icon ? <img src={badge.icon.startsWith("http") ? badge.icon : "https://leetcode.com" + badge.icon} alt="" loading="lazy" /> : <span className={styles.badgeMonogram}>★</span>}<span>{badge.displayName ?? badge.name}</span></a>)}</div>
+          {shownBadges.length > 6 ? <button className={styles.showBadges} type="button" aria-expanded={expandedBadges} aria-controls="leetcode-badges" onClick={() => setExpandedBadges((value) => !value)}>{expandedBadges ? "Show fewer badges −" : "Show all " + shownBadges.length + " badges +"}</button> : null}
           <div className={styles.activityFooter}><span>Contest · Difficulty · Earned badges</span><a href={profile.leetcode} target="_blank" rel="noreferrer">Open LeetCode ↗</a></div>
         </article>
       </div>
@@ -459,19 +545,14 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
 }
 
 export function VisitorCounter() {
-  const [count, setCount] = useState<number | null>(null)
-  const [status, setStatus] = useState<"loading" | "loaded" | "unavailable">("loading")
-  useEffect(() => {
-    const controller = new AbortController()
-    fetch("https://api.counterapi.dev/v1/kr-sanjeev-portfolio/visits/up", { signal: controller.signal })
-      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Counter unavailable")))
-      .then((payload: { count?: number; data?: { count?: number } }) => {
-        const value = payload.count ?? payload.data?.count
-        if (typeof value === "number" && Number.isFinite(value)) { setCount(value); setStatus("loaded") }
-        else setStatus("unavailable")
-      })
-      .catch(() => setStatus("unavailable"))
-    return () => controller.abort()
-  }, [])
-  return <p className={styles.visitorLine}><span className={styles.visitorSpark} />{status === "loaded" && count !== null ? <>You’re visitor <strong>#{count.toLocaleString()}</strong> — thanks for stopping by.</> : status === "loading" ? "Counting visits as you explore…" : <>Every visit adds to the story. <a href="https://github.com/knockknock10/Portfolio" target="_blank" rel="noreferrer">Built in public, with care ↗</a></>}<span className={styles.visitorEnd}>MADE TO BE EXPLORED</span></p>
+  return (
+    <div className={styles.visitorLine}>
+      <span className={styles.visitorSpark} />
+      <span className={styles.visitorMessage}>You’re visitor number</span>
+      <a className={styles.visitorBadgeLink} href="https://hits.sh/kr-sanjeev.netlify.app/" target="_blank" rel="noreferrer" aria-label="Open portfolio visit statistics">
+        <img src="https://hits.sh/kr-sanjeev.netlify.app.svg?label=visitors&color=6554d7&labelColor=ffffff" alt="Total portfolio visits" loading="lazy" />
+      </a>
+      <span className={styles.visitorEnd}>INCREMENTED ON VISIT</span>
+    </div>
+  )
 }
