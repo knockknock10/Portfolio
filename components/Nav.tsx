@@ -21,7 +21,7 @@ type NavItem = {
 const sectionLinks: NavItem[] = [
   { label: "Home", href: "/#home", sectionId: "home" },
   { label: "Work", href: "/#work", sectionId: "work" },
-  { label: "Signals", href: "/#signals", sectionId: "signals" },
+  { label: "GitHub / LeetCode", href: "/#signals", sectionId: "signals" },
   { label: "Research", href: "/#research", sectionId: "research" },
   { label: "Craft", href: "/#craft", sectionId: "craft" },
   { label: "About", href: "/#about", sectionId: "about" },
@@ -312,6 +312,8 @@ export function Nav({ name }: NavProps) {
                     {item.label}
                   </Link>
                 ))}
+                <Link href="/open-source" className="nav-link">Open Source</Link>
+                <Link href="/problem-solving" className="nav-link">LeetCode</Link>
               </div>
 
               <Link
@@ -411,6 +413,16 @@ export function Nav({ name }: NavProps) {
                       </Link>
                     </motion.li>
                   ))}
+                  <motion.li variants={itemVariants}>
+                    <Link href="/open-source" scroll={false} className="mobile-menu-link" onClick={() => setMenuOpen(false)}>
+                      Open Source
+                    </Link>
+                  </motion.li>
+                  <motion.li variants={itemVariants}>
+                    <Link href="/problem-solving" scroll={false} className="mobile-menu-link" onClick={() => setMenuOpen(false)}>
+                      LeetCode
+                    </Link>
+                  </motion.li>
                 </motion.ul>
               </div>
             </Glass>
