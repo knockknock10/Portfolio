@@ -1451,7 +1451,7 @@ export function VisitorCounter() {
   useEffect(() => {
     // A unique query string prevents browser/CDN caching from suppressing page-view hits.
     setCounterUrl(
-      "https://hits.sh/kr-sanjeev.netlify.app.svg?label=visitors&color=6554d7&labelColor=ffffff&v=" +
+      "https://hits.sh/kr-sanjeev.netlify.app.svg?label=visitor%20number&color=6554d7&labelColor=ffffff&v=" +
         Date.now(),
     )
   }, [])
@@ -1459,15 +1459,15 @@ export function VisitorCounter() {
   return (
     <div className={styles.visitorLine}>
       <span className={styles.visitorSpark} />
-      <span className={styles.visitorMessage}>You’re visitor number</span>
+      <span className={styles.visitorMessage}>You are</span>
       <a className={styles.visitorBadgeLink} href="https://hits.sh/kr-sanjeev.netlify.app/" target="_blank" rel="noreferrer" aria-label="Open portfolio visit statistics">
         {counterUrl && !counterFailed ? (
-          <img src={counterUrl} alt="Total portfolio visits, updated on page visit" loading="eager" decoding="async" onError={() => setCounterFailed(true)} />
+          <img src={counterUrl} alt="Portfolio visitor number, updated on each page visit" loading="eager" decoding="async" onError={() => setCounterFailed(true)} />
         ) : (
           <span className={styles.visitorBadgePlaceholder} aria-live="polite">{counterFailed ? "visit counter unavailable" : "counting…"}</span>
         )}
       </a>
-      <span className={styles.visitorEnd}>INCREMENTED ON VISIT</span>
+      <span className={styles.visitorEnd}>COUNTER UPDATES ON EVERY VISIT</span>
     </div>
   )
 }
