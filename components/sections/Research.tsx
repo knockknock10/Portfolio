@@ -77,7 +77,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
               <strong>{author}</strong>
             </span>
           ))}
-          <p>The portfolio highlights these two credits; the PDF preserves the full submitted manuscript byline.</p>
+          <p>The portfolio highlights these two credits; the submitted manuscript retains its full four-author byline.</p>
         </div>
         <p className="research-feature-lede">
           {available(item.abstract) ? item.abstract : "A controlled study of reference-based speech-watermark placement, evaluating semantic contribution and spectral suitability on a full speech corpus."}
@@ -160,8 +160,8 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
           <img src={figureSrc} alt={figureAlt} loading="lazy" decoding="async" />
           <figcaption>
             {selectedFigure === "placement"
-              ? "Fig. 2 · Embedding-location and selection diagnostic from the research evidence package"
-              : "Fig. 1 · SemBind-Audio pipeline architecture from the research evidence package"}
+              ? "Embedding-location diagnostic · figure from the SemBind research evidence package"
+              : "SemBind-Audio pipeline architecture · figure from the research evidence package"}
           </figcaption>
         </figure>
         {available(item.pdf) ? (
