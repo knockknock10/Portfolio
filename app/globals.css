@@ -5790,3 +5790,94 @@ body {
 .signals-calendar-wrap { min-width: 0; }
 .signals-heatmap-scroll { max-width: 100%; }
 .signals-heatmap-svg { max-width: none; }
+
+
+/* Art-directed project covers: abstract system diagrams, not fake product screenshots. */
+.work-card[data-project="aevor"] .work-card-shell a > div:first-child:not(:has(img)) {
+  color: #f5f2ff;
+  background:
+    radial-gradient(circle at 76% 24%, rgba(172,156,255,.7), transparent 20%),
+    radial-gradient(circle at 80% 72%, rgba(92,81,210,.6), transparent 32%),
+    linear-gradient(135deg, #17142e, #30285d 58%, #17182f);
+}
+.work-card[data-project="aevor"] .work-card-shell a > div:first-child:not(:has(img))::after {
+  position: absolute;
+  top: 13%;
+  right: 8%;
+  width: 36%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 35%;
+  background: linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.015));
+  box-shadow: 0 0 0 18px rgba(255,255,255,.035), 0 0 0 38px rgba(255,255,255,.025);
+  transform: rotate(28deg);
+  content: "";
+  pointer-events: none;
+}
+.work-card[data-project*="sembind"] .work-card-shell a > div:first-child:not(:has(img)) {
+  color: #f3fbff;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 17px, rgba(146,217,255,.10) 18px 19px),
+    repeating-linear-gradient(90deg, transparent 0 17px, rgba(146,217,255,.10) 18px 19px),
+    radial-gradient(ellipse at 64% 42%, rgba(83,188,235,.48), transparent 32%),
+    linear-gradient(135deg, #0d2239, #173b57 56%, #12243b);
+}
+.work-card[data-project*="sembind"] .work-card-shell a > div:first-child:not(:has(img))::after {
+  position: absolute;
+  top: 20%;
+  right: 9%;
+  width: 42%;
+  height: 44%;
+  border: 1px solid rgba(165,231,255,.62);
+  border-radius: 50%;
+  box-shadow: 0 0 0 12px rgba(165,231,255,.06), 0 0 0 25px rgba(165,231,255,.045);
+  content: "";
+  pointer-events: none;
+}
+.work-card[data-project*="commithub"] .work-card-shell a > div:first-child:not(:has(img)) {
+  color: #f4fff8;
+  background:
+    linear-gradient(135deg, transparent 48%, rgba(113,231,177,.17) 48.3% 49%, transparent 49.3%),
+    radial-gradient(circle at 80% 25%, rgba(93,205,158,.5), transparent 24%),
+    linear-gradient(135deg, #102b29, #164a43 54%, #152b35);
+}
+.work-card[data-project*="commithub"] .work-card-shell a > div:first-child:not(:has(img))::after {
+  position: absolute;
+  top: 17%;
+  right: 10%;
+  width: 34%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(177,255,215,.6);
+  border-radius: 50%;
+  box-shadow: 0 0 0 14px rgba(177,255,215,.08), inset 0 0 0 14px rgba(177,255,215,.07);
+  content: "";
+  pointer-events: none;
+}
+.work-card[data-project*="failure"] .work-card-shell a > div:first-child:not(:has(img)) {
+  color: #fff7f5;
+  background:
+    radial-gradient(ellipse at 80% 28%, rgba(255,150,133,.45), transparent 25%),
+    repeating-linear-gradient(135deg, transparent 0 22px, rgba(255,205,194,.07) 23px 24px),
+    linear-gradient(135deg, #3a1c2b, #5a2939 55%, #251c32);
+}
+.work-card[data-project*="failure"] .work-card-shell a > div:first-child:not(:has(img))::after {
+  position: absolute;
+  top: 18%;
+  right: 11%;
+  width: 32%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,208,197,.65);
+  border-radius: 28%;
+  box-shadow: 0 0 0 15px rgba(255,208,197,.07);
+  transform: rotate(45deg);
+  content: "";
+  pointer-events: none;
+}
+.work-card[data-project="commithub"] .work-card-shell a > div:first-child:not(:has(img))::after,
+.work-card[data-project="aevor"] .work-card-shell a > div:first-child:not(:has(img))::after,
+.work-card[data-project*="sembind"] .work-card-shell a > div:first-child:not(:has(img))::after,
+.work-card[data-project*="failure"] .work-card-shell a > div:first-child:not(:has(img))::after {
+  z-index: 0;
+}
+.work-card[data-project="commithub"] .work-card-shell a > div:first-child:not(:has(img)) .card-art-title,
+.work-card[data-project="aevor"] .work-card-shell a > div:first-child:not(:has(img)) .card-art-title { z-index: 1; }
