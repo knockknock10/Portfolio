@@ -59,13 +59,13 @@ export function Footer({ name, copyrightName, email, socials }: FooterProps) {
           </nav>
         ) : null}
 
-        <VisitorCounter />
-
         {copyrightName ? (
           <p className="footer-copyright">
             © {year} {copyrightName}
           </p>
         ) : null}
+
+        <VisitorCounter />
       </div>
     </footer>
   )
