@@ -4494,3 +4494,220 @@ body {
     scroll-margin-top: calc(var(--nav-height-mobile) + var(--spacing-6));
   }
 }
+
+
+/*
+ * MMC APPLICATION REFRESH — premium glass treatment.
+ * The previous hero, palette, and responsive rules remain above for easy rollback.
+ * These scoped overrides retain all original routes and content.
+ */
+:root {
+  --mmc-ink: #202236;
+  --mmc-muted: #646981;
+  --mmc-violet: #6558f5;
+  --mmc-glass: rgba(255, 255, 255, .56);
+  --mmc-border: rgba(255, 255, 255, .82);
+  --mmc-shadow: 0 24px 70px rgba(57, 61, 112, .11);
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 8% 6%, rgba(185, 169, 255, .32), transparent 34rem),
+    radial-gradient(ellipse at 92% 8%, rgba(153, 221, 255, .31), transparent 33rem),
+    radial-gradient(ellipse at 82% 58%, rgba(255, 199, 190, .22), transparent 38rem),
+    linear-gradient(135deg, #f8f8ff 0%, #f2f4fc 48%, #fff9f7 100%);
+  color: var(--mmc-ink);
+}
+
+.hero {
+  min-height: min(920px, 100dvh);
+  background: transparent;
+}
+
+.hero::after {
+  position: absolute;
+  z-index: 0;
+  inset: auto 0 0;
+  height: 24%;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(246, 247, 252, .58));
+}
+
+.hero-inner {
+  grid-template-columns: minmax(0, 1.08fr) minmax(330px, .92fr);
+  gap: clamp(30px, 5.5vw, 92px);
+  width: min(calc(100% - 72px), 1320px);
+  padding-block: clamp(118px, 14vh, 168px) 108px;
+}
+
+.hero-copy { gap: clamp(20px, 2.2vw, 30px); }
+
+.hero-eyebrow {
+  padding: 9px 14px;
+  border: 1px solid rgba(255, 255, 255, .86);
+  border-radius: 999px;
+  color: #5148c7;
+  background: rgba(255, 255, 255, .45);
+  box-shadow: 0 8px 28px rgba(80, 82, 142, .06), inset 0 1px 0 white;
+  letter-spacing: .11em;
+}
+
+.hero-eyebrow::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ab58c;
+  box-shadow: 0 0 0 4px rgba(74, 181, 140, .13);
+}
+
+.hero-title {
+  max-width: 9ch;
+  font-size: clamp(4.5rem, 7.7vw, 7.8rem);
+  font-weight: 560;
+  letter-spacing: -.078em;
+  line-height: .9;
+}
+
+.hero-title-line {
+  background: linear-gradient(112deg, #24263b 6%, #5148c7 66%, #7796d9 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero-subhead {
+  max-width: 43ch;
+  color: #575d77;
+  font-size: clamp(1.05rem, 1.55vw, 1.28rem);
+  line-height: 1.72;
+}
+
+.hero-visual { max-width: 510px; }
+
+.hero-visual-art {
+  min-height: clamp(290px, 34vw, 410px);
+  border: 1px solid rgba(255, 255, 255, .91);
+  border-radius: 36px;
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(255,255,255,.99), transparent 35%),
+    radial-gradient(ellipse at 88% 84%, rgba(179,208,255,.58), transparent 38%),
+    linear-gradient(140deg, rgba(238,232,255,.96), rgba(220,241,255,.94) 55%, rgba(255,235,230,.96));
+  box-shadow: 0 32px 90px rgba(87, 85, 157, .17), inset 0 1px 0 rgba(255,255,255,.98);
+  transform: rotateY(-3deg) rotateX(1deg);
+}
+
+.hero-visual-art-title {
+  font-size: clamp(48px, 5.7vw, 80px);
+  letter-spacing: -.08em;
+}
+
+.hero-visual-art-title span {
+  background: linear-gradient(100deg, #6558f5, #4f9bc6 85%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero-activity-panel {
+  width: calc(100% - 48px);
+  margin-top: -50px;
+  border: 1px solid rgba(255,255,255,.91);
+  background: rgba(255,255,255,.68);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  backdrop-filter: blur(22px) saturate(150%);
+  box-shadow: 0 24px 65px rgba(68, 72, 133, .14), inset 0 1px 0 rgba(255,255,255,.98);
+}
+
+.hero-focus-item {
+  min-height: 68px;
+  border-radius: 17px;
+}
+
+.glass-surface,
+.work-card-shell,
+.about-skills,
+.contact-panel,
+.oss-proof,
+.problem-solving-proof,
+.home-bottom-cta,
+.home-project-card {
+  border-color: rgba(255, 255, 255, .84);
+  background-color: rgba(255, 255, 255, .56);
+  box-shadow: 0 16px 48px rgba(76, 83, 139, .075), inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.glass-surface.nav-glass-frame,
+.glass-surface.mobile-menu-surface {
+  -webkit-backdrop-filter: blur(20px) saturate(155%);
+  backdrop-filter: blur(20px) saturate(155%);
+}
+
+.nav-pill { min-height: 66px; }
+
+.work-card-shell,
+.home-project-card {
+  transition: transform 320ms cubic-bezier(.2,.7,.2,1), box-shadow 320ms ease, border-color 320ms ease, background-color 320ms ease;
+}
+
+.work-card-media { border-radius: 22px; overflow: hidden; }
+
+.section-heading,
+.home-section-heading h2,
+.certifications-title { letter-spacing: -.055em; }
+
+.work-page-title,
+.case-title,
+.route-shell-title { letter-spacing: -.065em; }
+
+.hero-secondary-link::after { height: 2px; border-radius: 999px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .work-card:hover .work-card-shell,
+  .home-project-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(101, 88, 245, .25);
+    background-color: rgba(255,255,255,.76);
+    box-shadow: 0 26px 64px rgba(76, 83, 139, .14), inset 0 1px 0 rgba(255,255,255,.98);
+  }
+
+  .hero-focus-item:hover { transform: translateX(4px); }
+}
+
+@media (max-width: 760px) {
+  .hero-inner {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(calc(100% - 36px), 620px);
+    gap: 44px;
+    padding-block: 116px 84px;
+  }
+
+  .hero-title {
+    max-width: 10ch;
+    font-size: clamp(3.5rem, 14.4vw, 5rem);
+    line-height: .94;
+  }
+
+  .hero-visual {
+    width: min(100%, 520px);
+    justify-self: center;
+  }
+
+  .hero-visual-art { min-height: 300px; transform: none; }
+  .hero-activity-panel { width: calc(100% - 24px); margin-top: -32px; padding: 12px; }
+  .hero-visual-caption { margin-left: 6px; }
+}
+
+@media (max-width: 380px) {
+  .hero-inner { width: calc(100% - 28px); }
+  .hero-title { font-size: clamp(3rem, 13.8vw, 3.5rem); }
+  .hero-visual-art { min-height: 270px; padding: 22px; }
+  .hero-activity-panel { width: calc(100% - 16px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-card-shell, .home-project-card, .hero-visual-art, .hero-focus-item {
+    transition: none !important;
+    transform: none !important;
+  }
+}
