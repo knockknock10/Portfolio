@@ -6144,3 +6144,21 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .empty-editorial-actions a, .empty-editorial-actions a:hover { transition: none; transform: none; }
 }
+
+
+/* The homepage uses its own Safari-style side rail and hero layout. */
+body:has(.portfolio-home-page) .nav-positioner {
+  display: none !important;
+}
+
+body:has(.portfolio-home-page) .site-shell {
+  padding-block-start: 0 !important;
+}
+
+body:has(.portfolio-home-page) .route-transition {
+  min-height: 0;
+}
+
+.portfolio-home-page .portfolio-anchor {
+  scroll-margin-top: 1.25rem;
+}
