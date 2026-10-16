@@ -919,6 +919,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
 
   useEffect(() => {
     const controller = new AbortController()
+    let disposed = false
     const timeout = window.setTimeout(() => controller.abort(), 18000)
 
     const requestTopics = fetch("https://alfa-leetcode-api.onrender.com/knockknock10/skill", { signal: controller.signal })
@@ -936,7 +937,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
         setSelectedTopic((current) => result.find((topic) => topic.tagSlug === current.tagSlug) ?? result[0])
       })
       .catch(() => {
-        if (!controller.signal.aborted) setTopicStatus("snapshot")
+        if (!disposed) setTopicStatus("snapshot")
       })
 
     const requestProfile = fetch("https://alfa-leetcode-api.onrender.com/knockknock10/profile", { signal: controller.signal })
@@ -970,11 +971,12 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
         }
       })
       .catch(() => {
-        if (!controller.signal.aborted) setBadgeStatus("snapshot")
+        if (!disposed) setBadgeStatus("snapshot")
       })
 
     Promise.allSettled([requestTopics, requestProfile, requestBadges]).finally(() => window.clearTimeout(timeout))
     return () => {
+      disposed = true
       window.clearTimeout(timeout)
       controller.abort()
     }
@@ -1063,8 +1065,8 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
           </div>
 
           <div className={styles.leetcodeSubmissionMetrics}>
-            <div className={styles.leetcodeMetricTile}><span>Submissions</span><strong>{submissionsValue.toLocaleString()}</strong><small>Accepted / attempted activity</small></div>
-            <div className={styles.leetcodeMetricTile}><span>Acceptance</span><strong>{acceptanceValue}</strong><small>Rate shown on profile</small></div>
+            <div className={styles.leetcodeMetricTile}><span>Submissions</span><strong>{submissionsValue.toLocaleString()}</strong><small>Total · all languages</small></div>
+            <div className={styles.leetcodeMetricTile}><span>Acceptance</span><strong>{acceptanceValue}</strong><small>Profile acceptance metric</small></div>
           </div>
 
           <div className={styles.difficultyRows}>
@@ -1106,7 +1108,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
               ))}
             </div>
 
-            <div className={styles.leetcodeTopicCloud} aria-label="LeetCode topics and solved counts">
+            <div className={styles.leetcodeTopicCloud} role="group" aria-label="LeetCode topics and solved counts">
               {visibleTopics.map((topic, index) => {
                 const diameter = Math.round(50 + Math.sqrt(topic.problemsSolved / maxTopicCount) * 62)
                 const fill = Math.max(12, Math.round((topic.problemsSolved / maxTopicCount) * 100))
