@@ -55,8 +55,8 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
     ? "https://github.com/knockknock10/SemBind_Audio/blob/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG2_embedding_locations.png"
     : "https://github.com/knockknock10/SemBind_Audio/blob/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG1_architecture.png"
   const figureAlt = selectedFigure === "placement"
-    ? "Figure 3 from the submitted manuscript: spectrogram, spectral and representation suitability curves, joint score, and selected embedding regions across a 7.9-second utterance."
-    : "Figure 1 from the submitted manuscript: SemBind embedding pipeline combining frozen HuBERT contribution, STFT spectral suitability, placement selection, and SHA-256-bound payload."
+    ? "Figure 3 in the submitted manuscript: spectrogram, score curves, joint score and selected embedding regions across a 7.9-second utterance."
+    : "Figure 1 in the submitted manuscript: the SemBind embedding pipeline combining frozen HuBERT contribution, STFT spectral suitability, placement selection and SHA-256-bound payload."
 
   return (
     <motion.article
@@ -205,9 +205,9 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
           </>
         ) : (
           <div className="research-pdf-unhosted">
-            <p>The uploaded IEEE PDF is not yet stored as a public file in this repository, so the in-page PDF reader is hidden instead of pointing to a broken link.</p>
+            <p>Supporting figures and implementation evidence for the submitted manuscript are available in the project repository.</p>
             <a className="research-paper-open" href="https://github.com/knockknock10/SemBind_Audio/tree/main/PAPER_EVIDENCE_PACKAGE" target="_blank" rel="noreferrer">
-              Open the original figure evidence ↗
+              Explore research evidence ↗
             </a>
           </div>
         )}
