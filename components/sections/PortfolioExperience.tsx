@@ -1196,11 +1196,6 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
 
 
 export function VisitorCounter() {
-  return (
-    <div className={styles.visitorLine}>
-  }
-}
-export function VisitorCounter() {
   const [counterUrl, setCounterUrl] = useState<string | null>(null)
 
   useEffect(() => {
