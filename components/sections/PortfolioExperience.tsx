@@ -930,6 +930,11 @@ export function SkillsExplorer() {
 }
 
 
+type GitHubContributionDay = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 }
+type GitHubContributionPayload = {
+  total?: Record<string, number>
+  contributions?: GitHubContributionDay[]
+}
 type Badge = { displayName?: string; name?: string; icon?: string; creationDate?: string | number }
 type TopicLevel = "fundamental" | "intermediate" | "advanced"
 type TopicFilter = "all" | TopicLevel
@@ -1005,12 +1010,46 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
   const [badgePeek, setBadgePeek] = useState<string | null>(null)
   const [githubGraphFailed, setGithubGraphFailed] = useState(false)
   const [githubTrophiesFailed, setGithubTrophiesFailed] = useState(false)
+  const [githubContributionHistory, setGithubContributionHistory] = useState<GitHubContributionDay[]>([])
+  const [githubContributionTotals, setGithubContributionTotals] = useState<Record<string, number>>({})
+  const [githubCalendarStatus, setGithubCalendarStatus] = useState<"loading" | "live" | "fallback">("loading")
+  const [selectedGitHubYear, setSelectedGitHubYear] = useState<number | null>(null)
   const reducedMotion = Boolean(useReducedMotion())
 
   useEffect(() => {
     const controller = new AbortController()
     let disposed = false
     const timeout = window.setTimeout(() => controller.abort(), 18000)
+
+
+    const requestGitHubCalendar = fetch("https://github-contributions-api.jogruber.de/v4/knockknock10?y=all", { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("GitHub contribution history unavailable")))
+      .then((payload: GitHubContributionPayload) => {
+        const contributions = Array.isArray(payload.contributions)
+          ? payload.contributions.filter((day) =>
+              day &&
+              /^\\d{4}-\\d{2}-\\d{2}$/.test(day.date) &&
+              Number.isFinite(day.count) &&
+              day.count >= 0 &&
+              [0, 1, 2, 3, 4].includes(day.level),
+            )
+          : []
+        const totals = payload.total && typeof payload.total === "object"
+          ? Object.fromEntries(
+              Object.entries(payload.total).filter(([year, count]) =>
+                /^\\d{4}$/.test(year) && typeof count === "number" && Number.isFinite(count),
+              ),
+            )
+          : {}
+        if (!contributions.length || !Object.keys(totals).length) throw new Error("GitHub history was empty")
+        setGithubContributionHistory(contributions)
+        setGithubContributionTotals(totals)
+        setSelectedGitHubYear((current) => current ?? Math.max(...Object.keys(totals).map(Number)))
+        setGithubCalendarStatus("live")
+      })
+      .catch(() => {
+        if (!disposed) setGithubCalendarStatus("fallback")
+      })
 
     const requestTopics = fetch("https://alfa-leetcode-api.onrender.com/knockknock10/skill", { signal: controller.signal })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error("Topic stats unavailable")))
@@ -1064,7 +1103,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
         if (!disposed) setBadgeStatus("snapshot")
       })
 
-    Promise.allSettled([requestTopics, requestProfile, requestBadges]).finally(() => window.clearTimeout(timeout))
+    Promise.allSettled([requestGitHubCalendar, requestTopics, requestProfile, requestBadges]).finally(() => window.clearTimeout(timeout))
     return () => {
       disposed = true
       window.clearTimeout(timeout)
@@ -1078,12 +1117,35 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
     [topicFilter, topics],
   )
   const shownBadges = badges.length ? badges : fallbackBadges
-  const contributionTotal =
-    typeof data.github.contributionsLast365Days === "number"
-      ? data.github.contributionsLast365Days
-      : typeof data.github.contributionCalendar?.totalContributions === "number"
-        ? data.github.contributionCalendar.totalContributions
-        : null
+  const availableGitHubYears = useMemo(
+    () => Object.keys(githubContributionTotals).filter((year) => /^\\d{4}$/.test(year)).map(Number).sort((a, b) => b - a),
+    [githubContributionTotals],
+  )
+  const activeGitHubYear = selectedGitHubYear ?? availableGitHubYears[0] ?? new Date().getFullYear()
+  const selectedGitHubDays = useMemo(
+    () => githubContributionHistory
+      .filter((day) => day.date.startsWith(String(activeGitHubYear) + "-"))
+      .sort((a, b) => a.date.localeCompare(b.date)),
+    [githubContributionHistory, activeGitHubYear],
+  )
+  const paddedGitHubDays = useMemo(() => {
+    if (!selectedGitHubDays.length) return [] as Array<GitHubContributionDay | null>
+    const firstWeekday = new Date(selectedGitHubDays[0].date + "T00:00:00Z").getUTCDay()
+    return [...Array.from({ length: firstWeekday }, () => null), ...selectedGitHubDays]
+  }, [selectedGitHubDays])
+  const githubWeekCount = Math.ceil(paddedGitHubDays.length / 7)
+  const githubMonthMarkers = useMemo(() => {
+    const markers: Array<{ label: string; week: number }> = []
+    paddedGitHubDays.forEach((day, index) => {
+      if (day && day.date.slice(-2) === "01") {
+        const label = new Date(day.date + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", timeZone: "UTC" })
+        markers.push({ label, week: Math.floor(index / 7) })
+      }
+    })
+    return markers
+  }, [paddedGitHubDays])
+  const activeGitHubTotal = githubContributionTotals[String(activeGitHubYear)] ??
+    selectedGitHubDays.reduce((total, day) => total + day.count, 0)
   const solvedValue = liveSolved ?? (typeof data.leetcode.totalSolved === "number" ? data.leetcode.totalSolved : null)
   const questionValue = totalQuestions ?? (typeof data.leetcode.totalQuestions === "number" ? data.leetcode.totalQuestions : null)
   const acceptanceRaw = liveAcceptance ?? (data.leetcode.acceptanceRate !== "MISSING" ? data.leetcode.acceptanceRate : "87.2%")
