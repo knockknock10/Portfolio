@@ -232,6 +232,7 @@ export function Signals({ data, standalone = false }: SignalsProps) {
         ) : null}
         {hasCalendar ? (
           <motion.div
+            className="signals-calendar-wrap"
             initial={reducedMotion ? false : { opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.12 }}
