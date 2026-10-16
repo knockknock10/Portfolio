@@ -19,6 +19,17 @@ export default function ContactPage() {
     (item): item is { platform: string; url: string } =>
       Boolean(item.url && /^https?:\/\//i.test(item.url)),
   )
+  const priority = (platform: string) => {
+    const normalized = platform.toLowerCase()
+    if (normalized.includes("linkedin")) return 0
+    if (normalized.includes("github")) return 1
+    if (normalized.includes("leetcode")) return 5
+    return 3
+  }
+  const sortedSocials = [...socials].sort((a, b) => priority(a.platform) - priority(b.platform))
+  const primarySocials = sortedSocials.filter((item) => !item.platform.toLowerCase().includes("leetcode")).slice(0, 2)
+  const primaryPlatforms = new Set(primarySocials.map((item) => item.platform))
+  const moreSocials = sortedSocials.filter((item) => !primaryPlatforms.has(item.platform))
 
   return (
     <main className="route-shell editorial-page contact-page">
@@ -50,15 +61,29 @@ export default function ContactPage() {
         )}
       </section>
 
-      {socials.length > 0 ? (
-        <nav className="contact-social-links" aria-label="Contact and professional profiles">
-          {socials.map((item) => (
+      {primarySocials.length > 0 ? (
+        <nav className="contact-social-links" aria-label="Primary professional profiles">
+          {primarySocials.map((item) => (
             <Link key={item.platform} href={item.url} target="_blank" rel="noreferrer">
               {item.platform.replace(/ profile$/i, "")}
               <span aria-hidden="true">↗</span>
             </Link>
           ))}
         </nav>
+      ) : null}
+
+      {moreSocials.length > 0 ? (
+        <details className="contact-more-links contact-page-more">
+          <summary>More profiles <span aria-hidden="true">＋</span></summary>
+          <nav className="contact-social-links" aria-label="More professional profiles">
+            {moreSocials.map((item) => (
+              <Link key={item.platform} href={item.url} target="_blank" rel="noreferrer">
+                {item.platform.replace(/ profile$/i, "")}
+                <span aria-hidden="true">↗</span>
+              </Link>
+            ))}
+          </nav>
+        </details>
       ) : null}
 
       <p className="contact-back-link">
