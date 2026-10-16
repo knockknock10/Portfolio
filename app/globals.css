@@ -6376,3 +6376,20 @@ body {
 .research-pdf-unhosted p{margin:0;color:#d0d0e4;font-size:.68rem;line-height:1.65}
 .research-pdf-unhosted .research-paper-open{justify-self:start}
 .hero-eyebrow::before,.hero-eyebrow::after,.hero-live-indicator,.hero-visual-art-topline .hero-live-indicator{display:none!important;content:none!important;width:0!important;height:0!important;box-shadow:none!important;animation:none!important}
+
+/* The homepage uses its own Safari-style side rail and hero layout. */
+body:has(.portfolio-home-page) .nav-positioner {
+  display: none !important;
+}
+
+body:has(.portfolio-home-page) .site-shell {
+  padding-block-start: 0 !important;
+}
+
+body:has(.portfolio-home-page) .route-transition {
+  min-height: 0;
+}
+
+.portfolio-home-page .portfolio-anchor {
+  scroll-margin-top: 1.25rem;
+}
