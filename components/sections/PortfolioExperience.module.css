@@ -495,3 +495,101 @@
 @media(prefers-reduced-motion:reduce){
   .idCardStage::before{transition:none}
 }
+
+
+/* Liquid glass open-source cards: organizations are the headline, PRs live below. */
+.orgCard{
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(152,139,255,.105),transparent 37%),
+    linear-gradient(145deg,rgba(255,255,255,.86),rgba(248,247,255,.69));
+  backdrop-filter:blur(20px) saturate(1.12);
+  -webkit-backdrop-filter:blur(20px) saturate(1.12);
+}
+.orgCard::before{
+  content:"";
+  position:absolute;
+  top:0;left:18px;right:18px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.98),transparent);
+  pointer-events:none;
+}
+.orgLogo{position:relative}
+.orgLogo>span{display:none}
+.orgLogo.orgLogoFallback>span{display:grid;place-items:center;width:100%;height:100%;color:#6559bd;font-size:.85rem;font-weight:850;letter-spacing:-.06em}
+.orgCardTop .orgArrow{flex:0 0 32px}
+.orgSummary{color:#4e4c62;font-size:.83rem;font-weight:750}
+.orgContribution{min-height:0;color:#656578;font-size:.82rem;line-height:1.68}
+.orgRepos span{border:1px solid rgba(103,91,169,.08);background:rgba(255,255,255,.72);color:#655d83}
+.orgLink{color:#5c4fc0}
+.orgCard:focus-within{outline:2px solid rgba(101,88,245,.45);outline-offset:3px}
+.orgCard .orgLink{transition:padding .23s ease,color .23s ease}
+.orgCard .orgLink:hover{padding-left:5px;color:#4335a7}
+
+/* A small contribution feed below the organization cards; filters do not navigate away. */
+.contributionFeed{
+  margin-top:clamp(30px,4vw,54px);
+  padding:clamp(20px,3.3vw,34px);
+  border:1px solid rgba(92,81,133,.11);
+  border-radius:26px;
+  background:linear-gradient(135deg,rgba(255,255,255,.84),rgba(247,246,255,.7));
+  box-shadow:0 16px 42px rgba(52,42,85,.045);
+  backdrop-filter:blur(18px) saturate(1.08);
+  -webkit-backdrop-filter:blur(18px) saturate(1.08);
+}
+.contributionFeedIntro{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.contributionFeedIntro>div{max-width:690px}
+.contributionFeedIntro .eyebrow{margin-bottom:9px}
+.contributionFeedIntro h3{margin:0;color:#292941;font-size:clamp(1.35rem,2.4vw,2rem);letter-spacing:-.045em;line-height:1.12;font-weight:680}
+.contributionFeedIntro p:not(.eyebrow){margin:11px 0 0;color:#6d6d7e;font-size:.86rem;line-height:1.65}
+.contributionFeedIntro>a{flex:0 0 auto;padding:10px 13px;border:1px solid rgba(101,88,189,.16);border-radius:12px;background:rgba(255,255,255,.75);color:#564ab3;text-decoration:none;font-size:.76rem;font-weight:750;transition:transform .22s ease,background .22s ease}
+.contributionFeedIntro>a:hover{transform:translateY(-2px);background:#fff}
+.contributionFilters{display:flex;flex-wrap:wrap;gap:7px;margin:23px 0 9px}
+.contributionFilter,.contributionFilterActive{
+  display:inline-flex;align-items:center;gap:9px;padding:8px 11px;
+  border:1px solid rgba(96,86,148,.12);border-radius:999px;
+  background:rgba(255,255,255,.62);color:#66657a;font:inherit;font-size:.73rem;font-weight:650;cursor:pointer;
+  transition:background .22s ease,color .22s ease,border-color .22s ease,transform .22s ease;
+}
+.contributionFilter:hover{transform:translateY(-1px);border-color:rgba(101,88,189,.28);background:#fff}
+.contributionFilter>span,.contributionFilterActive>span{display:grid;place-items:center;min-width:20px;height:20px;padding-inline:5px;border-radius:999px;background:rgba(96,86,148,.08);color:#77758b;font-size:.64rem;font-variant-numeric:tabular-nums}
+.contributionFilterActive{background:#5e51c3;border-color:#5e51c3;color:#fff;box-shadow:0 5px 14px rgba(94,81,195,.2)}
+.contributionFilterActive>span{background:rgba(255,255,255,.2);color:#fff}
+.contributionList{list-style:none;margin:0;padding:0;border-top:1px solid rgba(91,83,130,.1)}
+.contributionRow{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:center;gap:15px;padding:15px 0;border-bottom:1px solid rgba(91,83,130,.1)}
+.contributionStatus{justify-self:start;display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;background:#e6f6ec;color:#337b57;font-size:.61rem;font-weight:800;letter-spacing:.025em}
+.contributionStatus::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+.contributionStatus[data-status="open"]{background:#fff1d8;color:#95691c}
+.contributionCopy{display:flex;flex-direction:column;gap:5px;min-width:0}
+.contributionCopy>span{color:#89879a;font-size:.65rem}
+.contributionCopy>a{display:inline-flex;align-items:baseline;gap:5px;max-width:100%;width:fit-content;color:#333249;text-decoration:none;font-size:.82rem;font-weight:700;line-height:1.5;transition:color .2s ease}
+.contributionCopy>a:hover{color:#5b4fba}
+.contributionCopy>a span{color:#7366ca;font-size:.75rem}
+.contributionMore{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;margin-top:14px;padding:12px 0 0;border:0;background:transparent;color:#5a4cba;font:inherit;font-size:.77rem;font-weight:800;text-align:left;cursor:pointer}
+.contributionMore>span{color:#8d8a9c;font-size:.69rem;font-weight:550}
+.contributionMore:hover{color:#4033a0}
+.contributionEmpty{margin:15px 0 0;color:#6d6b80;font-size:.8rem;line-height:1.6}
+.contributionFilter:focus-visible,.contributionFilterActive:focus-visible,.contributionMore:focus-visible,.contributionFeedIntro>a:focus-visible,.contributionCopy>a:focus-visible{outline:3px solid rgba(101,88,245,.4);outline-offset:3px}
+
+/* Keep GitHub and LeetCode together at desktop widths; stack only when the panel is narrow. */
+.activityGrid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+.githubActivity,.leetcodeActivity{align-self:start}
+@media(max-width:900px){
+  .contributionFeedIntro{align-items:flex-start;flex-direction:column}
+  .activityGrid{gap:14px}
+  .activityCard{padding:18px}
+}
+@media(max-width:760px){
+  .activityGrid{grid-template-columns:minmax(0,1fr)}
+  .contributionFeed{margin-top:28px;padding:19px;border-radius:22px}
+  .contributionFilters{margin-top:18px}
+}
+@media(max-width:420px){
+  .contributionFeedIntro h3{font-size:1.42rem}
+  .contributionRow{grid-template-columns:75px minmax(0,1fr);gap:10px}
+  .contributionCopy>a{font-size:.76rem}
+  .contributionMore{align-items:flex-start;flex-direction:column;gap:4px}
+}
+@media(prefers-reduced-motion:reduce){
+  .orgCard,.orgLink,.contributionFeedIntro>a,.contributionFilter,.contributionFilterActive,.contributionCopy>a{transition:none!important}
+  .contributionFeedIntro>a:hover,.contributionFilter:hover{transform:none}
+}
