@@ -3012,7 +3012,7 @@ The records below are sourced from the project inventory and the résumé's Rese
       "Whisper tiny.en",
       "SHA-256"
     ],
-    "pdf": "MISSING"
+    "pdf": "papers/SemBind.pdf"
   },
   {
     "title": "Nanosensor Network Communication Simulator",
