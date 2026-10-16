@@ -370,7 +370,7 @@ export function ProfileIdCard({ tools }: ProfileIdCardProps) {
   }, [tiltX, tiltY])
 
   return (
-    <section className={styles.identitySection} id="identity" aria-labelledby="identity-heading">
+    <section className={styles.identitySection} id="identity" aria-labelledby="identity-heading" tabIndex={-1}>
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>A little about the engineer</p>
         <h2 id="identity-heading">The person behind the pull requests.</h2>
@@ -577,7 +577,7 @@ export function FeaturedProjects() {
   }, [lenis, reduceMotion])
 
   return (
-    <section className={styles.projectsSection} id="work" aria-labelledby="featured-projects-heading">
+    <section className={styles.projectsSection} id="work" aria-labelledby="featured-projects-heading" tabIndex={-1}>
       <div className={styles.sectionIntro + " " + styles.projectsIntro}>
         <div>
           <p className={styles.eyebrow}>Selected work · Built from the source</p>
@@ -725,7 +725,7 @@ export function OpenSourceOrganizations() {
     : filteredContributions.slice(0, 4)
 
   return (
-    <section className={styles.orgSection} id="open-source" aria-labelledby="org-heading">
+    <section className={styles.orgSection} id="open-source" aria-labelledby="org-heading" tabIndex={-1}>
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Beyond my own repositories</p>
         <h2 id="org-heading">Making upstream software a little better.</h2>
@@ -886,7 +886,7 @@ export function SkillsExplorer() {
   }, [lenis, reduceMotion])
 
   return (
-    <section className={styles.skillsSection} id="skills" aria-labelledby="skills-heading">
+    <section className={styles.skillsSection} id="skills" aria-labelledby="skills-heading" tabIndex={-1}>
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Tools I reach for</p>
         <h2 id="skills-heading">A toolkit shaped by the work.</h2>
@@ -1140,7 +1140,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
   }
 
   return (
-    <section className={styles.activitySection} id="signals" aria-labelledby="activity-heading">
+    <section className={styles.activitySection} id="signals" aria-labelledby="activity-heading" tabIndex={-1}>
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Proof of practice</p>
         <h2 id="activity-heading">Practice, measured in patterns.</h2>
