@@ -30,7 +30,7 @@ export default async function HomePage() {
 
   return (
     <main className="home-page portfolio-home-page">
-      <HomeHero fullName={fullName} />
+      <HomeHero fullName={fullName} socials={content.socials} email={content.contact.email} resumePath={content.resumePath || "/resume.pdf"} />
 
       <FeaturedProjects />
 
