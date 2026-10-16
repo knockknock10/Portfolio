@@ -125,6 +125,14 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
               View implementation repo <span aria-hidden="true">↗</span>
             </a>
           ) : null}
+          {available(item.pdf) ? (
+            <>
+              <a className="research-feature-primary research-pdf-primary" href={item.pdf} target="_blank" rel="noreferrer">
+                Open IEEE submission <span aria-hidden="true">↗</span>
+              </a>
+              <a className="research-feature-download" href={item.pdf} download="SemBind.pdf">Download PDF ↓</a>
+            </>
+          ) : null}
           <span className="research-feature-note">{submittedToIEEE ? "Submitted to IEEE Signal Processing Letters · not yet published" : "Research manuscript · active work"}</span>
         </div>
       </div>
@@ -156,29 +164,33 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
               : "Fig. 1 · SemBind-Audio pipeline architecture from the research evidence package"}
           </figcaption>
         </figure>
-        <div className="research-paper-actions">
-          <a className="research-paper-open" href="/papers/SemBind.pdf" target="_blank" rel="noreferrer">Open full IEEE submission ↗</a>
-          <a className="research-paper-download" href="/papers/SemBind.pdf" download="SemBind.pdf">Download PDF ↓</a>
-        </div>
-        <button
-          type="button"
-          className="research-paper-toggle"
-          aria-expanded={paperOpen}
-          aria-controls="sembind-paper-preview"
-          onClick={() => setPaperOpen((current) => !current)}
-        >
-          {paperOpen ? "Close paper preview −" : "Read the paper here +"}
-        </button>
-        {paperOpen ? (
-          <div className="research-paper-preview" id="sembind-paper-preview">
-            <iframe
-              src="/papers/SemBind.pdf#view=FitH"
-              title="SemBind IEEE Signal Processing Letters submission by Sanjeev Kumar and co-authors"
-              loading="lazy"
-            />
-            <p>PDF preview depends on your browser's built-in PDF viewer. The open and download links remain available above.</p>
-          </div>
-        ) : null}
+        {available(item.pdf) ? (
+          <>
+            <div className="research-paper-actions">
+              <a className="research-paper-open" href={item.pdf} target="_blank" rel="noreferrer">Open full IEEE submission ↗</a>
+              <a className="research-paper-download" href={item.pdf} download="SemBind.pdf">Download PDF ↓</a>
+            </div>
+            <button
+              type="button"
+              className="research-paper-toggle"
+              aria-expanded={paperOpen}
+              aria-controls="sembind-paper-preview"
+              onClick={() => setPaperOpen((current) => !current)}
+            >
+              {paperOpen ? "Close paper preview −" : "Read the paper here +"}
+            </button>
+            {paperOpen ? (
+              <div className="research-paper-preview" id="sembind-paper-preview">
+                <iframe src={item.pdf + "#view=FitH"} title="SemBind IEEE Signal Processing Letters submission" loading="lazy" />
+                <p>PDF preview depends on your browser's built-in viewer. Open/download links remain available.</p>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <a className="research-paper-open" href="https://github.com/knockknock10/SemBind_Audio/tree/main/PAPER_EVIDENCE_PACKAGE" target="_blank" rel="noreferrer">
+            Explore the paper evidence package ↗
+          </a>
+        )}
       </div>
     </motion.article>
   )
