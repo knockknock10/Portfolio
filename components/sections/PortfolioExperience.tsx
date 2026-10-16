@@ -137,6 +137,7 @@ const organizations = [
     pullRequests: [
       { label: "plugin-databricks #290 · DBFS trigger", status: "Merged", url: "https://github.com/kestra-io/plugin-databricks/pull/290" },
       { label: "plugin-snyk #27 · issue polling trigger", status: "Open", url: "https://github.com/kestra-io/plugin-snyk/pull/27" },
+      { label: "Microsoft Fabric #39 · dataset refresh", status: "Open", url: "https://github.com/kestra-io/plugin-microsoft-fabric/pull/39" },
       { label: "Terraform provider #308 · list import", status: "Merged", url: "https://github.com/kestra-io/terraform-provider-kestra/pull/308" },
     ],
   },
@@ -191,6 +192,33 @@ const organizations = [
     pullRequests: [
       { label: "platform #105 · pull-request handlers", status: "Merged", url: "https://github.com/Aevor/platform/pull/105" },
       { label: "platform #114 · AI limit package", status: "Merged", url: "https://github.com/Aevor/platform/pull/114" },
+    ],
+  },
+  {
+    name: "OpenNSW",
+    handle: "OpenNSW",
+    summary: "Database and integration testing",
+    contribution: "Working on test-focused patches in OpenNSW/core around issue #254. The linked pull requests remain open and are presented as under review, not as merged work.",
+    repos: ["core"],
+    url: "https://github.com/OpenNSW",
+    workUrl: "https://github.com/OpenNSW/core",
+    logo: "https://avatars.githubusercontent.com/u/255828504?v=4",
+    pullRequests: [
+      { label: "core #263 · integration test work", status: "Open", url: "https://github.com/OpenNSW/core/pull/263" },
+      { label: "core #265 · database test fix", status: "Open", url: "https://github.com/OpenNSW/core/pull/265" },
+    ],
+  },
+  {
+    name: "Ansvisor",
+    handle: "ansvisor",
+    summary: "AI and developer tooling",
+    contribution: "Contributed issue-driven implementation work to the upstream codebase. The highlighted agent-active-brand change was merged; the linked PR provides the review and implementation record.",
+    repos: ["ansvisor"],
+    url: "https://github.com/ansvisor",
+    workUrl: "https://github.com/ansvisor/ansvisor",
+    logo: "https://avatars.githubusercontent.com/u/274837157?v=4",
+    pullRequests: [
+      { label: "ansvisor #970 · agent-active-brand", status: "Merged", url: "https://github.com/ansvisor/ansvisor/pull/970" },
     ],
   },
 ]
