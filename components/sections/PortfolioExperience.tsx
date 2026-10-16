@@ -1028,7 +1028,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
         const contributions = Array.isArray(payload.contributions)
           ? payload.contributions.filter((day) =>
               day &&
-              /^\\d{4}-\\d{2}-\\d{2}$/.test(day.date) &&
+              /^\d{4}-\d{2}-\d{2}$/.test(day.date) &&
               Number.isFinite(day.count) &&
               day.count >= 0 &&
               [0, 1, 2, 3, 4].includes(day.level),
@@ -1037,7 +1037,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
         const totals = payload.total && typeof payload.total === "object"
           ? Object.fromEntries(
               Object.entries(payload.total).filter(([year, count]) =>
-                /^\\d{4}$/.test(year) && typeof count === "number" && Number.isFinite(count),
+                /^\d{4}$/.test(year) && typeof count === "number" && Number.isFinite(count),
               ),
             )
           : {}
@@ -1118,7 +1118,7 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
   )
   const shownBadges = badges.length ? badges : fallbackBadges
   const availableGitHubYears = useMemo(
-    () => Object.keys(githubContributionTotals).filter((year) => /^\\d{4}$/.test(year)).map(Number).sort((a, b) => b - a),
+    () => Object.keys(githubContributionTotals).filter((year) => /^\d{4}$/.test(year)).map(Number).sort((a, b) => b - a),
     [githubContributionTotals],
   )
   const activeGitHubYear = selectedGitHubYear ?? availableGitHubYears[0] ?? new Date().getFullYear()
@@ -1164,32 +1164,105 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
         <p>A real snapshot of the topics you work on, plus the activity and badges behind the profile—every metric links back to LeetCode or GitHub.</p>
       </div>
 
-      <div className={styles.activityGrid}>
+      <div className={styles.activityStack}>
         <article className={styles.activityCard + " " + styles.githubActivity}>
           <div className={styles.activityCardHeader}>
             <div><span className={styles.activityEyebrow}>01 / GITHUB</span><h3>Building in public</h3></div>
             <a href={profile.github} target="_blank" rel="noreferrer" aria-label="Open GitHub profile">↗</a>
           </div>
 
-          <div className={styles.githubGraph}>
-            {githubGraphFailed ? (
-              <div className={styles.activityMediaFallback}>
-                <span className={styles.activityFallbackMark} aria-hidden="true">GH</span>
-                <div><strong>Contribution graph unavailable</strong><p>Open the live GitHub profile to inspect current activity.</p></div>
-                <a href={profile.github} target="_blank" rel="noreferrer">Open profile ↗</a>
+          <div className={styles.githubYearExplorer}>
+            <div className={styles.githubYearIntro}>
+              <div>
+                <span className={styles.githubYearKicker}>GITHUB CONTRIBUTION CALENDAR</span>
+                <p>Choose a year to inspect the public activity recorded for this profile.</p>
+              </div>
+              <div className={styles.githubYearTotal}>
+                <strong>{githubCalendarStatus === "live" ? activeGitHubTotal.toLocaleString() : "—"}</strong>
+                <span>{githubCalendarStatus === "live" ? "contributions in " + activeGitHubYear : "yearly history"}</span>
+              </div>
+            </div>
+
+            {githubCalendarStatus === "live" && selectedGitHubDays.length ? (
+              <>
+                <div className={styles.githubYearPicker} role="group" aria-label="Select GitHub contribution year">
+                  {availableGitHubYears.map((year) => (
+                    <button
+                      key={year}
+                      type="button"
+                      className={activeGitHubYear === year ? styles.githubYearActive : styles.githubYearButton}
+                      aria-pressed={activeGitHubYear === year}
+                      onClick={() => setSelectedGitHubYear(year)}
+                    >
+                      {year}
+                    </button>
+                  ))}
+                </div>
+                <div className={styles.githubCalendarViewport} tabIndex={0} aria-label={"Contribution calendar for " + activeGitHubYear}>
+                  <div className={styles.githubCalendarInner}>
+                    <div className={styles.githubMonths} aria-hidden="true">
+                      {githubMonthMarkers.map((month) => (
+                        <span
+                          key={month.label + month.week}
+                          style={{ left: (month.week / Math.max(1, githubWeekCount)) * 100 + "%" }}
+                        >
+                          {month.label}
+                        </span>
+                      ))}
+                    </div>
+                    <div
+                      className={styles.githubCalendarGrid}
+                      style={{ gridTemplateColumns: "repeat(" + githubWeekCount + ", minmax(0, 1fr))" }}
+                      role="img"
+                      aria-label={activeGitHubTotal.toLocaleString() + " GitHub contributions in " + activeGitHubYear + "; daily counts shown as a contribution heatmap."}
+                    >
+                      {paddedGitHubDays.map((day, index) => day ? (
+                        <span
+                          key={day.date}
+                          className={styles.githubCalendarCell}
+                          data-level={day.level}
+                          title={day.date + ": " + day.count + (day.count === 1 ? " contribution" : " contributions")}
+                          aria-label={day.date + ": " + day.count + (day.count === 1 ? " contribution" : " contributions")}
+                        />
+                      ) : (
+                        <span key={"pad-" + index} className={styles.githubCalendarPad} aria-hidden="true" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.githubCalendarLegend}>
+                  <span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><i data-level="4" /><span>More</span>
+                  <small>Daily commits, pull requests, reviews and other GitHub contributions.</small>
+                </div>
+              </>
+            ) : githubCalendarStatus === "loading" ? (
+              <div className={styles.githubCalendarLoading} aria-live="polite">
+                <span className={styles.githubLoadingPulse} />
+                <span>Loading yearly contribution history from GitHub…</span>
               </div>
             ) : (
-              <img
-                src="https://ghchart.rshah.org/6554d7/knockknock10"
-                alt="GitHub contribution graph for knockknock10"
-                loading="lazy"
-                onError={() => setGithubGraphFailed(true)}
-              />
+              <div className={styles.githubGraphFallback}>
+                {githubGraphFailed ? (
+                  <div className={styles.activityMediaFallback}>
+                    <span className={styles.activityFallbackMark} aria-hidden="true">GH</span>
+                    <div><strong>Contribution history unavailable</strong><p>Open GitHub to switch years and view the complete profile calendar.</p></div>
+                    <a href={profile.github} target="_blank" rel="noreferrer">Open profile ↗</a>
+                  </div>
+                ) : (
+                  <img
+                    src="https://ghchart.rshah.org/6554d7/knockknock10"
+                    alt="Fallback GitHub contribution graph for knockknock10 showing recent activity"
+                    loading="lazy"
+                    onError={() => setGithubGraphFailed(true)}
+                  />
+                )}
+                <p>Year filtering is temporarily unavailable; the fallback graph shows recent activity.</p>
+              </div>
             )}
           </div>
           <div className={styles.graphCaption}>
-            <span>Daily contributions · last year</span>
-            <span>{contributionTotal !== null ? contributionTotal.toLocaleString() + " reported" : "Live from GitHub"}</span>
+            <span>Contribution history · refreshed by the public profile-data service</span>
+            <span><a href={profile.github} target="_blank" rel="noreferrer">Open GitHub ↗</a></span>
           </div>
 
           <div className={styles.githubBadgeHeading}>
