@@ -1,33 +1,51 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import SidebarNavigation from "./SidebarNavigation";
 import styles from "./HomeHero.module.css";
 
-const socials = [
-  {
-    label: "GitHub",
-    href: "https://github.com/knockknock10",
-    mark: "GH",
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/-sanjeev-kr",
-    mark: "in",
-  },
-  {
-    label: "Email",
-    href: "mailto:Sanjeev.kr10111@gmail.com",
-    mark: "✉",
-  },
-  {
-    label: "Resume",
-    href: "/resume.pdf",
-    mark: "↗",
-  },
-];
+const socialMarks = {
+  github: "GH",
+  linkedin: "in",
+  email: "✉",
+  mail: "✉",
+  resume: "↗",
+  cv: "↗",
+};
 
-export function HomeHero({ fullName = "Sanjeev Kumar" }) {
+function getSocialLinks(socials, email, resumePath) {
+  const links = (socials || [])
+    .filter((item) => item && item.url)
+    .map((item) => {
+      const label = item.platform || "Profile";
+      const normalized = label.toLowerCase();
+      return {
+        label,
+        href: item.url,
+        mark: Object.entries(socialMarks).find(([key]) => normalized.includes(key))?.[1] || "↗",
+      };
+    });
+
+  if (email && !links.some((item) => /email|mail/i.test(item.label) || item.href.startsWith("mailto:"))) {
+    links.push({ label: "Email", href: "mailto:" + email, mark: "✉" });
+  }
+
+  if (resumePath && !links.some((item) => /resume|cv/i.test(item.label))) {
+    links.push({ label: "Resume", href: resumePath, mark: "↗" });
+  }
+
+  return links.slice(0, 4);
+}
+
+export function HomeHero({
+  fullName = "Sanjeev Kumar",
+  socials = [],
+  email = null,
+  resumePath = "/resume.pdf",
+}) {
+  const [portraitSrc, setPortraitSrc] = useState("/images/sanjeev-profile.webp");
+  const socialsToShow = getSocialLinks(socials, email, resumePath);
 
   return (
     <section id="home" className={styles.hero} aria-labelledby="hero-title" tabIndex={-1}>
@@ -66,7 +84,7 @@ export function HomeHero({ fullName = "Sanjeev Kumar" }) {
         </div>
 
         <nav className={styles.socialLinks} aria-label="Contact and profiles">
-          {socials.map((social) => (
+          {socialsToShow.map((social) => (
             <a
               className={styles.socialLink}
               key={social.label}
@@ -89,10 +107,16 @@ export function HomeHero({ fullName = "Sanjeev Kumar" }) {
       <div className={styles.portraitStage} aria-label="Portrait of Sanjeev Kumar">
         <div className={styles.portraitFrame}>
           <Image
-            src="/images/sanjeev-profile.webp"
-            alt="Sanjeev Kumar in a black overshirt and white trousers"
+            src={portraitSrc}
+            alt="Sanjeev Kumar in a black shirt and light trousers"
             fill
             priority
+            unoptimized={portraitSrc.startsWith("https://")}
+            onError={() => {
+              if (!portraitSrc.startsWith("https://")) {
+                setPortraitSrc("https://avatars.githubusercontent.com/u/116096166?v=4");
+              }
+            }}
             sizes="(max-width: 760px) 100vw, 62vw"
             className={styles.portraitImage}
           />
