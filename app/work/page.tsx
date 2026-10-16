@@ -7,5 +7,9 @@ export const metadata: Metadata = {
 }
 
 export default function WorkPage() {
-  return <FeaturedProjects />
+  return (
+    <main className="editorial-page work-page">
+      <FeaturedProjects />
+    </main>
+  )
 }
