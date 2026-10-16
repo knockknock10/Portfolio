@@ -404,8 +404,6 @@ type Badge = { displayName?: string; name?: string; icon?: string; creationDate?
 export function ActivityShowcase({ data }: { data: SignalStats }) {
   const [badges, setBadges] = useState<Badge[]>([])
   const [badgeStatus, setBadgeStatus] = useState<"loading" | "loaded" | "fallback">("loading")
-  const [visitorCount, setVisitorCount] = useState<number | null>(null)
-  const [visitorStatus, setVisitorStatus] = useState<"loading" | "loaded" | "unavailable">("loading")
   const [expandedBadges, setExpandedBadges] = useState(false)
 
   useEffect(() => {
@@ -418,23 +416,6 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
         setBadgeStatus(found.length ? "loaded" : "fallback")
       })
       .catch(() => setBadgeStatus("fallback"))
-    return () => controller.abort()
-  }, [])
-
-  useEffect(() => {
-    const controller = new AbortController()
-    fetch("https://api.counterapi.dev/v1/kr-sanjeev-portfolio/visits/up", { signal: controller.signal })
-      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Counter unavailable")))
-      .then((payload: { count?: number; data?: { count?: number } }) => {
-        const count = payload.count ?? payload.data?.count
-        if (typeof count === "number" && Number.isFinite(count)) {
-          setVisitorCount(count)
-          setVisitorStatus("loaded")
-        } else {
-          setVisitorStatus("unavailable")
-        }
-      })
-      .catch(() => setVisitorStatus("unavailable"))
     return () => controller.abort()
   }, [])
 
@@ -471,7 +452,24 @@ export function ActivityShowcase({ data }: { data: SignalStats }) {
           <div className={styles.activityFooter}><span>Contest · Difficulty · Earned badges</span><a href={profile.leetcode} target="_blank" rel="noreferrer">Open LeetCode ↗</a></div>
         </article>
       </div>
-      <div className={styles.visitorLine}><span className={styles.visitorSpark} />{visitorStatus === "loaded" && visitorCount !== null ? <p>You’re visitor <strong>#{visitorCount.toLocaleString()}</strong> — thanks for stopping by.</p> : visitorStatus === "loading" ? <p>Counting visits as you explore…</p> : <p>Every visit adds to the story. <a href="https://github.com/knockknock10/Portfolio" target="_blank" rel="noreferrer">Built in public, with care ↗</a></p>}<span className={styles.visitorEnd}>MADE TO BE EXPLORED</span></div>
     </section>
   )
+}
+
+export function VisitorCounter() {
+  const [count, setCount] = useState<number | null>(null)
+  const [status, setStatus] = useState<"loading" | "loaded" | "unavailable">("loading")
+  useEffect(() => {
+    const controller = new AbortController()
+    fetch("https://api.counterapi.dev/v1/kr-sanjeev-portfolio/visits/up", { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Counter unavailable")))
+      .then((payload: { count?: number; data?: { count?: number } }) => {
+        const value = payload.count ?? payload.data?.count
+        if (typeof value === "number" && Number.isFinite(value)) { setCount(value); setStatus("loaded") }
+        else setStatus("unavailable")
+      })
+      .catch(() => setStatus("unavailable"))
+    return () => controller.abort()
+  }, [])
+  return <p className={styles.visitorLine}><span className={styles.visitorSpark} />{status === "loaded" && count !== null ? <>You’re visitor <strong>#{count.toLocaleString()}</strong> — thanks for stopping by.</> : status === "loading" ? "Counting visits as you explore…" : <>Every visit adds to the story. <a href="https://github.com/knockknock10/Portfolio" target="_blank" rel="noreferrer">Built in public, with care ↗</a></>}<span className={styles.visitorEnd}>MADE TO BE EXPLORED</span></p>
 }
