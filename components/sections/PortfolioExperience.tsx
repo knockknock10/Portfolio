@@ -523,8 +523,8 @@ export function FeaturedProjects() {
       <div className={styles.sectionIntro + " " + styles.projectsIntro}>
         <div>
           <p className={styles.eyebrow}>Selected work · Built from the source</p>
-          <h2 id="featured-projects-heading">Six repositories. Six different engineering problems.</h2>
-          <p>Open a project for its purpose, implementation notes, stack and direct source links. Frontend repositories and live demos are linked where available.</p>
+          <h2 id="featured-projects-heading">A few things I’ve been building.</h2>
+          <p>Selected builds across developer tooling, applied AI and full-stack systems. Open a project to explore its implementation, technology choices, frontend and source.</p>
         </div>
         <a className={styles.textLink} href="https://github.com/knockknock10?tab=repositories" target="_blank" rel="noreferrer">All repositories <span>↗</span></a>
       </div>
@@ -546,7 +546,7 @@ export function FeaturedProjects() {
             <span className={styles.projectArt}>
               {project.image ? <img src={project.image} alt={project.imageAlt ?? ""} loading="lazy" onError={(event) => { event.currentTarget.style.display = "none" }} /> : null}
               <span className={styles.projectArtOverlay} />
-              <span className={styles.projectIndex}>0{index + 1} / 06</span>
+              <span className={styles.projectIndex}>PROJECT / 0{index + 1}</span>
               <span className={styles.projectArtLabel}>{project.label}</span>
               <span className={styles.projectArtName}>{project.name}</span>
               <span className={styles.projectOpen} aria-hidden="true">↗</span>
