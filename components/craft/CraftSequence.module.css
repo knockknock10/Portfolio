@@ -20,6 +20,11 @@
   justify-items: start;
   gap: var(--spacing-4);
   min-width: 0;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid rgba(255,255,255,.86);
+  border-radius: 1.5rem;
+  background: linear-gradient(150deg, rgba(255,255,255,.78), rgba(255,255,255,.45));
+  box-shadow: 0 14px 40px rgba(57,61,112,.055), inset 0 1px 0 rgba(255,255,255,.92);
 }
 
 .stepImage {
@@ -34,7 +39,7 @@
 
 .stepNumber {
   margin: 0;
-  color: color-mix(in srgb, var(--color-paper) 24%, transparent);
+  color: rgba(101,88,245,.22);
   font-size: clamp(var(--text-64), 7vw, var(--text-120));
   line-height: var(--text-120--line-height);
   letter-spacing: var(--tracking-display);
@@ -67,7 +72,8 @@
   order: 2;
   height: var(--border-thin);
   overflow: hidden;
-  background: color-mix(in srgb, var(--color-paper) 12%, transparent);
+  border-radius: 999px;
+  background: rgba(101,88,245,.14);
   transform-origin: left center;
 }
 
@@ -75,7 +81,8 @@
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--color-accent);
+  border-radius: inherit;
+  background: linear-gradient(90deg, #6558f5, #8d82ff);
   transform-origin: left center;
 }
 
