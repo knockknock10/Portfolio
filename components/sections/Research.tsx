@@ -49,10 +49,10 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
   const submittedToIEEE = available(item.status) && /submitted/i.test(item.status)
   const venue = available(item.venue) ? item.venue : "Research manuscript"
   const figureSrc = selectedFigure === "placement"
-    ? "https://raw.githubusercontent.com/knockknock10/SemBind_Audio/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG2_embedding_locations.png"
+    ? "/images/research/sembind-paper-fig3.webp"
     : "/images/research/sembind-paper-fig1.svg"
   const figureSourceUrl = selectedFigure === "placement"
-    ? "https://github.com/knockknock10/SemBind_Audio/blob/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG2_embedding_locations.png"
+    ? "https://github.com/knockknock10/SemBind_Audio/tree/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES"
     : "https://github.com/knockknock10/SemBind_Audio/blob/main/PAPER_EVIDENCE_PACKAGE/04_FIGURES/FIG1_architecture.svg"
   const figureAlt = selectedFigure === "placement"
     ? "Figure 3 in the submitted manuscript: spectrogram, score curves, joint score and selected embedding regions across a 7.9-second utterance."
@@ -177,8 +177,8 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
           )}
           <figcaption>
             {selectedFigure === "placement"
-              ? "Fig. 3 · Placement on one 7.9-second utterance: spectrogram, scores and selected frames (submitted PDF, page 3)."
-              : "Fig. 1 · SemBind embedding architecture: HuBERT contribution map and STFT-domain embedding (submitted PDF, page 1)."}
+              ? "Fig. 3 · Actual crop from page 3 of the submitted IEEE PDF: spectrogram, placement scores and selected frames for a 7.9-second utterance."
+              : "Fig. 1 · Original SemBind architecture figure: HuBERT contribution map and STFT-domain embedding."}
           </figcaption>
         </figure>
         {available(item.pdf) ? (
