@@ -23,7 +23,7 @@ const sectionLinks: NavItem[] = [
   { label: "Work", href: "/#work", sectionId: "work" },
   { label: "Activity", href: "/#signals", sectionId: "signals" },
   { label: "Research", href: "/#research", sectionId: "research" },
-  { label: "Craft", href: "/#craft", sectionId: "craft" },
+  { label: "Process", href: "/#craft", sectionId: "craft" },
   { label: "About", href: "/#about", sectionId: "about" },
 ]
 const contactLink: NavItem = { label: "Contact", href: "/#contact", sectionId: "contact" }
