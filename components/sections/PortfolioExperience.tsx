@@ -309,73 +309,142 @@ type ProfileIdCardProps = { tools: string[] | null }
 
 export function ProfileIdCard({ tools }: ProfileIdCardProps) {
   const [flipped, setFlipped] = useState(false)
-  const [portraitAvailable, setPortraitAvailable] = useState(true)
+  const [portraitAvailable, setPortraitAvailable] = useState(false)
   const reduceMotion = useReducedMotion()
   const toolCount = tools?.filter(Boolean).length ?? 0
+  const tiltX = useSpring(useMotionValue(0), { stiffness: 190, damping: 24, mass: 0.55 })
+  const tiltY = useSpring(useMotionValue(0), { stiffness: 190, damping: 24, mass: 0.55 })
+  const portraitSrc = "/images/sanjeev-portrait.jpg"
+
+  useEffect(() => {
+    // Start with initials, then upgrade to the real photo if the file is present.
+    // This avoids ever showing a broken-image glyph on the initial render.
+    const image = new Image()
+    image.onload = () => setPortraitAvailable(true)
+    image.onerror = () => setPortraitAvailable(false)
+    image.src = portraitSrc
+    return () => {
+      image.onload = null
+      image.onerror = null
+    }
+  }, [])
+
+  const handleCardMove = useCallback((event: ReactMouseEvent<HTMLDivElement>) => {
+    if (reduceMotion) return
+    const bounds = event.currentTarget.getBoundingClientRect()
+    if (!bounds.width || !bounds.height) return
+    const x = (event.clientX - bounds.left) / bounds.width
+    const y = (event.clientY - bounds.top) / bounds.height
+    tiltX.set((0.5 - y) * 8)
+    tiltY.set((x - 0.5) * 11)
+    event.currentTarget.style.setProperty("--pointer-x", Math.round(x * 100) + "%")
+    event.currentTarget.style.setProperty("--pointer-y", Math.round(y * 100) + "%")
+  }, [reduceMotion, tiltX, tiltY])
+
+  const handleCardLeave = useCallback((event: ReactMouseEvent<HTMLDivElement>) => {
+    tiltX.set(0)
+    tiltY.set(0)
+    event.currentTarget.style.setProperty("--pointer-x", "62%")
+    event.currentTarget.style.setProperty("--pointer-y", "35%")
+  }, [tiltX, tiltY])
 
   return (
     <section className={styles.identitySection} id="identity" aria-labelledby="identity-heading">
       <div className={styles.sectionIntro}>
         <p className={styles.eyebrow}>A little about the engineer</p>
         <h2 id="identity-heading">The person behind the pull requests.</h2>
-        <p>A compact profile card with the essentials up front—and the engineering toolkit on the reverse.</p>
+        <p>A compact engineering ID card, made to flip, with the details and tools behind the work.</p>
       </div>
       <div className={styles.identityLayout}>
         <motion.div
-          className={styles.idCard}
-          animate={reduceMotion ? undefined : { rotateY: flipped ? 180 : 0 }}
-          transition={{ type: "spring", stiffness: 90, damping: 18, mass: 0.8 }}
+          className={styles.idCardStage}
+          style={{ rotateX: reduceMotion ? 0 : tiltX, rotateY: reduceMotion ? 0 : tiltY }}
+          onMouseMove={handleCardMove}
+          onMouseLeave={handleCardLeave}
+          data-tilt={!reduceMotion}
         >
-          <div className={styles.idFace + " " + styles.idFront}>
-            <div className={styles.idTopline}><span className={styles.idDot} /> ENGINEERING PROFILE <span>2026</span></div>
-            <div className={styles.idMain}>
-              <div className={styles.portrait}>
-                {portraitAvailable ? (
-                  <img src="/images/sanjeev-portrait.jpg" alt="Sanjeev Kumar portrait placeholder" onError={() => setPortraitAvailable(false)} />
-                ) : (
-                  <div className={styles.portraitPlaceholder}><span>SK</span><small>Add your photo</small></div>
-                )}
+          <motion.div
+            className={styles.idCard}
+            animate={reduceMotion ? undefined : { rotateY: flipped ? 180 : 0 }}
+            transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 100, damping: 19, mass: 0.72 }}
+          >
+            <div className={styles.idFace + " " + styles.idFront}>
+              <div className={styles.idTopline}>
+                <span className={styles.idBrand}><span className={styles.idDot} /> ENGINEERING PROFILE</span>
+                <span className={styles.idNumber}>SK · CSE · 26</span>
               </div>
-              <div className={styles.idIdentity}>
-                <p className={styles.idLabel}>SOFTWARE ENGINEER IN THE MAKING</p>
-                <h3>{profile.name}</h3>
-                <p>Computer Science & Engineering</p>
-                <p>SRM University AP · India</p>
-                <div className={styles.idStatus}><span /> Building · Learning · Contributing</div>
+              <div className={styles.idMain}>
+                <div className={styles.portrait}>
+                  {portraitAvailable ? (
+                    <img src={portraitSrc} alt="Portrait of Sanjeev Kumar" />
+                  ) : (
+                    <div className={styles.portraitPlaceholder} aria-label="Portrait photo slot">
+                      <span>SK</span>
+                      <small>PHOTO SLOT</small>
+                    </div>
+                  )}
+                  <span className={styles.portraitCorner} aria-hidden="true" />
+                </div>
+                <div className={styles.idIdentity}>
+                  <p className={styles.idLabel}>SOFTWARE ENGINEER IN THE MAKING</p>
+                  <h3>{profile.name}</h3>
+                  <p>Computer Science &amp; Engineering</p>
+                  <p>SRM University AP · India</p>
+                  <div className={styles.idStatus}><span /> Building · Learning · Contributing</div>
+                </div>
+              </div>
+              <div className={styles.idFooter}>
+                <span className={styles.idSpecialism}>BACKEND / OSS / APPLIED AI</span>
+                <span className={styles.idBarcode} aria-hidden="true" />
+                <button type="button" onClick={() => setFlipped(true)} aria-label="Flip profile card to see skills">Flip card <span aria-hidden="true">↗</span></button>
               </div>
             </div>
-            <div className={styles.idFooter}>
-              <span>BACKEND / OSS / APPLIED AI</span>
-              <button type="button" onClick={() => setFlipped(true)} aria-label="Flip profile card to see skills">Flip card <span aria-hidden="true">↗</span></button>
-            </div>
-          </div>
-          <div className={styles.idFace + " " + styles.idBack}>
-            <div className={styles.idTopline}><span className={styles.idDot} /> ENGINEERING TOOLKIT <span>{toolCount || "—"}+ tools</span></div>
-            <div className={styles.idBackContent}>
-              <p className={styles.idLabel}>HOW I BUILD</p>
-              <h3>From interfaces to infrastructure.</h3>
-              <p>Full-stack systems, Go services, open-source maintenance, and applied audio ML.</p>
-              <div className={styles.idQuickSkills}>{["Go", "React", "Node.js", "PostgreSQL", "Docker", "PyTorch"].map((item) => <span key={item}>{item}</span>)}</div>
-              <div className={styles.idQuickLinks}>
-                <a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a>
-                <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
-                <a href={"mailto:" + profile.email}>Email ↗</a>
+            <div className={styles.idFace + " " + styles.idBack}>
+              <div className={styles.idTopline}>
+                <span className={styles.idBrand}><span className={styles.idDot} /> ENGINEERING TOOLKIT</span>
+                <span className={styles.idNumber}>{toolCount || "—"} TOOLS</span>
+              </div>
+              <div className={styles.idBackContent}>
+                <p className={styles.idLabel}>HOW I BUILD</p>
+                <h3>From interfaces to infrastructure.</h3>
+                <p>Full-stack systems, Go services, open-source maintenance, and applied audio ML.</p>
+                <div className={styles.idQuickSkills}>
+                  {["Go", "React", "Node.js", "PostgreSQL", "Docker", "PyTorch"].map((item) => {
+                    const logo = skillLogos[item]
+                    return (
+                      <span className={styles.idToolChip} key={item}>
+                        <span className={styles.idToolIcon + (logo ? "" : " " + styles.skillLogoFallback)}>
+                          <span>{item.slice(0, 2).toUpperCase()}</span>
+                          {logo ? <img src={logo} alt="" onError={(event) => { event.currentTarget.style.display = "none"; event.currentTarget.parentElement?.classList.add(styles.skillLogoFallback) }} /> : null}
+                        </span>
+                        {item}
+                      </span>
+                    )
+                  })}
+                </div>
+                <div className={styles.idQuickLinks}>
+                  <a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a>
+                  <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
+                  <a href={"mailto:" + profile.email}>Email ↗</a>
+                </div>
+              </div>
+              <div className={styles.idFooter}>
+                <span className={styles.idSpecialism}>HUMAN-REVIEWED. BUILT WITH CARE.</span>
+                <span className={styles.idBarcode} aria-hidden="true" />
+                <button type="button" onClick={() => setFlipped(false)} aria-label="Flip profile card to the front">Front <span aria-hidden="true">↗</span></button>
               </div>
             </div>
-            <div className={styles.idFooter}>
-              <span>HUMAN-REVIEWED. BUILT WITH CARE.</span>
-              <button type="button" onClick={() => setFlipped(false)} aria-label="Flip profile card to the front">Back <span aria-hidden="true">↗</span></button>
-            </div>
-          </div>
+          </motion.div>
         </motion.div>
         <div className={styles.identityAside}>
           <p className={styles.identityQuote}>“I learn fastest by building something real, tracing the edge cases, and improving it with feedback.”</p>
           <p className={styles.identityBio}>Third-year B.Tech CSE student focused on backend engineering, developer tooling, open source, and applied AI research.</p>
           <div className={styles.identityLinks}>
-            <a href={profile.github} target="_blank" rel="noreferrer"><span>GitHub</span><span>Projects & contributions ↗</span></a>
+            <a href={profile.github} target="_blank" rel="noreferrer"><span>GitHub</span><span>Projects &amp; contributions ↗</span></a>
             <a href={profile.linkedin} target="_blank" rel="noreferrer"><span>LinkedIn</span><span>Connect professionally ↗</span></a>
             <a href={"mailto:" + profile.email}><span>Email</span><span>{profile.email} ↗</span></a>
           </div>
+          <p className={styles.idCardHint}><span aria-hidden="true">✦</span> Move your cursor over the ID to tilt it. Flip it to reveal the toolkit.</p>
         </div>
       </div>
     </section>
