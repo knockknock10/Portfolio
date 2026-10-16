@@ -129,3 +129,5 @@
 @media(prefers-reduced-motion:reduce){.projectCard,.projectArt img,.projectOpen,.orgCard,.identityLinks a,.leetcodeBadge,.drawerActions a,.idFooter button{transition:none!important}.projectCard:hover,.orgCard:hover,.leetcodeBadge:hover,.drawerActions a:hover{transform:none}}
 
 .orgLogo>span{display:none;color:#675bc1;font-size:.92rem;font-weight:800;letter-spacing:-.05em}.orgLogoFallback>span{display:block}
+
+.visitorMessage{flex:1;min-width:120px}.visitorBadgeLink{display:inline-flex;align-items:center;flex-shrink:0}.visitorBadgeLink img{display:block;width:auto;height:22px;max-width:150px}.visitorLine>span:last-child{white-space:nowrap}
