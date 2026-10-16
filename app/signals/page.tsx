@@ -3,8 +3,8 @@ import { Signals } from "@/components/sections/Signals"
 import { getSignalsData } from "@/lib/signals"
 
 export const metadata: Metadata = {
-  title: "Signals",
-  description: "Public GitHub and LeetCode activity for Sanjeev Kumar.",
+  title: "Engineering Activity",
+  description: "A source-backed snapshot of GitHub contributions and LeetCode problem-solving practice by Sanjeev Kumar.",
 }
 
 export default function SignalsPage() {
