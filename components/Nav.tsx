@@ -21,10 +21,10 @@ type NavItem = {
 const sectionLinks: NavItem[] = [
   { label: "Home", href: "/#home", sectionId: "home" },
   { label: "Work", href: "/#work", sectionId: "work" },
+  { label: "Research", href: "/#research", sectionId: "research" },
   { label: "Open source", href: "/#open-source", sectionId: "open-source" },
   { label: "Activity", href: "/#signals", sectionId: "signals" },
   { label: "Skills", href: "/#skills", sectionId: "skills" },
-  { label: "Research", href: "/#research", sectionId: "research" },
   { label: "About", href: "/#about", sectionId: "about" },
 ]
 const contactLink: NavItem = { label: "Contact", href: "/#contact", sectionId: "contact" }
