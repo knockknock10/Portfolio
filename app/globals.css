@@ -6359,3 +6359,20 @@ body {
   .research-figure-switch,.research-paper-open,.research-paper-download{transition:none!important}
   .research-paper-open:hover,.research-paper-download:hover{transform:none}
 }
+
+
+/* The research illustrations are the figures from the SemBind evidence package. */
+.research-figure-fallback{
+  display:flex;min-height:180px;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  padding:22px;border:1px dashed rgba(92,81,133,.2);border-radius:10px;background:#f7f7fc;color:#5c5d73;text-align:center;
+}
+.research-figure-fallback span{font-size:.8rem;font-weight:750}
+.research-figure-fallback a{color:#5950b6;font-size:.72rem;font-weight:800;text-decoration:none}
+.research-figure-fallback a:hover{text-decoration:underline;text-underline-offset:3px}
+.research-pdf-unhosted{
+  display:grid;gap:10px;padding:13px;border:1px solid rgba(255,255,255,.13);border-radius:13px;
+  background:rgba(255,255,255,.045);
+}
+.research-pdf-unhosted p{margin:0;color:#d0d0e4;font-size:.68rem;line-height:1.65}
+.research-pdf-unhosted .research-paper-open{justify-self:start}
+.hero-eyebrow::before,.hero-eyebrow::after,.hero-live-indicator,.hero-visual-art-topline .hero-live-indicator{display:none!important;content:none!important;width:0!important;height:0!important;box-shadow:none!important;animation:none!important}
