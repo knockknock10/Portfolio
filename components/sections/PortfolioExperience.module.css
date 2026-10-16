@@ -230,7 +230,7 @@
   content:"";
   position:absolute;
   inset:-22px;
-  z-index:-1;
+  z-index:0;
   border-radius:40px;
   background:radial-gradient(ellipse at var(--pointer-x) var(--pointer-y),rgba(111,93,255,.19),rgba(111,93,255,0) 58%);
   filter:blur(20px);
@@ -241,6 +241,7 @@
 .idCardStage[data-tilt="true"]:active{cursor:grabbing}
 .idCard{
   position:relative;
+  z-index:1;
   width:100%;
   min-height:0;
   aspect-ratio:1.72;
@@ -267,8 +268,10 @@
   inset:0;
   z-index:0;
   border-radius:inherit;
-  background:linear-gradient(112deg,transparent 14%,rgba(255,255,255,0) 38%,rgba(255,255,255,.58) 49%,rgba(255,255,255,0) 59%,transparent 82%);
-  opacity:.38;
+  background:
+    radial-gradient(ellipse at var(--pointer-x,62%) var(--pointer-y,35%),rgba(255,255,255,.62),rgba(255,255,255,0) 44%),
+    linear-gradient(112deg,transparent 14%,rgba(255,255,255,0) 38%,rgba(255,255,255,.42) 49%,rgba(255,255,255,0) 59%,transparent 82%);
+  opacity:.48;
   pointer-events:none;
 }
 .idFace>*{position:relative;z-index:1}
@@ -461,4 +464,34 @@
   .idCardStage::before{filter:none}
   .topicFilter,.topicFilterActive,.leetcodeTopicBubble,.selectedTopicDetail>a{transition:none!important}
   .selectedTopicDetail>a:hover{transform:none}
+}
+
+/* Refined identity micro-details, including the photo fallback and interactive foil. */
+.idCardStage::before{transition:opacity .25s ease,filter .25s ease}
+.idCardStage[data-tilt="true"]:hover::before{opacity:1;filter:blur(24px)}
+.idCard .idFace{color:#292a41}
+.idToolIcon{position:relative;display:grid;place-items:center;width:21px;height:21px;flex:0 0 21px;overflow:hidden;border-radius:6px;background:#fff}
+.idToolIcon>span{font-size:.48rem;font-weight:850;color:#5b5686}
+.idToolIcon>img{position:absolute;inset:2px;width:17px;height:17px;object-fit:contain;background:#fff;border-radius:3px}
+.idToolIcon.skillLogoFallback>img{display:none!important}
+.idToolIcon.skillLogoFallback>span{display:grid;place-items:center;width:100%;height:100%;background:#f1efff;color:#6559b8}
+.idToolChip{color:#383d52}
+.leetcodeActivity .leetcodeMetricTile strong{color:#9755d5}
+.leetcodeActivity .leetcodeMetricTile:nth-child(2) strong{color:#149b46}
+.leetcodeActivity .topicPanelHeader p{color:#c2c3cd}
+.leetcodeActivity .selectedTopicDetail>a:focus-visible,
+.leetcodeActivity .topicFilter:focus-visible,
+.leetcodeActivity .topicFilterActive:focus-visible,
+.leetcodeActivity .leetcodeTopicBubble:focus-visible,
+.leetcodeActivity .leetcodeBadge:focus-visible{outline:3px solid #b8f5c5;outline-offset:3px}
+.githubGraph img[style*="display: none"]{display:none!important}
+.trophyLink img[style*="display: none"]{display:none!important}
+.leetcodeBadge:hover{background:#fff;border-color:rgba(101,89,189,.28);box-shadow:0 7px 17px rgba(52,42,85,.07)}
+@media(max-width:760px){
+  .idCardStage::before{inset:-12px}
+  .githubGraph{min-height:0}
+  .trophyLink{min-height:90px}
+}
+@media(prefers-reduced-motion:reduce){
+  .idCardStage::before{transition:none}
 }
