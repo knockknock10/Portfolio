@@ -13,10 +13,6 @@ export function WorkStatsStrip({ stats }: WorkStatsStripProps) {
     { label: "Repositories", value: stats.totalRepos },
     { label: "Stars", value: stats.totalStars },
     { label: "Forks", value: stats.totalForks },
-    { label: "Contributions · last year", value: stats.contributionsLast365Days },
-    { label: "Current streak", value: stats.currentStreak },
-    { label: "Longest streak", value: stats.longestStreak },
-    { label: "LeetCode solved", value: stats.leetCodeSolved },
   ]
   const available = entries.filter((entry) => isAvailable(entry.value))
   if (!available.length) return null
