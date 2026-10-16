@@ -75,6 +75,9 @@ export function HomeHero({
 }) {
   const [active, setActive] = useState("home");
   const links = buildSocialLinks(socials, email, resumePath);
+  const nameParts = (fullName || "Sanjeev Kumar").trim().split(/\s+/);
+  const firstName = nameParts.shift() || "Sanjeev";
+  const lastName = nameParts.join(" ") || "Kumar";
 
   useEffect(() => {
     const targets = sectionLinks.map((item) => document.getElementById(item.id)).filter(Boolean);
@@ -130,9 +133,9 @@ export function HomeHero({
         <p className={styles.heroEyebrow}>CSE <span aria-hidden="true">·</span> SRM UNIVERSITY AP</p>
 
         <h1 id="hero-title" className={styles.heroTitle}>
-          <span>Sanjeev</span>
+          <span>{firstName}</span>
           <span className={styles.heroTitleSecond}>
-            <span>Kumar</span>
+            <span>{lastName}</span>
             <span className={styles.signature} aria-hidden="true">Sanjeev</span>
           </span>
         </h1>
