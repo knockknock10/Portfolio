@@ -3,6 +3,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import type { SignalStats } from "@/lib/signals"
+import { useLenis } from "@/components/SmoothScrollProvider"
+import { readDurationToken } from "@/components/primitives/motionTokens"
 import styles from "./PortfolioExperience.module.css"
 
 const profile = {
@@ -348,6 +350,7 @@ export function ProfileIdCard({ tools }: ProfileIdCardProps) {
 export function FeaturedProjects() {
   const [selected, setSelected] = useState<Project | null>(null)
   const reduceMotion = useReducedMotion()
+  const lenis = useLenis()
   const returnFocusRef = useRef<HTMLElement | null>(null)
   const close = useCallback(() => setSelected(null), [])
   const openProject = useCallback((project: Project) => {
@@ -404,21 +407,35 @@ export function FeaturedProjects() {
       const project = projects.find((item) => item.name === detail?.projectName)
       if (!project) return
 
-      // Keep the visual path connected: reveal the work section, then open its in-page drawer.
-      document.getElementById("work")?.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "start",
-      })
+      // Finish the smooth scroll before opening the drawer so the visitor returns to the project, not the skills section.
+      const workSection = document.getElementById("work")
       const card = Array.from(
         document.querySelectorAll<HTMLButtonElement>("[data-project-card]"),
       ).find((item) => item.dataset.projectCard === project.name)
       returnFocusRef.current = card ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null)
-      setSelected(project)
+      const openDrawer = () => setSelected(project)
+
+      if (workSection && lenis) {
+        const scrollMargin = Number.parseFloat(window.getComputedStyle(workSection).scrollMarginTop) || 0
+        lenis.scrollTo(workSection, {
+          offset: -scrollMargin,
+          duration: reduceMotion ? 0 : readDurationToken("--duration-base"),
+          immediate: reduceMotion === true,
+          force: true,
+          onComplete: openDrawer,
+        })
+      } else {
+        workSection?.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start",
+        })
+        openDrawer()
+      }
     }
 
     window.addEventListener("portfolio:open-project", onSkillProjectRequest)
     return () => window.removeEventListener("portfolio:open-project", onSkillProjectRequest)
-  }, [reduceMotion])
+  }, [lenis, reduceMotion])
 
   return (
     <section className={styles.projectsSection} id="work" aria-labelledby="featured-projects-heading">
@@ -540,6 +557,8 @@ export function SkillsExplorer() {
   const [active, setActive] = useState<keyof typeof skillGroups>("Languages")
   const [showAll, setShowAll] = useState(false)
   const current = skillGroups[active]
+  const lenis = useLenis()
+  const reduceMotion = useReducedMotion()
   const allSkills = useMemo(() => categories.flatMap((category) => skillGroups[category]), [categories])
   const exploreSkill = useCallback((skill: string) => {
     const destination = skillDestinations[skill]
@@ -554,14 +573,24 @@ export function SkillsExplorer() {
 
     const target = document.getElementById(destination.sectionId)
     if (target) {
-      target.scrollIntoView({
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-        block: "start",
-      })
+      const scrollMargin = Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || 0
+      if (lenis) {
+        lenis.scrollTo(target, {
+          offset: -scrollMargin,
+          duration: reduceMotion ? 0 : readDurationToken("--duration-base"),
+          immediate: reduceMotion === true,
+          force: true,
+        })
+      } else {
+        target.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start",
+        })
+      }
       return
     }
     window.location.assign("/#" + destination.sectionId)
-  }, [])
+  }, [lenis, reduceMotion])
 
   return (
     <section className={styles.skillsSection} id="skills" aria-labelledby="skills-heading">
