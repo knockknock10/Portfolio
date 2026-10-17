@@ -246,7 +246,7 @@ export default function AchievementsShowcase({ items = [] }) {
       <motion.footer className={styles.achievementFooter} {...reveal(.13)}>
         <span className={styles.footerMark}><Icon kind="book"/></span>
         <div><strong>Specifics matter more than badge counts.</strong><span>Each record supports issuer, issue date, skills and a verification link where supplied.</span></div>
-        <a href="/about">About my background <Icon kind="external"/></a>
+        <a href={publicUrl("/about")}>About my background <Icon kind="external"/></a>
       </motion.footer>
 
       {selectedItem ? <CredentialLightbox item={selectedItem} index={selectedIndex} total={galleryItems.length} dialogRef={dialogRef} onClose={() => setSelectedIndex(null)} onPrevious={() => step(-1)} onNext={() => step(1)}/> : null}
