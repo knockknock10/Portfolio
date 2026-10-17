@@ -126,7 +126,10 @@ export function getCertificationsData(): Certification[] {
       configured
         .map((item) => item.certificateImage)
         .filter((value): value is string => typeof value === "string" && value !== "MISSING")
-        .map((value) => value.split("/").pop()?.toLowerCase() ?? ""),
+        .map((value) => {
+          const fileName = value.split("/").pop() ?? ""
+          try { return decodeURIComponent(fileName).toLowerCase() } catch { return fileName.toLowerCase() }
+        }),
     )
     const automatic: Certification[] = existsSync(certificateDirectory)
       ? readdirSync(certificateDirectory, { withFileTypes: true })
