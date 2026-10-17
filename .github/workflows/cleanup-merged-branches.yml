@@ -1,0 +1,93 @@
+name: Clean merged branches
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: merged-branch-cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    name: Remove exact merged branch heads
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Delete only confirmed merged branch refs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const repository = owner + "/" + repo;
+
+            const [branchResponse, pullResponse] = await Promise.all([
+              github.rest.repos.listBranches({ owner, repo, per_page: 100 }),
+              github.rest.pulls.list({ owner, repo, state: "all", per_page: 100 })
+            ]);
+
+            const branches = branchResponse.data;
+            const pulls = pullResponse.data;
+
+            const openBranchNames = new Set(
+              pulls
+                .filter((pull) => pull.state === "open" && pull.head.repo && pull.head.repo.full_name === repository)
+                .map((pull) => pull.head.ref)
+            );
+
+            let deleted = 0;
+            let skipped = 0;
+
+            for (const branch of branches) {
+              if (branch.name === "main") {
+                console.log("SKIP main");
+                skipped += 1;
+                continue;
+              }
+
+              if (openBranchNames.has(branch.name)) {
+                console.log("SKIP branch with an open PR: " + branch.name);
+                skipped += 1;
+                continue;
+              }
+
+              const matchingMergedPull = pulls.find((pull) =>
+                pull.merged_at &&
+                pull.head.repo &&
+                pull.head.repo.full_name === repository &&
+                pull.head.ref === branch.name &&
+                pull.head.sha === branch.commit.sha
+              );
+
+              if (!matchingMergedPull) {
+                console.log("SKIP branch without an exact merged-PR head match: " + branch.name);
+                skipped += 1;
+                continue;
+              }
+
+              try {
+                await github.rest.git.deleteRef({
+                  owner,
+                  repo,
+                  ref: "heads/" + branch.name
+                });
+                console.log("DELETED merged PR #" + matchingMergedPull.number + " branch: " + branch.name);
+                deleted += 1;
+              } catch (error) {
+                if (error.status === 404 || error.status === 422) {
+                  console.log("SKIP branch changed during cleanup: " + branch.name);
+                  skipped += 1;
+                } else {
+                  throw error;
+                }
+              }
+            }
+
+            console.log("Cleanup complete. Deleted " + deleted + " merged branch(es); skipped " + skipped + ".");
