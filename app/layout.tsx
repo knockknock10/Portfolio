@@ -33,6 +33,7 @@ const socialLinks = (content.socials ?? []).flatMap((item) =>
 )
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://knockknock10.github.io/Portfolio/"),
   title: {
     default: brandName,
     template: "%s | " + brandName,
