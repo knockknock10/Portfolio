@@ -216,7 +216,7 @@ function formatLocalDate(date) {
   return `${year}-${month}-${day}`;
 }
 
-function GitHubContributionGraph() {
+function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, openCount }) {
   const [days, setDays] = useState([]);
   const [totals, setTotals] = useState({});
   const [period, setPeriod] = useState("last");
@@ -323,7 +323,8 @@ function GitHubContributionGraph() {
 
   return (
     <aside className={styles.githubGraphPanel} aria-labelledby="github-graph-heading">
-      <div className={styles.githubGraphTop}>
+      <div className={styles.githubGraphMain}>
+        <div className={styles.githubGraphTop}>
         <a className={styles.githubGraphTitle} href={githubProfile} target="_blank" rel="noreferrer" aria-label="Open Sanjeev's GitHub profile">
           <GitHubMark className={styles.githubGraphMark} />
           <span id="github-graph-heading">GitHub contributions</span>
@@ -369,9 +370,29 @@ function GitHubContributionGraph() {
         </div>
       </div>
 
-      <div className={styles.githubGraphFooter}>
-        <span className={styles.heatmapLegend}><span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><i data-level="4" /><span>More</span></span>
-        <span className={styles.heatmapSource}>{loadState === "live" ? "Live public contribution history" : "Source: GitHub profile"} </span>
+        <div className={styles.githubGraphFooter}>
+          <span className={styles.heatmapLegend}><span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><i data-level="4" /><span>More</span></span>
+          <span className={styles.heatmapSource}>{loadState === "live" ? "Live public contribution history" : "Source: GitHub profile"}</span>
+        </div>
+      </div>
+      <div className={styles.githubGraphStats}>
+        <div className={styles.githubGraphStat}>
+          <span className={styles.graphStatIcon}>▥</span>
+          <span><strong>{total.toLocaleString()}</strong><small>Contributions</small></span>
+        </div>
+        <div className={styles.githubGraphStat}>
+          <span className={styles.graphStatIcon}>⑂</span>
+          <span><strong>{mergedCount}</strong><small>Merged PRs shown</small></span>
+        </div>
+        <div className={styles.githubGraphStat}>
+          <span className={styles.graphStatIcon}>⌘</span>
+          <span><strong>{trackedCount}</strong><small>PRs tracked here</small></span>
+        </div>
+        <div className={styles.githubGraphStat}>
+          <span className={styles.graphStatIcon}>♧</span>
+          <span><strong>{communityCount}</strong><small>Communities</small></span>
+        </div>
+        <p className={styles.graphStatNote}>{openCount} pull requests in the curated list are still open.</p>
       </div>
     </aside>
   );
@@ -448,7 +469,7 @@ export default function OpenSourceShowcase() {
             <span>{openCount} open PRs tracked</span>
           </div>
         </div>
-        <GitHubContributionGraph />
+        <GitHubContributionGraph communityCount={organizationsCount} mergedCount={mergedCount} trackedCount={contributions.length} openCount={openCount} />
       </div>
 
       <div className={styles.featuredContributionsPanel}>
