@@ -250,18 +250,18 @@ export default function SkillsShowcase() {
         <div className={styles.skillsIntro}>
           <p className={styles.skillsEyebrow}><span>06</span><i/> SKILLS <b/></p>
           <h2 id="skills-heading">Skills <span>&amp; Tools</span></h2>
-          <p>I build across backend systems, full-stack products, AI research and developer infrastructure. These are tools I’ve used in projects, research or upstream contributions—and the areas I’m actively exploring next.</p>
+          <p>These tools map to work I can point to: Go APIs and containerized services, React applications, PostgreSQL/MongoDB data layers, and audio-ML tooling used in SemBind-Audio. Rust is marked as exploration—not claimed proficiency.</p>
           <div className={styles.skillsHeroLinks}>
             <a href="#work">See projects <span aria-hidden="true">↗</span></a>
             <a href="#research">Explore research <span aria-hidden="true">↗</span></a>
           </div>
         </div>
         <div className={styles.skillsConsoleArea}>
-          <div className={styles.skillsStats}>
+          <div className={styles.skillsStats} aria-label="Engineering areas">
             <div><span aria-hidden="true">〈/〉</span><strong>6+</strong><small>Languages + SQL</small></div>
-            <div><span aria-hidden="true">◇</span><strong>8</strong><small>Skill layers</small></div>
-            <div><span aria-hidden="true">⌘</span><strong>3</strong><small>Research threads</small></div>
-            <div><span aria-hidden="true">∞</span><strong>Always</strong><small>Learn &amp; iterate</small></div>
+            <div><span aria-hidden="true">API</span><strong>Backend</strong><small>Services &amp; data</small></div>
+            <div><span aria-hidden="true">☁</span><strong>Cloud</strong><small>Containers &amp; CI/CD</small></div>
+            <div><span aria-hidden="true">∿</span><strong>Audio AI</strong><small>Research &amp; graphs</small></div>
           </div>
           <FocusConsole/>
         </div>
@@ -281,12 +281,6 @@ export default function SkillsShowcase() {
           </div>
           <p className={styles.learningFootnote}>No invented progress percentages—just the directions I’m working through now.</p>
         </motion.article>
-      </div>
-      <div className={styles.skillPrinciples}>
-        <div><span>〈/〉</span><div><strong>Build</strong><small>Turn ideas into real systems.</small></div></div>
-        <div><span>▤</span><div><strong>Learn</strong><small>Explore methods and trade-offs.</small></div></div>
-        <div><span>⑂</span><div><strong>Contribute</strong><small>Improve software in the open.</small></div></div>
-        <div><span>↻</span><div><strong>Iterate</strong><small>Keep testing and refining.</small></div></div>
       </div>
     </section>
   );
