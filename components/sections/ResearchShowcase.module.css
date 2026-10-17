@@ -210,6 +210,17 @@
   gap: 4px;
   min-width: 0;
 }
+.pipelineUnit0 { grid-column: 1; }
+.pipelineUnit1 { grid-column: 3; }
+.pipelineUnit2 { grid-column: 5; }
+.pipelineUnit3 { grid-column: 7; }
+.pipelineUnit4 { grid-column: 9; }
+.pipelineUnit5 { grid-column: 11; }
+.flowArrow0 { grid-column: 2; }
+.flowArrow1 { grid-column: 4; }
+.flowArrow2 { grid-column: 6; }
+.flowArrow3 { grid-column: 8; }
+.flowArrow4 { grid-column: 10; }
 .pipelineUnit { position: relative; display: flex; min-width: 0; flex-direction: column; align-items: center; text-align: center; }
 .pipelineUnit:nth-child(1) { grid-column: 1; }
 .pipelineUnit:nth-child(2) { grid-column: 3; }
@@ -438,6 +449,10 @@
 }
 @media (max-width: 1280px) {
   .stage { min-height: max(940px, 100svh); }
+  .pipeline { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+  .pipelineUnit { grid-column: auto !important; }
+  .flowArrow { display: none; }
+  .statsPosition { width: 100%; margin-left: 0; }
   .stageContent { grid-template-columns: minmax(340px, 1fr) minmax(0, 1.45fr); grid-template-rows: minmax(310px, auto) 82px minmax(290px, auto); padding-left: 185px; padding-right: 22px; gap: 15px 12px; }
   .intro h2 { font-size: clamp(3rem, 4.5vw, 4rem); }
   .methodPanel { padding: 17px 13px 12px; }
@@ -449,6 +464,7 @@
 }
 @media (max-width: 920px) {
   .stage { min-height: auto; overflow: visible; }
+  .statsPosition { width: 100%; margin-left: 0; }
   .stageContent { display: flex; flex-direction: column; gap: 14px; padding: 110px 22px 30px 150px; }
   .intro { width: min(100%, 620px); padding-bottom: 8px; }
   .intro h2 { white-space: normal; font-size: clamp(3.25rem, 8vw, 4.5rem); }
