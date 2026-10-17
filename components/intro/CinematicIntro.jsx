@@ -3,9 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./CinematicIntro.module.css";
 
-const SESSION_KEY = "sanjeev-portfolio-intro-seen-v1";
-const EXIT_DELAY = 1720;
-const EXIT_DURATION = 620;
+const INTRO_HOLD = 2300;
+const EXIT_DURATION = 700;
 
 export default function CinematicIntro() {
   const [visible, setVisible] = useState(false);
@@ -25,32 +24,13 @@ export default function CinematicIntro() {
   }, [clearTimers, leaving, visible]);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    try {
-      if (window.sessionStorage.getItem(SESSION_KEY)) return;
-    } catch {
-      // If storage is unavailable, the intro still works for this page view.
-    }
-
     setVisible(true);
-    // Delay persistence slightly so React Strict Mode effect replay does not
-    // mark the intro as seen before its first real timer survives cleanup.
-    timers.current.push(window.setTimeout(() => {
-      try {
-        window.sessionStorage.setItem(SESSION_KEY, "1");
-      } catch {
-        // Storage can be disabled; the current intro can still complete.
-      }
-    }, 80));
-    timers.current.push(window.setTimeout(() => setLeaving(true), EXIT_DELAY));
+    timers.current.push(window.setTimeout(() => setLeaving(true), INTRO_HOLD));
     timers.current.push(
-      window.setTimeout(() => setVisible(false), EXIT_DELAY + EXIT_DURATION),
+      window.setTimeout(() => setVisible(false), INTRO_HOLD + EXIT_DURATION),
     );
 
-    return () => {
-      clearTimers();
-    };
+    return clearTimers;
   }, [clearTimers]);
 
   useEffect(() => {
@@ -76,38 +56,27 @@ export default function CinematicIntro() {
     <div
       className={`${styles.intro} ${leaving ? styles.leaving : ""}`}
       role="status"
-      aria-label="Welcome to Sanjeev Kumar's portfolio"
+      aria-label="Hello. Welcome to Sanjeev Kumar's portfolio."
     >
       <div className={styles.ambient} aria-hidden="true">
-        <span className={styles.orbOne} />
-        <span className={styles.orbTwo} />
-        <span className={styles.orbThree} />
-        <span className={styles.grain} />
+        <span className={styles.halo} />
+        <span className={styles.hairline} />
       </div>
 
-      <div className={styles.topline}>
-        <span className={styles.monogram}>SK<span>.</span></span>
-        <span className={styles.toplineLabel}>PORTFOLIO <span> / </span> 2026</span>
+      <div className={styles.wordmark} aria-label="Hello">
+        <span className={styles.hello}>hello</span>
+        <span className={styles.helloPeriod} aria-hidden="true">.</span>
       </div>
 
-      <div className={styles.center}>
-        <p className={styles.eyebrow}><span className={styles.eyebrowDot} /> SOFTWARE · OPEN SOURCE · APPLIED AI</p>
-        <h1 className={styles.greeting}>
-          <span className={styles.hello}>Hello<span className={styles.period}>.</span></span>
-          <span className={styles.nameLine}>I’m <span className={styles.name}>Sanjeev Kumar</span><span className={styles.period}>.</span></span>
-        </h1>
-        <p className={styles.subline}>Curiosity into craft. Ideas into impact.</p>
+      <div className={styles.signature}>
+        <span className={styles.signatureRule} />
+        <p className={styles.name}>Sanjeev Kumar</p>
+        <p className={styles.descriptor}>Software · Open source · Applied AI</p>
       </div>
 
-      <div className={styles.bottomline}>
-        <span className={styles.location}>BUILDING FROM INDIA <span aria-hidden="true">↗</span></span>
-        <div className={styles.progressTrack} aria-hidden="true">
-          <span className={styles.progress} />
-        </div>
-        <button className={styles.skip} onClick={dismiss} type="button">
-          Skip intro <span aria-hidden="true">↗</span>
-        </button>
-      </div>
+      <button className={styles.skip} onClick={dismiss} type="button">
+        Skip <span aria-hidden="true">↗</span>
+      </button>
     </div>
   );
 }
