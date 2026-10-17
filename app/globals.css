@@ -6541,7 +6541,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#work::before {
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
   animation: chapterAtmospherePan 30s ease-in-out infinite alternate;
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section#work .workCanvas {
+body:has(.portfolio-home-page) .portfolio-home-page > section#work > div:not([aria-hidden="true"]):not([class*="drawerBackdrop"]) {
   position: relative;
   z-index: 1;
 }
