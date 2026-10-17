@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import styles from "./CodingShowcase.module.css";
 
@@ -26,9 +26,9 @@ function Icon({ kind }) {
 const resources = [
   { name: "LeetCode", kind: "My problem-solving profile", detail: "Problems, submissions and contest history", href: LEETCODE_PROFILE, icon: "LC", tone: "amber", personal: true },
   { name: "Codeforces", kind: "Competitive programming", detail: "Contests and implementation practice", href: "https://codeforces.com/", icon: "CF", tone: "blue" },
+  { name: "HackerRank", kind: "Skills practice", detail: "Structured programming exercises", href: "https://www.hackerrank.com/", icon: "HR", tone: "green" },
   { name: "NeetCode", kind: "Interview roadmap", detail: "Curated problems grouped by pattern", href: "https://neetcode.io/", icon: "N", tone: "violet" },
   { name: "GeeksforGeeks", kind: "DSA practice", detail: "Topic-wise problems and explanations", href: "https://www.geeksforgeeks.org/", icon: "GFG", tone: "green" },
-  { name: "HackerRank", kind: "Skills practice", detail: "Structured programming exercises", href: "https://www.hackerrank.com/", icon: "HR", tone: "green" },
   { name: "HackerEarth", kind: "Problem-solving practice", detail: "Challenges and programming contests", href: "https://www.hackerearth.com/", icon: "HE", tone: "dark" },
   { name: "Striver A2Z", kind: "DSA learning path", detail: "A structured progression through core topics", href: "https://takeuforward.org/strivers-a2z-dsa-course/", icon: "A2Z", tone: "coral" },
   { name: "System Design Primer", kind: "Systems reference", detail: "Architecture concepts and interview topics", href: "https://github.com/donnemartin/system-design-primer", icon: "SD", tone: "dark" },
@@ -176,6 +176,174 @@ function ContestHistory({ history }) {
   );
 }
 
+
+
+const GITHUB_PROFILE = "https://github.com/knockknock10";
+const CONTRIBUTION_API = "https://github-contributions-api.jogruber.de/v4/knockknock10?y=all";
+
+function GitHubContributionCalendar() {
+  const [payload, setPayload] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(String(new Date().getFullYear()));
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(CONTRIBUTION_API, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error("Contribution service returned " + response.status);
+        return response.json();
+      })
+      .then((result) => {
+        const contributions = Array.isArray(result?.contributions)
+          ? result.contributions.filter((day) => day && /^\d{4}-\d{2}-\d{2}$/.test(day.date) && Number.isFinite(day.count))
+          : [];
+        const totals = result?.total && typeof result.total === "object" ? result.total : {};
+        const availableYears = Object.keys(totals).filter((year) => /^\d{4}$/.test(year)).sort((a, b) => Number(b) - Number(a));
+        if (!contributions.length || !availableYears.length) throw new Error("No contribution history returned");
+        setPayload({ contributions, totals, availableYears });
+        setSelectedYear(availableYears.includes(String(new Date().getFullYear())) ? String(new Date().getFullYear()) : availableYears[0]);
+      })
+      .catch((error) => {
+        if (error?.name !== "AbortError") setFailed(true);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, []);
+
+  const years = payload?.availableYears || [];
+  const year = years.includes(selectedYear) ? selectedYear : (years[0] || selectedYear);
+  const today = new Date().toISOString().slice(0, 10);
+  const days = payload?.contributions?.filter((day) => day.date.startsWith(year) && (year !== String(new Date().getFullYear()) || day.date <= today)) || [];
+  const firstDate = new Date(year + "-01-01T00:00:00Z");
+  const leadingSlots = Number.isNaN(firstDate.getTime()) ? 0 : firstDate.getUTCDay();
+  const weekCount = Math.max(1, Math.ceil((leadingSlots + days.length) / 7));
+  const total = payload?.totals?.[year] ?? days.reduce((sum, day) => sum + day.count, 0);
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  return (
+    <article className={styles.githubCalendarPanel} aria-labelledby="github-calendar-heading">
+      <header className={styles.githubCalendarHeader}>
+        <div>
+          <p className={styles.subEyebrow}>OPEN-SOURCE ACTIVITY</p>
+          <h3 id="github-calendar-heading">GitHub contributions</h3>
+          <p>Pick a year to inspect the daily contribution calendar.</p>
+        </div>
+        <a href={GITHUB_PROFILE} target="_blank" rel="noreferrer">GitHub profile ↗</a>
+      </header>
+
+      {loading ? (
+        <div className={styles.githubCalendarStatus} role="status">Loading contribution history…</div>
+      ) : failed ? (
+        <div className={styles.githubCalendarStatus} role="status">
+          <strong>Contribution history is temporarily unavailable.</strong>
+          <span>The rest of the section still works. Open GitHub to see the live calendar.</span>
+          <a href={GITHUB_PROFILE} target="_blank" rel="noreferrer">View contributions on GitHub ↗</a>
+        </div>
+      ) : (
+        <>
+          <div className={styles.githubCalendarBody}>
+            <div className={styles.githubYearTabs} aria-label="Choose GitHub contribution year">
+              {years.map((availableYear) => (
+                <button
+                  type="button"
+                  key={availableYear}
+                  aria-pressed={year === availableYear}
+                  data-active={year === availableYear ? "true" : "false"}
+                  onClick={() => setSelectedYear(availableYear)}
+                >
+                  {availableYear}
+                  <span>{Number(payload?.totals?.[availableYear] || 0).toLocaleString("en-US")}</span>
+                </button>
+              ))}
+            </div>
+            <div className={styles.githubCalendarMain}>
+              <div className={styles.githubCalendarSummary}>
+                <strong>{Number(total || 0).toLocaleString("en-US")}</strong>
+                <span>contributions in {year}</span>
+                <small>Public contribution data · cached by the source service</small>
+              </div>
+              <div className={styles.githubCalendarViewport}>
+            <div className={styles.githubMonthLabels} aria-hidden="true">
+              {monthNames.map((month) => <span key={month}>{month}</span>)}
+            </div>
+            <div className={styles.githubCalendarRow}>
+              <div className={styles.githubWeekdayLabels} aria-hidden="true">
+                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+              </div>
+              <div
+                className={styles.githubContributionGrid}
+                role="grid"
+                aria-label={"GitHub contribution calendar for " + year + ", " + total + " contributions"}
+                style={{ gridTemplateColumns: "repeat(" + weekCount + ", 10px)" }}
+              >
+                {days.map((day) => {
+                  const dayDate = new Date(day.date + "T00:00:00Z");
+                  const slot = leadingSlots + Math.floor((dayDate.getTime() - firstDate.getTime()) / 86400000);
+                  const level = Number.isInteger(day.level) ? Math.max(0, Math.min(4, day.level)) : (day.count <= 0 ? 0 : day.count >= 8 ? 4 : day.count >= 5 ? 3 : day.count >= 3 ? 2 : 1);
+                  return (
+                    <button
+                      key={day.date}
+                      type="button"
+                      className={styles.githubContributionCell}
+                      data-level={level}
+                      style={{ gridColumn: Math.floor(slot / 7) + 1, gridRow: (slot % 7) + 1 }}
+                      title={day.date + " · " + day.count + (day.count === 1 ? " contribution" : " contributions")}
+                      aria-label={day.date + ": " + day.count + (day.count === 1 ? " contribution" : " contributions")}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+              <div className={styles.githubCalendarLegend}><span>Less</span>{[0, 1, 2, 3, 4].map((level) => <i key={level} data-level={level} />)}<span>More</span></div>
+            </div>
+          </div>
+        </>
+      )}
+    </article>
+  );
+}
+
+function ContributionMix() {
+  return (
+    <article className={styles.contributionMixPanel} aria-labelledby="contribution-mix-heading">
+      <div className={styles.contributionMixHead}>
+        <p className={styles.subEyebrow}>ACTIVITY SNAPSHOT</p>
+        <h3 id="contribution-mix-heading">How I contribute</h3>
+        <p>Contribution mix shown in the reference image you supplied.</p>
+      </div>
+      <svg className={styles.contributionMixChart} viewBox="0 0 520 300" role="img" aria-label="Reference contribution mix: commits 76 percent, pull requests 23 percent, code review 1 percent, issue percentage not provided">
+        <path className={styles.mixAxis} d="M260 50V255M58 145H462" />
+        <path className={styles.mixArea} d="M133 145L260 140L260 182Z" />
+        <path className={styles.mixLine} d="M133 145H260V182" />
+        <circle className={styles.mixDot} cx="133" cy="145" r="5.5" />
+        <circle className={styles.mixDot} cx="260" cy="140" r="5.5" />
+        <circle className={styles.mixDot} cx="260" cy="182" r="5.5" />
+        <text className={styles.mixLabel} x="260" y="22" textAnchor="middle">1%</text>
+        <text className={styles.mixLabel} x="260" y="43" textAnchor="middle">Code review</text>
+        <text className={styles.mixLabel} x="104" y="133" textAnchor="end">76%</text>
+        <text className={styles.mixLabel} x="104" y="155" textAnchor="end">Commits</text>
+        <text className={styles.mixLabel} x="430" y="152" textAnchor="start">Issues</text>
+        <text className={styles.mixLabel} x="260" y="278" textAnchor="middle">23%</text>
+        <text className={styles.mixLabel} x="260" y="298" textAnchor="middle">Pull requests</text>
+      </svg>
+      <p className={styles.contributionMixFoot}>Percentages follow the supplied reference; the GitHub profile is the source of truth for current activity.</p>
+    </article>
+  );
+}
+
+function ContributionInsights() {
+  return (
+    <div className={styles.contributionInsights}>
+      <GitHubContributionCalendar />
+      <ContributionMix />
+    </div>
+  );
+}
+
 export default function CodingShowcase({ data }) {
   const reducedMotion = useReducedMotion();
   const leetcode = data?.leetcode || {};
@@ -251,6 +419,8 @@ export default function CodingShowcase({ data }) {
           <a className={styles.panelFooterLink} href={LEETCODE_PROFILE} target="_blank" rel="noreferrer">See the full contest history <Icon kind="arrow"/></a>
         </motion.article>
       </div>
+
+      <ContributionInsights />
 
       <ResourceCarousel/>
 

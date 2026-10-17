@@ -213,3 +213,37 @@
   .portraitImage,.interestItem,.valuesGrid > div,.focusItem,.focusArrow { transition:none !important; }
   .photoCard:hover .portraitImage,.interestItem:hover,.valuesGrid > div:hover,.focusItem:hover { transform:none !important; }
 }
+
+
+/* PORTFOLIO POLISH: calmer hierarchy and tactile but restrained card motion. */
+.aboutLeft h2 span {
+  color: #315cff !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+.aboutLeft h2 { max-width: 12ch; line-height: .98; }
+.aboutIntro { max-width: 58ch; font-size: clamp(.98rem, 1.02vw, 1.08rem); line-height: 1.68; }
+.aboutBody { max-width: 60ch; font-size: .82rem; line-height: 1.8; }
+.educationCard,
+.journeyCard,
+.valuesCard,
+.interestsCard {
+  border-color: rgba(255,255,255,.93);
+  box-shadow: 0 16px 38px rgba(35,37,55,.065), inset 0 1px 0 rgba(255,255,255,.96);
+}
+.interestItem,
+.focusItem,
+.valuesGrid > div {
+  transition: transform 220ms cubic-bezier(.2,.8,.2,1), border-color 220ms ease, box-shadow 220ms ease;
+}
+.interestItem:hover,
+.focusItem:hover,
+.valuesGrid > div:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(31,40,66,.075);
+}
+.photoCard { box-shadow: 0 18px 42px rgba(27,32,49,.12); }
+@media (max-width: 980px) {
+  .aboutLeft h2 { max-width: 15ch; }
+  .aboutIntro,.aboutBody { max-width: none; }
+}

@@ -739,3 +739,110 @@
   .stage { min-height: 0; }
   .stageContent { min-height: 0; padding: 108px clamp(20px, 4vw, 38px) 38px; }
 }
+
+
+/* PORTFOLIO POLISH: keep every methodology stage inside its available panel width. */
+.stage,
+.stageContent,
+.methodPanel,
+.bottomGrid,
+.panel,
+.paperContent,
+.paperInfo,
+.contributionsPanel,
+.contributionList,
+.contributionList li,
+.contributionCopy {
+  min-width: 0;
+  max-width: 100%;
+}
+.pipeline {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(7px, .9vw, 15px);
+}
+.pipelineUnit0,
+.pipelineUnit1,
+.pipelineUnit2,
+.pipelineUnit3,
+.pipelineUnit4,
+.pipelineUnit5,
+.pipelineUnit:nth-child(n) {
+  grid-column: auto !important;
+}
+.flowArrow { display: none !important; }
+.pipelineUnit { overflow: visible; }
+.pipelineUnit:nth-child(-n+5)::after {
+  content: "→";
+  position: absolute;
+  top: 31px;
+  right: calc(clamp(7px, .9vw, 15px) * -1 - 6px);
+  color: #626a81;
+  font-size: 1rem;
+  line-height: 1;
+}
+.pipelineTitle {
+  width: 100%;
+  font-size: clamp(.65rem, .78vw, .8rem);
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.pipelineDetail {
+  max-width: 100%;
+  font-size: clamp(.58rem, .68vw, .69rem);
+  overflow-wrap: anywhere;
+}
+.modelStack { max-width: 100%; }
+.bottomGrid {
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: clamp(12px, 1.25vw, 20px);
+}
+.paperContent { grid-template-columns: minmax(150px, .7fr) minmax(0, 1fr); }
+.paperInfo h4,
+.paperInfo p,
+.resourceLink,
+.contributionCopy strong,
+.contributionCopy small {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+.contributionList li { align-items: flex-start; }
+.contributionCopy { flex: 1 1 0; }
+@media (max-width: 1100px) {
+  .pipeline { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 15px; }
+  .pipelineUnit:nth-child(-n+5)::after { display: none; }
+}
+@media (max-width: 980px) {
+  .stageContent {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto !important;
+    gap: 18px !important;
+  }
+  .intro,
+  .methodPanel,
+  .statsPosition,
+  .bottomGrid {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    align-self: stretch;
+    margin: 0 !important;
+    width: 100%;
+  }
+  .intro h2 { white-space: normal; }
+  .bottomGrid { grid-template-columns: minmax(0, 1fr); }
+  .contributionsPanel { grid-column: auto; }
+}
+@media (max-width: 620px) {
+  .pipeline { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 14px; }
+  .pipelineVisual { height: 78px; }
+  .pipelineTitle { font-size: .79rem; }
+  .pipelineDetail { font-size: .69rem; }
+  .paperContent { grid-template-columns: minmax(0, 1fr); }
+  .paperPreview { width: min(100%, 340px); margin-inline: auto; }
+  .pipelineTabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

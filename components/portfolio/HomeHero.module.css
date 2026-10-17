@@ -1270,3 +1270,31 @@
   .topbar { padding-inline: 16px; }
 }
 @media (max-width: 700px) { .topbar { padding-inline: 12px; } }
+
+
+/* PORTFOLIO POLISH: keep the contact action legible over both the photo and pale chapters. */
+.talkButton {
+  color: #fff;
+  background: #151821;
+  border-color: rgba(255,255,255,.88);
+  box-shadow: 0 10px 28px rgba(15,18,28,.2), inset 0 1px 0 rgba(255,255,255,.13);
+}
+.talkButton:hover,
+.talkButton:focus-visible {
+  color: #fff;
+  background: #2a3040;
+  box-shadow: 0 14px 35px rgba(15,18,28,.24);
+  transform: translateY(-2px);
+}
+.topbarScrolled .topNav {
+  color: #151923;
+  background: rgba(250,249,247,.88);
+  border-color: rgba(255,255,255,.95);
+  box-shadow: 0 12px 38px rgba(22,25,37,.13), inset 0 1px 0 rgba(255,255,255,.96);
+}
+.topbarScrolled .talkButton {
+  color: #fff;
+  background: #10131b;
+  border-color: rgba(255,255,255,.96);
+}
+.topbarScrolled .talkButton:hover { background: #2a3040; }

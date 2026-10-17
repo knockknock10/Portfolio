@@ -15,6 +15,7 @@ export interface Certification {
   credentialUrl: CertificationField
   skillsCovered: string[] | "MISSING"
   badgeImage: string | "MISSING"
+  certificateImage: string | "MISSING"
   verificationStatus: VerificationStatus
 }
 
@@ -115,6 +116,7 @@ export function getCertificationsData(): Certification[] {
         credentialUrl,
         skillsCovered: skillList(record.skillsCovered ?? record["skills covered"]),
         badgeImage: localImage(record.badgeImage ?? record["badge image"]),
+        certificateImage: localImage(record.certificateImage ?? record["certificate image"]),
         verificationStatus,
       }]
     })
