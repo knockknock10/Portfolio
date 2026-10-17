@@ -4,11 +4,11 @@ import { motion, useReducedMotion } from "framer-motion";
 import styles from "./ExperienceShowcase.module.css";
 
 const isPresent = (value) =>
-  typeof value === "string" && value.trim() !== "" && !/^MISSING(?:\\s|$|—)/i.test(value);
+  typeof value === "string" && value.trim() !== "" && !/^MISSING(?:\s|$|—)/i.test(value);
 
 const shortDate = (value) => {
   if (!isPresent(value)) return "";
-  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return new Date(value + "T00:00:00Z").toLocaleDateString("en-US", {
       month: "short",
       year: "numeric",
@@ -20,7 +20,7 @@ const shortDate = (value) => {
 
 const compact = (value, max = 230) => {
   if (!isPresent(value)) return "";
-  const normalized = value.replace(/\\s+/g, " ").trim();
+  const normalized = value.replace(/\s+/g, " ").trim();
   return normalized.length > max ? normalized.slice(0, max).replace(/[ ,;:.]+$/, "") + "…" : normalized;
 };
 
