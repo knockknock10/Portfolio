@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import styles from "./OpenSourceShowcase.module.css";
+import GitHubAchievementShelf from "./GitHubAchievementShelf";
 
 const githubProfile = "https://github.com/knockknock10";
 const allPullRequests = "https://github.com/pulls?q=is%3Apr+author%3Aknockknock10";
@@ -299,16 +300,30 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
   }, [days, totals, period]);
 
   const yearOptions = useMemo(() => Object.keys(totals).sort((a, b) => Number(b) - Number(a)), [totals]);
+  let lastMonthKey = "";
   const monthSlots = weeks.map((week, index) => {
-    const first = week.find((day) => day.inRange && day.date.getDate() <= 7);
+    const firstOfMonth = week.find((day) => day.inRange && day.date.getDate() === 1);
+    const firstInRange = week.find((day) => day.inRange);
+    const marker = firstOfMonth || (index === 0 ? firstInRange : null);
+    if (!marker) return { key: index, label: "" };
+    const monthKey = marker.date.getFullYear() + "-" + marker.date.getMonth();
+    if (monthKey === lastMonthKey) return { key: index, label: "" };
+    lastMonthKey = monthKey;
     return {
       key: index,
-      label: first ? first.date.toLocaleDateString("en-US", { month: "short" }) : "",
+      label: marker.date.toLocaleDateString("en-US", { month: "short" }),
     };
   });
 
   return (
     <aside className={styles.githubGraphPanel} aria-labelledby="github-graph-heading">
+      <nav className={styles.githubGraphYearRail} aria-label="Choose GitHub contribution period">
+        <span>YEAR</span>
+        <button type="button" className={period === "last" ? styles.githubGraphYearActive : styles.githubGraphYear} aria-pressed={period === "last"} onClick={() => setPeriod("last")}>12 mo</button>
+        {yearOptions.map((year) => (
+          <button key={year} type="button" className={period === year ? styles.githubGraphYearActive : styles.githubGraphYear} aria-pressed={period === year} onClick={() => setPeriod(year)}>{year}</button>
+        ))}
+      </nav>
       <div className={styles.githubGraphMain}>
         <div className={styles.githubGraphTop}>
         <a className={styles.githubGraphTitle} href={githubProfile} target="_blank" rel="noreferrer" aria-label="Open Sanjeev's GitHub profile">
@@ -316,10 +331,7 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
           <span id="github-graph-heading">GitHub contributions</span>
           <span className={styles.githubTitleArrow} aria-hidden="true">↗</span>
         </a>
-        <select value={period} onChange={(event) => setPeriod(event.target.value)} aria-label="Contribution graph period">
-          <option value="last">Last 12 months</option>
-          {yearOptions.map((year) => <option key={year} value={year}>{year}</option>)}
-        </select>
+
       </div>
 
       <div className={styles.githubGraphMeta}>
@@ -379,6 +391,9 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
           <span><strong>{communityCount}</strong><small>Communities</small></span>
         </div>
         <p className={styles.graphStatNote}>{openCount} pull requests in the curated list are still open.</p>
+      </div>
+      <div className={styles.githubGraphBadges}>
+        <GitHubAchievementShelf />
       </div>
     </aside>
   );
