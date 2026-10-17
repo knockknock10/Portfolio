@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="editorial-page about-page">
-      <AboutShowcase content={getContent()} standalone />
+      <AboutShowcase content={getContent()} />
     </main>
   );
 }
