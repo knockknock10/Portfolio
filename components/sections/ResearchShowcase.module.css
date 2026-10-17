@@ -684,3 +684,7 @@
     transition: none !important;
   }
 }
+
+
+/* The fixed body panorama supplies the tone; no per-section wash. */
+.sceneWash { display: none !important; }
