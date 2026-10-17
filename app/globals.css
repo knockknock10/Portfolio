@@ -6523,3 +6523,7 @@ body:has(.portfolio-home-page) .route-transition {
   .research-feature-metrics > div, .research-figure-switch, .research-method-toggle, .research-method-step, .research-row, .research-nanosensor-visual { transition: none !important; }
   .research-feature-metrics > div:hover, .research-method-step:hover, .research-row:hover, .research-nanosensor-media:hover .research-nanosensor-visual { transform: none; }
 }
+
+/* Keep the decorative grid above the section paint but behind interactive content. */
+.research-section::before { z-index: 0; }
+.research-inner { position: relative; z-index: 1; }
