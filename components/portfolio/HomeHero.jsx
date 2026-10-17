@@ -127,40 +127,6 @@ export function HomeHero({
         </a>
       </aside>
 
-      <div className={styles.statsBar} aria-label="Developer activity highlights">
-        <a className={styles.statItem} href="#open-source">
-          <SocialGlyph label="GitHub" />
-          <strong>120+</strong>
-          <span>Contributions</span>
-        </a>
-        <a className={styles.statItem} href="#open-source">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 4v10m0-10a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM6 14l8-5m0-5v5m0-5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 5v8m0-8a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <strong>20+</strong>
-          <span>Merged PRs</span>
-        </a>
-        <a className={styles.statItem} href="#work">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 3.5h12v17H6zM9 7v4m3-4v4m-3 5h6" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <strong>10+</strong>
-          <span>Repositories</span>
-        </a>
-        <a className={styles.statItem} href="#signals">
-          <span className={styles.codeMark} aria-hidden="true">〈›</span>
-          <strong>500+</strong>
-          <span>Problems Solved</span>
-        </a>
-        <a className={`${styles.statItem} ${styles.rankStat}`} href="#signals">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3 14h4v7H3zm7-7h4v14h-4zm7-4h4v18h-4z" fill="currentColor" />
-          </svg>
-          <strong>Top 12%</strong>
-          <span>Global Rank</span>
-        </a>
-      </div>
-
       <a className={styles.scrollCue} href="#work" aria-label="Scroll down to selected work">
         <span className={styles.scrollCueIcon} aria-hidden="true">↓</span>
         <span>SCROLL DOWN</span>
