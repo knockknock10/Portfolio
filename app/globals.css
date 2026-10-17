@@ -6944,3 +6944,19 @@ body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-lab
 }
 .portfolio-home-page a,
 .portfolio-home-page button { -webkit-tap-highlight-color: transparent; }
+
+
+/* Keep the keyboard-only skip link fully visible above the floating chrome when focused. */
+.skip-link:focus {
+  z-index: 10001;
+  top: 12px;
+  left: clamp(88px, 8vw, 148px);
+  transform: translateY(0);
+  padding: 10px 14px;
+  border: 1px solid rgba(20,24,36,.14);
+  border-radius: 10px;
+  color: #151821;
+  background: #fff;
+  box-shadow: 0 8px 26px rgba(18,22,34,.18);
+  font-weight: 750;
+}
