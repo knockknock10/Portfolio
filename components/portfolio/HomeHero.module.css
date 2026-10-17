@@ -150,7 +150,7 @@
   top: clamp(128px, 17.2vh, 170px);
   left: clamp(190px, 14.1vw, 260px);
   width: min(43vw, 535px);
-  
+  padding: 0 0 190px;
 }
 
 .heroEyebrow {
@@ -453,18 +453,102 @@
   line-height: 1;
 }
 
+.statsBar {
+  position: absolute;
+  z-index: 8;
+  bottom: clamp(36px, 5vh, 50px);
+  left: 19.8%;
+  display: grid;
+  width: min(54vw, 850px);
+  min-height: 118px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  padding: 18px 16px 15px;
+  border: 1px solid rgba(255, 255, 255, .63);
+  border-radius: 22px;
+  color: #10131a;
+  background: linear-gradient(110deg, rgba(255, 248, 238, .68), rgba(247, 242, 250, .56) 65%, rgba(226, 226, 247, .59));
+  box-shadow: 0 20px 55px rgba(20, 23, 38, .13), inset 0 1px 0 rgba(255, 255, 255, .8);
+  backdrop-filter: blur(27px) saturate(135%);
+  -webkit-backdrop-filter: blur(27px) saturate(135%);
+}
 
+.statItem {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+  color: #11141b;
+  text-decoration: none;
+  text-align: center;
+  transition: transform 180ms ease, color 180ms ease;
+}
 
+.statItem + .statItem {
+  border-left: 1px solid rgba(89, 87, 110, .17);
+}
 
+.statItem:hover,
+.statItem:focus-visible {
+  color: #244cf0;
+  transform: translateY(-2px);
+}
 
+.statItem > svg {
+  width: 27px;
+  height: 27px;
+  margin-bottom: 3px;
+}
 
+.statItem > strong {
+  font-size: clamp(1.05rem, 1.3vw, 1.35rem);
+  line-height: 1.1;
+  letter-spacing: -.055em;
+  font-weight: 650;
+}
 
+.statItem > span:last-child {
+  color: #4f5260;
+  font-size: clamp(.68rem, .78vw, .8rem);
+  line-height: 1.25;
+  white-space: nowrap;
+}
 
+.statItem > svg:first-child {
+  flex: 0 0 auto;
+}
 
+.statItem > span:first-child:not(:last-child) {
+  display: inline-flex;
+  height: 27px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3px;
+}
 
+.statItem .codeMark {
+  color: #e8a12d;
+  font-family: ui-monospace, monospace;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -.25em;
+  padding-right: .15em;
+}
 
+.rankStat svg {
+  color: #3b62f5;
+}
 
+.rankStat strong {
+  color: #292b39;
+}
 
+.rankStat span:last-child {
+  color: rgba(255, 255, 255, .78);
+}
 
 .scrollCue {
   position: absolute;
@@ -780,6 +864,10 @@
     width: 185px;
   }
 
+  .statsBar {
+    left: 18%;
+    width: 63vw;
+  }
 
   .topNav a {
     padding-inline: 7px;
@@ -822,6 +910,10 @@
     display: none;
   }
 
+  .statsBar {
+    left: 11%;
+    width: 76vw;
+  }
 
   .scrollCue {
     right: 18px;
@@ -869,7 +961,7 @@
     top: 335px;
     left: 22px;
     width: calc(100% - 44px);
-    
+    padding-bottom: 200px;
   }
 
   .heroEyebrow {
@@ -927,11 +1019,40 @@
     height: 20px;
   }
 
+  .statsBar {
+    left: 58px;
+    bottom: 16px;
+    width: calc(100% - 72px);
+    min-height: 112px;
+    grid-template-columns: repeat(3, minmax(88px, 1fr));
+    padding: 10px 8px;
+    overflow-x: auto;
+    border-radius: 15px;
+    scrollbar-width: none;
+  }
 
+  .statsBar::-webkit-scrollbar {
+    display: none;
+  }
 
+  .statItem {
+    gap: 3px;
+    padding-inline: 5px;
+  }
 
+  .statItem > svg {
+    width: 19px;
+    height: 19px;
+    margin-bottom: 1px;
+  }
 
+  .statItem > strong {
+    font-size: .96rem;
+  }
 
+  .statItem > span:last-child {
+    font-size: .63rem;
+  }
 
   .scrollCue {
     display: none;
@@ -1047,7 +1168,7 @@
   .secondaryAction,
   .socialLink,
   .currentCard,
-
+  .statItem,
   .scrollCue,
   .sidebar,
   .sidebarBrandName,

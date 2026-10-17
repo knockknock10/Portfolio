@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { VisitorCounter } from "@/components/sections/PortfolioExperience"
+import VisitorCounter from "@/components/portfolio/VisitorCounter"
 
 export type FooterSocial = {
   platform: string
@@ -35,12 +35,14 @@ export function Footer({ name, copyrightName, email, socials }: FooterProps) {
         </div>
 
         <nav className="footer-navigation" aria-label="Explore portfolio">
+          <Link href="/">Home</Link>
           <Link href="/work">Work</Link>
-          <Link href="/open-source">Open source</Link>
-          <Link href="/problem-solving">Coding &amp; problem solving</Link>
           <Link href="/research">Research</Link>
+          <Link href="/open-source">Open source</Link>
           <Link href="/internships">Experience</Link>
-          <Link href="/certifications">Certifications</Link>
+          <Link href="/skills">Skills</Link>
+          <Link href="/problem-solving">Coding</Link>
+          <Link href="/certifications">Achievements</Link>
           <Link href="/about">About</Link>
           <Link href="/contact">Contact</Link>
         </nav>

@@ -6455,3 +6455,34 @@ body:has(.portfolio-home-page) .contact-section {
     background-position: center 52%, center 52% !important;
   }
 }
+
+
+/* Standalone Work and Open Source routes reuse the homepage showcase components and scenic canvas. */
+body:has(.portfolio-standalone-showcase) {
+  background-color: #dac7bd !important;
+  background-image:
+    linear-gradient(180deg, rgba(255, 247, 243, .08) 0%, rgba(255, 247, 243, .20) 46%, rgba(18, 23, 36, .09) 100%),
+    url("/images/hero-scene.webp") !important;
+  background-size: cover, cover !important;
+  background-position: center 52%, center 52% !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-attachment: fixed, fixed !important;
+}
+body:has(.portfolio-standalone-showcase) .site-shell {
+  padding-block-start: 0 !important;
+}
+body:has(.portfolio-standalone-showcase) .route-transition {
+  min-height: 0;
+}
+.portfolio-standalone-showcase {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+}
+@media (max-width: 700px) {
+  body:has(.portfolio-standalone-showcase) {
+    background-attachment: scroll, scroll !important;
+  }
+}
