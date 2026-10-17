@@ -9,7 +9,7 @@
   width: 100%;
   overflow: clip;
   color: var(--hero-ink);
-  background: #d4c7c1;
+  background: transparent;
 }
 
 .heroVisual {
@@ -23,6 +23,9 @@
   filter: saturate(1.08) contrast(1.065) brightness(1.01);
   transform: translateZ(0);
   backface-visibility: hidden;
+  /* Fade the hero photograph into the shared site landscape rather than cutting to a new backdrop. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 79%, rgba(0, 0, 0, .78) 88%, rgba(0, 0, 0, .2) 97%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 79%, rgba(0, 0, 0, .78) 88%, rgba(0, 0, 0, .2) 97%, transparent 100%);
 }
 
 .heroShade {
