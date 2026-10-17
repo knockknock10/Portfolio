@@ -3036,7 +3036,58 @@ The records below are sourced from the project inventory and the résumé's Rese
 
 ## SECTION 10 — INTERNSHIPS
 
-No items found in repo.
+The experience descriptions below are based on Sanjeev's direct account. Dates, official role names, logos, team size and external links were not supplied, so they remain unspecified rather than inferred.
+
+~~~json
+[
+  {
+    "company": "SRM University AP",
+    "role": "Research Intern (Summer)",
+    "location": "Amaravati, Andhra Pradesh, India",
+    "start date": "MISSING",
+    "end date": "MISSING",
+    "duration": "MISSING",
+    "summary": "Research internship during which I continued SemBind-Audio, a semantic-aware speech-watermarking study using transformer-based audio representations, STFT-based embedding placement and SHA-256 payload binding. I also worked on a MATLAB nanosensor-network communication simulator focused on routing and packet propagation.",
+    "responsibilities": [
+      "Continued implementation and evaluation work on SemBind-Audio",
+      "Worked with transformer-based audio representations, STFT and cryptographic payload binding",
+      "Built and analyzed MATLAB simulations for nanosensor-network routing and packet propagation"
+    ],
+    "stack": [
+      "SemBind-Audio",
+      "HuBERT / STFT",
+      "SHA-256 binding",
+      "MATLAB · nanosensor networks"
+    ],
+    "team size": "MISSING",
+    "link": "MISSING",
+    "logo": "MISSING"
+  },
+  {
+    "company": "IRHS · SRM University AP",
+    "role": "Protocol & Digital Outreach Planning",
+    "location": "Amaravati, Andhra Pradesh, India",
+    "start date": "MISSING",
+    "end date": "MISSING",
+    "duration": "MISSING",
+    "summary": "Worked with IRHS at SRM University AP on protocols for planned initiatives. The work connected digital outreach and marketing with operational planning: structuring repeatable workflows, documenting procedures and making the steps for future activities easier to coordinate. This is described as protocol and workflow work, not as a software-engineering job title.",
+    "responsibilities": [
+      "Designed and documented protocols for planned initiatives",
+      "Structured repeatable steps for digital outreach and coordination",
+      "Translated broad initiative needs into clearer workflows and procedures"
+    ],
+    "stack": [
+      "Protocol design",
+      "Workflow documentation",
+      "Digital outreach",
+      "Operational planning"
+    ],
+    "team size": "MISSING",
+    "link": "MISSING",
+    "logo": "MISSING"
+  }
+]
+~~~
 
 ## SECTION 11 — CERTIFICATIONS
 
@@ -3063,20 +3114,12 @@ No items found in repo.
 - status — MISSING: no publication or review status is stated.
 - image — MISSING: no research-specific image exists under `public/`.
 
-### Internships
+### Institutional experience and research internship
 
-- company — MISSING: no internship entry was found in the repository's résumé, content inventory, portfolio data, or checked Markdown/JSON sources.
-- role — MISSING: no internship entry was found.
-- location — MISSING: no internship entry was found.
-- start date — MISSING: no internship entry was found.
-- end date — MISSING: no internship entry was found.
-- duration — MISSING: start and end dates are unavailable, so a duration cannot be computed.
-- summary — MISSING: no verbatim internship summary exists in the checked sources.
-- responsibilities — MISSING: no internship responsibilities are recorded.
-- stack or tools used — MISSING: no internship-specific tools are recorded.
-- team size — MISSING: no internship team-size information is recorded.
-- link — MISSING: no internship company record exists from which to source a link.
-- logo — MISSING: no company logo asset exists under `public/`.
+- IRHS official title, dates and duration — MISSING: the description records protocol design, workflow documentation and digital-outreach planning, but no official title or dates were supplied.
+- SRM University AP research internship dates and duration — MISSING: the user described it as a summer research internship; the year, month and duration were not supplied.
+- Team size, official organization links and logos — MISSING: no verified links or assets were provided.
+- The two entries are based on the user's account. Descriptive portfolio labels are not presented as employer-issued titles.
 
 ### Certifications
 

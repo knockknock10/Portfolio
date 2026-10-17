@@ -77,51 +77,34 @@ const openSourceThread = {
   tags: ["Kestra", "Apache Camel K", "Wanaku AI", "Go · Java · Testing"],
 };
 
-function researchEvent(item, index) {
-  const isSemBind = /^sembind/i.test(item?.title || "");
-  const isSensor = /nano.?sensor/i.test(item?.title || "");
-  const date = isPresent(item?.year) ? item.year : "DATE NOT RECORDED";
-  return {
-    id: "research-" + (item?.title || index),
-    date,
-    category: isPresent(item?.type) ? item.type.toUpperCase() : "RESEARCH",
-    title: isSemBind
-      ? "SemBind-Audio · speech watermarking"
-      : isSensor
-        ? "Nanosensor network communication simulator"
-        : item?.title || "Research project",
-    description: compact(item?.abstract, isSemBind ? 255 : 205) || "Research description is not available in the current portfolio data.",
-    status: isPresent(item?.status) ? item.status : "Research entry",
-    tone: isSemBind ? "blue" : "amber",
-    kind: isSensor ? "sensor" : "research",
-    link: isPresent(item?.link) ? item.link : "",
-    linkLabel: isPresent(item?.link) ? "Open research repo" : "",
-    pdf: isPresent(item?.pdf) ? item.pdf : "",
-    pdfLabel: isPresent(item?.pdf) ? "Read manuscript" : "",
-    tags: Array.isArray(item?.tags) ? item.tags.filter(isPresent).slice(0, 4) : [],
-    yearValue: isPresent(item?.year) ? Number.parseInt(item.year, 10) || 0 : 0,
-    priority: isSemBind ? 3 : isSensor ? 1 : 2,
-  };
-}
-
 function internshipEvent(item, index) {
+  const company = item?.company || "";
+  const role = item?.role || "";
+  const isIrhs = /irhs/i.test(company);
+  const isResearchInternship = /research/i.test(role) && /srm/i.test(company);
   const start = shortDate(item?.startDate);
   const end = isPresent(item?.endDate) && item.endDate.toLowerCase() === "present" ? "Present" : shortDate(item?.endDate);
-  const date = start && end ? start + " — " + end : start || end || "DATES NOT RECORDED";
+  const date = isResearchInternship
+    ? "SUMMER · YEAR NOT RECORDED"
+    : start && end ? start + " — " + end : start || end || "DATES NOT RECORDED";
   return {
-    id: "industry-" + (item?.company || index),
+    id: "experience-" + company.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + index,
     date,
-    category: isPresent(item?.role) ? item.role.toUpperCase() : "INDUSTRY EXPERIENCE",
-    title: [item?.role, item?.company].filter(isPresent).join(" · ") || item?.company || "Experience",
-    description: compact(item?.summary, 220) || "Experience details are not available in the current portfolio data.",
-    status: "Industry experience",
-    tone: "amber",
-    kind: "work",
-    link: isPresent(item?.link) ? item.link : "",
-    linkLabel: isPresent(item?.link) ? "Open organization" : "",
+    category: isIrhs ? "PROTOCOL & DIGITAL OUTREACH" : isResearchInternship ? "RESEARCH INTERNSHIP" : isPresent(role) ? role.toUpperCase() : "EXPERIENCE",
+    title: isIrhs
+      ? "Protocol & Workflow Design · IRHS, SRM University AP"
+      : isResearchInternship
+        ? "Research Internship · SRM University AP"
+        : [role, company].filter(isPresent).join(" · ") || company || "Experience",
+    description: compact(item?.summary, isResearchInternship ? 360 : 280) || "Experience details are not available in the current portfolio data.",
+    status: isIrhs ? "Institutional experience" : isResearchInternship ? "Research experience" : "Experience",
+    tone: isIrhs ? "amber" : isResearchInternship ? "blue" : "amber",
+    kind: isResearchInternship ? "research" : "work",
+    link: isPresent(item?.link) ? item.link : (isResearchInternship ? "#research" : ""),
+    linkLabel: isPresent(item?.link) ? "Open organization" : isResearchInternship ? "Explore the research" : "",
     tags: Array.isArray(item?.stack) && item.stack !== "MISSING" ? item.stack.slice(0, 4) : [],
     yearValue: start ? Number.parseInt(start.slice(-4), 10) || 0 : 0,
-    priority: 4,
+    priority: isResearchInternship ? 2 : isIrhs ? 5 : 4,
   };
 }
 
@@ -197,15 +180,12 @@ function WorkingPrinciples() {
   );
 }
 
-export default function ExperienceShowcase({ researchItems = [], internships = [] }) {
+export default function ExperienceShowcase({ internships = [] }) {
   const reducedMotion = useReducedMotion();
-  const safeResearch = Array.isArray(researchItems) ? researchItems : [];
   const safeInternships = Array.isArray(internships) ? internships : [];
-  const researchEvents = safeResearch.map(researchEvent);
   const internshipEvents = safeInternships.map(internshipEvent);
   const events = [
     currentThread,
-    ...researchEvents.sort((a, b) => (b.yearValue - a.yearValue) || (a.priority - b.priority)),
     openSourceThread,
     ...internshipEvents,
   ];
@@ -217,8 +197,8 @@ export default function ExperienceShowcase({ researchItems = [], internships = [
           <motion.div className={styles.headingCopy} initial={reducedMotion ? false : { opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: reducedMotion ? 0 : 0.48 }}>
             <p className={styles.eyebrow}><span>05</span><i aria-hidden="true"/> EXPERIENCE &amp; RESEARCH <b aria-hidden="true"/></p>
             <h2 id="experience-heading">The work<br/>has a <span>trail.</span></h2>
-            <p className={styles.lede}>Research questions, upstream changes and engineering practice—each kept distinct from formal employment, and linked to evidence wherever it exists.</p>
-            <div className={styles.headerFootnote}><span aria-hidden="true">↳</span><span>Scroll the timeline. Follow the work, not just the title.</span></div>
+            <p className={styles.lede}>Institutional work, a summer research internship, current research questions and upstream contributions—kept distinct, with dates and claims shown only where known.</p>
+            <div className={styles.headerFootnote}><span aria-hidden="true">↳</span><span>Follow the timeline. Each entry says what was done—and what still needs a verified date.</span></div>
           </motion.div>
           <motion.div className={styles.chapterSignature} initial={reducedMotion ? false : { opacity: 0, x: 12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: reducedMotion ? 0 : 0.48, delay: reducedMotion ? 0 : 0.08 }}>
             <div className={styles.signatureTop}><span>ENGINEERING LOG</span><span>2024 — 2026</span></div>

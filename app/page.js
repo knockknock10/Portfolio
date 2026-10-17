@@ -37,7 +37,7 @@ export default async function HomePage() {
 
       <OpenSourceShowcase />
 
-      <ExperienceShowcase researchItems={researchItems} internships={internships} />
+      <ExperienceShowcase internships={internships} />
 
       <SkillsShowcase />
 
