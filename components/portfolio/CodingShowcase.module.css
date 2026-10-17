@@ -514,3 +514,10 @@
     text-align: center;
   }
 }
+
+
+/* Month headings share the contribution grid's 10px week columns and scroll together. */
+.githubCalendarViewport { position:relative; overflow-x:auto; overflow-y:hidden; }
+.githubMonthLabels { display:grid; width:max-content; min-width:0; text-align:left; }
+.githubMonthLabels span { min-width:10px; padding-right:5px; white-space:nowrap; }
+@media(max-width:620px) { .githubMonthLabels { grid-template-columns:none!important; } }
