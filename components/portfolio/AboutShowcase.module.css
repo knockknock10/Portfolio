@@ -42,6 +42,7 @@
 .principleCard[data-tone="amber"] .principleMark { color:#c47c21;background:rgba(255,241,220,.72); }
 .principleCard h4 { max-width:17ch;margin:28px 0 0;color:#222838;font-size:1rem;font-weight:760;line-height:1.25;letter-spacing:-.04em; }
 .principleCard p { max-width:33ch;margin:8px 0 0;color:#687186;font-size:.7rem;line-height:1.62; }
+.section[data-standalone="true"] { margin-top: 14px; padding-bottom: 54px; }
 @media(max-width:1240px){.section{width:calc(100% - 220px);margin-left:186px;margin-right:30px}.sectionHeader{grid-template-columns:minmax(0,1fr) minmax(270px,.75fr)}.portraitPanel{min-height:340px}.principleCard{padding:16px;}}
 @media(max-width:900px){.sectionHeader{grid-template-columns:minmax(0,1fr);gap:24px}.portraitPanel{min-height:430px}.headingCopy h2{max-width:13ch}.principlesHeader{align-items:flex-start;flex-direction:column;gap:10px}.principlesGrid{grid-template-columns:minmax(0,1fr)}.principleCard{min-height:150px}.principleCard h4{margin-top:19px;}}
 @media(max-width:820px){.section{width:calc(100% - 36px);margin:34px 18px 0}.portraitPanel{min-height:380px}.headingCopy h2{font-size:clamp(3rem,12vw,4.6rem)}}
