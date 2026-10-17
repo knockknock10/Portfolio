@@ -43,7 +43,7 @@ export default async function HomePage() {
 
       <CodingShowcase data={signalsData} />
 
-      <AchievementsShowcase items={certifications} data={signalsData} />
+      <AchievementsShowcase items={certifications} />
 
       <AboutShowcase content={content} />
 
