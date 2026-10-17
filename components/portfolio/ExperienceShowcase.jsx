@@ -184,8 +184,8 @@ const journey = [
     tone: "violet",
     detail: "Beginning a new research direction that connects audio events with temporal context, causal reasoning and graph-based retrieval.",
     tags: ["Knowledge graphs", "Temporal reasoning", "GraphRAG", "LLM systems"],
-    href: "#research",
-    linkLabel: "Research direction",
+    href: "#skills",
+    linkLabel: "Explore learning path",
     marker: "graph",
   },
   {
@@ -266,8 +266,6 @@ function JourneyItem({ item, index }) {
 }
 
 export default function ExperienceShowcase({ researchItems = [], internships = [] }) {
-  const [expanded, setExpanded] = useState(null);
-  const reducedMotion = useReducedMotion();
   const manuscript = researchItems.find(item => /sembind/i.test(item.title));
   const researchCount = 3;
   const projectCount = 5;
