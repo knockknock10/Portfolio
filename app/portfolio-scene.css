@@ -1,0 +1,35 @@
+/* One continuous cinematic scene shared by home and all section routes. */
+body:not(:has(.ds-page)) {
+  background-color: #dac7bd !important;
+  background-image:
+    linear-gradient(180deg, rgba(255, 247, 243, .08) 0%, rgba(255, 247, 243, .20) 46%, rgba(18, 23, 36, .09) 100%),
+    url("/images/hero-scene.webp") !important;
+  background-size: cover, cover !important;
+  background-position: center 52%, center 52% !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-attachment: fixed, fixed !important;
+}
+
+body:not(:has(.ds-page)) .site-shell,
+body:not(:has(.ds-page)) .route-transition,
+body:not(:has(.ds-page)) .home-page,
+body:not(:has(.ds-page)) .editorial-page,
+body:not(:has(.ds-page)) .route-shell,
+body:not(:has(.ds-page)) .research-route {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Keep content glass, not opaque section canvases, between portfolio chapters. */
+body:not(:has(.ds-page)) .portfolio-anchor,
+body:not(:has(.ds-page)) .portfolio-home-page > section:not(:first-child) {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+@media (max-width: 700px) {
+  body:not(:has(.ds-page)) {
+    background-attachment: scroll, scroll !important;
+    background-position: center 52%, center 52% !important;
+  }
+}
