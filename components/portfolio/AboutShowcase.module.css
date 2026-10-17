@@ -60,24 +60,6 @@
 .educationFooter { display:flex; flex-wrap:wrap; gap:6px; margin-top:11px; }
 .educationFooter span { padding:5px 7px; border:1px solid rgba(82,92,132,.1); border-radius:7px; color:#6f778a; background:rgba(255,255,255,.5); font-size:.52rem; }
 
-.quickFactsCard { padding:13px 13px 12px; }
-.quickFactsTitle { display:flex; align-items:center; gap:8px; margin:0 0 10px; }
-.quickFactsTitle > span { display:grid; width:24px; height:24px; place-items:center; color:#3d62ff; }
-.quickFactsTitle svg { width:20px; height:20px; }
-.quickFactsTitle h3 { margin:0; color:#1e2433; font-size:.78rem; font-weight:760; letter-spacing:-.03em; }
-.factsGrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; }
-.factItem { display:flex; align-items:flex-start; gap:8px; min-width:0; padding:9px 7px; border:1px solid transparent; border-radius:11px; color:inherit; text-decoration:none; transition:transform 180ms ease,background-color 180ms ease,border-color 180ms ease; }
-.factItem[href]:hover { transform:translateY(-2px); border-color:rgba(255,255,255,.9); background:rgba(255,255,255,.63); }
-.factIcon { display:grid; width:27px; height:27px; flex:0 0 27px; place-items:center; border-radius:9px; color:#3765ff; background:rgba(73,104,255,.1); }
-.factIcon svg { width:18px; height:18px; }
-.factItem[data-tone="violet"] .factIcon { color:#8956d8; background:rgba(147,98,221,.11); }
-.factItem[data-tone="mint"] .factIcon { color:#259c7d; background:rgba(64,193,153,.12); }
-.factItem[data-tone="amber"] .factIcon { color:#bb812c; background:rgba(238,178,64,.16); }
-.factCopy { display:flex; min-width:0; flex-direction:column; gap:3px; }
-.factCopy small { color:#808799; font-size:.51rem; font-weight:700; }
-.factCopy strong { color:#273047; font-size:.63rem; font-weight:760; line-height:1.3; overflow-wrap:anywhere; }
-.factCopy > span { color:#878d9d; font-size:.5rem; line-height:1.3; }
-
 .photoCard {
   display:flex; min-width:0; flex:1; flex-direction:column; overflow:hidden;
   border:1px solid rgba(255,255,255,.86); border-radius:21px;
@@ -228,6 +210,6 @@
   .aboutValuesStrip > div + div,.aboutValuesStrip > div:nth-child(4) { border-top:1px solid rgba(72,79,98,.15); border-left:0; }
 }
 @media (prefers-reduced-motion:reduce) {
-  .portraitImage,.factItem,.interestItem,.valuesGrid > div,.focusItem,.focusArrow { transition:none !important; }
-  .photoCard:hover .portraitImage,.factItem[href]:hover,.interestItem:hover,.valuesGrid > div:hover,.focusItem:hover { transform:none !important; }
+  .portraitImage,.interestItem,.valuesGrid > div,.focusItem,.focusArrow { transition:none !important; }
+  .photoCard:hover .portraitImage,.interestItem:hover,.valuesGrid > div:hover,.focusItem:hover { transform:none !important; }
 }
