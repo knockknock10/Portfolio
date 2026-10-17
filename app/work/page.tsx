@@ -1,15 +1,15 @@
-import type { Metadata } from "next"
-import { FeaturedProjects } from "@/components/sections/PortfolioExperience"
+import type { Metadata } from "next";
+import FeaturedWork from "@/components/portfolio/FeaturedWork";
 
 export const metadata: Metadata = {
   title: "Selected Work",
-  description: "Six source-linked projects across developer tooling, full-stack engineering and distributed systems.",
-}
+  description: "Projects and source-linked engineering work by Sanjeev Kumar.",
+};
 
 export default function WorkPage() {
   return (
-    <main className="editorial-page work-page">
-      <FeaturedProjects />
+    <main className="portfolio-standalone-showcase work-standalone">
+      <FeaturedWork />
     </main>
-  )
+  );
 }
