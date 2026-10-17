@@ -10,6 +10,7 @@ type CodingShowcaseProps = {
 };
 
 const LEETCODE_URL = "https://leetcode.com/u/knockknock10/";
+const LEETCODE_CONTEST_URL = "https://leetcode.com/contest/";
 const GITHUB_URL = "https://github.com/knockknock10";
 
 function numberValue(value: unknown): number | null {
@@ -105,7 +106,7 @@ function ContestHistory({ data }: { data: SignalStats["leetcode"] }) {
   return (
     <div className={styles.contestList}>
       {entries.length ? entries.map((item, index) => (
-        <a className={styles.contestRow} href={LEETCODE_URL + "contest/"} target="_blank" rel="noreferrer" key={(labelValue(item.contest) ?? "contest") + index}>
+        <a className={styles.contestRow} href={LEETCODE_CONTEST_URL} target="_blank" rel="noreferrer" key={(labelValue(item.contest) ?? "contest") + index}>
           <span className={styles.contestIndex}>{String(entries.length - index).padStart(2, "0")}</span>
           <span className={styles.contestCopy}>
             <strong>{labelValue(item.contest)}</strong>
@@ -139,7 +140,7 @@ const resources = [
   { name: "Codeforces", detail: "Contest archive", href: "https://codeforces.com/", tone: "violet" },
   { name: "GeeksforGeeks", detail: "Reference articles", href: "https://www.geeksforgeeks.org/", tone: "green" },
   { name: "CP-Algorithms", detail: "Algorithm notes", href: "https://cp-algorithms.com/", tone: "amber" },
-  { name: "GitHub", detail: "Code & contribution history", href: GITHUB_URL, tone: "blue" },
+  { name: "AtCoder", detail: "Contest practice", href: "https://atcoder.jp/", tone: "blue" },
 ] as const;
 
 export default function CodingShowcase({ data, standalone = false }: CodingShowcaseProps) {
@@ -148,9 +149,8 @@ export default function CodingShowcase({ data, standalone = false }: CodingShowc
   const solved = numberValue(leetcode.totalSolved);
   const contestRating = numberValue(leetcode.contestRating);
   const contestCount = numberValue(leetcode.contestAttendedCount);
+  const contestRank = numberValue(leetcode.contestRank);
   const contestTop = labelValue(leetcode.contestTopPercentage);
-  const contributionCount = numberValue(data.github.contributionsLast365Days);
-  const repositoryCount = numberValue(data.github.totalRepos);
   const cards = reducedMotion
     ? { initial: false as const, whileInView: undefined, transition: undefined }
     : { initial: { opacity: 0, y: 15 }, whileInView: { opacity: 1, y: 0 }, transition: { duration: 0.48 }, };
@@ -173,9 +173,9 @@ export default function CodingShowcase({ data, standalone = false }: CodingShowc
 
       <div className={styles.statsGrid}>
         <StatCard icon="code" label="LeetCode" value={solved === null ? "—" : numberLabel(solved)} detail="Problems solved in saved snapshot" href={LEETCODE_URL} tone="amber" />
-        <StatCard icon="trophy" label="Contest performance" value={contestRating === null ? "—" : numberLabel(Math.round(contestRating))} detail={contestCount === null ? "Rating not recorded" : contestCount + " contests in the saved snapshot"} href={LEETCODE_URL + "contest/"} tone="violet" />
-        <StatCard icon="github" label="GitHub" value={contributionCount === null ? "—" : numberLabel(contributionCount)} detail={repositoryCount === null ? "Repositories not recorded" : repositoryCount + " public repositories · contributions in the saved snapshot"} href={GITHUB_URL} tone="blue" />
-        <StatCard icon="chart" label="Contest standing" value={contestTop ? (contestTop.toLowerCase().includes("top") ? contestTop : "Top " + contestTop) : "—"} detail="Only displayed when a saved value exists" href={LEETCODE_URL} tone="green" />
+        <StatCard icon="trophy" label="Contest rating" value={contestRating === null ? "—" : numberLabel(Math.round(contestRating))} detail="Current rating in saved profile snapshot" href={LEETCODE_CONTEST_URL} tone="violet" />
+        <StatCard icon="clock" label="Contests attended" value={contestCount === null ? "—" : numberLabel(contestCount)} detail="Recorded in the saved profile snapshot" href={LEETCODE_CONTEST_URL} tone="blue" />
+        <StatCard icon="chart" label="Contest standing" value={contestTop ? (contestTop.toLowerCase().includes("top") ? contestTop : "Top " + contestTop + "%") : contestRank === null ? "—" : "#" + numberLabel(contestRank)} detail={contestRank === null ? "No global contest rank recorded" : "Global rank " + numberLabel(contestRank)} href={LEETCODE_CONTEST_URL} tone="green" />
       </div>
 
       <div className={styles.dashboardGrid}>
@@ -218,7 +218,7 @@ export default function CodingShowcase({ data, standalone = false }: CodingShowc
           <div className={styles.resourceGrid}>
             {resources.map((item) => (
               <a className={styles.resourceLink} data-tone={item.tone} href={item.href} target="_blank" rel="noreferrer" key={item.name}>
-                <span className={styles.resourceMark}>{item.name === "GitHub" ? "GH" : item.name === "CP-Algorithms" ? "CP" : item.name.slice(0, 2).toUpperCase()}</span>
+                <span className={styles.resourceMark}>{item.name === "CP-Algorithms" ? "CP" : item.name.slice(0, 2).toUpperCase()}</span>
                 <span><strong>{item.name}</strong><small>{item.detail}</small></span>
                 <Arrow />
               </a>
