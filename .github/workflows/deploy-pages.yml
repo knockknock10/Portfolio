@@ -13,10 +13,10 @@ permissions:
   contents: read
 
 concurrency:
-  # Keep PR validation and production deployment in different groups so a
-  # finishing PR check can never cancel the main-branch publish job.
-  group: github-pages-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: true
+  # PR checks cancel only older checks for the same PR. Production publishing
+  # shares one non-cancelling group across push and manual runs.
+  group: github-pages-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'production' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -47,13 +47,29 @@ jobs:
 
       - name: Verify critical static outputs
         run: |
+          # Verify the real App Router paths exist in the export.
           test -s out/index.html
           test -s out/404.html
+          test -s out/about/index.html
+          test -s out/contact/index.html
+          test -s out/certifications/index.html
+          test -s out/internships/index.html
+          test -s out/open-source/index.html
+          test -s out/problem-solving/index.html
+          test -s out/research/index.html
+          test -s out/signals/index.html
+          test -s out/work/index.html
           test -s out/api/github-contributions.json
           test -s out/robots.txt
           test -s out/sitemap.xml
+
+          # Verify project-site assets use /Portfolio, not the user-site root.
           grep -q '/Portfolio/_next/' out/index.html
           grep -q '/Portfolio/images/hero-scene.webp' out/index.html
+          grep -q '/Portfolio/resume.pdf' out/index.html
+          grep -q '/Portfolio/papers/SemBind.pdf' out/index.html
+          ! grep -q 'https://knockknock10.github.io/resume.pdf' out/index.html
+          ! grep -q 'https://knockknock10.github.io/papers/SemBind.pdf' out/index.html
 
       - name: Add Pages marker
         run: touch out/.nojekyll
