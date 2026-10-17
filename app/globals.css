@@ -6452,6 +6452,6 @@ body:has(.portfolio-home-page) .contact-section {
 @media (max-width: 700px) {
   body:has(.portfolio-home-page) {
     background-attachment: scroll, scroll !important;
-    background-position: center 52%, 58% center !important;
+    background-position: center 52%, center 52% !important;
   }
 }
