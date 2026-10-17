@@ -92,8 +92,7 @@ export function HomeHero({
         </h1>
 
         <p className={styles.heroBio}>
-          I’m a computer science student who enjoys building backend systems, contributing to
-          open source, and exploring audio watermarking and applied AI.
+          I build backend platforms and contribute fixes that make it through real test suites and review. Alongside that engineering work, I’ve submitted a speech-watermarking manuscript and recently started exploring causal-temporal audio knowledge graphs.
         </p>
 
         <div className={styles.heroActions}>
@@ -121,14 +120,14 @@ export function HomeHero({
       <aside className={styles.rightCards} aria-label="Current focus">
         <div className={styles.quoteCard}>
           <span className={styles.quoteMark} aria-hidden="true">”</span>
-          <p>“Interesting problems lead to better engineers.”</p>
+          <p>“A change is only as good as the evidence that it works.”</p>
           <span className={styles.quoteRule} aria-hidden="true" />
         </div>
-        <a className={styles.currentCard} href="#research">
+        <a className={styles.currentCard} href="#internships">
           <span className={styles.currentDot} aria-hidden="true" />
           <span className={styles.currentCopy}>
-            <span>Currently working on</span>
-            <strong>SemBind-Audio</strong>
+            <span>Currently exploring</span>
+            <strong>Causal-temporal audio knowledge graphs</strong>
           </span>
           <span className={styles.currentArrow} aria-hidden="true">→</span>
         </a>
