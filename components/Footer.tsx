@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { VisitorCounter } from "@/components/sections/PortfolioExperience"
+import VisitorCounter from "@/components/portfolio/VisitorCounter"
 
 export type FooterSocial = {
   platform: string
