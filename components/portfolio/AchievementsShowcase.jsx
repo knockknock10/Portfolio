@@ -85,7 +85,7 @@ function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext })
       {total > 1 ? <button type="button" className={styles.certificatePrevious} onClick={onPrevious} aria-label="Previous certificate"><Icon kind="left"/></button> : null}
       <div className={styles.certificateDialog}>
         <div className={styles.certificateImageStage}>
-          {present(item.badgeImage) ? <img src={item.badgeImage} alt={item.title + " badge or certificate image"}/> : <div className={styles.certificateImageFallback}><Icon kind="shield"/><span>Credential details</span></div>}
+          {present(item.certificateImage) ? <img src={item.certificateImage} alt={item.title + " certificate image"}/> : present(item.badgeImage) ? <img src={item.badgeImage} alt={item.title + " badge image"}/> : <div className={styles.certificateImageFallback}><Icon kind="shield"/><span>Credential details</span></div>}
           <span className={styles.certificateCounter}>{String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
         </div>
         <div className={styles.certificateDetails}>
