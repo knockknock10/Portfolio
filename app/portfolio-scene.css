@@ -33,3 +33,24 @@ body:not(:has(.ds-page)) .portfolio-home-page > section:not(:first-child) {
     background-position: center 52%, center 52% !important;
   }
 }
+
+/* Make the closing footer readable over the same landscape instead of switching back to a pale page. */
+body:not(:has(.ds-page)) .site-footer {
+  border-top: 1px solid rgba(255, 255, 255, .2) !important;
+  background: linear-gradient(180deg, rgba(24, 28, 42, .32), rgba(17, 21, 33, .86)) !important;
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+}
+body:not(:has(.ds-page)) .footer-name,
+body:not(:has(.ds-page)) .footer-email,
+body:not(:has(.ds-page)) .footer-socials a {
+  color: rgba(249, 250, 255, .94) !important;
+}
+body:not(:has(.ds-page)) .footer-navigation a,
+body:not(:has(.ds-page)) .footer-copyright {
+  color: rgba(224, 230, 245, .78) !important;
+}
+body:not(:has(.ds-page)) .footer-socials a {
+  border-color: rgba(255, 255, 255, .22) !important;
+  background: rgba(255, 255, 255, .07);
+}
