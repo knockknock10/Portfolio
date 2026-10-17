@@ -122,21 +122,6 @@
 .threadRows > div > span:last-child { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
 .threadRows strong { color: #f5f6ff; font-size: .68rem; font-weight: 780; }
 .threadRows small { color: #a6adc4; font-size: .57rem; line-height: 1.45; }
-.fieldNoteLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  align-self: flex-start;
-  margin-top: auto;
-  padding-top: 15px;
-  color: #dce0ff;
-  font-size: .62rem;
-  font-weight: 800;
-  text-decoration: none;
-  transition: color 160ms ease, gap 160ms ease;
-}
-.fieldNoteLink svg { width: 13px; height: 13px; }
-.fieldNoteLink:hover, .fieldNoteLink:focus-visible { gap: 10px; color: #fff; }
 
 /* A fine ruled chapter label establishes editorial rhythm without adding a second navbar. */
 .timelineHeader {
@@ -340,7 +325,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .timelineItem[data-tone="graph"] .timelineRail > span { animation: none !important; }
-  .timelineBody, .timelineRail > span, .fieldNoteLink, .timelineLinks a, .evidenceFooter > a { transition: none !important; }
+  .timelineBody, .timelineRail > span, .timelineLinks a, .evidenceFooter > a { transition: none !important; }
   .timelineItem:hover .timelineBody, .timelineItemFeatured:hover .timelineBody,
   .timelineItem:hover .timelineRail > span, .timelineItemFeatured:hover .timelineRail > span { transform: none !important; }
 }
