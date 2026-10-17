@@ -5,11 +5,11 @@ import { Internships } from "@/components/sections/Internships";
 import { Certifications } from "@/components/sections/Certifications";
 import {
   ActivityShowcase,
-  FeaturedProjects,
   OpenSourceOrganizations,
   SkillsExplorer,
 } from "@/components/sections/PortfolioExperience";
 import { HomeHero } from "@/components/portfolio/HomeHero";
+import FeaturedWork from "@/components/portfolio/FeaturedWork";
 import { getContent } from "@/lib/content.server";
 import { getSignalsData } from "@/lib/signals";
 import { getResearchData } from "@/lib/research";
@@ -32,7 +32,7 @@ export default async function HomePage() {
     <main className="home-page portfolio-home-page">
       <HomeHero fullName={fullName} socials={content.socials} email={content.contact.email} resumePath={content.resumePath || "/resume.pdf"} />
 
-      <FeaturedProjects />
+      <FeaturedWork />
 
       <section id="research" className="portfolio-anchor" tabIndex={-1}>
         <Research items={researchItems} />
