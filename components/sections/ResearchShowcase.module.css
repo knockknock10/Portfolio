@@ -17,7 +17,7 @@
 }
 .scene {
   z-index: -2;
-  background-image: url("/images/hero-scene.webp");
+  background-image: var(--hero-scene-url);
   background-size: cover;
   background-position: center 49%;
   transform: scale(1.005);

@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion"
 import { readDurationToken, useSpringToken } from "@/components/primitives/motionTokens"
 import type { Internship } from "@/lib/internships"
+import { publicUrl } from "@/lib/public-url"
 
 type InternshipsProps = {
   items: Internship[]
@@ -64,7 +65,7 @@ export function Internships({ items, standalone = false }: InternshipsProps) {
                 <div className="internships-content">
                   <div className="internships-topline">
                     <div className="internships-title-role">
-                      {present(item.logo) ? <img className="internships-logo" src={item.logo} alt={item.company + " logo"} /> : null}
+                      {present(item.logo) ? <img className="internships-logo" src={publicUrl(item.logo)} alt={item.company + " logo"} /> : null}
                       <h3>{item.company}</h3>
                       {present(item.role) ? <span className="internships-role">· {item.role}</span> : null}
                     </div>

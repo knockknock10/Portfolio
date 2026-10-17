@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import styles from "./OpenSourceShowcase.module.css";
 import GitHubAchievementShelf from "./GitHubAchievementShelf";
+import { publicUrl } from "@/lib/public-url";
 
 const githubProfile = "https://github.com/knockknock10";
 const allPullRequests = "https://github.com/pulls?q=is%3Apr+author%3Aknockknock10";
@@ -211,7 +212,7 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("/api/github-contributions", { signal: controller.signal })
+    fetch(publicUrl("/api/github-contributions.json"), { signal: controller.signal })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error("Contribution data is unavailable")))
       .then((payload) => {
         const safeDays = Array.isArray(payload.contributions)

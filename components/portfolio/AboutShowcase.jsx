@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import styles from "./AboutShowcase.module.css";
+import { publicUrl } from "@/lib/public-url";
 
 function Icon({ kind }) {
   const shared = { fill: "none", stroke: "currentColor", strokeWidth: 1.75, strokeLinecap: "round", strokeLinejoin: "round" };
@@ -42,7 +43,7 @@ function PhotoCard({ name }) {
       <div className={styles.photoStage}>
         <div className={styles.photoGlow} aria-hidden="true"/>
         {!imageFailed ? (
-          <img className={styles.portraitImage} src="/images/sanjeev-portrait.png" alt={"Portrait of " + name} loading="lazy" onError={() => setImageFailed(true)}/>
+          <img className={styles.portraitImage} src={publicUrl("/images/sanjeev-portrait.png")} alt={"Portrait of " + name} loading="lazy" onError={() => setImageFailed(true)}/>
         ) : (
           <div className={styles.portraitPlaceholder} aria-label="Portrait image placeholder">
             <span>{initials}</span>

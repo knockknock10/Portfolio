@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react"
 import { Glass } from "@/components/primitives"
 import { readDurationToken, useSpringToken } from "@/components/primitives/motionTokens"
 import type { WorkImage } from "@/lib/work"
+import { publicUrl } from "@/lib/public-url"
 
 type LightboxProps = {
   open: boolean
@@ -126,7 +127,7 @@ export function Lightbox({ open, images, index, onClose, onNavigate }: LightboxP
 
             <div className="work-lightbox-image">
               <Image
-                src={activeImage.src}
+                src={publicUrl(activeImage.src)}
                 alt={activeImage.alt}
                 fill
                 sizes="100vw"

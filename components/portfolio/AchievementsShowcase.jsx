@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import styles from "./AchievementsShowcase.module.css";
+import { publicUrl } from "@/lib/public-url";
 
 function Icon({ kind }) {
   const props = { fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round" };
@@ -45,9 +46,9 @@ function CredentialShelf({ items, onSelect }) {
       <div className={styles.credentialGrid}>
         {items.map((item, index) => {
           const placeholder = Boolean(item.isPlaceholder);
-          const certificatePath = present(item.certificateImage) ? item.certificateImage : "";
+          const certificatePath = present(item.certificateImage) ? publicUrl(item.certificateImage) : "";
           const isPdf = /\.pdf(?:$|[?#])/i.test(certificatePath);
-          const imagePath = certificatePath && !isPdf ? certificatePath : present(item.badgeImage) ? item.badgeImage : "";
+          const imagePath = certificatePath && !isPdf ? certificatePath : present(item.badgeImage) ? publicUrl(item.badgeImage) : "";
           return (
             <article className={styles.credentialCard} key={item.title + "-" + (item.issuer || index)}>
               <button type="button" className={styles.credentialPreview} onClick={() => onSelect(index)} aria-label={"View credential slot: " + item.title}>
@@ -87,9 +88,9 @@ function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext, d
   useEffect(() => { setImageFailed(false); }, [item?.title, item?.certificateImage]);
   if (!item) return null;
   const placeholder = Boolean(item.isPlaceholder);
-  const certificatePath = present(item.certificateImage) ? item.certificateImage : "";
+  const certificatePath = present(item.certificateImage) ? publicUrl(item.certificateImage) : "";
   const isPdf = /\.pdf(?:$|[?#])/i.test(certificatePath);
-  const imagePath = certificatePath && !isPdf ? certificatePath : present(item.badgeImage) ? item.badgeImage : "";
+  const imagePath = certificatePath && !isPdf ? certificatePath : present(item.badgeImage) ? publicUrl(item.badgeImage) : "";
 
   return (
     <div
@@ -245,7 +246,7 @@ export default function AchievementsShowcase({ items = [] }) {
       <motion.footer className={styles.achievementFooter} {...reveal(.13)}>
         <span className={styles.footerMark}><Icon kind="book"/></span>
         <div><strong>Specifics matter more than badge counts.</strong><span>Each record supports issuer, issue date, skills and a verification link where supplied.</span></div>
-        <a href="/about">About my background <Icon kind="external"/></a>
+        <a href={publicUrl("/about")}>About my background <Icon kind="external"/></a>
       </motion.footer>
 
       {selectedItem ? <CredentialLightbox item={selectedItem} index={selectedIndex} total={galleryItems.length} dialogRef={dialogRef} onClose={() => setSelectedIndex(null)} onPrevious={() => step(-1)} onNext={() => step(1)}/> : null}

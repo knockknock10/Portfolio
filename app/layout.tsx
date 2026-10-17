@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
+import type { CSSProperties } from "react"
 import localFont from "next/font/local"
 import { getContent } from "@/lib/content.server"
+import { publicUrl } from "@/lib/public-url"
 import { Footer } from "@/components/Footer"
 import CinematicIntro from "@/components/intro/CinematicIntro"
 import PortfolioChrome from "@/components/portfolio/PortfolioChrome"
@@ -20,6 +22,10 @@ const brandName = content.identity.professionalName ?? content.identity.fullName
 const description =
   content.identity.tagline ??
   "Software engineering, open-source contributions, and applied AI by Sanjeev Kumar."
+const rootStyle = {
+  "--hero-scene-url": `url("${publicUrl("/images/hero-scene.webp")}")`,
+} as CSSProperties
+
 const socialLinks = (content.socials ?? []).flatMap((item) =>
   item.url && /^https?:\/\//i.test(item.url)
     ? [{ platform: item.platform, url: item.url }]
@@ -27,6 +33,7 @@ const socialLinks = (content.socials ?? []).flatMap((item) =>
 )
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://knockknock10.github.io/Portfolio/"),
   title: {
     default: brandName,
     template: "%s | " + brandName,
@@ -43,13 +50,13 @@ export const metadata: Metadata = {
     title: brandName,
     description,
   },
-  icons: { icon: "/favicon.svg" },
+  icons: { icon: publicUrl("/favicon.svg") },
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={interTight.variable}>
+      <body className={interTight.variable} style={rootStyle}>
         <a className="skip-link" href="#main-content">Skip to content</a>
         <SmoothScrollProvider>
           <CinematicIntro />

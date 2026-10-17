@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion"
 import { readDurationToken, useSpringToken } from "@/components/primitives/motionTokens"
 import type { Certification } from "@/lib/certifications"
+import { publicUrl } from "@/lib/public-url"
 
 type CertificationsProps = {
   items: Certification[]
@@ -58,7 +59,7 @@ export function Certifications({ items, standalone = false }: CertificationsProp
               <div className="certification-topline">
                 {present(item.issuer) ? <p className="certification-issuer">{item.issuer}</p> : <span />}
                 {present(item.badgeImage) ? (
-                  <img className="certification-badge-image" src={item.badgeImage} alt={item.title + " badge"} />
+                  <img className="certification-badge-image" src={publicUrl(item.badgeImage)} alt={item.title + " badge"} />
                 ) : null}
               </div>
               <h3>{item.title}</h3>

@@ -4,6 +4,7 @@ import { motion, useMotionValue, useReducedMotion } from "framer-motion"
 import { useEffect, useRef } from "react"
 import { useLenis } from "@/components/SmoothScrollProvider"
 import type { CraftStep } from "@/lib/craft"
+import { publicUrl } from "@/lib/public-url"
 import styles from "@/components/craft/CraftSequence.module.css"
 import { readDurationToken, readMotionNumber, useSpringToken } from "@/components/primitives/motionTokens"
 
@@ -63,7 +64,7 @@ export function CraftSequence({ steps }: { steps: CraftStep[] }) {
             }
           >
             {step.image ? (
-              <img className={styles.stepImage} src={step.image} alt={step.description} />
+              <img className={styles.stepImage} src={publicUrl(step.image)} alt={step.description} />
             ) : null}
             <p className={styles.stepNumber} aria-hidden="true">
               {String(step.number).padStart(2, "0")}
