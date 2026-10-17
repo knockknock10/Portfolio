@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import styles from "./AchievementsShowcase.module.css";
 
@@ -26,6 +26,44 @@ function formatDate(value) {
   const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match) return value;
   return new Date(value + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+}
+
+const githubAchievements = [
+  { title: "Pull Shark", detail: "Merged pull requests", image: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-silver.png", count: "×3" },
+  { title: "Galaxy Brain", detail: "Accepted discussion answers", image: "https://github.githubassets.com/images/modules/profile/achievements/galaxy-brain-default.png" },
+  { title: "Quickdraw", detail: "Fast issue or pull-request close", image: "https://github.githubassets.com/images/modules/profile/achievements/quickdraw-default.png" },
+  { title: "Pair Extraordinaire", detail: "Co-authored merged pull request", image: "https://github.githubassets.com/images/modules/profile/achievements/pair-extraordinaire-default.png" },
+  { title: "YOLO", detail: "Merged pull request without review", image: "https://github.githubassets.com/images/modules/profile/achievements/yolo-default.png" },
+];
+
+function GitHubAchievementShelf() {
+  return (
+    <article className={styles.githubAchievementPanel} aria-labelledby="github-achievements-title">
+      <header className={styles.githubAchievementHeader}>
+        <div>
+          <p className={styles.panelEyebrow}>OPEN-SOURCE MILESTONES</p>
+          <h3 id="github-achievements-title">GitHub achievements</h3>
+          <p>The profile badges shown in your reference, linked to the public achievements page.</p>
+        </div>
+        <a href="https://github.com/knockknock10?tab=achievements" target="_blank" rel="noreferrer">View profile ↗</a>
+      </header>
+      <div className={styles.githubAchievementGrid}>
+        {githubAchievements.map((badge) => (
+          <a className={styles.githubAchievement}
+            href="https://github.com/knockknock10?tab=achievements"
+            target="_blank" rel="noreferrer" key={badge.title}
+            aria-label={badge.title + (badge.count ? " " + badge.count : "") + " GitHub achievement"}>
+            <span className={styles.githubAchievementArt}>
+              <img src={badge.image} alt="" loading="lazy" />
+              {badge.count ? <span className={styles.githubAchievementCount}>{badge.count}</span> : null}
+            </span>
+            <strong>{badge.title}</strong>
+            <small>{badge.detail}</small>
+          </a>
+        ))}
+      </div>
+    </article>
+  );
 }
 
 function CredentialShelf({ items, onSelect }) {
@@ -71,10 +109,11 @@ function CredentialShelf({ items, onSelect }) {
   );
 }
 
-function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext }) {
+function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext, dialogRef }) {
   if (!item) return null;
   return (
     <div
+      ref={dialogRef}
       className={styles.certificateLightbox}
       role="dialog"
       aria-modal="true"
@@ -108,6 +147,9 @@ function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext })
 export default function AchievementsShowcase({ items = [] }) {
   const reducedMotion = useReducedMotion();
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const dialogRef = useRef(null);
+  const previousFocusRef = useRef(null);
+  const isGalleryOpen = selectedIndex !== null;
   const reveal = (delay = 0) => ({
     initial: reducedMotion ? false : { opacity: 0, y: 12 },
     whileInView: { opacity: 1, y: 0 },
@@ -117,20 +159,55 @@ export default function AchievementsShowcase({ items = [] }) {
   const selectedItem = selectedIndex !== null && items[selectedIndex] ? items[selectedIndex] : null;
 
   useEffect(() => {
-    if (selectedIndex === null) return undefined;
+    if (!isGalleryOpen) return undefined;
     const originalOverflow = document.body.style.overflow;
+    previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     document.body.style.overflow = "hidden";
+    const closeButton = dialogRef.current?.querySelector('button[aria-label="Close certificate gallery"]');
+    closeButton?.focus();
+
     function onKeyDown(event) {
-      if (event.key === "Escape") setSelectedIndex(null);
-      if (event.key === "ArrowLeft" && items.length > 1) setSelectedIndex((value) => value === null ? null : (value - 1 + items.length) % items.length);
-      if (event.key === "ArrowRight" && items.length > 1) setSelectedIndex((value) => value === null ? null : (value + 1) % items.length);
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setSelectedIndex(null);
+        return;
+      }
+      if (event.key === "ArrowLeft" && items.length > 1) {
+        event.preventDefault();
+        setSelectedIndex((value) => value === null ? null : (value - 1 + items.length) % items.length);
+        return;
+      }
+      if (event.key === "ArrowRight" && items.length > 1) {
+        event.preventDefault();
+        setSelectedIndex((value) => value === null ? null : (value + 1) % items.length);
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(dialogRef.current?.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])') ?? []);
+      if (!focusable.length) {
+        event.preventDefault();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !dialogRef.current?.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || !dialogRef.current?.contains(document.activeElement))) {
+        event.preventDefault();
+        first.focus();
+      }
     }
+
     window.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", onKeyDown);
+      const restoreTarget = previousFocusRef.current;
+      if (restoreTarget instanceof HTMLElement && restoreTarget.isConnected) restoreTarget.focus();
     };
-  }, [selectedIndex, items.length]);
+  }, [isGalleryOpen, items.length]);
 
   function step(delta) {
     setSelectedIndex((value) => value === null || !items.length ? null : (value + delta + items.length) % items.length);
@@ -154,6 +231,10 @@ export default function AchievementsShowcase({ items = [] }) {
         </motion.aside>
       </header>
 
+      <motion.div {...reveal(.08)}>
+        <GitHubAchievementShelf />
+      </motion.div>
+
       <motion.div {...reveal(.1)}>
         <CredentialShelf items={items} onSelect={setSelectedIndex}/>
       </motion.div>
@@ -164,7 +245,7 @@ export default function AchievementsShowcase({ items = [] }) {
         <a href="/about">About my background <Icon kind="external"/></a>
       </motion.footer>
 
-      {selectedItem ? <CredentialLightbox item={selectedItem} index={selectedIndex} total={items.length} onClose={() => setSelectedIndex(null)} onPrevious={() => step(-1)} onNext={() => step(1)}/> : null}
+      {selectedItem ? <CredentialLightbox item={selectedItem} index={selectedIndex} total={items.length} dialogRef={dialogRef} onClose={() => setSelectedIndex(null)} onPrevious={() => step(-1)} onNext={() => step(1)}/> : null}
     </section>
   );
 }

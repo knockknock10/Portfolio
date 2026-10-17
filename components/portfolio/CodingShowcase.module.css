@@ -354,12 +354,18 @@
 }
 .githubMonthLabels {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+  width: max-content;
+  min-width: 0;
   gap: 0;
   margin: 0 0 8px 28px;
   color: #7d8497;
   font-size: .55rem;
-  text-align: center;
+  text-align: left;
+}
+.githubMonthLabels span {
+  min-width: 10px;
+  padding-right: 5px;
+  white-space: nowrap;
 }
 .githubCalendarRow { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 7px; align-items: start; min-width: 0; }
 .githubWeekdayLabels {
@@ -508,3 +514,10 @@
     text-align: center;
   }
 }
+
+
+/* Month headings share the contribution grid's 10px week columns and scroll together. */
+.githubCalendarViewport { position:relative; overflow-x:auto; overflow-y:hidden; }
+.githubMonthLabels { display:grid; width:max-content; min-width:0; text-align:left; }
+.githubMonthLabels span { min-width:10px; padding-right:5px; white-space:nowrap; }
+@media(max-width:620px) { .githubMonthLabels { grid-template-columns:none!important; } }
