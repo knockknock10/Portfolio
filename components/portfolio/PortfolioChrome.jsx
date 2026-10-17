@@ -133,7 +133,7 @@ export default function PortfolioChrome() {
   return (
     <>
       <SidebarNavigation closingZoneVisible={closingZoneVisible} />
-      <header className={`${styles.topbar} ${closingZoneVisible ? styles.topbarFooterClear : ""}`}>
+      <header className={`${styles.topbar} ${scrollProgress > 0.025 ? styles.topbarScrolled : ""} ${closingZoneVisible ? styles.topbarFooterClear : ""}`}>
         <div className={styles.scrollProgress} aria-hidden="true">
           <span style={{ transform: "scaleX(" + scrollProgress + ")" }} />
         </div>
