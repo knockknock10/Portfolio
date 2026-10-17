@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import styles from "./OpenSourceShowcase.module.css";
+import GitHubAchievementShelf from "./GitHubAchievementShelf";
 
 const githubProfile = "https://github.com/knockknock10";
 const allPullRequests = "https://github.com/pulls?q=is%3Apr+author%3Aknockknock10";
@@ -210,7 +211,7 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("https://github-contributions-api.jogruber.de/v4/knockknock10?y=all", { signal: controller.signal })
+    fetch("/api/github-contributions", { signal: controller.signal })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error("Contribution data is unavailable")))
       .then((payload) => {
         const safeDays = Array.isArray(payload.contributions)
@@ -299,16 +300,31 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
   }, [days, totals, period]);
 
   const yearOptions = useMemo(() => Object.keys(totals).sort((a, b) => Number(b) - Number(a)), [totals]);
+  const totalLabel = loadState === "live" ? total.toLocaleString() : loadState === "loading" ? "…" : "—";
+  let lastMonthKey = "";
   const monthSlots = weeks.map((week, index) => {
-    const first = week.find((day) => day.inRange && day.date.getDate() <= 7);
+    const firstOfMonth = week.find((day) => day.inRange && day.date.getDate() === 1);
+    const firstInRange = week.find((day) => day.inRange);
+    const marker = firstOfMonth || (index === 0 ? firstInRange : null);
+    if (!marker) return { key: index, label: "" };
+    const monthKey = marker.date.getFullYear() + "-" + marker.date.getMonth();
+    if (monthKey === lastMonthKey) return { key: index, label: "" };
+    lastMonthKey = monthKey;
     return {
       key: index,
-      label: first ? first.date.toLocaleDateString("en-US", { month: "short" }) : "",
+      label: marker.date.toLocaleDateString("en-US", { month: "short" }),
     };
   });
 
   return (
     <aside className={styles.githubGraphPanel} aria-labelledby="github-graph-heading">
+      <nav className={styles.githubGraphYearRail} aria-label="Choose GitHub contribution period">
+        <span>YEAR</span>
+        <button type="button" className={period === "last" ? styles.githubGraphYearActive : styles.githubGraphYear} aria-pressed={period === "last"} onClick={() => setPeriod("last")}>12 mo</button>
+        {yearOptions.map((year) => (
+          <button key={year} type="button" className={period === year ? styles.githubGraphYearActive : styles.githubGraphYear} aria-pressed={period === year} onClick={() => setPeriod(year)}>{year}</button>
+        ))}
+      </nav>
       <div className={styles.githubGraphMain}>
         <div className={styles.githubGraphTop}>
         <a className={styles.githubGraphTitle} href={githubProfile} target="_blank" rel="noreferrer" aria-label="Open Sanjeev's GitHub profile">
@@ -316,17 +332,19 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
           <span id="github-graph-heading">GitHub contributions</span>
           <span className={styles.githubTitleArrow} aria-hidden="true">↗</span>
         </a>
-        <select value={period} onChange={(event) => setPeriod(event.target.value)} aria-label="Contribution graph period">
-          <option value="last">Last 12 months</option>
-          {yearOptions.map((year) => <option key={year} value={year}>{year}</option>)}
-        </select>
+
       </div>
 
       <div className={styles.githubGraphMeta}>
         <span>{loadState === "loading" ? "Loading live contribution history…" : loadState === "fallback" ? "Contribution history unavailable" : `${startLabel} — ${endLabel}`}</span>
-        <span>{total.toLocaleString()} contributions</span>
+        <span>{totalLabel} contributions</span>
       </div>
 
+      {loadState === "fallback" ? (
+        <p className={styles.githubGraphUnavailable} role="status">
+          Live contribution data could not be loaded right now. No zero total is assumed. <a href={githubProfile} target="_blank" rel="noreferrer">View the live GitHub profile ↗</a>
+        </p>
+      ) : null}
       <div className={styles.githubHeatmapViewport} tabIndex={0} role="region" aria-label="Scrollable GitHub contribution calendar">
         <div className={styles.githubHeatmapInner}>
           <div className={styles.githubMonthRail} style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))` }}>
@@ -343,10 +361,10 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
                     <span
                       key={day.key}
                       className={styles.githubHeatmapDay}
-                      data-level={day.inRange ? day.level : "empty"}
-                      title={day.inRange ? `${day.count} contributions on ${day.key}` : ""}
+                      data-level={!day.inRange ? "empty" : loadState === "live" ? day.level : "unknown"}
+                      title={!day.inRange ? "" : loadState === "live" ? `${day.count} contributions on ${day.key}` : `Contribution data ${loadState} for ${day.key}`}
                       role="gridcell"
-                      aria-label={day.inRange ? `${day.count} contributions on ${day.key}` : "Outside selected period"}
+                      aria-label={!day.inRange ? "Outside selected period" : loadState === "live" ? `${day.count} contributions on ${day.key}` : `Contribution data ${loadState} for ${day.key}`}
                     />
                   ))}
                 </div>
@@ -357,14 +375,16 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
       </div>
 
         <div className={styles.githubGraphFooter}>
-          <span className={styles.heatmapLegend}><span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><i data-level="4" /><span>More</span></span>
+          {loadState === "live" ? (
+            <span className={styles.heatmapLegend}><span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><i data-level="4" /><span>More</span></span>
+          ) : <span className={styles.heatmapSource}>Intensity legend appears when contribution data loads.</span>}
           <span className={styles.heatmapSource}>{loadState === "live" ? "Live public contribution history" : "Source: GitHub profile"}</span>
         </div>
       </div>
       <div className={styles.githubGraphStats}>
         <div className={styles.githubGraphStat}>
           <span className={styles.graphStatIcon}>▥</span>
-          <span><strong>{total.toLocaleString()}</strong><small>Contributions</small></span>
+          <span><strong>{totalLabel}</strong><small>Contributions {loadState === "live" ? "" : loadState === "loading" ? "loading" : "unavailable"}</small></span>
         </div>
         <div className={styles.githubGraphStat}>
           <span className={styles.graphStatIcon}>⑂</span>
@@ -379,6 +399,9 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
           <span><strong>{communityCount}</strong><small>Communities</small></span>
         </div>
         <p className={styles.graphStatNote}>{openCount} pull requests in the curated list are still open.</p>
+      </div>
+      <div className={styles.githubGraphBadges}>
+        <GitHubAchievementShelf />
       </div>
     </aside>
   );

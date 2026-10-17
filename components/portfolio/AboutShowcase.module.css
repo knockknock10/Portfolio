@@ -247,3 +247,38 @@
   .aboutLeft h2 { max-width: 15ch; }
   .aboutIntro,.aboutBody { max-width: none; }
 }
+
+
+/* Detail pass: clearer About hierarchy, readable body copy, solid headings and softer cards. */
+.aboutSection { width:min(1510px,calc(100% - clamp(150px,12vw,220px))); margin-inline:auto; }
+.aboutLeft h2 span {
+  color:#315cff!important; background:none!important;
+  -webkit-background-clip:initial!important; -webkit-text-fill-color:currentColor!important;
+}
+.aboutLeft h2 { font-size:clamp(3.1rem,4.1vw,4.5rem); line-height:.98; }
+.aboutIntro { font-size:clamp(1rem,1.04vw,1.1rem); line-height:1.72; }
+.aboutBody { font-size:.84rem; line-height:1.78; }
+.aboutTags span { font-size:.66rem; padding:7px 10px; }
+.educationHeader h3,.valuesHeader h3,.interestsHeader h3 { font-size:.9rem; }
+.educationCard p,.journeyCard p,.interestsCard p,.valuesCard p,.exploringCard p { font-size:.76rem; line-height:1.6; }
+@media(max-width:980px){.aboutSection{width:auto;margin:36px 18px 0 70px;}}
+@media(max-width:700px){.aboutSection{margin:32px 12px 0 66px}.aboutIntro{font-size:.96rem}.aboutBody{font-size:.79rem}}
+
+
+/* No gradient-filled lettering; keep the emphasis crisp and high-contrast. */
+.aboutLeft h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.aboutIntro { font-size:clamp(1rem,1.05vw,1.1rem); line-height:1.72; }
+.aboutBody { font-size:.88rem; line-height:1.8; }
+.aboutTags span { font-size:.72rem; }
+.educationHeader h3,.valuesHeader h3,.interestsHeader h3 { font-size:.98rem; }
+.educationCard p,.journeyCard p,.interestsCard p,.valuesCard p,.exploringCard p { font-size:.84rem; line-height:1.7; }
+.focusCopy strong { font-size:.82rem; line-height:1.45; }
+.focusCopy small { font-size:.72rem; line-height:1.55; }
+.photoIdentity strong { font-size:1.05rem; }
+.photoIdentity span { font-size:.72rem; }
+@media(max-width:700px) {
+  .aboutIntro { font-size:.96rem; }
+  .aboutBody { font-size:.84rem; }
+  .educationCard p,.journeyCard p,.interestsCard p,.valuesCard p,.exploringCard p { font-size:.8rem; }
+  .focusCopy small { font-size:.68rem; }
+}

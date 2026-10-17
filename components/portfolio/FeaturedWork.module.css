@@ -1594,3 +1594,44 @@
 
 /* Let Work inherit the exact same scenic pixels as Research and Open Source. */
 .workShade { background: transparent !important; }
+
+
+/* Portfolio-wide readability pass for work cards and project detail drawer. */
+.workLead { font-size: clamp(1rem,1.05vw,1.12rem); line-height:1.66; }
+.featureDescription { font-size: .98rem; line-height:1.68; max-width:36ch; }
+.featureLabel { font-size:.68rem; }
+.featureTags span { font-size:.7rem; min-height:28px; }
+.featurePrimary,.featureSecondary { font-size:.76rem; min-height:44px; }
+.projectCardEyebrow { font-size:.63rem; line-height:1.45; }
+.projectStatusText { font-size:.64rem; line-height:1.3; }
+.projectCardBody > p { min-height:72px; font-size:.84rem; line-height:1.58; }
+.projectCardTags span { font-size:.68rem; min-height:24px; }
+.projectCardActions a,.projectCardActions button { font-size:.73rem; }
+.drawerDescription { font-size:1rem; line-height:1.78; }
+.drawerInfo h4 { font-size:.92rem; }
+.drawerInfo ul { font-size:.93rem; line-height:1.8; }
+.drawerTags span { font-size:.78rem; }
+.drawerActions a { font-size:.82rem; }
+@media (max-width:760px) {
+  .workCanvas { width:auto; margin:86px 16px 0 70px; }
+  .workLead { font-size:.96rem; line-height:1.62; }
+  .featureDescription { font-size:.91rem; line-height:1.58; }
+  .projectCardBody > p { min-height:0; font-size:.82rem; }
+}
+
+
+/* Text emphasis remains solid instead of using clipped color gradients. */
+.workIntro h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.workLead { font-size:clamp(.98rem,1.04vw,1.08rem); line-height:1.7; }
+.featureDescription { font-size:.94rem; line-height:1.65; }
+.featureTags span { font-size:.7rem; }
+.projectCardBody > p { font-size:.88rem; line-height:1.62; }
+.projectCardTags span { font-size:.7rem; }
+.projectCardActions a,.projectCardActions button { font-size:.77rem; }
+.drawerDescription { font-size:1rem; line-height:1.75; }
+.drawerInfo ul { font-size:.92rem; line-height:1.75; }
+@media(max-width:760px) {
+ .workLead { font-size:.92rem; }
+ .featureDescription { font-size:.86rem; }
+ .projectCardBody > p { font-size:.82rem; }
+}

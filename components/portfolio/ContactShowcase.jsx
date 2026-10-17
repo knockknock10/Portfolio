@@ -35,9 +35,22 @@ export default function ContactShowcase({ content }) {
   const reducedMotion = useReducedMotion();
   const email = content?.contact?.email || "";
   const location = content?.contact?.location || "India";
-  const socials = Array.isArray(content?.socials)
+  const configuredSocials = Array.isArray(content?.socials)
     ? content.socials.filter((item) => item && item.url && /^https?:\/\//i.test(item.url))
     : [];
+  const fallbackSocials = [
+    { platform: "GitHub", url: "https://github.com/knockknock10" },
+    { platform: "LinkedIn", url: "https://www.linkedin.com/in/sanjeev-kumar-ba567133a/" },
+  ];
+  const hasConfiguredPlatform = (platform) => configuredSocials.some((item) => {
+    const label = String(item.platform || "").toLowerCase();
+    const url = String(item.url || "").toLowerCase();
+    return label.includes(platform.toLowerCase()) || url.includes(platform.toLowerCase());
+  });
+  const socials = [
+    ...configuredSocials,
+    ...fallbackSocials.filter((item) => !hasConfiguredPlatform(item.platform)),
+  ];
   const profileCards = socials.map((item) => {
     const normalized = item.platform.toLowerCase();
     const kind = normalized.includes("linkedin") ? "linkedin" : normalized.includes("leetcode") ? "leetcode" : normalized.includes("github") ? "github" : "arrow";

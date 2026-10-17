@@ -275,21 +275,216 @@
 }
 
 
-/* GitHub achievement row matching the supplied badge reference. */
-.githubAchievementPanel { min-width:0; margin:0 0 14px; padding:clamp(16px,2vw,25px); border:1px solid rgba(255,255,255,.92); border-radius:22px; color:#171c29; background:rgba(255,252,250,.8); box-shadow:0 16px 40px rgba(35,37,55,.065),inset 0 1px 0 rgba(255,255,255,.96); backdrop-filter:blur(20px) saturate(128%); -webkit-backdrop-filter:blur(20px) saturate(128%); }
-.githubAchievementHeader { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:17px; }
-.githubAchievementHeader h3 { margin:5px 0 0; color:#161b27; font-size:clamp(1.15rem,1.5vw,1.55rem); font-weight:780; letter-spacing:-.045em; }
-.githubAchievementHeader p:not(.panelEyebrow) { margin:6px 0 0; color:#6b7387; font-size:.74rem; line-height:1.5; }
-.githubAchievementHeader>a { flex:0 0 auto; color:#2f4ec1; font-size:.7rem; font-weight:750; text-decoration:none; }
-.githubAchievementHeader>a:hover { text-decoration:underline; text-underline-offset:4px; }
-.githubAchievementGrid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(8px,1.4vw,18px); }
-.githubAchievement { display:flex; min-width:0; flex-direction:column; align-items:center; gap:8px; padding:11px 6px 12px; border:1px solid rgba(73,83,115,.08); border-radius:16px; color:inherit; background:rgba(255,255,255,.55); text-align:center; text-decoration:none; transition:transform 220ms cubic-bezier(.2,.8,.2,1),background 220ms ease,box-shadow 220ms ease,border-color 220ms ease; }
-.githubAchievement:hover { transform:translateY(-4px); border-color:rgba(49,92,255,.2); background:rgba(255,255,255,.92); box-shadow:0 14px 28px rgba(31,39,67,.09); }
-.githubAchievementArt { position:relative; display:grid; width:clamp(62px,7vw,102px); aspect-ratio:1; place-items:center; border:1px solid rgba(69,82,122,.1); border-radius:50%; background:#f1f2f6; box-shadow:0 7px 17px rgba(30,35,54,.07),inset 0 1px 0 #fff; }
-.githubAchievementArt img { display:block; width:94%; height:94%; object-fit:contain; }
-.githubAchievementCount { position:absolute; right:-9px; bottom:-3px; display:grid; min-width:36px; height:28px; place-items:center; padding:0 8px; border:1px solid rgba(20,24,35,.1); border-radius:999px; color:#111521; background:#f0f1f3; box-shadow:0 4px 10px rgba(20,24,35,.12); font-size:.72rem; font-weight:850; }
-.githubAchievement>strong { color:#20263a; font-size:clamp(.62rem,.82vw,.8rem); font-weight:760; line-height:1.3; overflow-wrap:anywhere; }
-.githubAchievement>small { color:#82899b; font-size:.59rem; line-height:1.4; overflow-wrap:anywhere; }
-@media(max-width:780px) { .githubAchievementGrid { grid-template-columns:repeat(3,minmax(0,1fr)); } .githubAchievementHeader { flex-direction:column; } .githubAchievementArt { width:clamp(64px,13vw,92px); } }
-@media(max-width:420px) { .githubAchievementGrid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-@media(prefers-reduced-motion:reduce) { .githubAchievement { transition:none!important; } .githubAchievement:hover { transform:none!important; } }
+
+
+/* Certificate shelf: ten curated slots with a full-screen viewer. */
+.credentialShelfIntro {
+  margin: -2px 15px 15px;
+  color: #737c90;
+  font-size: .78rem;
+  line-height: 1.55;
+}
+.credentialShelfIntro code,
+.certificateInstructions code {
+  padding: 2px 5px;
+  border: 1px solid rgba(62,76,116,.12);
+  border-radius: 5px;
+  color: #26345b;
+  background: rgba(245,247,255,.88);
+  font-size: .9em;
+}
+.credentialGrid {
+  grid-template-columns: repeat(5,minmax(0,1fr));
+  gap: clamp(9px,1.2vw,16px);
+}
+.credentialCard {
+  min-width: 0;
+  padding: clamp(8px,1vw,13px);
+  border: 1px solid rgba(68,79,112,.1);
+  border-radius: 16px;
+  background: rgba(255,255,255,.65);
+  box-shadow: 0 8px 22px rgba(35,38,56,.04), inset 0 1px 0 rgba(255,255,255,.96);
+}
+.credentialPreview {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  border-radius: 12px;
+}
+.credentialThumbnail {
+  position: relative;
+  display: grid;
+  width: 100%;
+  aspect-ratio: 1.36 / 1;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(75,91,140,.11);
+  border-radius: 10px;
+  background: #eef1f8;
+}
+.credentialThumbnail[data-empty="true"] {
+  background:
+    radial-gradient(ellipse at 78% 10%, rgba(97,123,255,.13), transparent 62%),
+    linear-gradient(145deg,#f6f7fc,#e8edf8);
+}
+.credentialThumbnail > img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #f7f8fc;
+}
+.credentialThumbnailArtwork {
+  position: absolute;
+  inset: 9% 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7%;
+  padding: 8%;
+  border: 1px solid rgba(67,83,145,.18);
+  border-radius: 5px;
+  background: rgba(255,255,255,.86);
+  box-shadow: 0 5px 16px rgba(40,49,87,.08);
+}
+.credentialThumbnailArtwork > svg {
+  width: 18%;
+  height: auto;
+  color: #4565df;
+}
+.credentialThumbnailTop { display: flex; gap: 4px; }
+.credentialThumbnailTop i { width: 4px; height: 4px; border-radius: 50%; background: #93a3eb; }
+.credentialThumbnailLine,
+.credentialThumbnailLineShort {
+  display: block;
+  height: 3px;
+  width: 83%;
+  border-radius: 99px;
+  background: #dce2f5;
+}
+.credentialThumbnailLineShort { width: 52%; }
+.credentialThumbnailArtwork strong {
+  margin-top: auto;
+  color: #7884ad;
+  font: 750 .47rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing: .07em;
+}
+.slotBadge,
+.pdfCorner {
+  position: absolute;
+  z-index: 2;
+  right: 7px;
+  bottom: 7px;
+  padding: 4px 6px;
+  border: 1px solid rgba(50,65,113,.12);
+  border-radius: 6px;
+  color: #465a9a;
+  background: rgba(255,255,255,.9);
+  font: 750 .5rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.pdfCorner { top: 7px; bottom: auto; color: #9f443e; }
+.credentialCardTop { min-width: 0; padding: 0 1px; }
+.credentialCardTop > span { min-width: 0; }
+.credentialCardTop small {
+  display: block;
+  color: #778096;
+  font-size: .63rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.credentialCardTop h4 {
+  margin: 4px 0 0;
+  color: #222a3e;
+  font-size: clamp(.75rem,.85vw,.86rem);
+  line-height: 1.35;
+  font-weight: 760;
+  letter-spacing: -.025em;
+  overflow-wrap: anywhere;
+}
+.credentialPreview > p { margin: 0; color: #8990a0; font-size: .64rem; }
+.galleryOpenHint { margin-top: 0; font-size: .65rem; }
+.notVerified { display: inline-block; margin: 5px 0 0; color: #8a91a1; font-size: .62rem; line-height: 1.35; }
+.certificateInstructions { margin: 8px 0 0; color: #667086; font-size: .77rem; line-height: 1.65; }
+.certificateImageStage iframe {
+  display: block;
+  width: 100%;
+  height: min(66svh,660px);
+  border: 0;
+  border-radius: 9px;
+  background: #fff;
+}
+.certificateImageStage[data-placeholder="true"] { background: #e9edf7; }
+.certificatePaperArtwork {
+  display: flex;
+  width: min(70%,320px);
+  aspect-ratio: .72;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 23px;
+  border: 1px solid rgba(57,75,130,.15);
+  border-radius: 8px;
+  color: #435fc6;
+  background: linear-gradient(145deg,#fff,#f5f6fc);
+  box-shadow: 0 16px 40px rgba(35,45,85,.12);
+}
+.certificatePaperArtwork svg { width: 44px; height: 44px; }
+.certificatePaperArtwork i { display: block; width: 84%; height: 5px; border-radius: 99px; background: #e1e6f4; }
+.certificatePaperArtwork i:nth-of-type(3) { width: 50%; }
+.certificateImageFallback > strong {
+  color: #25304a;
+  font-size: .9rem;
+  text-align: center;
+}
+.certificateImageFallback > span:last-child {
+  max-width: 34ch;
+  color: #737c91;
+  font-size: .72rem;
+  line-height: 1.55;
+  text-align: center;
+}
+@media(max-width:1250px) {
+  .credentialGrid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+}
+@media(max-width:980px) {
+  .credentialGrid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media(max-width:640px) {
+  .credentialGrid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .credentialShelfIntro { margin-inline: 11px; font-size: .74rem; }
+  .certificateImageStage iframe { height: 40svh; }
+}
+@media(max-width:390px) {
+  .credentialGrid { grid-template-columns: minmax(0,1fr); }
+  .credentialThumbnail { aspect-ratio: 1.7 / 1; }
+}
+
+
+/* Solid heading color and readable certificate metadata. */
+.achievementsIntro h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.achievementsIntro > p:not(.eyebrow) { font-size:clamp(.98rem,1.04vw,1.08rem); line-height:1.72; }
+.achievementTags span { font-size:.68rem; }
+.panelEyebrow { font-size:.58rem; line-height:1.4; }
+.panelHeading h3 { font-size:1rem; }
+.credentialCardTop small { font-size:.7rem; line-height:1.4; }
+.credentialCardTop h4 { font-size:.86rem; line-height:1.42; }
+.credentialPreview > p { font-size:.7rem; line-height:1.45; }
+.galleryOpenHint,.verifyCredential { font-size:.72rem; }
+.notVerified { font-size:.68rem; }
+.certificateDetails { font-size:.86rem; line-height:1.6; }
+.certificateIssuer { font-size:.94rem; line-height:1.55; }
+.certificateInstructions { font-size:.82rem; line-height:1.7; }
+.certificateDetails > p { font-size:.8rem; line-height:1.6; }
+.slotBadge,.pdfCorner { font-size:.57rem; }
+@media(max-width:640px) {
+  .achievementsIntro > p:not(.eyebrow) { font-size:.92rem; }
+  .credentialCardTop small { font-size:.68rem; }
+  .credentialCardTop h4 { font-size:.84rem; }
+  .credentialPreview > p,.notVerified { font-size:.67rem; }
+}

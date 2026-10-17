@@ -83,7 +83,7 @@ export function HomeHero({
           <span>{firstName}</span>
           <span className={styles.heroTitleSecond}>
             <span>{lastName}</span>
-            <span className={styles.signature} aria-hidden="true">Sanjeev</span>
+            <span className={styles.signature} aria-hidden="true"><span>Sanjeev</span><span>Kumar</span></span>
           </span>
         </h1>
 

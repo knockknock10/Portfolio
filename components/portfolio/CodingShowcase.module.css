@@ -521,3 +521,194 @@
 .githubMonthLabels { display:grid; width:max-content; min-width:0; text-align:left; }
 .githubMonthLabels span { min-width:10px; padding-right:5px; white-space:nowrap; }
 @media(max-width:620px) { .githubMonthLabels { grid-template-columns:none!important; } }
+
+
+/* Coding layout polish: real profile destinations, more legible stats and calmer panels. */
+.codingIntro h2 span {
+  color: #315cff !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+.codingIntro > p:not(.eyebrow) {
+  font-size: clamp(.98rem, 1.04vw, 1.1rem);
+  line-height: 1.72;
+}
+.metricCopy small { font-size: clamp(.68rem, .72vw, .76rem); line-height: 1.35; }
+.metricCopy > span { font-size: clamp(.64rem, .68vw, .72rem); line-height: 1.4; }
+.panelHeading h3 { font-size: clamp(.96rem, 1.08vw, 1.1rem); }
+.panelHeading p { font-size: .78rem; line-height: 1.5; }
+.difficultyLabel,
+.difficultyRow > small,
+.emptyContest { font-size: .76rem; line-height: 1.5; }
+.monthLabels { font-size: .65rem; }
+.heatmapLegend { font-size: .66rem; }
+.heatmapLegend small { font-size: .64rem; }
+.contestList time,
+.contestCopy small { font-size: .69rem; }
+.contestCopy strong { font-size: .82rem; line-height: 1.35; }
+.resourcesHeader > div > p:last-child { font-size: .76rem; line-height: 1.5; }
+.resourceText small { font-size: .7rem; }
+.resourceText > span { font-size: .72rem; line-height: 1.45; }
+.resourcesFoot { font-size: .62rem; }
+.codingFooter strong { font-size: .83rem; }
+.codingFooter small { font-size: .72rem; line-height: 1.5; }
+.codingFooter > a { font-size: .73rem; }
+
+.profileOverview {
+  min-width: 0;
+  margin: 0 0 clamp(16px, 2vw, 23px);
+  padding: clamp(15px, 1.7vw, 22px);
+  border: 1px solid rgba(255,255,255,.92);
+  border-radius: 22px;
+  background: rgba(255,252,250,.76);
+  box-shadow: 0 15px 38px rgba(36,35,51,.065), inset 0 1px 0 rgba(255,255,255,.98);
+  backdrop-filter: blur(20px) saturate(128%);
+  -webkit-backdrop-filter: blur(20px) saturate(128%);
+}
+.profileOverviewHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 13px;
+}
+.profileOverviewHeading h3 {
+  margin: 4px 0 0;
+  color: #171c29;
+  font-size: clamp(1.12rem, 1.5vw, 1.48rem);
+  font-weight: 770;
+  letter-spacing: -.045em;
+}
+.profileOverviewHeading > span {
+  color: #7b8396;
+  font-size: .72rem;
+}
+.profileOverviewGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(8px, 1vw, 13px);
+}
+.profileOverviewCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: clamp(10px, 1vw, 14px);
+  border: 1px solid rgba(61,73,111,.1);
+  border-radius: 15px;
+  color: #1a2030;
+  background: rgba(255,255,255,.7);
+  text-decoration: none;
+  transition: transform 190ms ease, border-color 190ms ease, background 190ms ease, box-shadow 190ms ease;
+}
+.profileOverviewCard:hover,
+.profileOverviewCard:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(49,92,255,.25);
+  background: #fff;
+  box-shadow: 0 12px 27px rgba(35,42,68,.09);
+}
+.profileOverviewMark {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(55,68,102,.1);
+  border-radius: 12px;
+  color: #283b67;
+  background: #f0f3fb;
+  font-size: .7rem;
+  font-weight: 850;
+}
+.profileOverviewMark[data-tone="amber"] { color: #9b5d12; background: #fff3df; }
+.profileOverviewMark[data-tone="blue"] { color: #254fcb; background: #eaf0ff; }
+.profileOverviewMark[data-tone="violet"] { color: #6944c4; background: #f0eaff; }
+.profileOverviewMark[data-tone="green"] { color: #187955; background: #e6f8ef; }
+.profileOverviewMark[data-tone="mint"] { color: #127d78; background: #e2f7f4; }
+.profileOverviewMark img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.profileOverviewCopy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 4px; }
+.profileOverviewCopy strong { color: #1b2131; font-size: .82rem; line-height: 1.2; overflow-wrap: anywhere; }
+.profileOverviewCopy small { color: #7c8496; font-size: .67rem; line-height: 1.35; overflow-wrap: anywhere; }
+.profileOverviewArrow { flex: 0 0 auto; align-self: flex-start; color: #5365a4; font-size: .95rem; }
+
+@media (max-width: 1220px) {
+  .profileOverviewGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .profileOverviewHeading { align-items: flex-start; flex-direction: column; }
+  .profileOverviewGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .profileOverviewCard { gap: 8px; padding: 10px; }
+  .profileOverviewMark { width: 34px; height: 34px; flex-basis: 34px; border-radius: 10px; }
+  .profileOverviewCopy strong { font-size: .76rem; }
+  .profileOverviewCopy small { font-size: .64rem; }
+}
+@media (max-width: 420px) {
+  .profileOverviewGrid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .profileOverviewCard { transition: none !important; }
+  .profileOverviewCard:hover { transform: none !important; }
+}
+
+
+/* Solid headline emphasis; visible supporting text on compact layouts. */
+.codingIntro h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.codingIntro > p:not(.eyebrow) { font-size:clamp(.98rem,1.04vw,1.08rem); line-height:1.7; }
+.metricCopy small { font-size:.72rem; }
+.metricCopy > span { font-size:.7rem; line-height:1.45; }
+.panelHeading p { font-size:.75rem; line-height:1.5; }
+.difficultyLabel,.difficultyRow > small { font-size:.72rem; }
+.profileOverviewCard strong { font-size:.86rem; }
+.profileOverviewCard small { font-size:.72rem; }
+.resourceText small { font-size:.7rem; }
+.resourceText > span { font-size:.72rem; line-height:1.5; }
+.emptyContest { font-size:.85rem; line-height:1.65; }
+.practicePrinciples small { font-size:.72rem; line-height:1.5; }
+@media(max-width:700px) {
+  .codingIntro > p:not(.eyebrow) { font-size:.92rem; }
+  .metricCopy small,.profileOverviewCard small { font-size:.66rem; }
+  .metricCopy > span,.resourceText > span { font-size:.66rem; }
+}
+
+
+/* Last-mile coding panel typography: make the data legible without inflating the dense heatmap. */
+.difficultyLabel span { font-size:.72rem; }
+.difficultyLabel strong { font-size:.75rem; }
+.monthLabels { font-size:.62rem; }
+.heatmapLegend { font-size:.64rem; }
+.heatmapLegend small { font-size:.64rem; }
+.practicePrinciples > div > span { font-size:.62rem; }
+.practicePrinciples strong { font-size:.72rem; line-height:1.42; }
+.practicePrinciples small { font-size:.66rem; line-height:1.5; }
+.contestList time { font-size:.64rem; }
+.contestMark { font-size:.58rem; }
+.contestCopy strong { font-size:.7rem; line-height:1.42; }
+.contestCopy small { font-size:.64rem; line-height:1.45; }
+.profileOverviewHeading h3,.resourcesHeader h3 { font-size:1.12rem; }
+.profileOverviewHeading > span { font-size:.68rem; }
+.profileOverviewCard strong { font-size:.84rem; }
+.profileOverviewCard small { font-size:.68rem; }
+.resourceMark { font-size:.8rem; }
+.resourceText strong { font-size:.85rem; line-height:1.4; }
+.resourceText small { font-size:.68rem; }
+.resourceText > span { font-size:.7rem; line-height:1.55; }
+.resourcesFoot { font-size:.63rem; }
+.splitNote { font-size:.7rem; line-height:1.45; }
+.splitNote strong { font-size:.76rem; }
+@media(max-width:700px) {
+  .difficultyLabel span { font-size:.67rem; }
+  .difficultyLabel strong { font-size:.7rem; }
+  .monthLabels { font-size:.58rem; }
+  .practicePrinciples > div > span { font-size:.58rem; }
+  .practicePrinciples strong { font-size:.68rem; }
+  .practicePrinciples small { font-size:.62rem; }
+  .contestList time { font-size:.6rem; }
+  .contestCopy strong { font-size:.66rem; }
+  .contestCopy small { font-size:.61rem; }
+  .resourceText strong { font-size:.75rem; }
+  .resourceText small { font-size:.63rem; }
+  .resourceText > span { font-size:.64rem; }
+}

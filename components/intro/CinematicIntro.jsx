@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./CinematicIntro.module.css";
 
-const INTRO_HOLD = 2850;
-const EXIT_DURATION = 650;
+const INTRO_HOLD = 3100;
+const EXIT_DURATION = 750;
 
 export default function CinematicIntro() {
   const [visible, setVisible] = useState(false);
@@ -12,6 +12,7 @@ export default function CinematicIntro() {
   const timers = useRef([]);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
     setVisible(true);
     timers.current.push(window.setTimeout(() => setLeaving(true), INTRO_HOLD));
     timers.current.push(
@@ -34,17 +35,18 @@ export default function CinematicIntro() {
     >
       <svg
         className={styles.hello}
-        viewBox="0 0 720 250"
+        viewBox="0 0 520 210"
         role="img"
         aria-label="hello"
         xmlns="http://www.w3.org/2000/svg"
       >
         <g className={styles.ink}>
-          <path className={styles.h} pathLength="1" d="M 48 174 C 62 148, 76 77, 91 44 C 99 27, 111 34, 108 57 C 103 91, 91 137, 95 158 C 98 177, 119 163, 139 139" />
-          <path className={styles.e} pathLength="1" d="M 132 143 C 148 127, 164 110, 178 120 C 191 130, 174 145, 158 145 C 143 145, 145 123, 162 117 C 180 110, 195 130, 208 141 C 222 152, 238 137, 250 124 C 267 138, 282 128, 298 115" />
-          <path className={styles.firstL} pathLength="1" d="M 298 115 C 314 80, 332 53, 350 34 C 361 22, 370 31, 364 53 C 353 94, 336 133, 340 151 C 343 168, 361 158, 377 141" />
-          <path className={styles.secondL} pathLength="1" d="M 369 145 C 385 108, 404 51, 422 34 C 433 23, 441 33, 435 55 C 424 95, 407 134, 411 151 C 415 168, 432 157, 448 141" />
-          <path className={styles.o} pathLength="1" d="M 450 139 C 466 119, 484 105, 499 116 C 515 128, 499 153, 480 158 C 460 164, 454 142, 470 124 C 486 106, 507 119, 520 137 C 535 158, 553 160, 575 143 C 596 127, 616 111, 636 119 C 656 128, 640 151, 622 153 C 601 156, 603 128, 625 119 C 645 111, 661 133, 678 145" />
+          <path className={styles.h} pathLength="1" d="M 28 158 C 43 134, 59 65, 72 42 C 79 27, 91 32, 86 50 C 76 87, 63 126, 66 148 C 68 162, 82 151, 100 132 C 111 121, 119 120, 127 133 C 134 144, 135 150, 148 146" />
+          <path className={styles.e} pathLength="1" d="M 148 146 C 164 127, 183 112, 200 122 C 213 130, 202 145, 187 147 C 172 149, 169 136, 180 126 C 192 116, 208 128, 222 140 C 232 149, 242 151, 254 143" />
+          <path className={styles.eCrossbar} pathLength="1" d="M 171 136 C 182 135, 194 135, 203 133" />
+          <path className={styles.firstL} pathLength="1" d="M 254 143 C 269 111, 283 57, 296 38 C 304 25, 315 31, 309 50 C 299 83, 281 128, 285 147 C 288 161, 302 153, 315 142" />
+          <path className={styles.secondL} pathLength="1" d="M 315 142 C 330 110, 344 56, 357 38 C 365 25, 376 31, 370 50 C 360 83, 342 128, 346 147 C 349 161, 363 153, 376 142" />
+          <path className={styles.o} pathLength="1" d="M 376 142 C 389 128, 406 116, 420 127 C 435 139, 420 155, 406 156 C 392 157, 389 144, 401 132 C 414 119, 426 130, 438 142 C 449 153, 461 150, 474 139" />
         </g>
       </svg>
     </div>

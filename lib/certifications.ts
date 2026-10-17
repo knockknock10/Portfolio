@@ -1,6 +1,6 @@
 import "server-only"
 
-import { existsSync, readFileSync } from "node:fs"
+import { existsSync, readFileSync, readdirSync } from "node:fs"
 import { isAbsolute, join, relative, resolve, sep } from "node:path"
 
 export type CertificationField = string | "MISSING"
@@ -50,14 +50,16 @@ function records(source: string): unknown[] {
   }
 }
 
-function localImage(value: unknown): string | "MISSING" {
+function localImage(value: unknown, allowPdf = false): string | "MISSING" {
   const path = text(value)
   if (!path || /^https?:\/\//i.test(path)) return "MISSING"
   const root = resolve(process.cwd(), "public")
   const file = resolve(root, path.replace(/^\/+/, "").replace(/^public\//, ""))
   const rel = relative(root, file)
+  const allowedImage = /\.(svg|png|jpe?g|webp|gif|avif)$/i.test(rel)
+  const allowedPdf = allowPdf && /\.pdf$/i.test(rel)
   if (!rel || rel === ".." || rel.startsWith(".." + sep) || isAbsolute(rel) ||
-      !/\.(svg|png|jpe?g|webp|gif|avif)$/i.test(rel) || !existsSync(file)) return "MISSING"
+      (!allowedImage && !allowedPdf) || !existsSync(file)) return "MISSING"
   return "/" + rel.split(sep).join("/")
 }
 
@@ -92,7 +94,7 @@ function noExpiry(value: string | "MISSING"): boolean {
 export function getCertificationsData(): Certification[] {
   try {
     const markdown = readFileSync(join(process.cwd(), "PORTFOLIO-DATA.md"), "utf8")
-    return records(section(markdown)).flatMap((raw): Certification[] => {
+    const configured = records(section(markdown)).flatMap((raw): Certification[] => {
       if (typeof raw !== "object" || raw === null || Array.isArray(raw)) return []
       const record = raw as Record<string, unknown>
       const title = text(record.title)
@@ -116,10 +118,50 @@ export function getCertificationsData(): Certification[] {
         credentialUrl,
         skillsCovered: skillList(record.skillsCovered ?? record["skills covered"]),
         badgeImage: localImage(record.badgeImage ?? record["badge image"]),
-        certificateImage: localImage(record.certificateImage ?? record["certificate image"]),
+        certificateImage: localImage(record.certificateImage ?? record["certificate image"], true),
         verificationStatus,
       }]
     })
+
+    const certificateDirectory = join(process.cwd(), "public", "certificates")
+    const configuredFiles = new Set(
+      configured
+        .map((item) => item.certificateImage)
+        .filter((value): value is string => typeof value === "string" && value !== "MISSING")
+        .map((value) => {
+          const fileName = value.split("/").pop() ?? ""
+          try { return decodeURIComponent(fileName).toLowerCase() } catch { return fileName.toLowerCase() }
+        }),
+    )
+    const automatic: Certification[] = existsSync(certificateDirectory)
+      ? readdirSync(certificateDirectory, { withFileTypes: true })
+          .filter((entry) => entry.isFile() && /\.(pdf|png|jpe?g|webp|gif|avif|svg)$/i.test(entry.name))
+          .filter((entry) => !configuredFiles.has(entry.name.toLowerCase()))
+          .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" }))
+          .map((entry): Certification => {
+            const rawName = entry.name.replace(/\.(pdf|png|jpe?g|webp|gif|avif|svg)$/i, "")
+            const title = rawName
+              .replace(/[_-]+/g, " ")
+              .replace(/\s+/g, " ")
+              .trim()
+              .replace(/^\w/, (first) => first.toUpperCase()) || "Certificate"
+            const certificateImage = "/certificates/" + encodeURIComponent(entry.name)
+            return {
+              title,
+              issuer: "MISSING",
+              issueDate: "MISSING",
+              expiryDate: "MISSING",
+              credentialId: "MISSING",
+              credentialUrl: "MISSING",
+              skillsCovered: "MISSING",
+              badgeImage: "MISSING",
+              certificateImage,
+              verificationStatus: "self-reported",
+            }
+          })
+      : []
+
+    return [...configured, ...automatic]
   } catch {
     return []
   }

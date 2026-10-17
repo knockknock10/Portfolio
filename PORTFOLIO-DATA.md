@@ -2973,7 +2973,7 @@ Other public files are public/resume.pdf and public/robots.txt. No real project 
 - FailureScope process array — MISSING; processSteps absent from the current project object.
 - Profile pronouns, explicit availability status and current-focus field — MISSING; absent from current typed profile.
 - Public GitHub email — MISSING; GitHub reports null.
-- LinkedIn URL — MISSING in active site configuration; public profile/resume has a URL, but current typed socials entry is null.
+- LinkedIn URL — configured as https://www.linkedin.com/in/sanjeev-kumar-ba567133a/ after checking the URL linked from the public GitHub profile on 17 Oct 2026. The older `/in/-sanjeev-kr` value was replaced in `lib/portfolio-data.ts`.
 - Canonical email — MISSING as a resolved choice; current site and résumé addresses differ.
 - CommitHub identity/content relationship — MISSING as a resolved owner decision; résumé and site describe different project types.
 - Other social platforms not present in checked sources were omitted.

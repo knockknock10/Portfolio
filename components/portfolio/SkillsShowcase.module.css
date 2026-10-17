@@ -758,3 +758,121 @@
     transform: none !important;
   }
 }
+
+
+/* Detail pass: prevent the four capability labels from colliding at laptop widths. */
+.skillsSection { width: min(1510px, calc(100% - clamp(150px, 12vw, 220px))); margin-inline: auto; }
+.skillsHero {
+  grid-template-columns: minmax(285px, .75fr) minmax(0, 1.25fr);
+  gap: clamp(20px, 2.5vw, 38px);
+  align-items: start;
+}
+.skillsStats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  padding: 7px;
+}
+.skillsStats > div {
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 2px 9px;
+  padding: 12px 11px;
+  min-height: 69px;
+}
+.skillsStats > div + div { border-left: 0; }
+.skillsStats > div:nth-child(even) { border-left: 1px solid rgba(69,76,100,.16); }
+.skillsStats > div:nth-child(n+3) { border-top: 1px solid rgba(69,76,100,.16); }
+.skillsStats > div > span { font-size: 1.5rem; }
+.skillsStats strong {
+  white-space: normal;
+  font-size: clamp(.9rem, 1.12vw, 1.2rem);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+.skillsStats small { margin-top: 3px; font-size: .68rem; line-height: 1.35; }
+.skillsIntro h2 span {
+  color: #315cff !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+.skillsIntro > p:not(.skillsEyebrow) { font-size: clamp(1rem, 1.02vw, 1.08rem); line-height: 1.72; }
+.consoleTitlebar { font-size: .62rem; min-height: 43px; }
+.consoleRail button { font-size: .76rem; }
+.consoleFilebar { font-size: .68rem; }
+.consoleLines { font-size: clamp(.74rem, .82vw, .85rem); line-height: 1.75; }
+.skillCategoryHeader h3 { font-size: 1rem; }
+.skillTile > span:nth-child(2) { font-size: .76rem; }
+.domainTags a { font-size: .72rem; }
+.learningCopy strong { font-size: .82rem; }
+.learningCopy small, .learningStatus { font-size: .68rem; line-height: 1.45; }
+@media (max-width: 1180px) {
+  .skillsHero { grid-template-columns: minmax(0,1fr); }
+  .skillsIntro { max-width: 70ch; }
+  .skillsConsoleArea { width: 100%; }
+}
+@media (max-width: 680px) {
+  .skillsSection { width: auto; margin: 38px 16px 0 70px; }
+  .skillsStats strong { font-size: .92rem; }
+  .skillsStats small { font-size: .65rem; }
+  .consoleTitlebar { grid-template-columns: 36px minmax(0,1fr) auto; padding-inline: 10px; font-size: .54rem; }
+  .consoleBody { grid-template-columns: 110px minmax(0,1fr); }
+  .consoleRail { padding: 12px 7px; }
+  .consoleRail button { font-size: .68rem; overflow-wrap: anywhere; }
+  .consoleCode { padding: 9px; }
+  .consoleLines { overflow-wrap: anywhere; word-break: normal; font-size: .68rem; }
+}
+
+
+/* Lock the stats strip into an explicit icon + label + supporting-copy grid.
+   This avoids the auto-placement collision that made API and Backend overlap. */
+.skillsStats > div {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  align-content: center;
+  column-gap: 10px;
+  row-gap: 4px;
+  min-width: 0;
+  padding: 13px 14px;
+}
+.skillsStats > div > span {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  justify-self: center;
+  align-self: center;
+  min-width: 0;
+  font-size: clamp(1.08rem, 1.36vw, 1.42rem);
+  line-height: 1;
+}
+.skillsStats > div > strong {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  font-size: clamp(.92rem, 1.12vw, 1.12rem);
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+.skillsStats > div > small {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  margin-top: 0;
+  font-size: clamp(.67rem, .75vw, .76rem);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.skillsIntro h2 span {
+  color: #315cff !important;
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+@media (max-width: 680px) {
+  .skillsStats > div { grid-template-columns: 28px minmax(0,1fr); padding: 11px 8px; column-gap: 7px; }
+  .skillsStats > div > span { font-size: 1rem; }
+  .skillsStats > div > strong { font-size: .88rem; }
+  .skillsStats > div > small { font-size: .64rem; }
+}

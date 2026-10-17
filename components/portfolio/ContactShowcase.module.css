@@ -162,3 +162,66 @@
   .contactIntro h2 { max-width: 15ch; }
   .contactLead { line-height: 1.65; }
 }
+
+
+/* Detail pass: stronger contact invitation, larger copy, and readable form affordances. */
+.contactSection { width:min(1510px,calc(100% - clamp(150px,12vw,220px))); margin-inline:auto; }
+.contactIntro h2 span {
+  color:#315cff!important; background:none!important;
+  -webkit-background-clip:initial!important; -webkit-text-fill-color:currentColor!important;
+}
+.contactIntro h2 { font-size:clamp(3.5rem,4.8vw,5rem); line-height:.98; }
+.contactLead { font-size:clamp(1rem,1.04vw,1.1rem); line-height:1.72; }
+.contactTags span { font-size:.67rem; padding:7px 10px; }
+.panelHeading h3 { font-size:.92rem; }
+.emailCard strong,.profileCard strong { font-size:.82rem; }
+.emailCard small,.profileCard small { font-size:.72rem; line-height:1.5; }
+.contactForm label { font-size:.77rem; }
+.contactForm input,.contactForm textarea,.contactForm select { font-size:.92rem; }
+.contactForm textarea { line-height:1.65; }
+.contactNote p,.locationStrip p { font-size:.76rem; line-height:1.6; }
+@media(max-width:980px){.contactSection{width:auto;margin:36px 18px 0 70px}}
+@media(max-width:700px){.contactSection{margin:32px 12px 0 66px}.contactIntro h2{font-size:clamp(2.8rem,10vw,4rem)}.contactLead{font-size:.96rem}}
+
+
+/* Contact heading is a solid accent; raise labels and secondary copy above footnote size. */
+.contactIntro h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.channelCopy strong { font-size:.82rem; }
+.channelCopy small { font-size:.7rem; line-height:1.45; }
+.channelCopy > span { font-size:.66rem; line-height:1.45; }
+.profileCard .channelCopy strong { font-size:.76rem; }
+.profileCard .channelCopy small { font-size:.64rem; line-height:1.45; }
+.panelHeading h3 { font-size:.94rem; }
+.panelHeading > small { font-size:.54rem; }
+.locationStrip small { font-size:.62rem; }
+.locationStrip strong { font-size:.7rem; }
+.contactForm label { font-size:.75rem; }
+.contactForm input,.contactForm select,.contactForm textarea { font-size:.9rem; }
+.formNote { font-size:.68rem; line-height:1.55; }
+.contactNote strong { font-size:.78rem; }
+.contactNote p { font-size:.72rem; line-height:1.6; }
+@media(max-width:700px) {
+  .channelCopy > span { font-size:.62rem; }
+  .profileCard .channelCopy strong { font-size:.68rem; }
+  .profileCard .channelCopy small { font-size:.61rem; }
+  .locationStrip small { font-size:.56rem; }
+  .locationStrip strong { font-size:.63rem; }
+  .contactForm label { font-size:.7rem; }
+  .formNote { font-size:.63rem; }
+}
+
+
+/* Re-assert the rail-safe section gutters after the desktop layout overrides. */
+@media(max-width:1000px) {
+  .contactSection { width:calc(100% - 105px); margin:50px 20px 0 78px; }
+  .contactLayout { grid-template-columns:minmax(0,1fr); gap:18px; }
+}
+@media(max-width:700px) {
+  .contactSection { width:auto; margin:42px 16px 0 70px; padding-bottom:28px; }
+  .contactIntro h2 { font-size:clamp(2.9rem,9.5vw,4rem); }
+  .contactLayout { gap:16px; }
+  .profileGrid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:420px) {
+  .profileGrid { grid-template-columns:minmax(0,1fr); }
+}

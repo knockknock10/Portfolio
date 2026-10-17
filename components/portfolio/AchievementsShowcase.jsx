@@ -28,89 +28,69 @@ function formatDate(value) {
   return new Date(value + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
 }
 
-const githubAchievements = [
-  { title: "Pull Shark", detail: "Merged pull requests", image: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-silver.png", count: "×3" },
-  { title: "Galaxy Brain", detail: "Accepted discussion answers", image: "https://github.githubassets.com/images/modules/profile/achievements/galaxy-brain-default.png" },
-  { title: "Quickdraw", detail: "Fast issue or pull-request close", image: "https://github.githubassets.com/images/modules/profile/achievements/quickdraw-default.png" },
-  { title: "Pair Extraordinaire", detail: "Co-authored merged pull request", image: "https://github.githubassets.com/images/modules/profile/achievements/pair-extraordinaire-default.png" },
-  { title: "YOLO", detail: "Merged pull request without review", image: "https://github.githubassets.com/images/modules/profile/achievements/yolo-default.png" },
-];
-
-function GitHubAchievementShelf() {
-  return (
-    <article className={styles.githubAchievementPanel} aria-labelledby="github-achievements-title">
-      <header className={styles.githubAchievementHeader}>
-        <div>
-          <p className={styles.panelEyebrow}>OPEN-SOURCE MILESTONES</p>
-          <h3 id="github-achievements-title">GitHub achievements</h3>
-          <p>The profile badges shown in your reference, linked to the public achievements page.</p>
-        </div>
-        <a href="https://github.com/knockknock10?tab=achievements" target="_blank" rel="noreferrer">View profile ↗</a>
-      </header>
-      <div className={styles.githubAchievementGrid}>
-        {githubAchievements.map((badge) => (
-          <a className={styles.githubAchievement}
-            href="https://github.com/knockknock10?tab=achievements"
-            target="_blank" rel="noreferrer" key={badge.title}
-            aria-label={badge.title + (badge.count ? " " + badge.count : "") + " GitHub achievement"}>
-            <span className={styles.githubAchievementArt}>
-              <img src={badge.image} alt="" loading="lazy" />
-              {badge.count ? <span className={styles.githubAchievementCount}>{badge.count}</span> : null}
-            </span>
-            <strong>{badge.title}</strong>
-            <small>{badge.detail}</small>
-          </a>
-        ))}
-      </div>
-    </article>
-  );
-}
-
 function CredentialShelf({ items, onSelect }) {
   return (
     <article className={styles.credentialPanel}>
       <header className={styles.panelHeading}>
         <span className={styles.panelIcon}><Icon kind="shield"/></span>
-        <div><p className={styles.panelEyebrow}>CREDENTIAL ARCHIVE</p><h3>Certifications &amp; credentials</h3></div>
-        <span className={styles.panelCount}>{items.length ? String(items.length).padStart(2, "0") : "—"}</span>
+        <div>
+          <p className={styles.panelEyebrow}>CREDENTIAL ARCHIVE</p>
+          <h3>Certifications &amp; credentials</h3>
+        </div>
+        <span className={styles.panelCount}>{String(items.length).padStart(2, "0")}</span>
       </header>
-      {items.length ? (
-        <div className={styles.credentialGrid}>
-          {items.map((item, index) => (
-            <article className={styles.credentialCard} key={item.title + "-" + item.issuer}>
-              <button type="button" className={styles.credentialPreview} onClick={() => onSelect(index)} aria-label={"View credential: " + item.title}>
-                <div className={styles.credentialCardTop}>
-                  {present(item.badgeImage) ? <img src={item.badgeImage} alt="" loading="lazy" onError={(event) => { event.currentTarget.style.display = "none"; }}/> : <span className={styles.credentialGlyph}><Icon kind="shield"/></span>}
-                  <div><small>{present(item.issuer) ? item.issuer : "Issuer not supplied"}</small><h4>{item.title}</h4></div>
-                </div>
-                {present(item.issueDate) ? <p>Issued {formatDate(item.issueDate)}</p> : null}
-                {present(item.expiryDate) ? <p>Expiry {formatDate(item.expiryDate)}</p> : null}
-                <span className={styles.galleryOpenHint}>Open in credential gallery <Icon kind="external"/></span>
+      <p className={styles.credentialShelfIntro}>
+        Open any card to view a certificate full-screen. Add certificate images or PDFs to <code>public/certificates/</code>; the files are discovered automatically after the next build.
+      </p>
+      <div className={styles.credentialGrid}>
+        {items.map((item, index) => {
+          const placeholder = Boolean(item.isPlaceholder);
+          const certificatePath = present(item.certificateImage) ? item.certificateImage : "";
+          const isPdf = /\.pdf(?:$|[?#])/i.test(certificatePath);
+          const imagePath = certificatePath && !isPdf ? certificatePath : present(item.badgeImage) ? item.badgeImage : "";
+          return (
+            <article className={styles.credentialCard} key={item.title + "-" + (item.issuer || index)}>
+              <button type="button" className={styles.credentialPreview} onClick={() => onSelect(index)} aria-label={"View credential slot: " + item.title}>
+                <span className={styles.credentialThumbnail} data-empty={placeholder || !imagePath ? "true" : "false"}>
+                  {imagePath ? <img src={imagePath} alt="" loading="lazy" onError={(event) => { event.currentTarget.style.display = "none"; }} /> : null}
+                  {!imagePath ? (
+                    <span className={styles.credentialThumbnailArtwork}>
+                      <span className={styles.credentialThumbnailTop}><i/><i/><i/></span>
+                      <Icon kind="shield"/>
+                      <span className={styles.credentialThumbnailLine}/>
+                      <span className={styles.credentialThumbnailLine}/>
+                      <span className={styles.credentialThumbnailLineShort}/>
+                      <strong>{placeholder ? "CERTIFICATE SLOT" : isPdf ? "PDF CERTIFICATE" : "CREDENTIAL"}</strong>
+                    </span>
+                  ) : null}
+                  {isPdf ? <span className={styles.pdfCorner}>PDF</span> : null}
+                  {placeholder ? <span className={styles.slotBadge}>SLOT {String(index + 1).padStart(2, "0")}</span> : null}
+                </span>
+                <span className={styles.credentialCardTop}>
+                  <span><small>{present(item.issuer) ? item.issuer : placeholder ? "Your issuer here" : "Issuer not supplied"}</small><h4>{placeholder ? "Add certificate " + String(index + 1).padStart(2, "0") : item.title}</h4></span>
+                </span>
+                {present(item.issueDate) ? <p>Issued {formatDate(item.issueDate)}</p> : placeholder ? <p>Issuer · date · verification</p> : null}
+                <span className={styles.galleryOpenHint}>Open certificate <Icon kind="external"/></span>
               </button>
-              {Array.isArray(item.skillsCovered) && item.skillsCovered.length ? <div className={styles.credentialTags}>{item.skillsCovered.slice(0, 4).map((skill) => <span key={skill}>{skill}</span>)}</div> : null}
-              {present(item.credentialUrl) ? <a className={styles.verifyCredential} href={item.credentialUrl} target="_blank" rel="noreferrer">Verify credential <Icon kind="external"/></a> : <span className={styles.notVerified}>Verification link not supplied</span>}
+              {!placeholder && Array.isArray(item.skillsCovered) && item.skillsCovered.length ? <div className={styles.credentialTags}>{item.skillsCovered.slice(0, 3).map((skill) => <span key={skill}>{skill}</span>)}</div> : null}
+              {!placeholder && present(item.credentialUrl) ? <a className={styles.verifyCredential} href={item.credentialUrl} target="_blank" rel="noreferrer">Verify credential <Icon kind="external"/></a> : placeholder ? <span className={styles.notVerified}>Ready for your certificate</span> : <span className={styles.notVerified}>Verification link not supplied</span>}
             </article>
-          ))}
-        </div>
-      ) : (
-        <div className={styles.emptyShelf}>
-          <div className={styles.emptyIllustration} aria-hidden="true">
-            <div className={styles.emptyPaper}><span/><span/><span/><i><Icon kind="shield"/></i></div>
-            <div className={styles.emptyGlow}/>
-          </div>
-          <div className={styles.emptyCopy}>
-            <span className={styles.emptyKicker}>CREDENTIAL GALLERY</span>
-            <h4>The gallery is ready for your certificates.</h4>
-            <p>No certificate records are currently present in the portfolio data. Once real credentials and their files are added, each card will open in a focused overlay with previous/next navigation, dates, skills and verification links where available.</p>
-          </div>
-        </div>
-      )}
+          );
+        })}
+      </div>
     </article>
   );
 }
 
 function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext, dialogRef }) {
+  const [imageFailed, setImageFailed] = useState(false);
+  useEffect(() => { setImageFailed(false); }, [item?.title, item?.certificateImage]);
   if (!item) return null;
+  const placeholder = Boolean(item.isPlaceholder);
+  const certificatePath = present(item.certificateImage) ? item.certificateImage : "";
+  const isPdf = /\.pdf(?:$|[?#])/i.test(certificatePath);
+  const imagePath = certificatePath && !isPdf ? certificatePath : present(item.badgeImage) ? item.badgeImage : "";
+
   return (
     <div
       ref={dialogRef}
@@ -123,19 +103,29 @@ function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext, d
       <button type="button" className={styles.certificateClose} onClick={onClose} aria-label="Close certificate gallery"><Icon kind="close"/></button>
       {total > 1 ? <button type="button" className={styles.certificatePrevious} onClick={onPrevious} aria-label="Previous certificate"><Icon kind="left"/></button> : null}
       <div className={styles.certificateDialog}>
-        <div className={styles.certificateImageStage}>
-          {present(item.certificateImage) ? <img src={item.certificateImage} alt={item.title + " certificate image"}/> : present(item.badgeImage) ? <img src={item.badgeImage} alt={item.title + " badge image"}/> : <div className={styles.certificateImageFallback}><Icon kind="shield"/><span>Credential details</span></div>}
+        <div className={styles.certificateImageStage} data-placeholder={placeholder ? "true" : "false"}>
+          {isPdf ? (
+            <iframe src={certificatePath} title={item.title + " certificate PDF"} />
+          ) : imagePath && !imageFailed ? (
+            <img src={imagePath} alt={item.title + (placeholder ? "" : " certificate image")} onError={() => setImageFailed(true)} />
+          ) : (
+            <div className={styles.certificateImageFallback}>
+              <span className={styles.certificatePaperArtwork}><Icon kind="shield"/><i/><i/><i/></span>
+              <strong>{placeholder ? "Your certificate goes here" : "Certificate preview unavailable"}</strong>
+              <span>{placeholder ? "Add an image or PDF to public/certificates/ and rebuild." : "Check the certificate file path and try again."}</span>
+            </div>
+          )}
           <span className={styles.certificateCounter}>{String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
         </div>
         <div className={styles.certificateDetails}>
-          <p className={styles.panelEyebrow}>CREDENTIAL VIEWER</p>
-          <h2 id="certificate-lightbox-title">{item.title}</h2>
-          <p className={styles.certificateIssuer}>{present(item.issuer) ? item.issuer : "Issuer not supplied"}</p>
+          <p className={styles.panelEyebrow}>{placeholder ? "READY-TO-POPULATE SLOT" : "CREDENTIAL VIEWER"}</p>
+          <h2 id="certificate-lightbox-title">{placeholder ? "Add certificate " + String(index + 1).padStart(2, "0") : item.title}</h2>
+          <p className={styles.certificateIssuer}>{present(item.issuer) ? item.issuer : placeholder ? "Issuer name will appear here" : "Issuer not supplied"}</p>
           {present(item.issueDate) ? <p><strong>Issued</strong><span>{formatDate(item.issueDate)}</span></p> : null}
           {present(item.expiryDate) ? <p><strong>Expiry</strong><span>{formatDate(item.expiryDate)}</span></p> : null}
           {present(item.credentialId) ? <p><strong>Credential ID</strong><span>{item.credentialId}</span></p> : null}
           {Array.isArray(item.skillsCovered) && item.skillsCovered.length ? <div className={styles.credentialTags}>{item.skillsCovered.map((skill) => <span key={skill}>{skill}</span>)}</div> : null}
-          {present(item.credentialUrl) ? <a className={styles.certificateVerify} href={item.credentialUrl} target="_blank" rel="noreferrer">Open verification page <Icon kind="external"/></a> : <span className={styles.notVerified}>Verification link not supplied</span>}
+          {present(item.credentialUrl) ? <a className={styles.certificateVerify} href={item.credentialUrl} target="_blank" rel="noreferrer">Open verification page <Icon kind="external"/></a> : placeholder ? <p className={styles.certificateInstructions}>Add the real certificate file to <code>public/certificates/</code>. Use its filename as the title, then add issuer/date/verification metadata to <code>PORTFOLIO-DATA.md</code> when available.</p> : <span className={styles.notVerified}>Verification link not supplied</span>}
         </div>
       </div>
       {total > 1 ? <button type="button" className={styles.certificateNext} onClick={onNext} aria-label="Next certificate"><Icon kind="right"/></button> : null}
@@ -147,6 +137,23 @@ function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext, d
 export default function AchievementsShowcase({ items = [] }) {
   const reducedMotion = useReducedMotion();
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const galleryItems = [...items];
+  while (galleryItems.length < 10) {
+    const slotNumber = galleryItems.length + 1;
+    galleryItems.push({
+      title: "Add certificate " + String(slotNumber).padStart(2, "0"),
+      issuer: "MISSING",
+      issueDate: "MISSING",
+      expiryDate: "MISSING",
+      credentialId: "MISSING",
+      credentialUrl: "MISSING",
+      skillsCovered: "MISSING",
+      badgeImage: "MISSING",
+      certificateImage: "MISSING",
+      verificationStatus: "self-reported",
+      isPlaceholder: true,
+    });
+  }
   const dialogRef = useRef(null);
   const previousFocusRef = useRef(null);
   const isGalleryOpen = selectedIndex !== null;
@@ -156,7 +163,7 @@ export default function AchievementsShowcase({ items = [] }) {
     viewport: { once: true, amount: .13 },
     transition: { duration: reducedMotion ? 0 : .38, delay: reducedMotion ? 0 : delay },
   });
-  const selectedItem = selectedIndex !== null && items[selectedIndex] ? items[selectedIndex] : null;
+  const selectedItem = selectedIndex !== null && galleryItems[selectedIndex] ? galleryItems[selectedIndex] : null;
 
   useEffect(() => {
     if (!isGalleryOpen) return undefined;
@@ -172,14 +179,14 @@ export default function AchievementsShowcase({ items = [] }) {
         setSelectedIndex(null);
         return;
       }
-      if (event.key === "ArrowLeft" && items.length > 1) {
+      if (event.key === "ArrowLeft" && galleryItems.length > 1) {
         event.preventDefault();
-        setSelectedIndex((value) => value === null ? null : (value - 1 + items.length) % items.length);
+        setSelectedIndex((value) => value === null ? null : (value - 1 + galleryItems.length) % galleryItems.length);
         return;
       }
-      if (event.key === "ArrowRight" && items.length > 1) {
+      if (event.key === "ArrowRight" && galleryItems.length > 1) {
         event.preventDefault();
-        setSelectedIndex((value) => value === null ? null : (value + 1) % items.length);
+        setSelectedIndex((value) => value === null ? null : (value + 1) % galleryItems.length);
         return;
       }
       if (event.key !== "Tab") return;
@@ -207,10 +214,10 @@ export default function AchievementsShowcase({ items = [] }) {
       const restoreTarget = previousFocusRef.current;
       if (restoreTarget instanceof HTMLElement && restoreTarget.isConnected) restoreTarget.focus();
     };
-  }, [isGalleryOpen, items.length]);
+  }, [isGalleryOpen, galleryItems.length]);
 
   function step(delta) {
-    setSelectedIndex((value) => value === null || !items.length ? null : (value + delta + items.length) % items.length);
+    setSelectedIndex((value) => value === null || !galleryItems.length ? null : (value + delta + galleryItems.length) % galleryItems.length);
   }
 
   return (
@@ -231,12 +238,8 @@ export default function AchievementsShowcase({ items = [] }) {
         </motion.aside>
       </header>
 
-      <motion.div {...reveal(.08)}>
-        <GitHubAchievementShelf />
-      </motion.div>
-
       <motion.div {...reveal(.1)}>
-        <CredentialShelf items={items} onSelect={setSelectedIndex}/>
+        <CredentialShelf items={galleryItems} onSelect={setSelectedIndex}/>
       </motion.div>
 
       <motion.footer className={styles.achievementFooter} {...reveal(.13)}>
@@ -245,7 +248,7 @@ export default function AchievementsShowcase({ items = [] }) {
         <a href="/about">About my background <Icon kind="external"/></a>
       </motion.footer>
 
-      {selectedItem ? <CredentialLightbox item={selectedItem} index={selectedIndex} total={items.length} dialogRef={dialogRef} onClose={() => setSelectedIndex(null)} onPrevious={() => step(-1)} onNext={() => step(1)}/> : null}
+      {selectedItem ? <CredentialLightbox item={selectedItem} index={selectedIndex} total={galleryItems.length} dialogRef={dialogRef} onClose={() => setSelectedIndex(null)} onPrevious={() => step(-1)} onNext={() => step(1)}/> : null}
     </section>
   );
 }
