@@ -6,32 +6,32 @@ const achievements = [
   {
     title: "Pull Shark",
     description: "Merged pull requests",
-    image: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-silver.png",
+    image: "https://github.githubassets.com/assets/pull-shark-silver-0643f87ac9fd.png",
     initials: "PS",
     count: "×3",
   },
   {
     title: "Galaxy Brain",
     description: "Accepted discussion answers",
-    image: "https://github.githubassets.com/images/modules/profile/achievements/galaxy-brain-default.png",
+    image: "https://github.githubassets.com/assets/galaxy-brain-default-847262c21056.png",
     initials: "GB",
   },
   {
     title: "Quickdraw",
     description: "Fast issue or pull-request close",
-    image: "https://github.githubassets.com/images/modules/profile/achievements/quickdraw-default.png",
+    image: "https://github.githubassets.com/assets/quickdraw-default-39c6aec8ff89.png",
     initials: "QD",
   },
   {
     title: "Pair Extraordinaire",
     description: "Co-authored merged pull request",
-    image: "https://github.githubassets.com/images/modules/profile/achievements/pair-extraordinaire-default.png",
+    image: "https://github.githubassets.com/assets/pair-extraordinaire-default-579438a20e01.png",
     initials: "PE",
   },
   {
     title: "YOLO",
     description: "Merged pull request without review",
-    image: "https://github.githubassets.com/images/modules/profile/achievements/yolo-default.png",
+    image: "https://github.githubassets.com/assets/yolo-default-be0bbff04951.png",
     initials: "YO",
   },
 ];
