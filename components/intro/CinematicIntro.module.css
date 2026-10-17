@@ -39,7 +39,7 @@
 
 .leaving {
   pointer-events: none;
-  animation: intro-leave 650ms cubic-bezier(.76, 0, .24, 1) both;
+  animation: intro-leave 750ms cubic-bezier(.76, 0, .24, 1) both;
 }
 
 @keyframes intro-arrive {
