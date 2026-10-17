@@ -59,16 +59,6 @@ function PhotoCard({ name }) {
   );
 }
 
-function FactCard({ icon, label, value, note, tone = "blue", href }) {
-  const Wrapper = href ? "a" : "div";
-  return (
-    <Wrapper className={styles.factItem} data-tone={tone} href={href}>
-      <span className={styles.factIcon}><Icon kind={icon}/></span>
-      <span className={styles.factCopy}><small>{label}</small><strong>{value}</strong><span>{note}</span></span>
-    </Wrapper>
-  );
-}
-
 function FocusCard({ item }) {
   return (
     <a className={styles.focusItem} data-tone={item.tone} href={item.href}>
@@ -79,12 +69,10 @@ function FocusCard({ item }) {
   );
 }
 
-export default function AboutShowcase({ content, data }) {
+export default function AboutShowcase({ content }) {
   const reducedMotion = useReducedMotion();
   const identity = content?.identity || {};
   const fullName = identity.professionalName || identity.fullName || "Sanjeev Kumar";
-  const location = content?.contact?.location || "India";
-  const repos = data?.github?.totalRepos;
   const motionProps = (delay = 0) => ({
     initial: reducedMotion ? false : { opacity: 0, y: 10 },
     whileInView: { opacity: 1, y: 0 },
@@ -96,7 +84,7 @@ export default function AboutShowcase({ content, data }) {
     <section className={styles.aboutSection} id="about" aria-labelledby="about-heading" tabIndex={-1}>
       <div className={styles.aboutLayout}>
         <motion.div className={styles.aboutLeft} {...motionProps()}>
-          <p className={styles.aboutEyebrow}><span>08</span><i/> ABOUT ME <b/></p>
+          <p className={styles.aboutEyebrow}><span>09</span><i/> ABOUT ME <b/></p>
           <h2 id="about-heading">Building impact with <span>technology.</span></h2>
           <p className={styles.aboutIntro}>I’m {fullName}, a Computer Science undergraduate at SRM University AP. I’m drawn to the parts where software becomes a system: service boundaries, reliable infrastructure, data, and the trade-offs behind a feature.</p>
           <p className={styles.aboutBody}>Alongside building products such as Aevor, CommitHub and Wandera, I contribute to upstream repositories and explore research questions in audio watermarking and causal-temporal knowledge graphs. I try to make implementations inspectable and claims measurable.</p>
@@ -109,15 +97,7 @@ export default function AboutShowcase({ content, data }) {
             <div className={styles.educationFooter}><span>2024—2028</span><span>Currently in 3rd year</span></div>
           </article>
 
-          <article className={styles.quickFactsCard}>
-            <div className={styles.quickFactsTitle}><span><Icon kind="target"/></span><h3>Quick facts</h3></div>
-            <div className={styles.factsGrid}>
-              <FactCard icon="pin" label="Based in" value={location} note="Andhra Pradesh, India" tone="blue"/>
-              <FactCard icon="chart" label="CGPA" value="8.61" note="B.Tech CSE" tone="violet"/>
-              <FactCard icon="brain" label="Focus areas" value="Audio AI · Graphs" note="Research and systems" tone="mint" href="#research"/>
-              <FactCard icon="github" label="Public repos" value={typeof repos === "number" ? repos.toLocaleString("en-US") : "—"} note="GitHub profile snapshot" tone="amber" href="https://github.com/knockknock10"/>
-            </div>
-          </article>
+
         </motion.div>
 
         <motion.div className={styles.aboutCenter} {...motionProps(.04)}>
