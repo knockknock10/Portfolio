@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useReducedMotion, motion } from "framer-motion";
 import styles from "./ResearchShowcase.module.css";
+import { publicUrl } from "@/lib/public-url";
 
 const repositoryUrl = "https://github.com/knockknock10/SemBind_Audio";
 const evidenceUrl = "https://github.com/knockknock10/SemBind_Audio/tree/main/PAPER_EVIDENCE_PACKAGE";
@@ -202,7 +203,7 @@ function PaperCard({ item }) {
               onError={() => setPreviewFailed(true)}
             />
           ) : (
-            <img src="/images/research/sembind-paper-fig1.svg" alt="Actual SemBind architecture figure from the manuscript" />
+            <img src={publicUrl("/images/research/sembind-paper-fig1.svg")} alt="Actual SemBind architecture figure from the manuscript" />
           )}
           <span className={styles.paperPreviewLabel}>MANUSCRIPT · 2026</span>
         </div>
