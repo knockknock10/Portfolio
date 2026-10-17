@@ -672,3 +672,43 @@
   .metricCopy small,.profileOverviewCard small { font-size:.66rem; }
   .metricCopy > span,.resourceText > span { font-size:.66rem; }
 }
+
+
+/* Last-mile coding panel typography: make the data legible without inflating the dense heatmap. */
+.difficultyLabel span { font-size:.72rem; }
+.difficultyLabel strong { font-size:.75rem; }
+.monthLabels { font-size:.62rem; }
+.heatmapLegend { font-size:.64rem; }
+.heatmapLegend small { font-size:.64rem; }
+.practicePrinciples > div > span { font-size:.62rem; }
+.practicePrinciples strong { font-size:.72rem; line-height:1.42; }
+.practicePrinciples small { font-size:.66rem; line-height:1.5; }
+.contestList time { font-size:.64rem; }
+.contestMark { font-size:.58rem; }
+.contestCopy strong { font-size:.7rem; line-height:1.42; }
+.contestCopy small { font-size:.64rem; line-height:1.45; }
+.profileOverviewHeading h3,.resourcesHeader h3 { font-size:1.12rem; }
+.profileOverviewHeading > span { font-size:.68rem; }
+.profileOverviewCard strong { font-size:.84rem; }
+.profileOverviewCard small { font-size:.68rem; }
+.resourceMark { font-size:.8rem; }
+.resourceText strong { font-size:.85rem; line-height:1.4; }
+.resourceText small { font-size:.68rem; }
+.resourceText > span { font-size:.7rem; line-height:1.55; }
+.resourcesFoot { font-size:.63rem; }
+.splitNote { font-size:.7rem; line-height:1.45; }
+.splitNote strong { font-size:.76rem; }
+@media(max-width:700px) {
+  .difficultyLabel span { font-size:.67rem; }
+  .difficultyLabel strong { font-size:.7rem; }
+  .monthLabels { font-size:.58rem; }
+  .practicePrinciples > div > span { font-size:.58rem; }
+  .practicePrinciples strong { font-size:.68rem; }
+  .practicePrinciples small { font-size:.62rem; }
+  .contestList time { font-size:.6rem; }
+  .contestCopy strong { font-size:.66rem; }
+  .contestCopy small { font-size:.61rem; }
+  .resourceText strong { font-size:.75rem; }
+  .resourceText small { font-size:.63rem; }
+  .resourceText > span { font-size:.64rem; }
+}
