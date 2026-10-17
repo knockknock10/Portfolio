@@ -361,10 +361,10 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
                     <span
                       key={day.key}
                       className={styles.githubHeatmapDay}
-                      data-level={day.inRange ? day.level : "empty"}
-                      title={day.inRange ? `${day.count} contributions on ${day.key}` : ""}
+                      data-level={!day.inRange ? "empty" : loadState === "live" ? day.level : "unknown"}
+                      title={!day.inRange ? "" : loadState === "live" ? `${day.count} contributions on ${day.key}` : `Contribution data ${loadState} for ${day.key}`}
                       role="gridcell"
-                      aria-label={day.inRange ? `${day.count} contributions on ${day.key}` : "Outside selected period"}
+                      aria-label={!day.inRange ? "Outside selected period" : loadState === "live" ? `${day.count} contributions on ${day.key}` : `Contribution data ${loadState} for ${day.key}`}
                     />
                   ))}
                 </div>
@@ -375,7 +375,9 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
       </div>
 
         <div className={styles.githubGraphFooter}>
-          <span className={styles.heatmapLegend}><span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><i data-level="4" /><span>More</span></span>
+          {loadState === "live" ? (
+            <span className={styles.heatmapLegend}><span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><i data-level="4" /><span>More</span></span>
+          ) : <span className={styles.heatmapSource}>Intensity legend appears when contribution data loads.</span>}
           <span className={styles.heatmapSource}>{loadState === "live" ? "Live public contribution history" : "Source: GitHub profile"}</span>
         </div>
       </div>
