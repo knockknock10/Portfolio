@@ -32,7 +32,7 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(400px, .93fr) minmax(0, 1.8fr);
+  grid-template-columns: minmax(400px, 1.12fr) minmax(0, 1.75fr);
   grid-template-rows: minmax(318px, auto) 86px minmax(285px, auto);
   gap: 18px 15px;
   width: 100%;
@@ -79,6 +79,18 @@
   font-weight: 620;
   letter-spacing: -.078em;
   white-space: nowrap;
+}
+.signature {
+  position: absolute;
+  top: 132px;
+  left: min(405px, 90%);
+  color: rgba(56, 58, 73, .54);
+  font-family: "Segoe Script", "Snell Roundhand", "Apple Chancery", cursive;
+  font-size: clamp(1.1rem, 1.7vw, 1.65rem);
+  font-weight: 400;
+  letter-spacing: -.03em;
+  transform: rotate(-11deg);
+  pointer-events: none;
 }
 .intro h2 span {
   color: #3b5cff;
@@ -419,7 +431,7 @@
 }
 @media (max-width: 1280px) {
   .stage { min-height: max(940px, 100svh); }
-  .stageContent { grid-template-columns: minmax(340px, .9fr) minmax(0, 1.5fr); grid-template-rows: minmax(310px, auto) 82px minmax(290px, auto); padding-left: 185px; padding-right: 22px; gap: 15px 12px; }
+  .stageContent { grid-template-columns: minmax(340px, 1fr) minmax(0, 1.45fr); grid-template-rows: minmax(310px, auto) 82px minmax(290px, auto); padding-left: 185px; padding-right: 22px; gap: 15px 12px; }
   .intro h2 { font-size: clamp(3rem, 4.5vw, 4rem); }
   .methodPanel { padding: 17px 13px 12px; }
   .pipeline { gap: 2px; }
@@ -452,6 +464,7 @@
 @media (max-width: 620px) {
   .stageContent { padding: 95px 14px 24px 18px; }
   .intro h2 { font-size: clamp(3.1rem, 14vw, 4rem); }
+  .signature { display: none; }
   .eyebrow { margin-bottom: 14px; }
   .subtitle { font-size: 1rem; }
   .summary { font-size: .9rem; }
