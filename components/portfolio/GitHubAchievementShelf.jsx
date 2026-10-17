@@ -21,7 +21,7 @@ const achievements = [
   {
     title: "Quickdraw",
     description: "Fast issue or pull-request close",
-    image: "https://github.github.com/assets/quickdraw-default-39c6aec8ff89.png",
+    image: "https://github.githubassets.com/assets/quickdraw-default-39c6aec8ff89.png",
     href: "https://github.com/knockknock10?achievement=quickdraw&tab=achievements",
     initials: "QD",
   },
