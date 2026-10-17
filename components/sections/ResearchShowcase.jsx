@@ -18,7 +18,7 @@ const resultRows = [
 const stages = [
   { title: "Audio Input", detail: "16 kHz speech", kind: "wave" },
   { title: "Spectrogram", detail: "STFT · 513 bins", kind: "spectrogram" },
-  { title: "Transformer features", detail: "HuBERT · wav2vec 2.0", kind: "models" },
+  { title: "Transformer-Based Semantic Representation", detail: "HuBERT contribution map", kind: "models" },
   { title: "Contribution map", detail: "Frame-level saliency", kind: "saliency" },
   { title: "Adaptive placement", detail: "Five rules compared", kind: "placement" },
   { title: "SHA-256 binding", detail: "256-bit · 3 replicas", kind: "lock" },
@@ -42,9 +42,10 @@ function Waveform() {
 function Spectrogram() {
   return (
     <div className={styles.spectrogram} aria-label="Stylized STFT spectrogram">
-      {Array.from({ length: 72 }, (_, index) => (
-        <i key={index} style={{ "--cell": ((index * 17 + Math.floor(index / 9) * 11) % 29) / 28 }} />
-      ))}
+      {Array.from({ length: 72 }, (_, index) => {
+        const value = ((index * 17 + Math.floor(index / 9) * 11) % 29) / 28;
+        return <i key={index} style={{ backgroundColor: `hsl(${254 - value * 220} 91% ${22 + value * 45}%)`, opacity: 0.43 + value * 0.57 }} />;
+      })}
     </div>
   );
 }
@@ -52,9 +53,10 @@ function Spectrogram() {
 function SaliencyMap() {
   return (
     <div className={styles.saliencyMap} aria-label="Semantic contribution heat map">
-      {Array.from({ length: 54 }, (_, index) => (
-        <i key={index} style={{ "--heat": ((index * 13 + Math.floor(index / 6) * 7) % 31) / 30 }} />
-      ))}
+      {Array.from({ length: 54 }, (_, index) => {
+        const value = ((index * 13 + Math.floor(index / 6) * 7) % 31) / 30;
+        return <i key={index} style={{ backgroundColor: `hsl(${220 - value * 200} 91% ${24 + value * 42}%)`, opacity: 0.4 + value * 0.6 }} />;
+      })}
     </div>
   );
 }
