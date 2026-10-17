@@ -459,9 +459,9 @@
   bottom: clamp(36px, 5vh, 50px);
   left: 19.8%;
   display: grid;
-  width: min(61vw, 1000px);
-  min-height: 136px;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: min(54vw, 850px);
+  min-height: 118px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
   padding: 18px 16px 15px;
   border: 1px solid rgba(255, 255, 255, .63);
