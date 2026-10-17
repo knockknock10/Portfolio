@@ -5,7 +5,7 @@
 
 > Software engineering · Open source · Applied audio AI · Research
 
-**Live site: [knockknock10.github.io/Portfolio](https://knockknock10.github.io/Portfolio/)**
+**Deployment URL (awaiting first-time Pages setup): [knockknock10.github.io/Portfolio](https://knockknock10.github.io/Portfolio/)**
 
 A responsive, motion-led portfolio for my software engineering projects, upstream open-source contributions, SemBind-Audio research, technical skills, coding profiles, experience, and contact links.
 
@@ -48,7 +48,7 @@ npm run build
 
 ## GitHub Pages deployment
 
-The `Deploy to GitHub Pages` workflow builds a static Next.js export for the repository path `/Portfolio` and publishes it when a commit reaches `main`.
+The `Deploy to GitHub Pages` workflow builds and validates a static Next.js export for the repository path `/Portfolio`. The first publish is pending the one-time Pages setting described below; after that setting is saved, the workflow publishes commits pushed to `main`.
 
 - Site URL: [https://knockknock10.github.io/Portfolio/](https://knockknock10.github.io/Portfolio/)
 - Build command: `npm run build:pages`
