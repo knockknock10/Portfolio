@@ -135,7 +135,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
               <a className="research-feature-primary research-pdf-primary" href={publicUrl(item.pdf)} target="_blank" rel="noreferrer">
                 Open IEEE submission <span aria-hidden="true">↗</span>
               </a>
-              <a className="research-feature-download" href={item.pdf} download="SemBind.pdf">Download PDF ↓</a>
+              <a className="research-feature-download" href={publicUrl(item.pdf)} download="SemBind.pdf">Download PDF ↓</a>
             </>
           ) : null}
           <span className="research-feature-note">{submittedToIEEE ? "Submitted to IEEE Signal Processing Letters · not yet published" : "Research manuscript · active work"}</span>
@@ -185,8 +185,8 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
         {available(item.pdf) ? (
           <>
             <div className="research-paper-actions">
-              <a className="research-paper-open" href={item.pdf} target="_blank" rel="noreferrer">Open full IEEE submission ↗</a>
-              <a className="research-paper-download" href={item.pdf} download="SemBind.pdf">Download PDF ↓</a>
+              <a className="research-paper-open" href={publicUrl(item.pdf)} target="_blank" rel="noreferrer">Open full IEEE submission ↗</a>
+              <a className="research-paper-download" href={publicUrl(item.pdf)} download="SemBind.pdf">Download PDF ↓</a>
             </div>
             <button
               type="button"
@@ -300,7 +300,7 @@ export function Research({ items, standalone = false }: ResearchProps) {
                             <p className="research-nanosensor-caption">Concept illustration · MATLAB research context</p>
                           </div>
                         ) : (
-                          <img className="research-image" src={item.image} alt={item.title} loading="lazy" />
+                          <img className="research-image" src={publicUrl(item.image)} alt={item.title} loading="lazy" />
                         )
                       ) : null}
                       {available(item.link) ? (
