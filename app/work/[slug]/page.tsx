@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { Squircle } from "@/components/primitives"
 import styles from "@/components/work/WorkExperience.module.css"
 import { getWorkData, isAvailable, type WorkItem } from "@/lib/work"
+import { publicUrl } from "@/lib/public-url"
 
 type WorkDetailPageProps = {
   params: Promise<{ slug: string }>
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: WorkDetailPageProps): Promise
     openGraph: {
       title: item.title,
       ...(item.description ? { description: item.description } : {}),
-      ...(item.coverSrc ? { images: [{ url: item.coverSrc, alt: `${item.title} cover` }] } : {}),
+      ...(item.coverSrc ? { images: [{ url: publicUrl(item.coverSrc), alt: `${item.title} cover` }] } : {}),
     },
   }
 }
@@ -158,7 +159,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
       {item.coverSrc ? (
         <Squircle className={`case-cover ${styles.detailCover}`}>
           <Image
-            src={item.coverSrc}
+            src={publicUrl(item.coverSrc)}
             alt={`${item.title} cover`}
             fill
             sizes="100vw"
