@@ -6493,19 +6493,6 @@ body:has(.portfolio-standalone-showcase) .route-transition {
    The fixed sunset remains the connective thread; each chapter gets its own
    light, texture and motion instead of another identical glass-card backdrop.
    -------------------------------------------------------------------------- */
-@keyframes chapterAtmospherePan {
-  0% { background-position: 50% 48%, 0 0, 0 0; }
-  100% { background-position: 58% 54%, 12px 8px, -8px 10px; }
-}
-@keyframes chapterRuleSweep {
-  0% { background-position: 0% 50%; opacity: .48; }
-  50% { opacity: .9; }
-  100% { background-position: 100% 50%; opacity: .58; }
-}
-@keyframes recruiterProofPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(58, 98, 255, .16); }
-  50% { box-shadow: 0 0 0 6px rgba(58, 98, 255, 0); }
-}
 
 
 @keyframes workBlueprintDrift {
@@ -6831,4 +6818,11 @@ body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-lab
 body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-label="Additional research"] > * {
   position: relative;
   z-index: 1;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-label="Additional research"]::before {
+    animation: none !important;
+  }
 }
