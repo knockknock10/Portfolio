@@ -652,3 +652,23 @@
   .profileOverviewCard { transition: none !important; }
   .profileOverviewCard:hover { transform: none !important; }
 }
+
+
+/* Solid headline emphasis; visible supporting text on compact layouts. */
+.codingIntro h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.codingIntro > p:not(.eyebrow) { font-size:clamp(.98rem,1.04vw,1.08rem); line-height:1.7; }
+.metricCopy small { font-size:.72rem; }
+.metricCopy > span { font-size:.7rem; line-height:1.45; }
+.panelHeading p { font-size:.75rem; line-height:1.5; }
+.difficultyLabel,.difficultyRow > small { font-size:.72rem; }
+.profileOverviewCard strong { font-size:.86rem; }
+.profileOverviewCard small { font-size:.72rem; }
+.resourceText small { font-size:.7rem; }
+.resourceText > span { font-size:.72rem; line-height:1.5; }
+.emptyContest { font-size:.85rem; line-height:1.65; }
+.practicePrinciples small { font-size:.72rem; line-height:1.5; }
+@media(max-width:700px) {
+  .codingIntro > p:not(.eyebrow) { font-size:.92rem; }
+  .metricCopy small,.profileOverviewCard small { font-size:.66rem; }
+  .metricCopy > span,.resourceText > span { font-size:.66rem; }
+}
