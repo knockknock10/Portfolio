@@ -278,7 +278,8 @@ function GitHubContributionCalendar() {
                 style={{ gridTemplateColumns: "repeat(" + weekCount + ", 10px)" }}
               >
                 {days.map((day, index) => {
-                  const slot = leadingSlots + (Number(day.date.slice(8, 10)) - 1) + (new Date(year + "-01-01T00:00:00Z").getTime() ? Math.floor((new Date(day.date + "T00:00:00Z") - firstDate) / 86400000) : index);
+                  const dayDate = new Date(day.date + "T00:00:00Z");
+                  const slot = leadingSlots + Math.floor((dayDate.getTime() - firstDate.getTime()) / 86400000);
                   const level = Number.isInteger(day.level) ? Math.max(0, Math.min(4, day.level)) : (day.count <= 0 ? 0 : day.count >= 8 ? 4 : day.count >= 5 ? 3 : day.count >= 3 ? 2 : 1);
                   return (
                     <button
