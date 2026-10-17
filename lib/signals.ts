@@ -34,6 +34,8 @@ export interface SignalStats {
     profileRank: SignalNumber
     contestRating: SignalNumber
     contestRank: SignalNumber
+    contestAttendedCount: SignalNumber
+    contestTopPercentage: SignalText
     badges: string[]
     contestHistory: ContestTrendPoint[]
     dailySubmissionCalendar: Array<{ date: string; submissions: number }> | null
@@ -94,6 +96,8 @@ export function getSignalsData(): SignalStats {
       profileRank: numberValue(leetcode?.profile.ranking),
       contestRating: numberValue(leetcode?.contest.rating),
       contestRank: numberValue(leetcode?.contest.globalRanking),
+      contestAttendedCount: numberValue(leetcode?.contest.attendedContestsCount),
+      contestTopPercentage: textValue(leetcode?.contest.topPercentage),
       badges,
       contestHistory,
       dailySubmissionCalendar: leetcode?.dailySubmissionCalendar ?? null,
