@@ -52,6 +52,7 @@ const categories = [
       ["Python", "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"],
       ["JavaScript", "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"],
       ["SQL", "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"],
+      ["Rust · exploring", "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-original.svg"],
     ],
   },
   {
@@ -257,7 +258,7 @@ export default function SkillsShowcase() {
         </div>
         <div className={styles.skillsConsoleArea}>
           <div className={styles.skillsStats}>
-            <div><span aria-hidden="true">〈/〉</span><strong>7</strong><small>Languages &amp; query</small></div>
+            <div><span aria-hidden="true">〈/〉</span><strong>6+</strong><small>Languages + SQL</small></div>
             <div><span aria-hidden="true">◇</span><strong>8</strong><small>Skill layers</small></div>
             <div><span aria-hidden="true">⌘</span><strong>3</strong><small>Research threads</small></div>
             <div><span aria-hidden="true">∞</span><strong>Always</strong><small>Learn &amp; iterate</small></div>
