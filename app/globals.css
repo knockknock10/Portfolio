@@ -6493,18 +6493,43 @@ body:has(.portfolio-standalone-showcase) .route-transition {
    The fixed sunset remains the connective thread; each chapter gets its own
    light, texture and motion instead of another identical glass-card backdrop.
    -------------------------------------------------------------------------- */
-@keyframes chapterAtmospherePan {
-  0% { background-position: 50% 48%, 0 0, 0 0; }
-  100% { background-position: 58% 54%, 12px 8px, -8px 10px; }
+
+
+@keyframes workBlueprintDrift {
+  0% { background-position: 50% 48%, 50% 50%, 0 0, 0 0, center; }
+  100% { background-position: 58% 54%, 52% 48%, 12px 8px, -8px 10px, center; }
 }
-@keyframes chapterRuleSweep {
-  0% { background-position: 0% 50%; opacity: .48; }
-  50% { opacity: .9; }
-  100% { background-position: 100% 50%; opacity: .58; }
+@keyframes researchLabDrift {
+  0% { background-position: 50% 50%, 50% 50%, 0 0, center; }
+  100% { background-position: 58% 54%, 46% 57%, 13px 8px, center; }
 }
-@keyframes recruiterProofPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(58, 98, 255, .16); }
-  50% { box-shadow: 0 0 0 6px rgba(58, 98, 255, 0); }
+@keyframes openSourceDrift {
+  0% { background-position: 50% 50%, 50% 50%, 0 0, center; }
+  100% { background-position: 55% 46%, 45% 60%, 10px 12px, center; }
+}
+@keyframes experienceTimelineDrift {
+  0% { background-position: 50% 50%, 50% 50%, center; }
+  100% { background-position: 58% 46%, 42% 58%, center; }
+}
+@keyframes skillsDraftDrift {
+  0% { background-position: 50% 50%, 50% 50%, 0 0, 0 0, center; }
+  100% { background-position: 56% 45%, 44% 60%, 10px 8px, -8px 10px, center; }
+}
+@keyframes codingGridDrift {
+  0% { background-position: 50% 50%, 50% 50%, 0 0, center; }
+  100% { background-position: 57% 43%, 44% 62%, 12px 8px, center; }
+}
+@keyframes achievementArchiveDrift {
+  0% { background-position: 50% 50%, 50% 50%, 0 0, center; }
+  100% { background-position: 58% 46%, 42% 58%, 12px 8px, center; }
+}
+@keyframes aboutPortraitDrift {
+  0% { background-position: 50% 50%, 50% 50%, center; }
+  100% { background-position: 56% 46%, 44% 58%, center; }
+}
+@keyframes contactConvergeDrift {
+  0% { background-position: 50% 50%, 50% 50%, center; }
+  100% { background-position: 58% 43%, 42% 61%, center; }
 }
 
 body:has(.portfolio-home-page) {
@@ -6539,7 +6564,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#work::before {
   background-size: 100% 100%, 100% 100%, 38px 38px, 38px 38px, 100% 100%;
   background-position: 50% 48%, 50% 50%, 0 0, 0 0, center;
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
-  animation: chapterAtmospherePan 30s ease-in-out infinite alternate;
+  animation: workBlueprintDrift 30s ease-in-out infinite alternate;
 }
 body:has(.portfolio-home-page) .portfolio-home-page > section#work > div:not([aria-hidden="true"]):not([class*="drawerBackdrop"]) {
   position: relative;
@@ -6548,15 +6573,14 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#work > div:not([ar
 
 /* Research — pale periwinkle lab canvas with a restrained node/graph field.
    Hide the repeated photo inside this chapter so it does not restart mid-page. */
-body:has(.portfolio-home-page) .portfolio-home-page #research > section {
+body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-labelledby="research-showcase-title"] {
   --chapter-accent: var(--chapter-research);
   background: transparent !important;
 }
-body:has(.portfolio-home-page) .portfolio-home-page #research > section > div[aria-hidden="true"],
-body:has(.portfolio-home-page) .portfolio-home-page #research > section > div[aria-hidden="true"] {
+body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-labelledby="research-showcase-title"] > div[aria-hidden="true"] {
   display: none !important;
 }
-body:has(.portfolio-home-page) .portfolio-home-page #research > section::before {
+body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-labelledby="research-showcase-title"]::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -6570,9 +6594,9 @@ body:has(.portfolio-home-page) .portfolio-home-page #research > section::before 
   background-size: 100% 100%, 100% 100%, 25px 25px, 100% 100%;
   background-position: 50% 50%, 50% 50%, 0 0, center;
   mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
-  animation: chapterAtmospherePan 34s ease-in-out infinite alternate;
+  animation: researchLabDrift 34s ease-in-out infinite alternate;
 }
-body:has(.portfolio-home-page) .portfolio-home-page #research > section > div:not([aria-hidden="true"]) {
+body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-labelledby="research-showcase-title"] > div:not([aria-hidden="true"]) {
   position: relative;
   z-index: 1;
 }
@@ -6596,7 +6620,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#open-source::befor
   background-size: 100% 100%, 100% 100%, 21px 21px, 100% 100%;
   background-position: 50% 50%, 50% 50%, 0 0, center;
   mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 94%, transparent 100%);
-  animation: chapterAtmospherePan 36s ease-in-out infinite alternate;
+  animation: openSourceDrift 36s ease-in-out infinite alternate;
 }
 body:has(.portfolio-home-page) .portfolio-home-page > section#open-source > * {
   position: relative;
@@ -6620,7 +6644,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#internships::befor
     linear-gradient(180deg, rgba(255, 242, 226, .72), rgba(244, 231, 246, .64) 52%, rgba(231, 238, 255, .68));
   background-size: 100% 100%;
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
-  animation: chapterAtmospherePan 32s ease-in-out infinite alternate;
+  animation: experienceTimelineDrift 32s ease-in-out infinite alternate;
 }
 body:has(.portfolio-home-page) .portfolio-home-page > section#internships > * {
   position: relative;
@@ -6647,7 +6671,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#skills::before {
   background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px, 100% 100%;
   background-position: 50% 50%, 50% 50%, 0 0, 0 0, center;
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
-  animation: chapterAtmospherePan 28s ease-in-out infinite alternate;
+  animation: skillsDraftDrift 28s ease-in-out infinite alternate;
 }
 body:has(.portfolio-home-page) .portfolio-home-page > section#skills > * {
   position: relative;
@@ -6673,7 +6697,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#coding::before {
   background-size: 100% 100%, 100% 100%, 18px 18px, 100% 100%;
   background-position: 50% 50%, 50% 50%, 0 0, center;
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 94%, transparent 100%);
-  animation: chapterAtmospherePan 31s ease-in-out infinite alternate;
+  animation: codingGridDrift 31s ease-in-out infinite alternate;
 }
 body:has(.portfolio-home-page) .portfolio-home-page > section#coding > * {
   position: relative;
@@ -6699,7 +6723,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#certifications::be
   background-size: 100% 100%, 100% 100%, 23px 23px, 100% 100%;
   background-position: 50% 50%, 50% 50%, 0 0, center;
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
-  animation: chapterAtmospherePan 38s ease-in-out infinite alternate;
+  animation: achievementArchiveDrift 38s ease-in-out infinite alternate;
 }
 body:has(.portfolio-home-page) .portfolio-home-page > section#certifications > * {
   position: relative;
@@ -6723,7 +6747,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#about::before {
     linear-gradient(140deg, rgba(250, 235, 244, .81), rgba(234, 231, 255, .76) 52%, rgba(255, 239, 227, .73));
   background-size: 100% 100%;
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
-  animation: chapterAtmospherePan 34s ease-in-out infinite alternate;
+  animation: aboutPortraitDrift 34s ease-in-out infinite alternate;
 }
 body:has(.portfolio-home-page) .portfolio-home-page > section#about > * {
   position: relative;
@@ -6747,7 +6771,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#contact::before {
     linear-gradient(138deg, rgba(255, 238, 239, .81), rgba(231, 234, 255, .78) 50%, rgba(233, 238, 255, .75));
   background-size: 100% 100%;
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 94%, transparent 100%);
-  animation: chapterAtmospherePan 29s ease-in-out infinite alternate;
+  animation: contactConvergeDrift 29s ease-in-out infinite alternate;
 }
 body:has(.portfolio-home-page) .portfolio-home-page > section#contact > * {
   position: relative;
@@ -6758,7 +6782,47 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#contact > * {
    these chapter tints, so there is no second landscape restarting mid-scroll. */
 @media (prefers-reduced-motion: reduce) {
   body:has(.portfolio-home-page) .portfolio-home-page > section::before,
-  body:has(.portfolio-home-page) .portfolio-home-page #research > section::before {
+  body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-labelledby="research-showcase-title"]::before {
+    animation: none !important;
+  }
+}
+
+
+/* The secondary nanosensor item stays in the same research color family without
+   restarting the mountain wallpaper or repeating the feature-stage layout. */
+body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-label="Additional research"] {
+  position: relative;
+  isolation: isolate;
+  background: transparent !important;
+  overflow: clip;
+}
+body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-label="Additional research"]::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 80% 8%, rgba(130, 129, 255, .20), transparent 37%),
+    repeating-linear-gradient(0deg, rgba(83, 94, 157, .045) 0 1px, transparent 1px 28px),
+    linear-gradient(136deg, rgba(234, 237, 255, .87), rgba(227, 233, 255, .82) 57%, rgba(255, 235, 231, .83));
+  background-size: 100% 100%, 28px 28px, 100% 100%;
+  background-position: 50% 50%, 0 0, center;
+  animation: researchAdditionalDrift 37s ease-in-out infinite alternate;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+}
+@keyframes researchAdditionalDrift {
+  0% { background-position: 50% 50%, 0 0, center; }
+  100% { background-position: 58% 46%, 12px 8px, center; }
+}
+body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-label="Additional research"] > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-label="Additional research"]::before {
     animation: none !important;
   }
 }
