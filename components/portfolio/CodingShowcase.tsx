@@ -11,7 +11,6 @@ type CodingShowcaseProps = {
 
 const LEETCODE_URL = "https://leetcode.com/u/knockknock10/";
 const LEETCODE_CONTEST_URL = "https://leetcode.com/contest/";
-const GITHUB_URL = "https://github.com/knockknock10";
 
 function numberValue(value: unknown): number | null {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
