@@ -3,17 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./FeaturedWork.module.css";
 
-const navigation = [
-  ["home", "Home"],
-  ["work", "Work"],
-  ["research", "Research"],
-  ["open-source", "Open Source"],
-  ["internships", "Experience"],
-  ["skills", "Skills"],
-  ["certifications", "Achievements"],
-  ["about", "About"],
-  ["contact", "Contact"],
-];
 
 const featuredProject = {
   id: "aevor-platform",
@@ -295,17 +284,7 @@ export default function FeaturedWork() {
       <div className={styles.workBackdrop} aria-hidden="true" />
       <div className={styles.workShade} aria-hidden="true" />
 
-      <header className={styles.workTopbar}>
-        <nav className={styles.topNavigation} aria-label="Main navigation">
-          {navigation.map(([id, label]) => (
-            <a key={id} href={`#${id}`} className={id === "work" ? styles.topNavActive : ""} aria-current={id === "work" ? "location" : undefined}>
-              {label}
-              {id === "work" ? <span className={styles.topNavDot} aria-hidden="true" /> : null}
-            </a>
-          ))}
-        </nav>
-        <a className={styles.topTalk} href="#contact">Let’s Talk <Arrow /></a>
-      </header>
+
 
       <div className={styles.workCanvas}>
         <div className={styles.workFeatureLayout}>

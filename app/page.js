@@ -1,6 +1,6 @@
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
-import { Research } from "@/components/sections/Research";
+import ResearchShowcase from "@/components/sections/ResearchShowcase";
 import { Internships } from "@/components/sections/Internships";
 import { Certifications } from "@/components/sections/Certifications";
 import {
@@ -35,7 +35,7 @@ export default async function HomePage() {
       <FeaturedWork />
 
       <section id="research" className="portfolio-anchor" tabIndex={-1}>
-        <Research items={researchItems} />
+        <ResearchShowcase items={researchItems} />
       </section>
 
       <OpenSourceOrganizations />
