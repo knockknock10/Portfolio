@@ -309,3 +309,29 @@
   }
   .highlightCard:hover,.panel:hover,.certificate:hover { transform:none !important; }
 }
+
+
+.noCalendarMark {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+  padding:10px;
+  border:1px dashed rgba(75,91,139,.2);
+  border-radius:11px;
+  background:rgba(255,255,255,.36);
+}
+.noCalendarMark > span {
+  display:grid;
+  width:31px;
+  height:31px;
+  flex:0 0 31px;
+  place-items:center;
+  border-radius:9px;
+  color:#385de9;
+  background:rgba(77,107,255,.1);
+}
+.noCalendarMark svg { width:19px; height:19px; }
+.noCalendarMark > div { display:flex; min-width:0; flex-direction:column; gap:3px; }
+.noCalendarMark strong { color:#384056; font-size:.59rem; font-weight:750; line-height:1.3; }
+.noCalendarMark small { color:#8a91a0; font-size:.51rem; line-height:1.4; }
