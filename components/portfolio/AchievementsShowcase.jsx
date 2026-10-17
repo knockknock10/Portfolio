@@ -28,6 +28,44 @@ function formatDate(value) {
   return new Date(value + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
 }
 
+const githubAchievements = [
+  { title: "Pull Shark", detail: "Merged pull requests", image: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-silver.png", count: "×3" },
+  { title: "Galaxy Brain", detail: "Accepted discussion answers", image: "https://github.githubassets.com/images/modules/profile/achievements/galaxy-brain-default.png" },
+  { title: "Quickdraw", detail: "Fast issue or pull-request close", image: "https://github.githubassets.com/images/modules/profile/achievements/quickdraw-default.png" },
+  { title: "Pair Extraordinaire", detail: "Co-authored merged pull request", image: "https://github.githubassets.com/images/modules/profile/achievements/pair-extraordinaire-default.png" },
+  { title: "YOLO", detail: "Merged pull request without review", image: "https://github.githubassets.com/images/modules/profile/achievements/yolo-default.png" },
+];
+
+function GitHubAchievementShelf() {
+  return (
+    <article className={styles.githubAchievementPanel} aria-labelledby="github-achievements-title">
+      <header className={styles.githubAchievementHeader}>
+        <div>
+          <p className={styles.panelEyebrow}>OPEN-SOURCE MILESTONES</p>
+          <h3 id="github-achievements-title">GitHub achievements</h3>
+          <p>The profile badges shown in your reference, linked to the public achievements page.</p>
+        </div>
+        <a href="https://github.com/knockknock10?tab=achievements" target="_blank" rel="noreferrer">View profile ↗</a>
+      </header>
+      <div className={styles.githubAchievementGrid}>
+        {githubAchievements.map((badge) => (
+          <a className={styles.githubAchievement}
+            href="https://github.com/knockknock10?tab=achievements"
+            target="_blank" rel="noreferrer" key={badge.title}
+            aria-label={badge.title + (badge.count ? " " + badge.count : "") + " GitHub achievement"}>
+            <span className={styles.githubAchievementArt}>
+              <img src={badge.image} alt="" loading="lazy" />
+              {badge.count ? <span className={styles.githubAchievementCount}>{badge.count}</span> : null}
+            </span>
+            <strong>{badge.title}</strong>
+            <small>{badge.detail}</small>
+          </a>
+        ))}
+      </div>
+    </article>
+  );
+}
+
 function CredentialShelf({ items, onSelect }) {
   return (
     <article className={styles.credentialPanel}>
@@ -192,6 +230,10 @@ export default function AchievementsShowcase({ items = [] }) {
           <div className={styles.spotlightFoot}><span className={styles.spotlightDot}/> <span>Academic record</span></div>
         </motion.aside>
       </header>
+
+      <motion.div {...reveal(.08)}>
+        <GitHubAchievementShelf />
+      </motion.div>
 
       <motion.div {...reveal(.1)}>
         <CredentialShelf items={items} onSelect={setSelectedIndex}/>
