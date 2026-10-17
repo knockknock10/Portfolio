@@ -654,57 +654,6 @@
   line-height: 1.4;
 }
 
-.skillPrinciples {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
-  margin-top: 13px;
-  padding: 11px 7px;
-  border: 1px solid rgba(255, 255, 255, .79);
-  border-radius: 17px;
-  background: rgba(255, 249, 247, .65);
-  box-shadow: 0 10px 27px rgba(42, 33, 42, .06), inset 0 1px 0 rgba(255, 255, 255, .84);
-  backdrop-filter: blur(18px) saturate(118%);
-  -webkit-backdrop-filter: blur(18px) saturate(118%);
-}
-
-.skillPrinciples > div {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-width: 0;
-  padding: 3px clamp(7px, 1.15vw, 17px);
-}
-
-.skillPrinciples > div + div { border-left: 1px solid rgba(72, 79, 98, .15); }
-
-.skillPrinciples > div > span {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
-  place-items: center;
-  border-radius: 11px;
-  color: #3861ff;
-  background: rgba(62, 103, 255, .1);
-  font-size: 1.12rem;
-}
-
-.skillPrinciples strong {
-  display: block;
-  color: #242a39;
-  font-size: .68rem;
-  font-weight: 750;
-}
-
-.skillPrinciples small {
-  display: block;
-  margin-top: 3px;
-  color: #687084;
-  font-size: .55rem;
-  line-height: 1.35;
-}
-
 .skillsSection a:focus-visible,
 .skillsSection button:focus-visible {
   outline: 2px solid #3564ff;
@@ -783,10 +732,6 @@
   .learningItem { padding-block: 10px; }
   .learningCopy strong { font-size: .66rem; }
   .learningStatus { font-size: .5rem; }
-  .skillPrinciples { grid-template-columns: minmax(0, 1fr); padding: 5px 12px; }
-  .skillPrinciples > div { padding: 9px 2px; }
-  .skillPrinciples > div + div,
-  .skillPrinciples > div:nth-child(3) { border-top: 1px solid rgba(72, 79, 98, .15); border-left: 0; margin-top: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
