@@ -1176,3 +1176,10 @@
     transition: none !important;
   }
 }
+
+
+/* Fade both image and its readability wash into the single shared canvas. */
+.heroShade {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 79%, rgba(0, 0, 0, .78) 88%, rgba(0, 0, 0, .2) 97%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 79%, rgba(0, 0, 0, .78) 88%, rgba(0, 0, 0, .2) 97%, transparent 100%);
+}
