@@ -159,15 +159,19 @@ function ServiceArchitecture() {
         <circle cx="198" cy="40" r="5" fill="#7fa0ff" />
         <text x="213" y="37" fill="#f1f5ff" fontSize="12" fontWeight="600">Event coordinator</text>
         <text x="213" y="51" fill="#9eacc6" fontSize="9">proposed flow boundary</text>
-        {#each [{x:16,title:"Inventory",sub:"Stock state",n:"01"},{x:186,title:"Orders",sub:"Order lifecycle",n:"02"},{x:356,title:"Payments",sub:"Payment state",n:"03"}] as node}
-          <g>
+        {[
+          { x: 16, title: "Inventory", sub: "Stock state", n: "01" },
+          { x: 186, title: "Orders", sub: "Order lifecycle", n: "02" },
+          { x: 356, title: "Payments", sub: "Payment state", n: "03" },
+        ].map((node) => (
+          <g key={node.n}>
             <rect x={node.x} y="115" width="168" height="76" rx="13" fill="url(#cgNode)" stroke="#687d9f" strokeOpacity=".7" />
-            <text x={node.x+14} y="137" fill="#8aa6ff" fontSize="9" fontWeight="700" letterSpacing="1.4">{node.n}</text>
-            <text x={node.x+14} y="157" fill="#f2f5ff" fontSize="13" fontWeight="600">{node.title}</text>
-            <text x={node.x+14} y="174" fill="#a7b2c6" fontSize="10">{node.sub}</text>
-            <circle cx={node.x+148} cy="132" r="3" fill="#6ce0ba" />
+            <text x={node.x + 14} y="137" fill="#8aa6ff" fontSize="9" fontWeight="700" letterSpacing="1.4">{node.n}</text>
+            <text x={node.x + 14} y="157" fill="#f2f5ff" fontSize="13" fontWeight="600">{node.title}</text>
+            <text x={node.x + 14} y="174" fill="#a7b2c6" fontSize="10">{node.sub}</text>
+            <circle cx={node.x + 148} cy="132" r="3" fill="#6ce0ba" />
           </g>
-        {/each}
+        ))}
         <path d="M100 200 H440" stroke="#5e7498" strokeOpacity=".6" strokeWidth="1" strokeDasharray="3 5" />
         <text x="270" y="218" textAnchor="middle" fill="#a8b5cb" fontSize="10" letterSpacing="1.2">SERVICE BOUNDARIES · EARLY-STAGE DESIGN</text>
       </svg>
