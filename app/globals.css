@@ -6391,5 +6391,18 @@ body:has(.portfolio-home-page) .route-transition {
 }
 
 .portfolio-home-page .portfolio-anchor {
-  scroll-margin-top: 1.25rem;
+  scroll-margin-top: 5.75rem;
+  scroll-behavior: smooth;
+}
+
+/* Single fixed navigation stays visible while the page moves through its sections. */
+html:has(.portfolio-home-page) {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.portfolio-home-page) {
+    scroll-behavior: auto;
+  }
 }
