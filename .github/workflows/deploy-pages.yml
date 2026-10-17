@@ -13,7 +13,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: github-pages
+  # Keep PR validation and production deployment in different groups so a
+  # finishing PR check can never cancel the main-branch publish job.
+  group: github-pages-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
