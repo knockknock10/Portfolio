@@ -1618,3 +1618,20 @@
   .featureDescription { font-size:.91rem; line-height:1.58; }
   .projectCardBody > p { min-height:0; font-size:.82rem; }
 }
+
+
+/* Text emphasis remains solid instead of using clipped color gradients. */
+.workIntro h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.workLead { font-size:clamp(.98rem,1.04vw,1.08rem); line-height:1.7; }
+.featureDescription { font-size:.94rem; line-height:1.65; }
+.featureTags span { font-size:.7rem; }
+.projectCardBody > p { font-size:.88rem; line-height:1.62; }
+.projectCardTags span { font-size:.7rem; }
+.projectCardActions a,.projectCardActions button { font-size:.77rem; }
+.drawerDescription { font-size:1rem; line-height:1.75; }
+.drawerInfo ul { font-size:.92rem; line-height:1.75; }
+@media(max-width:760px) {
+ .workLead { font-size:.92rem; }
+ .featureDescription { font-size:.86rem; }
+ .projectCardBody > p { font-size:.82rem; }
+}
