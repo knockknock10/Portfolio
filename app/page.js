@@ -1,7 +1,7 @@
-import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import ResearchShowcase from "@/components/sections/ResearchShowcase";
-import { Certifications } from "@/components/sections/Certifications";
+import AchievementsShowcase from "@/components/portfolio/AchievementsShowcase";
+import AboutShowcase from "@/components/portfolio/AboutShowcase";
 import { ActivityShowcase } from "@/components/sections/PortfolioExperience";
 import ExperienceShowcase from "@/components/portfolio/ExperienceShowcase";
 import SkillsShowcase from "@/components/portfolio/SkillsShowcase";
@@ -24,7 +24,6 @@ export default async function HomePage() {
     content.identity.professionalName ||
     content.identity.fullName ||
     "Sanjeev Kumar";
-  const bio = [content.identity.shortBio, content.identity.longBio].filter(Boolean);
 
   return (
     <main className="home-page portfolio-home-page">
@@ -43,22 +42,9 @@ export default async function HomePage() {
       <SkillsShowcase />
       <ActivityShowcase data={signalsData} />
 
-      <section id="certifications" className="portfolio-anchor" tabIndex={-1}>
-        <Certifications items={certifications} />
-      </section>
+      <AchievementsShowcase items={certifications} data={signalsData} />
 
-      <section id="about" className="portfolio-anchor" tabIndex={-1}>
-        <About
-          bio={bio}
-          tools={content.tools}
-          influences={content.influences}
-          portraitInitials={fullName
-            .split(" ")
-            .map((part) => part[0])
-            .join("")
-            .slice(0, 2)}
-        />
-      </section>
+      <AboutShowcase content={content} data={signalsData} />
 
       <section id="contact" className="portfolio-anchor" tabIndex={-1}>
         <Contact
