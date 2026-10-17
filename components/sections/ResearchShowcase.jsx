@@ -85,7 +85,7 @@ function PipelineVisual() {
   return (
     <div className={styles.pipeline} aria-label="SemBind methodology from audio input through spectrogram, transformer features, contribution map and adaptive placement to SHA-256 binding">
       {stages.map((stage, index) => (
-        <div className={styles.pipelineUnit} key={stage.kind} style={{ gridColumn: String(index * 2 + 1) }}>
+        <div className={`${styles.pipelineUnit} ${styles["pipelineUnit" + index]}`} key={stage.kind}>
           <div className={styles.pipelineVisual}>
             {stage.kind === "wave" && <Waveform />}
             {stage.kind === "spectrogram" && <Spectrogram />}
@@ -103,7 +103,7 @@ function PipelineVisual() {
         </div>
       ))}
       {stages.slice(0, -1).map((stage, index) => (
-        <span className={styles.flowArrow} aria-hidden="true" key={stage.kind + "-arrow"} style={{ gridColumn: String(index * 2 + 2) }}>→</span>
+        <span className={`${styles.flowArrow} ${styles["flowArrow" + index]}`} aria-hidden="true" key={stage.kind + "-arrow"}>→</span>
       ))}
     </div>
   );
