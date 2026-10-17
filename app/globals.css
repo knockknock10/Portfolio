@@ -6527,3 +6527,8 @@ body:has(.portfolio-home-page) .route-transition {
 /* Keep the decorative grid above the section paint but behind interactive content. */
 .research-section::before { z-index: 0; }
 .research-inner { position: relative; z-index: 1; }
+
+
+/* The standalone Research route uses the same full-bleed showcase and shared global chrome. */
+body:has(.research-route) .site-shell { padding-block-start: 0; }
+.research-route { width: 100%; max-width: none; margin: 0; padding: 0; }
