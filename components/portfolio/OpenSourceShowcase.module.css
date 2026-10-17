@@ -1417,3 +1417,19 @@
   .githubGraphYear, .githubGraphYearActive { transition: none !important; }
   .githubGraphYear:hover, .githubGraphYearActive:hover { transform: none !important; }
 }
+
+
+/* Solid section headline and accessible explanation for the graph fallback. */
+.openSourceIntro h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.githubGraphUnavailable { margin:10px 0 12px; padding:11px 13px; border:1px solid rgba(136,147,179,.2); border-radius:10px; color:#4c5670; background:rgba(255,255,255,.06); font-size:.78rem; line-height:1.6; }
+.githubGraphUnavailable a { color:#b7c7ff; font-weight:750; text-decoration:underline; text-underline-offset:3px; }
+.contributionCardDescription { font-size:.78rem; line-height:1.62; }
+.contributionTags span { font-size:.68rem; }
+.communityPill { font-size:.69rem; }
+.heatmapSource,.graphStatNote { font-size:.68rem; line-height:1.5; }
+@media(max-width:700px) {
+ .githubGraphUnavailable { font-size:.72rem; }
+ .contributionCardDescription { font-size:.73rem; }
+ .contributionTags span { font-size:.64rem; }
+ .communityPill { font-size:.65rem; }
+}
