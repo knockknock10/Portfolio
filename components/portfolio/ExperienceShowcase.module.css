@@ -2,8 +2,8 @@
   position: relative;
   isolation: isolate;
   width: min(1450px, calc(100% - clamp(228px, 17vw, 280px)));
-  margin: 88px clamp(26px, 3vw, 52px) 0 clamp(188px, 13.5vw, 224px);
-  padding: 0 0 clamp(56px, 6vw, 88px);
+  margin: 46px clamp(26px, 3vw, 52px) 0 clamp(188px, 13.5vw, 224px);
+  padding: 0 0 clamp(32px, 4vw, 52px);
   color: #11141d;
   scroll-margin-top: 6rem;
 }
@@ -840,7 +840,7 @@
 @media (max-width: 1040px) {
   .experienceSection {
     width: calc(100% - 105px);
-    margin: 65px 20px 0 78px;
+    margin: 50px 20px 0 78px;
   }
 
   .experienceHeader {
