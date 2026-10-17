@@ -313,7 +313,7 @@ export default function FeaturedWork() {
             <p className={styles.workEyebrow}><span>02</span><i aria-hidden="true" /> SELECTED WORK <b aria-hidden="true" /></p>
             <h2 id="work-title">Selected <span>Work</span></h2>
             <p className={styles.workLead}>
-              A few meaningful projects I’ve built, contributed to, or researched. Each project taught me something new — about engineering, problem solving, and creating real impact.
+              Five source-linked projects across developer tooling, collaboration, travel, reliability, and event applications. Open the implementation to assess architecture and code—not just a screenshot.
             </p>
             <a className={styles.allProjectsButton} href="https://github.com/knockknock10?tab=repositories" target="_blank" rel="noreferrer">
               View all projects <Arrow />
