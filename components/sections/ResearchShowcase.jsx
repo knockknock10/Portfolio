@@ -269,6 +269,7 @@ function ResearchAdditional({ items }) {
   );
 }
 
+/** @param {{ items?: object[], standalone?: boolean }} props */
 export default function ResearchShowcase({ items = [], standalone = false }) {
   const reducedMotion = Boolean(useReducedMotion());
   const [pipelineOpen, setPipelineOpen] = useState(false);
