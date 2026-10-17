@@ -9,7 +9,7 @@ const principles = [
   { number: "03", title: "Leave the trail clearer", detail: "Good implementation includes readable code, focused tests and context for the next person.", tone: "amber" },
 ];
 
-export default function AboutShowcase({ content }) {
+export default function AboutShowcase({ content, standalone = false }) {
   const reducedMotion = useReducedMotion();
   const name = content?.identity?.professionalName || content?.identity?.fullName || "Sanjeev Kumar";
   const biography = [content?.identity?.shortBio, content?.identity?.longBio]
@@ -17,7 +17,7 @@ export default function AboutShowcase({ content }) {
   const transition = reducedMotion ? { duration: 0 } : { duration: 0.42, ease: [0.22, 1, 0.36, 1] };
 
   return (
-    <section id="about" className={styles.section} aria-labelledby="about-heading" tabIndex={-1}>
+    <section id={standalone ? undefined : "about"} className={styles.section} data-standalone={standalone ? "true" : "false"} aria-labelledby="about-heading" tabIndex={-1}>
       <header className={styles.sectionHeader}>
         <motion.div className={styles.headingCopy} initial={reducedMotion ? false : { opacity: 0, y: 13 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={transition}>
           <p className={styles.eyebrow}><span>09</span><i /> ABOUT <b /></p>
