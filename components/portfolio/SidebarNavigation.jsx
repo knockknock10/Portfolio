@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import styles from "./HomeHero.module.css";
 
 const items = [
@@ -20,10 +21,25 @@ const reduceMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export default function SidebarNavigation() {
+  const pathname = usePathname();
   const [active, setActive] = useState("home");
   const [pinnedOpen, setPinnedOpen] = useState(false);
 
   useEffect(() => {
+    if (pathname !== "/") {
+      const routeSections = {
+        "/research": "research",
+        "/work": "work",
+        "/open-source": "open-source",
+        "/experience": "internships",
+        "/skills": "skills",
+        "/achievements": "certifications",
+        "/about": "about",
+        "/contact": "contact",
+      };
+      setActive(routeSections[pathname] || "home");
+      return undefined;
+    }
     const sections = items.map((item) => document.getElementById(item.id)).filter(Boolean);
     if (!sections.length || !("IntersectionObserver" in window)) return undefined;
 
@@ -44,9 +60,10 @@ export default function SidebarNavigation() {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   function navigate(event, item) {
+    if (pathname !== "/") return;
     const target = document.getElementById(item.id);
     if (!target) return;
 
@@ -69,7 +86,7 @@ export default function SidebarNavigation() {
     >
       <a
         className={styles.sidebarBrand}
-        href="#home"
+        href={pathname === "/" ? "#home" : "/#home"}
         aria-label="Sanjeev Kumar — Home"
         onClick={(event) => navigate(event, items[0])}
       >
@@ -94,7 +111,7 @@ export default function SidebarNavigation() {
           <a
             key={item.id}
             className={`${styles.sidebarLink} ${active === item.id ? styles.sidebarLinkActive : ""}`}
-            href={`#${item.id}`}
+            href={pathname === "/" ? "#" + item.id : "/#" + item.id}
             aria-current={active === item.id ? "location" : undefined}
             onClick={(event) => navigate(event, item)}
           >
