@@ -44,7 +44,7 @@
   align-items: center;
   justify-content: center;
   min-height: 54px;
-  padding: 0 clamp(20px, 2vw, 36px) 0 clamp(65px, 10vw, 165px);
+  padding: 0 clamp(20px, 2vw, 36px);
   pointer-events: none;
 }
 
