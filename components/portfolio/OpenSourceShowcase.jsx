@@ -175,20 +175,6 @@ const contributions = [
     description: "Terraform-provider improvements around listing imported resources.",
     tags: ["Terraform", "Go", "Provider"],
   },
-  {
-    id: "fabric-dataset-39",
-    organization: "Kestra",
-    handle: "kestra-io",
-    organizationUrl: "https://github.com/kestra-io",
-    logo: "https://github.com/kestra-io.png",
-    repository: "plugin-microsoft-fabric",
-    title: "Dataset refresh follow-up",
-    number: 39,
-    status: "Open",
-    url: "https://github.com/kestra-io/plugin-microsoft-fabric/pull/39",
-    description: "Follow-up work in the Microsoft Fabric integration; see the upstream review for current status.",
-    tags: ["Java", "Azure", "Data"],
-  },
 ];
 
 const communities = [
