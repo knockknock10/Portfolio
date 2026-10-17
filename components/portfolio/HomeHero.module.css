@@ -35,8 +35,8 @@
 }
 
 .topbar {
-  position: absolute;
-  z-index: 25;
+  position: fixed;
+  z-index: 60;
   top: 19px;
   left: 0;
   right: 0;
