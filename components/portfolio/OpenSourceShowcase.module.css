@@ -1,0 +1,1305 @@
+.openSourceSection {
+  position: relative;
+  isolation: isolate;
+  width: min(1450px, calc(100% - clamp(228px, 17vw, 280px)));
+  margin: 90px clamp(26px, 3vw, 52px) 0 clamp(188px, 13.5vw, 224px);
+  padding: 0 0 clamp(54px, 6vw, 86px);
+  color: #11141c;
+  scroll-margin-top: 6rem;
+}
+
+.openSourceIntroLayout {
+  display: grid;
+  grid-template-columns: minmax(285px, .72fr) minmax(0, 1.65fr);
+  align-items: stretch;
+  gap: clamp(22px, 2.35vw, 38px);
+}
+
+.openSourceIntro {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 4px 0 10px;
+}
+
+.openSourceEyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 18px;
+  color: #282d3b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .68rem;
+  font-weight: 750;
+  letter-spacing: .15em;
+  white-space: nowrap;
+}
+
+.openSourceEyebrow > span {
+  color: #6f7587;
+  font-size: 1.55rem;
+  font-weight: 450;
+  letter-spacing: -.06em;
+}
+
+.openSourceEyebrow > i {
+  width: 22px;
+  height: 1px;
+  background: rgba(64, 70, 89, .52);
+}
+
+.openSourceEyebrow > b {
+  width: 45px;
+  height: 1px;
+  background: rgba(64, 70, 89, .28);
+}
+
+.openSourceIntro h2 {
+  margin: 0;
+  color: #0c1018;
+  font-size: clamp(3.5rem, 5.05vw, 5.25rem);
+  font-weight: 650;
+  letter-spacing: -.083em;
+  line-height: .92;
+}
+
+.openSourceIntro h2 span {
+  display: block;
+  padding: .05em .06em .12em 0;
+  color: #3860ff;
+  background: linear-gradient(100deg, #287aff 0%, #3f57ff 46%, #8744dd 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.openSourceLead {
+  max-width: 390px;
+  margin: 18px 0 0;
+  color: #424a5b;
+  font-size: clamp(.92rem, 1vw, 1.04rem);
+  line-height: 1.52;
+  letter-spacing: -.015em;
+  text-wrap: pretty;
+}
+
+.openSourceActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 23px;
+}
+
+.githubProfileButton,
+.allContributionsButton {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 17px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: .79rem;
+  font-weight: 650;
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.githubProfileButton {
+  color: #fff;
+  border: 1px solid rgba(9, 13, 22, .4);
+  background: #10141d;
+  box-shadow: 0 11px 24px rgba(13, 17, 27, .16), inset 0 1px 0 rgba(255, 255, 255, .13);
+}
+
+.githubProfileButton > svg {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+}
+
+.githubProfileButton:hover,
+.githubProfileButton:focus-visible {
+  transform: translateY(-2px);
+  background: #25314b;
+  box-shadow: 0 15px 30px rgba(13, 17, 27, .2);
+}
+
+.actionArrow {
+  margin-left: 4px;
+  font-size: 1.15rem;
+  transition: transform 180ms ease;
+}
+
+.githubProfileButton:hover .actionArrow {
+  transform: translateX(3px);
+}
+
+.allContributionsButton {
+  color: #202638;
+  border: 1px solid rgba(255, 255, 255, .72);
+  background: rgba(255, 251, 249, .61);
+  box-shadow: 0 7px 20px rgba(39, 36, 48, .045), inset 0 1px 0 rgba(255, 255, 255, .8);
+}
+
+.allContributionsButton:hover,
+.allContributionsButton:focus-visible {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, .88);
+}
+
+.allContributionsButton > span {
+  font-size: 1rem;
+  transition: transform 180ms ease;
+}
+
+.allContributionsButton:hover > span {
+  transform: translateX(3px);
+}
+
+.openSourceProofLine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 15px;
+  margin-top: auto;
+  padding-top: 24px;
+  color: #697082;
+  font-size: .65rem;
+}
+
+.openSourceProofLine span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.openSourceProofLine span:first-child i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #31b58a;
+  box-shadow: 0 0 0 4px rgba(49, 181, 138, .12);
+}
+
+.githubGraphPanel {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) 142px;
+  gap: 19px;
+  padding: clamp(18px, 2vw, 25px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .42);
+  border-radius: 25px;
+  color: #f3f5fc;
+  background:
+    radial-gradient(circle at 83% 0%, rgba(89, 116, 255, .15), transparent 39%),
+    linear-gradient(125deg, rgba(24, 29, 44, .96), rgba(19, 24, 38, .94) 60%, rgba(35, 39, 56, .91));
+  box-shadow: 0 23px 52px rgba(19, 21, 33, .21), inset 0 1px 0 rgba(255, 255, 255, .17);
+  backdrop-filter: blur(18px) saturate(125%);
+  -webkit-backdrop-filter: blur(18px) saturate(125%);
+}
+
+.githubGraphPanel::before {
+  position: absolute;
+  top: -130px;
+  left: 27%;
+  width: 350px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(83, 104, 201, .12), transparent 68%);
+  content: "";
+  pointer-events: none;
+}
+
+.githubGraphMain {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.githubGraphTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(226, 232, 255, .095);
+}
+
+.githubGraphTitle {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+  color: #f5f7ff;
+  font-size: .9rem;
+  font-weight: 650;
+  letter-spacing: -.025em;
+  text-decoration: none;
+}
+
+.githubGraphMark {
+  display: block;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+}
+
+.githubTitleArrow {
+  color: #9ba9cb;
+  font-size: .85rem;
+  opacity: .68;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.githubGraphTitle:hover .githubTitleArrow {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
+
+.githubGraphTop select {
+  max-width: 135px;
+  min-height: 31px;
+  padding: 0 7px;
+  border: 1px solid rgba(229, 234, 255, .12);
+  border-radius: 9px;
+  outline-offset: 3px;
+  color: #e7ecff;
+  background: rgba(255, 255, 255, .055);
+  font: inherit;
+  font-size: .64rem;
+}
+
+.githubGraphTop select option {
+  color: #171b28;
+  background: #fff;
+}
+
+.githubGraphMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0 10px;
+  color: #a8b2c8;
+  font-size: .62rem;
+}
+
+.githubGraphMeta span:last-child {
+  color: #e6ebfd;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.githubHeatmapViewport {
+  width: 100%;
+  overflow-x: auto;
+  padding: 3px 0 5px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 164, 222, .4) transparent;
+  overscroll-behavior-inline: contain;
+}
+
+.githubHeatmapInner {
+  min-width: 440px;
+}
+
+.githubMonthRail {
+  display: grid;
+  gap: 3px;
+  min-height: 18px;
+  margin-bottom: 4px;
+  color: #aeb8cd;
+  font-size: .58rem;
+}
+
+.githubMonthRail span {
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.githubHeatmapBody {
+  display: grid;
+  grid-template-columns: 25px minmax(0, 1fr);
+  gap: 7px;
+}
+
+.githubWeekdayRail {
+  display: grid;
+  grid-template-rows: repeat(7, 9px);
+  gap: 3px;
+  color: #9ba5be;
+  font-size: .57rem;
+  line-height: 9px;
+}
+
+.githubHeatmapGrid {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.githubHeatmapWeek {
+  display: grid;
+  grid-template-rows: repeat(7, 9px);
+  gap: 3px;
+}
+
+.githubHeatmapDay {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, .025);
+  border-radius: 2.3px;
+  background: rgba(122, 137, 170, .15);
+}
+
+.githubHeatmapDay[data-level="empty"] {
+  background: transparent;
+  border-color: transparent;
+}
+
+.githubHeatmapDay[data-level="0"] {
+  background: #1d2942;
+}
+
+.githubHeatmapDay[data-level="1"] {
+  background: #244b9c;
+}
+
+.githubHeatmapDay[data-level="2"] {
+  background: #2876e8;
+}
+
+.githubHeatmapDay[data-level="3"] {
+  background: #38a6fb;
+}
+
+.githubHeatmapDay[data-level="4"] {
+  background: #83dcff;
+}
+
+.githubGraphFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 11px;
+}
+
+.heatmapLegend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #a7b1c8;
+  font-size: .58rem;
+  white-space: nowrap;
+}
+
+.heatmapLegend span {
+  margin-right: 3px;
+}
+
+.heatmapLegend i {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: #1d2942;
+}
+
+.heatmapLegend i[data-level="1"] { background: #244b9c; }
+.heatmapLegend i[data-level="2"] { background: #2876e8; }
+.heatmapLegend i[data-level="3"] { background: #38a6fb; }
+.heatmapLegend i[data-level="4"] { background: #83dcff; }
+
+.heatmapSource {
+  color: #8996b3;
+  font-size: .55rem;
+  text-align: right;
+}
+
+.githubGraphStats {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 13px;
+  padding-left: 16px;
+  border-left: 1px solid rgba(226, 232, 255, .11);
+}
+
+.githubGraphStat {
+  display: grid;
+  grid-template-columns: 35px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.graphStatIcon {
+  display: grid;
+  width: 35px;
+  height: 35px;
+  place-items: center;
+  border: 1px solid rgba(213, 224, 255, .09);
+  border-radius: 11px;
+  color: #b5caff;
+  background: linear-gradient(145deg, rgba(121, 147, 223, .26), rgba(255, 255, 255, .055));
+  font-size: 1.05rem;
+}
+
+.githubGraphStat strong {
+  display: block;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -.035em;
+  line-height: 1.15;
+}
+
+.githubGraphStat small {
+  display: block;
+  margin-top: 3px;
+  color: #aeb7cc;
+  font-size: .59rem;
+  line-height: 1.3;
+}
+
+.graphStatNote {
+  margin: 0;
+  color: #8996b3;
+  font-size: .54rem;
+  line-height: 1.4;
+}
+
+.featuredContributionsPanel {
+  margin-top: 22px;
+  padding: clamp(15px, 1.8vw, 24px);
+  border: 1px solid rgba(255, 255, 255, .77);
+  border-radius: 25px;
+  background: rgba(255, 249, 246, .76);
+  box-shadow: 0 19px 52px rgba(42, 33, 42, .105), inset 0 1px 0 rgba(255, 255, 255, .88);
+  backdrop-filter: blur(20px) saturate(118%);
+  -webkit-backdrop-filter: blur(20px) saturate(118%);
+}
+
+.featuredContributionsHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 15px;
+}
+
+.featuredContributionsHeader > div > p {
+  margin: 0 0 7px;
+  color: #6a7287;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .59rem;
+  font-weight: 750;
+  letter-spacing: .14em;
+}
+
+.featuredContributionsHeader h3 {
+  margin: 0;
+  color: #151924;
+  font-size: clamp(1.28rem, 1.8vw, 1.7rem);
+  font-weight: 680;
+  letter-spacing: -.055em;
+}
+
+.featuredContributionsHeader > div > span {
+  display: block;
+  margin-top: 4px;
+  color: #72788a;
+  font-size: .67rem;
+}
+
+.featuredContributionsHeader > a {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 0;
+  color: #262e43;
+  text-decoration: none;
+  font-size: .7rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.featuredContributionsHeader > a > span {
+  display: inline-block;
+  font-size: 1rem;
+  transition: transform 180ms ease;
+}
+
+.featuredContributionsHeader > a:hover > span {
+  transform: translateX(3px);
+}
+
+.contributionFilters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 13px;
+}
+
+.contributionFilter,
+.contributionFilterActive {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid rgba(54, 64, 89, .12);
+  border-radius: 999px;
+  color: #596174;
+  background: rgba(255, 255, 255, .49);
+  cursor: pointer;
+  font: inherit;
+  font-size: .62rem;
+  font-weight: 650;
+  transition: transform 170ms ease, background-color 170ms ease, color 170ms ease;
+}
+
+.contributionFilter span,
+.contributionFilterActive span {
+  color: #81889a;
+  font-size: .57rem;
+}
+
+.contributionFilter:hover,
+.contributionFilterActive:hover {
+  transform: translateY(-1px);
+}
+
+.contributionFilterActive {
+  border-color: rgba(20, 27, 43, .86);
+  color: #fff;
+  background: #161d2d;
+  box-shadow: 0 5px 12px rgba(22, 29, 45, .12);
+}
+
+.contributionFilterActive span {
+  color: #cbd4e9;
+}
+
+.contributionCardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.contributionCard {
+  display: grid;
+  min-width: 0;
+  min-height: 176px;
+  grid-template-columns: minmax(0, 1fr) 96px;
+  gap: 11px;
+  overflow: hidden;
+  padding: 11px;
+  border: 1px solid rgba(255, 255, 255, .92);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, .69);
+  box-shadow: 0 6px 18px rgba(34, 32, 46, .045), inset 0 1px 0 rgba(255, 255, 255, .88);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.contributionCard:hover {
+  transform: translateY(-3px);
+  border-color: #fff;
+  box-shadow: 0 14px 28px rgba(34, 32, 46, .1), inset 0 1px 0 #fff;
+}
+
+.contributionCardMain {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.contributionCardHeader {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 29px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+}
+
+.contributionOrgLogo {
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(43, 50, 69, .12);
+  border-radius: 8px;
+  color: #fff;
+  background: #151b29;
+  text-decoration: none;
+  transition: transform 180ms ease;
+}
+
+.contributionOrgLogo:hover {
+  transform: scale(1.05);
+}
+
+.contributionOrgLogo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contributionOrgLogo svg {
+  width: 20px;
+  height: 20px;
+}
+
+.contributionCardTitle {
+  min-width: 0;
+}
+
+.contributionRepoLabel {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+  color: #485167;
+  font-size: .58rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.contributionRepoLabel span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contributionRepoLabel i {
+  color: #9298a8;
+  font-style: normal;
+}
+
+.contributionCardTitle h3 {
+  display: -webkit-box;
+  margin: 4px 0 0;
+  overflow: hidden;
+  color: #161a24;
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.25;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.contributionStatus {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  padding: 4px 7px;
+  border: 1px solid rgba(55, 170, 110, .12);
+  border-radius: 999px;
+  color: #1d9969;
+  background: rgba(50, 188, 129, .12);
+  font-size: .54rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.contributionStatus[data-status="open"] {
+  border-color: rgba(56, 104, 245, .12);
+  color: #365fee;
+  background: rgba(64, 104, 255, .11);
+}
+
+.contributionCardHeader .contributionStatus {
+  grid-column: 2;
+  margin-top: -1px;
+}
+
+.contributionCardDescription {
+  display: -webkit-box;
+  min-height: 38px;
+  margin: 8px 0 7px;
+  overflow: hidden;
+  color: #62697a;
+  font-size: .63rem;
+  line-height: 1.42;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.contributionTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.contributionTags span {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  padding: 4px 6px;
+  border: 1px solid rgba(63, 74, 99, .09);
+  border-radius: 6px;
+  color: #60687b;
+  background: rgba(238, 239, 247, .71);
+  font-size: .53rem;
+  white-space: nowrap;
+}
+
+.contributionCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 7px;
+  color: #71798c;
+  font-size: .56rem;
+}
+
+.contributionCardFooter b {
+  color: #343d53;
+  font-weight: 750;
+}
+
+.contributionGitHubLink {
+  display: inline-flex;
+  min-height: 25px;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0 2px 6px;
+  color: #20283a;
+  background: transparent;
+  text-decoration: none;
+  transition: color 170ms ease, transform 170ms ease;
+  white-space: nowrap;
+}
+
+.contributionGitHubLink svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  transition: transform 170ms ease;
+}
+
+.contributionGitHubLink span {
+  font-size: .54rem;
+  font-weight: 750;
+}
+
+.contributionGitHubLink:hover {
+  color: #3159f5;
+}
+
+.contributionGitHubLink:hover svg {
+  transform: scale(1.09);
+}
+
+.contributionRepoPreview {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  overflow: hidden;
+  padding: 10px 8px;
+  border: 1px solid rgba(231, 238, 255, .1);
+  border-radius: 10px;
+  color: #f4f6ff;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(73, 106, 242, .22), transparent 48%),
+    linear-gradient(155deg, #152038, #0f1626 76%, #1b2942);
+}
+
+.repoPreviewTop {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 5px;
+  color: #b3c0df;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .48rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.repoPreviewTop > i {
+  width: 5px;
+  height: 5px;
+  flex: 0 0 5px;
+  border-radius: 50%;
+  background: #77a0ff;
+}
+
+.repoPreviewMark {
+  width: 30px;
+  height: 30px;
+  margin-top: auto;
+  color: #e8edff;
+}
+
+.repoPreviewStatus {
+  color: #b1c0df;
+  font-size: .53rem;
+  line-height: 1.2;
+}
+
+.repoPreviewLines {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.repoPreviewLines i {
+  display: block;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(178, 197, 239, .2);
+}
+
+.repoPreviewLines i:nth-child(2) { width: 77%; }
+.repoPreviewLines i:nth-child(3) { width: 55%; }
+
+.showAllContributions {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 14px auto 0;
+  padding: 0 16px;
+  border: 1px solid rgba(50, 60, 83, .16);
+  border-radius: 999px;
+  color: #252c3e;
+  background: rgba(255, 255, 255, .55);
+  cursor: pointer;
+  font: inherit;
+  font-size: .69rem;
+  font-weight: 700;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.showAllContributions:hover {
+  transform: translateY(-1px);
+  background: #fff;
+}
+
+.showAllContributions > span {
+  font-size: 1rem;
+}
+
+.communityStrip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.communityStrip::-webkit-scrollbar { display: none; }
+
+.communityStripLabel {
+  flex: 0 0 auto;
+  padding-right: 5px;
+  color: #626a7e;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .56rem;
+  font-weight: 750;
+  letter-spacing: .12em;
+}
+
+.communityPill {
+  display: inline-flex;
+  min-height: 36px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  padding: 0 9px;
+  border: 1px solid rgba(255, 255, 255, .76);
+  border-radius: 999px;
+  color: #394154;
+  background: rgba(255, 250, 247, .64);
+  text-decoration: none;
+  font-size: .62rem;
+  font-weight: 650;
+  box-shadow: 0 5px 15px rgba(35, 34, 47, .04);
+  transition: transform 180ms ease, background-color 180ms ease;
+  white-space: nowrap;
+}
+
+.communityPill:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, .95);
+}
+
+.communityPill img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.communityArrow {
+  color: #7b8395;
+  transition: transform 180ms ease;
+}
+
+.communityPill:hover .communityArrow {
+  transform: translate(2px, -2px);
+}
+
+.openSourceValues {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 7px;
+  padding: 13px 8px;
+  border: 1px solid rgba(255, 255, 255, .76);
+  border-radius: 18px;
+  background: rgba(255, 249, 247, .65);
+  box-shadow: 0 10px 28px rgba(42, 33, 42, .065), inset 0 1px 0 rgba(255, 255, 255, .85);
+  backdrop-filter: blur(17px) saturate(118%);
+  -webkit-backdrop-filter: blur(17px) saturate(118%);
+}
+
+.openSourceValues > div {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+  padding: 2px clamp(9px, 1.4vw, 20px);
+}
+
+.openSourceValues > div + div {
+  border-left: 1px solid rgba(72, 79, 98, .18);
+}
+
+.valueGlyph {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border-radius: 12px;
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.valueGlyph[data-color="blue"] { color: #3164ff; background: rgba(60, 104, 255, .11); }
+.valueGlyph[data-color="violet"] { color: #6b4af3; background: rgba(116, 75, 255, .1); }
+.valueGlyph[data-color="cyan"] { color: #168cc5; background: rgba(42, 170, 219, .12); }
+.valueGlyph[data-color="coral"] { color: #ef666b; background: rgba(244, 110, 113, .12); }
+
+.openSourceValues strong {
+  display: block;
+  color: #242a39;
+  font-size: .74rem;
+  font-weight: 750;
+}
+
+.openSourceValues small {
+  display: block;
+  margin-top: 3px;
+  color: #687084;
+  font-size: .59rem;
+  line-height: 1.35;
+}
+
+.openSourceSection a:focus-visible,
+.openSourceSection button:focus-visible,
+.openSourceSection select:focus-visible {
+  outline: 2px solid #3564ff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1380px) {
+  .openSourceSection {
+    width: calc(100% - 205px);
+    margin-left: 180px;
+    margin-right: 25px;
+  }
+
+  .githubGraphPanel {
+    grid-template-columns: minmax(0, 1fr) 122px;
+    gap: 13px;
+  }
+
+  .githubGraphStats {
+    padding-left: 12px;
+  }
+
+  .contributionCard {
+    grid-template-columns: minmax(0, 1fr) 80px;
+    gap: 8px;
+    padding: 9px;
+  }
+
+  .repoPreviewTop {
+    font-size: .44rem;
+  }
+
+  .contributionCardTitle h3 {
+    font-size: .72rem;
+  }
+
+  .contributionCardDescription {
+    font-size: .6rem;
+  }
+}
+
+@media (max-width: 1050px) {
+  .openSourceSection {
+    width: calc(100% - 105px);
+    margin: 65px 20px 0 78px;
+  }
+
+  .openSourceIntroLayout {
+    grid-template-columns: minmax(225px, .68fr) minmax(0, 1.32fr);
+    gap: 18px;
+  }
+
+  .openSourceIntro h2 {
+    font-size: clamp(3.3rem, 6vw, 4.7rem);
+  }
+
+  .githubGraphPanel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .githubGraphStats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+    padding: 12px 0 0;
+    border-top: 1px solid rgba(226, 232, 255, .11);
+    border-left: 0;
+  }
+
+  .graphStatNote {
+    grid-column: 1 / -1;
+  }
+
+  .contributionCardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contributionCard {
+    grid-template-columns: minmax(0, 1fr) 88px;
+  }
+
+  .openSourceValues {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .openSourceValues > div:nth-child(3) {
+    border-left: 0;
+  }
+
+  .openSourceValues > div:nth-child(n + 3) {
+    border-top: 1px solid rgba(72, 79, 98, .18);
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 700px) {
+  .openSourceSection {
+    width: auto;
+    margin: 48px 16px 0 70px;
+    padding-bottom: 36px;
+  }
+
+  .openSourceIntroLayout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 23px;
+  }
+
+  .openSourceEyebrow {
+    gap: 9px;
+    font-size: .61rem;
+  }
+
+  .openSourceIntro h2 {
+    font-size: clamp(3.45rem, 11.4vw, 4.8rem);
+  }
+
+  .openSourceLead {
+    font-size: .89rem;
+    line-height: 1.55;
+  }
+
+  .openSourceActions {
+    gap: 8px;
+  }
+
+  .githubProfileButton,
+  .allContributionsButton {
+    min-height: 42px;
+    padding-inline: 12px;
+    font-size: .7rem;
+  }
+
+  .openSourceProofLine {
+    padding-top: 17px;
+  }
+
+  .githubGraphPanel {
+    padding: 15px;
+    border-radius: 21px;
+  }
+
+  .githubGraphTop {
+    align-items: flex-start;
+  }
+
+  .githubGraphTitle {
+    gap: 8px;
+    font-size: .76rem;
+  }
+
+  .githubGraphMark {
+    width: 24px;
+    height: 24px;
+    flex-basis: 24px;
+  }
+
+  .githubGraphTop select {
+    max-width: 116px;
+    font-size: .58rem;
+  }
+
+  .githubGraphMeta {
+    font-size: .56rem;
+  }
+
+  .githubHeatmapInner {
+    min-width: 445px;
+  }
+
+  .githubGraphStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .featuredContributionsPanel {
+    margin-top: 16px;
+    padding: 13px;
+    border-radius: 20px;
+  }
+
+  .featuredContributionsHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .featuredContributionsHeader > div > span {
+    line-height: 1.45;
+  }
+
+  .featuredContributionsHeader > a {
+    font-size: .68rem;
+  }
+
+  .contributionCardGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .contributionCard {
+    grid-template-columns: minmax(0, 1fr) 78px;
+    min-height: 166px;
+    padding: 10px;
+  }
+
+  .contributionCardTitle h3 {
+    font-size: .76rem;
+  }
+
+  .contributionCardDescription {
+    font-size: .63rem;
+  }
+
+  .contributionRepoPreview {
+    padding: 9px 7px;
+  }
+
+  .contributionGitHubLink span {
+    font-size: .53rem;
+  }
+
+  .communityStrip {
+    gap: 6px;
+  }
+
+  .communityStripLabel {
+    display: none;
+  }
+
+  .communityPill {
+    min-height: 32px;
+    padding-inline: 7px;
+    font-size: .57rem;
+  }
+
+  .communityPill img {
+    width: 17px;
+    height: 17px;
+  }
+
+  .openSourceValues {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 7px 13px;
+  }
+
+  .openSourceValues > div {
+    padding: 10px 3px;
+  }
+
+  .openSourceValues > div + div,
+  .openSourceValues > div:nth-child(3) {
+    border-top: 1px solid rgba(72, 79, 98, .16);
+    border-left: 0;
+  }
+
+  .openSourceValues > div:nth-child(n + 3) {
+    margin-top: 0;
+    padding-top: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .githubProfileButton,
+  .allContributionsButton,
+  .actionArrow,
+  .githubTitleArrow,
+  .contributionCard,
+  .contributionOrgLogo,
+  .contributionGitHubLink,
+  .contributionGitHubLink svg,
+  .contributionFilter,
+  .contributionFilterActive,
+  .showAllContributions,
+  .communityPill,
+  .communityArrow {
+    transition: none !important;
+  }
+}

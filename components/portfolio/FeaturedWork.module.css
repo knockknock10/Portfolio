@@ -1574,3 +1574,19 @@
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Work reveals the same fixed panorama as the rest of the page; no new section backdrop. */
+.workSection {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.workBackdrop {
+  display: none !important;
+}
+
+.workShade {
+  background:
+    linear-gradient(180deg, rgba(255, 247, 243, .12) 0%, rgba(255, 247, 243, .07) 35%, rgba(255, 247, 243, .18) 76%, rgba(22, 25, 37, .12) 100%);
+}
