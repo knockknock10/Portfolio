@@ -33,13 +33,14 @@
   z-index: 1;
   display: grid;
   grid-template-columns: minmax(400px, 1.12fr) minmax(0, 1.75fr);
-  grid-template-rows: minmax(318px, auto) 86px minmax(285px, auto);
+  grid-template-rows: minmax(318px, auto) 86px minmax(300px, auto);
   gap: 18px 15px;
   width: 100%;
   min-height: max(900px, 100svh);
   padding: clamp(118px, 13.8vh, 145px) clamp(24px, 2.2vw, 38px) 54px clamp(200px, 12.6vw, 226px);
 }
 .intro {
+  position: relative;
   grid-column: 1;
   grid-row: 1 / span 2;
   min-width: 0;
@@ -350,7 +351,7 @@
   grid-template-columns: minmax(0, 1.18fr) minmax(0, 1.03fr) minmax(280px, .77fr);
   gap: 14px;
   min-width: 0;
-  min-height: 285px;
+  min-height: 300px;
 }
 .panel {
   min-width: 0;
