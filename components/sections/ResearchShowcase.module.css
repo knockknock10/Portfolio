@@ -688,3 +688,54 @@
 
 /* The fixed body panorama supplies the tone; no per-section wash. */
 .sceneWash { display: none !important; }
+
+
+/* Give research its own canvas instead of repeating the full-bleed hero image. */
+.stage { min-height: 0; background: #edf0f7; }
+.scene {
+  background-color: #edf0f7;
+  background-image:
+    radial-gradient(ellipse at 75% 18%, rgba(137,151,255,.20), transparent 35rem),
+    radial-gradient(ellipse at 17% 73%, rgba(251,190,155,.22), transparent 33rem),
+    linear-gradient(135deg, #f4f4fc 0%, #edf1f8 55%, #f8eee9 100%);
+  background-size: cover;
+  background-position: center;
+  transform: none;
+}
+.sceneWash {
+  background:
+    linear-gradient(90deg, rgba(248,247,252,.82) 0%, rgba(248,247,252,.56) 46%, rgba(242,246,252,.40) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,247,241,.10));
+}
+@media (min-width: 1281px) {
+  .stageContent {
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.38fr);
+    grid-template-rows: minmax(340px, auto) auto minmax(300px, auto);
+    gap: clamp(18px, 1.5vw, 24px) 18px;
+    min-height: 0;
+    padding: clamp(118px, 12.5vh, 142px) clamp(30px, 3.1vw, 54px) clamp(58px, 5vw, 78px) clamp(188px, 12.5vw, 220px);
+  }
+  .methodPanel { margin-top: 52px; align-self: start; }
+  .statsPosition { width: 100%; margin-left: 0; }
+  .bottomGrid { margin-top: 4px; }
+}
+@media (max-width: 1280px) and (min-width: 921px) {
+  .stageContent {
+    grid-template-columns: minmax(0, .92fr) minmax(0, 1.24fr);
+    grid-template-rows: minmax(330px, auto) auto minmax(290px, auto);
+    min-height: 0;
+    padding-left: clamp(118px, 14vw, 176px);
+    padding-right: clamp(20px, 2.4vw, 30px);
+    padding-bottom: 52px;
+    gap: 17px 13px;
+  }
+  .intro h2 { white-space: normal; font-size: clamp(2.85rem, 4vw, 4rem); }
+  .methodPanel { margin-top: 35px; }
+  .statsPosition { width: 100%; margin-left: 0; }
+  .bottomGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .contributionsPanel { grid-column: 1 / -1; }
+}
+@media (max-width: 980px) {
+  .stage { min-height: 0; }
+  .stageContent { min-height: 0; padding: 108px clamp(20px, 4vw, 38px) 38px; }
+}

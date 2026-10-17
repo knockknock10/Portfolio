@@ -1,35 +1,50 @@
 .visitorLine {
+  position: relative;
+  z-index: 1;
   display: flex;
   width: min(1180px, calc(100% - 48px));
   max-width: 1180px;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: clamp(7px, 1.1vw, 12px);
-  margin: 14px auto 0;
-  padding: 15px 0;
-  border-top: 1px solid rgba(92, 81, 133, .1);
+  gap: clamp(8px, 1.1vw, 14px);
+  margin: 0 auto;
+  padding: 19px 0;
+  border-top: 1px solid rgba(92,81,133,.1);
   color: #858397;
-  font-size: .7rem;
-  line-height: 1.25;
+  font-size: .8rem;
+  line-height: 1.3;
 }
 .visitorSpark {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   flex: 0 0 auto;
   border-radius: 50%;
   background: #8d7de4;
-  box-shadow: 0 0 0 3px rgba(141, 125, 228, .11);
+  box-shadow: 0 0 0 4px rgba(141,125,228,.11);
 }
-.visitorMessage { flex: 0 0 auto; color: #686980; white-space: nowrap; }
+.visitorMessage {
+  flex: 0 0 auto;
+  color: #454960;
+  font-size: .98rem;
+  font-weight: 700;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+}
 .visitorBadgeLink { display: inline-flex; flex: 0 0 auto; align-items: center; color: #6559bd; text-decoration: none; }
-.visitorBadgeLink img { display: block; width: auto; height: 21px; max-width: 130px; }
-.visitorBadgePlaceholder { display: inline-flex; min-width: 82px; height: 22px; align-items: center; justify-content: center; color: #7669c5; font-size: .65rem; font-weight: 650; }
-.visitorEnd { flex: 0 0 auto; color: #8b879e; font-size: .53rem; font-weight: 800; letter-spacing: .09em; white-space: nowrap; }
+.visitorBadgeLink img { display: block; width: auto; height: 25px; max-width: 160px; }
+.visitorBadgePlaceholder {
+  display: inline-flex;
+  min-width: 92px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  color: #7669c5;
+  font-size: .72rem;
+  font-weight: 650;
+}
 @media (max-width: 700px) {
-  .visitorLine { width: calc(100% - 32px); gap: 7px; padding: 13px 0; }
-  .visitorSpark { display: none; }
-  .visitorMessage { font-size: .62rem; }
-  .visitorBadgeLink img { max-width: 92px; height: 19px; }
-  .visitorEnd { font-size: .45rem; letter-spacing: .045em; white-space: normal; }
+  .visitorLine { width: calc(100% - 32px); gap: 9px; padding: 15px 0; }
+  .visitorMessage { font-size: .84rem; }
+  .visitorBadgeLink img { max-width: 116px; height: 22px; }
 }

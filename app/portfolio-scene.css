@@ -1,15 +1,15 @@
-/* One continuous cinematic scene shared by home and all section routes. */
+/* The hero photograph belongs to the hero chapter. The rest of the portfolio gets its own quiet canvas. */
 body:not(:has(.ds-page)) {
-  background-color: #dac7bd !important;
+  background-color: #f5f2ef !important;
   background-image:
-    linear-gradient(180deg, rgba(255, 247, 243, .08) 0%, rgba(255, 247, 243, .20) 46%, rgba(18, 23, 36, .09) 100%),
-    url("/images/hero-scene.webp") !important;
-  background-size: cover, cover !important;
-  background-position: center 52%, center 52% !important;
-  background-repeat: no-repeat, no-repeat !important;
-  background-attachment: fixed, fixed !important;
+    radial-gradient(ellipse at 10% 4%, rgba(177, 165, 255, .16), transparent 34rem),
+    radial-gradient(ellipse at 91% 13%, rgba(255, 188, 157, .18), transparent 32rem),
+    linear-gradient(155deg, #f8f6f4 0%, #f0f2f9 52%, #f9f1ed 100%) !important;
+  background-size: cover !important;
+  background-position: top center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: scroll !important;
 }
-
 body:not(:has(.ds-page)) .site-shell,
 body:not(:has(.ds-page)) .route-transition,
 body:not(:has(.ds-page)) .home-page,
@@ -20,37 +20,115 @@ body:not(:has(.ds-page)) .research-route {
   background-color: transparent !important;
 }
 
-/* Keep content glass, not opaque section canvases, between portfolio chapters. */
-body:not(:has(.ds-page)) .portfolio-anchor,
-body:not(:has(.ds-page)) .portfolio-home-page > section:not(:first-child) {
-  background: transparent !important;
+/* Related chapter canvases shift gently so the whole site does not read as one endless backdrop. */
+body:has(.portfolio-home-page) .portfolio-home-page { background: transparent !important; }
+body:has(.portfolio-home-page) .portfolio-home-page > section:not(:first-child) {
+  position: relative;
   background-color: transparent !important;
+  border-top: 1px solid rgba(65, 70, 108, .07);
 }
-
-@media (max-width: 700px) {
-  body:not(:has(.ds-page)) {
-    background-attachment: scroll, scroll !important;
-    background-position: center 52%, center 52% !important;
-  }
+body:has(.portfolio-home-page) .portfolio-home-page > section:nth-child(2) {
+  background: linear-gradient(135deg, rgba(248,246,255,.96), rgba(242,245,252,.96)) !important;
 }
+body:has(.portfolio-home-page) .portfolio-home-page > section:nth-child(3) { background: transparent !important; }
+body:has(.portfolio-home-page) .portfolio-home-page > section:nth-child(4) {
+  background: linear-gradient(135deg, rgba(247,242,238,.97), rgba(241,244,251,.97)) !important;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section:nth-child(5) {
+  background: linear-gradient(135deg, rgba(242,241,253,.98), rgba(239,246,250,.98)) !important;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section:nth-child(6) {
+  background: linear-gradient(135deg, rgba(251,245,239,.98), rgba(244,242,251,.98)) !important;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section:nth-child(7) {
+  background: linear-gradient(135deg, rgba(239,243,251,.98), rgba(235,245,245,.98)) !important;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section:nth-child(8) {
+  background: linear-gradient(135deg, rgba(246,242,252,.98), rgba(255,247,239,.98)) !important;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section:nth-child(9) {
+  background: linear-gradient(120deg, rgba(241,243,251,.98), rgba(249,241,237,.98)) !important;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section:nth-child(10) {
+  background: linear-gradient(135deg, rgba(235,239,250,.99), rgba(248,235,228,.99)) !important;
+}
+body:has(.portfolio-home-page) .portfolio-home-page .portfolio-anchor { background: transparent !important; }
+html:has(.portfolio-home-page) { scroll-behavior: smooth; scroll-padding-top: 5.75rem; }
+.portfolio-anchor { scroll-margin-top: 5.75rem; scroll-behavior: smooth; }
+body:has(.research-route) .site-shell { padding-block-start: 0; }
+.research-route { width: 100%; max-width: none; margin: 0; padding: 0; }
 
-/* Make the closing footer readable over the same landscape instead of switching back to a pale page. */
+/* A distinct, legible footer closes the story. Fixed chrome fades out before the final block arrives. */
 body:not(:has(.ds-page)) .site-footer {
-  border-top: 1px solid rgba(255, 255, 255, .2) !important;
-  background: linear-gradient(180deg, rgba(24, 28, 42, .32), rgba(17, 21, 33, .86)) !important;
-  backdrop-filter: blur(20px) saturate(120%);
-  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin-top: 0;
+  border-top: 1px solid rgba(255,255,255,.36) !important;
+  color: #f7f7ff;
+  background:
+    radial-gradient(ellipse at 84% 0%, rgba(94,102,219,.24), transparent 35rem),
+    radial-gradient(ellipse at 10% 100%, rgba(231,155,118,.14), transparent 30rem),
+    linear-gradient(140deg, #171b2b 0%, #22243a 58%, #292536 100%) !important;
+  box-shadow: 0 -18px 54px rgba(35,39,67,.08);
 }
-body:not(:has(.ds-page)) .footer-name,
+body:not(:has(.ds-page)) .footer-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  width: min(calc(100% - 48px), 1180px);
+  min-height: 0;
+  margin-inline: auto;
+  padding-block: 34px 26px;
+}
+body:not(:has(.ds-page)) .footer-name {
+  color: #fff !important;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -.045em;
+}
 body:not(:has(.ds-page)) .footer-email,
-body:not(:has(.ds-page)) .footer-socials a {
-  color: rgba(249, 250, 255, .94) !important;
+body:not(:has(.ds-page)) .footer-socials a { color: rgba(235,238,251,.86) !important; }
+body:not(:has(.ds-page)) .footer-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .7rem 1.15rem;
+  padding-block: 17px;
+  border-block: 1px solid rgba(255,255,255,.13);
 }
 body:not(:has(.ds-page)) .footer-navigation a,
 body:not(:has(.ds-page)) .footer-copyright {
-  color: rgba(224, 230, 245, .78) !important;
+  color: rgba(224,230,245,.72) !important;
+  font-size: .78rem;
+  line-height: 1.55;
 }
+body:not(:has(.ds-page)) .footer-navigation a:hover,
+body:not(:has(.ds-page)) .footer-socials a:hover,
+body:not(:has(.ds-page)) .footer-email:hover { color: #fff !important; }
 body:not(:has(.ds-page)) .footer-socials a {
-  border-color: rgba(255, 255, 255, .22) !important;
-  background: rgba(255, 255, 255, .07);
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 999px;
+  background: rgba(255,255,255,.05);
+}
+body:not(:has(.ds-page)) .footer-copyright { margin: 0; padding-top: 2px; }
+@media (min-width: 48rem) {
+  body:not(:has(.ds-page)) .footer-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px 30px;
+    width: min(calc(100% - 80px), 1180px);
+  }
+  body:not(:has(.ds-page)) .footer-copyright { grid-column: 1 / -1; }
+}
+@media (max-width: 700px) {
+  body:not(:has(.ds-page)) { background-attachment: scroll !important; }
+  body:not(:has(.ds-page)) .footer-inner { width: calc(100% - 32px); padding-block: 26px 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has(.portfolio-home-page) { scroll-behavior: auto; }
 }
