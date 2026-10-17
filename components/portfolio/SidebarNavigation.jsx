@@ -37,7 +37,8 @@ export default function SidebarNavigation() {
         "/about": "about",
         "/contact": "contact",
       };
-      setActive(routeSections[pathname] || "home");
+      const matchedRoute = Object.keys(routeSections).find((route) => pathname === route || pathname.startsWith(route + "/"));
+      setActive(matchedRoute ? routeSections[matchedRoute] : "home");
       return undefined;
     }
     const sections = items.map((item) => document.getElementById(item.id)).filter(Boolean);
