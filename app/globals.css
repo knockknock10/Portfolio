@@ -6548,15 +6548,15 @@ body:has(.portfolio-home-page) .portfolio-home-page > section#work .workCanvas {
 
 /* Research — pale periwinkle lab canvas with a restrained node/graph field.
    Hide the repeated photo inside this chapter so it does not restart mid-page. */
-body:has(.portfolio-home-page) .portfolio-home-page #research .stage {
+body:has(.portfolio-home-page) .portfolio-home-page #research > section {
   --chapter-accent: var(--chapter-research);
   background: transparent !important;
 }
-body:has(.portfolio-home-page) .portfolio-home-page #research .scene,
-body:has(.portfolio-home-page) .portfolio-home-page #research .sceneWash {
+body:has(.portfolio-home-page) .portfolio-home-page #research > section > div[aria-hidden="true"],
+body:has(.portfolio-home-page) .portfolio-home-page #research > section > div[aria-hidden="true"] {
   display: none !important;
 }
-body:has(.portfolio-home-page) .portfolio-home-page #research .stage::before {
+body:has(.portfolio-home-page) .portfolio-home-page #research > section::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -6572,17 +6572,17 @@ body:has(.portfolio-home-page) .portfolio-home-page #research .stage::before {
   mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
   animation: chapterAtmospherePan 34s ease-in-out infinite alternate;
 }
-body:has(.portfolio-home-page) .portfolio-home-page #research .stageContent {
+body:has(.portfolio-home-page) .portfolio-home-page #research > section > div:not([aria-hidden="true"]) {
   position: relative;
   z-index: 1;
 }
 
 /* Open Source — mint + cobalt contribution field; the GitHub heatmap remains
    the evidence-bearing focal point, not a second generic card grid. */
-body:has(.portfolio-home-page) .portfolio-home-page > section.openSourceSection {
+body:has(.portfolio-home-page) .portfolio-home-page > section#open-source {
   --chapter-accent: var(--chapter-open-source);
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.openSourceSection::before {
+body:has(.portfolio-home-page) .portfolio-home-page > section#open-source::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -6598,17 +6598,17 @@ body:has(.portfolio-home-page) .portfolio-home-page > section.openSourceSection:
   mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 94%, transparent 100%);
   animation: chapterAtmospherePan 36s ease-in-out infinite alternate;
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.openSourceSection > * {
+body:has(.portfolio-home-page) .portfolio-home-page > section#open-source > * {
   position: relative;
   z-index: 1;
 }
 
 /* Experience — warm paper + timeline glow; the process diagram remains dark
    and technical, while the chronology is visually separate from Skills. */
-body:has(.portfolio-home-page) .portfolio-home-page > section.section {
+body:has(.portfolio-home-page) .portfolio-home-page > section#internships {
   --chapter-accent: var(--chapter-experience);
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.section::before {
+body:has(.portfolio-home-page) .portfolio-home-page > section#internships::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -6622,17 +6622,17 @@ body:has(.portfolio-home-page) .portfolio-home-page > section.section::before {
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
   animation: chapterAtmospherePan 32s ease-in-out infinite alternate;
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.section > * {
+body:has(.portfolio-home-page) .portfolio-home-page > section#internships > * {
   position: relative;
   z-index: 1;
 }
 
 /* Skills — drafting-table grid, precise blue highlights and a terminal
    canvas; tiles remain light so individual technologies are easy to scan. */
-body:has(.portfolio-home-page) .portfolio-home-page > section.skillsSection {
+body:has(.portfolio-home-page) .portfolio-home-page > section#skills {
   --chapter-accent: var(--chapter-skills);
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.skillsSection::before {
+body:has(.portfolio-home-page) .portfolio-home-page > section#skills::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -6649,17 +6649,17 @@ body:has(.portfolio-home-page) .portfolio-home-page > section.skillsSection::bef
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
   animation: chapterAtmospherePan 28s ease-in-out infinite alternate;
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.skillsSection > * {
+body:has(.portfolio-home-page) .portfolio-home-page > section#skills > * {
   position: relative;
   z-index: 1;
 }
 
 /* Coding — a cooler slate/indigo field with a blueprint motif, distinct from
    the Skills console while retaining high-contrast metric panels. */
-body:has(.portfolio-home-page) .portfolio-home-page > section.codingSection {
+body:has(.portfolio-home-page) .portfolio-home-page > section#coding {
   --chapter-accent: var(--chapter-coding);
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.codingSection::before {
+body:has(.portfolio-home-page) .portfolio-home-page > section#coding::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -6675,17 +6675,17 @@ body:has(.portfolio-home-page) .portfolio-home-page > section.codingSection::bef
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 94%, transparent 100%);
   animation: chapterAtmospherePan 31s ease-in-out infinite alternate;
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.codingSection > * {
+body:has(.portfolio-home-page) .portfolio-home-page > section#coding > * {
   position: relative;
   z-index: 1;
 }
 
 /* Achievements — archival parchment with a restrained gold light, rather
    than repeating the same blue-lavender panels from every previous chapter. */
-body:has(.portfolio-home-page) .portfolio-home-page > section.achievementsSection {
+body:has(.portfolio-home-page) .portfolio-home-page > section#certifications {
   --chapter-accent: var(--chapter-achievements);
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.achievementsSection::before {
+body:has(.portfolio-home-page) .portfolio-home-page > section#certifications::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -6701,17 +6701,17 @@ body:has(.portfolio-home-page) .portfolio-home-page > section.achievementsSectio
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
   animation: chapterAtmospherePan 38s ease-in-out infinite alternate;
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.achievementsSection > * {
+body:has(.portfolio-home-page) .portfolio-home-page > section#certifications > * {
   position: relative;
   z-index: 1;
 }
 
 /* About — softer portrait-led light, with a rose/violet aura behind the ID
    card; keep the shared scene softly visible at the chapter edges. */
-body:has(.portfolio-home-page) .portfolio-home-page > section.aboutSection {
+body:has(.portfolio-home-page) .portfolio-home-page > section#about {
   --chapter-accent: var(--chapter-about);
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.aboutSection::before {
+body:has(.portfolio-home-page) .portfolio-home-page > section#about::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -6725,17 +6725,17 @@ body:has(.portfolio-home-page) .portfolio-home-page > section.aboutSection::befo
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
   animation: chapterAtmospherePan 34s ease-in-out infinite alternate;
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.aboutSection > * {
+body:has(.portfolio-home-page) .portfolio-home-page > section#about > * {
   position: relative;
   z-index: 1;
 }
 
 /* Contact — final chapter: violet/blue light converges on the dark mail
    composer, the strongest contrast point on the entire scroll. */
-body:has(.portfolio-home-page) .portfolio-home-page > section.contactSection {
+body:has(.portfolio-home-page) .portfolio-home-page > section#contact {
   --chapter-accent: var(--chapter-contact);
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.contactSection::before {
+body:has(.portfolio-home-page) .portfolio-home-page > section#contact::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -6749,7 +6749,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section.contactSection::be
   mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 94%, transparent 100%);
   animation: chapterAtmospherePan 29s ease-in-out infinite alternate;
 }
-body:has(.portfolio-home-page) .portfolio-home-page > section.contactSection > * {
+body:has(.portfolio-home-page) .portfolio-home-page > section#contact > * {
   position: relative;
   z-index: 1;
 }
@@ -6758,7 +6758,7 @@ body:has(.portfolio-home-page) .portfolio-home-page > section.contactSection > *
    these chapter tints, so there is no second landscape restarting mid-scroll. */
 @media (prefers-reduced-motion: reduce) {
   body:has(.portfolio-home-page) .portfolio-home-page > section::before,
-  body:has(.portfolio-home-page) .portfolio-home-page #research .stage::before {
+  body:has(.portfolio-home-page) .portfolio-home-page #research > section::before {
     animation: none !important;
   }
 }
