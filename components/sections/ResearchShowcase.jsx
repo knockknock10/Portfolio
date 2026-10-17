@@ -181,9 +181,9 @@ function PaperCard({ item }) {
   const pdf = isAvailable(item?.pdf) ? item.pdf : paperUrlFallback;
   const resources = [
     { label: "Full Paper (PDF)", href: pdf, kind: "pdf" },
-    { label: "Supplementary Evidence", href: evidenceUrl, kind: "folder" },
+    { label: "Supplementary Material", href: evidenceUrl, kind: "folder" },
     { label: "Implementation Code", href: repositoryUrl, kind: "github" },
-    { label: "Research Assets", href: evidenceUrl + "/04_FIGURES", kind: "slides" },
+    { label: "Figures & Evidence", href: evidenceUrl + "/04_FIGURES", kind: "slides" },
   ];
   return (
     <article className={styles.panel + " " + styles.paperPanel}>
@@ -207,7 +207,7 @@ function PaperCard({ item }) {
           <span className={styles.paperPreviewLabel}>MANUSCRIPT · 2026</span>
         </div>
         <div className={styles.paperInfo}>
-          <h4>SemBind: Inspectable Self-Supervised and Spectral Placement for Reference-Based Speech Watermarking</h4>
+          <h4>SemBind-Audio</h4>
           <p>IEEE Signal Processing Letters · Submitted manuscript</p>
           <div className={styles.resourceList}>
             {resources.map((resource) => (
