@@ -40,16 +40,18 @@ export default function CinematicIntro() {
       window.setTimeout(() => setVisible(false), EXIT_DELAY + EXIT_DURATION),
     );
 
+    return () => {
+      clearTimers();
+    };
+  }, [clearTimers]);
+
+  useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key === "Escape") dismiss();
     };
     window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      clearTimers();
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [clearTimers, dismiss]);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [dismiss]);
 
   useEffect(() => {
     if (!visible) return undefined;
