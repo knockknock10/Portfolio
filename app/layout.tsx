@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { getContent } from "@/lib/content.server"
 import { Footer } from "@/components/Footer"
-import { Nav } from "@/components/Nav"
 import PortfolioChrome from "@/components/portfolio/PortfolioChrome"
 import { RouteTransition } from "@/components/RouteTransition"
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider"
@@ -51,7 +50,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={interTight.variable}>
         <a className="skip-link" href="#main-content">Skip to content</a>
         <SmoothScrollProvider>
-          <Nav name={brandName} />
           <PortfolioChrome />
           <div id="main-content" tabIndex={-1} className="site-shell">
             <RouteTransition>{children}</RouteTransition>
