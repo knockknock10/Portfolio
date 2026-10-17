@@ -67,6 +67,20 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   }, [])
 
   useEffect(() => {
+    const navigation = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined
+    if (navigation?.type !== "reload") return
+
+    // On a hard refresh, start at the top even if the browser kept the previous scroll position/hash.
+    window.history.replaceState(window.history.state, "", window.location.pathname + window.location.search)
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" })
+    const frame = window.requestAnimationFrame(() => {
+      lenisRef.current?.scrollTo(0, { immediate: true, force: true })
+      lenisRef.current?.start()
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [])
+
+  useEffect(() => {
     if (pathnameRef.current === pathname) return
     pathnameRef.current = pathname
 
