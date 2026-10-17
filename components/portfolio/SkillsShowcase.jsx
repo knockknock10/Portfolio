@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import styles from "./SkillsShowcase.module.css";
+import { publicUrl } from "@/lib/public-url";
 
 const focusTabs = {
   backend: {
@@ -176,7 +177,7 @@ function SkillIcon({ item }) {
   return (
     <span className={styles.skillIcon} aria-hidden="true">
       <span>{name.replace(/[^A-Za-z0-9]/g, "").slice(0, 2).toUpperCase()}</span>
-      {src && !failed ? <img src={src} alt="" loading="lazy" onError={() => setFailed(true)} /> : null}
+      {src && !failed ? <img src={publicUrl(src)} alt="" loading="lazy" onError={() => setFailed(true)} /> : null}
     </span>
   );
 }
