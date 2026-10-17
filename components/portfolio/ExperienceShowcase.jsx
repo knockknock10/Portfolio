@@ -69,7 +69,7 @@ const openSourceThread = {
   category: "UPSTREAM ENGINEERING",
   title: "Contributing inside real codebases",
   description: "Source-linked work across plugin integrations, Go services, Kubernetes/network-policy testing and regression coverage. Merged and still-open work is labelled separately in the Open Source section.",
-  status: "Maintainer review",
+  status: "Ongoing",
   tone: "green",
   kind: "opensource",
   link: "#open-source",
