@@ -87,7 +87,7 @@ export default function AchievementsShowcase({ items = [] }) {
           <div className={styles.spotlightValue}><strong>8.61</strong><span>CGPA</span></div>
           <div className={styles.spotlightRule}><i/></div>
           <p>One academic signal, alongside implementations, experiments and code that can be inspected across the portfolio.</p>
-          <div className={styles.spotlightFoot}><span className={styles.spotlightDot}/> <span>Source: portfolio profile information</span></div>
+          <div className={styles.spotlightFoot}><span className={styles.spotlightDot}/> <span>Academic record</span></div>
         </motion.aside>
       </header>
 
