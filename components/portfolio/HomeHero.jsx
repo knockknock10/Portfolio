@@ -38,7 +38,7 @@ function SocialGlyph({ label }) {
   return <span aria-hidden="true">↗</span>;
 }
 
-function buildSocialLinks(socials, email, resumePath) {
+function buildSocialLinks(socials, email) {
   const links = (socials || [])
     .filter((item) => item && item.url)
     .map((item) => ({ label: item.platform || "Profile", href: item.url }));
@@ -46,12 +46,8 @@ function buildSocialLinks(socials, email, resumePath) {
   if (email && !links.some((item) => /email|mail/i.test(item.label) || item.href.startsWith("mailto:"))) {
     links.push({ label: "Email", href: "mailto:" + email });
   }
-
-  if (resumePath && !links.some((item) => /resume|cv/i.test(item.label))) {
-    links.push({ label: "Resume", href: resumePath });
-  }
-
-  return links.slice(0, 5);
+ 
+  return links.filter((item) => !/resume|cv/i.test(item.label)).slice(0, 5);
 }
 
 export function HomeHero({
@@ -61,7 +57,7 @@ export function HomeHero({
   resumePath = "/resume.pdf",
   data = null,
 }) {
-  const links = buildSocialLinks(socials, email, resumePath);
+  const links = buildSocialLinks(socials, email);
   const githubStats = data?.github || {};
   const publicMetrics = [
     { label: "Public repositories", value: githubStats.totalRepos, icon: "github" },
@@ -92,12 +88,16 @@ export function HomeHero({
         </h1>
 
         <p className={styles.heroBio}>
-          I build backend platforms and contribute fixes that make it through real test suites and review. Alongside that engineering work, I’ve submitted a speech-watermarking manuscript and recently started exploring causal-temporal audio knowledge graphs.
+          I build backend-first systems, contribute tested changes upstream, and explore applied audio AI. My focus is software engineering roles across campus placements and off-campus opportunities—with source code and research work available to review.
         </p>
 
         <div className={styles.heroActions}>
           <a className={styles.primaryAction} href="#work">View my work <span aria-hidden="true">→</span></a>
           <a className={styles.secondaryAction} href="#contact">Get in touch <span aria-hidden="true">→</span></a>
+          <a className={styles.resumeAction} href={resumePath} target="_blank" rel="noreferrer" aria-label="Open resume PDF in a new tab">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4V21H6z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"/><path d="M14 3.5v4h4M9 12h6M9 15h6M9 18h4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            Resume PDF <span aria-hidden="true">↗</span>
+          </a>
         </div>
 
         <nav className={styles.socialLinks} aria-label="Social profiles">
