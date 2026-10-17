@@ -12,6 +12,7 @@ import {
 } from "@/components/primitives/motionTokens"
 import type { WorkItem } from "@/lib/work"
 import styles from "./WorkExperience.module.css"
+import { publicUrl } from "@/lib/public-url"
 
 type WorkGalleryProps = { items: WorkItem[]; variant?: "preview" | "full" }
 type ItemTypeFilter = "all" | "repo" | "project"
@@ -202,7 +203,7 @@ export function WorkGallery({ items, variant = "full" }: WorkGalleryProps) {
                     {item.coverSrc ? (
                       <Image
                         className={styles.cardArtImage}
-                        src={item.coverSrc}
+                        src={publicUrl(item.coverSrc)}
                         alt={`${item.title} cover`}
                         fill
                         sizes="(min-width: 80rem) 33vw, (min-width: 48rem) 50vw, 100vw"
