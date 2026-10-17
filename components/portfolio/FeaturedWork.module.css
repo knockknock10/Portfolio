@@ -20,6 +20,14 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  transform: scale(1.02);
+  animation: workSceneryDrift 34s ease-in-out infinite alternate;
+  will-change: transform, background-position;
+}
+
+@keyframes workSceneryDrift {
+  from { background-position: 48% 50%; transform: scale(1.02); }
+  to { background-position: 53% 52%; transform: scale(1.055); }
 }
 
 .workShade {
@@ -201,6 +209,29 @@
   color: #fff;
   background: linear-gradient(125deg, rgba(29, 31, 45, .94), rgba(20, 24, 37, .91) 62%, rgba(25, 29, 43, .87));
   box-shadow: 0 24px 56px rgba(17, 20, 32, .23), inset 0 1px 0 rgba(255, 255, 255, .14);
+  transform: translateZ(0);
+  transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
+}
+
+.featureCard::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 0%, transparent 40%, rgba(255, 255, 255, .075) 48%, transparent 56%, transparent 100%);
+  transform: translateX(-110%);
+  transition: transform 850ms cubic-bezier(.2, .7, .2, 1);
+}
+
+.featureCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, .68);
+  box-shadow: 0 30px 66px rgba(17, 20, 32, .28), inset 0 1px 0 rgba(255, 255, 255, .2);
+}
+
+.featureCard:hover::after {
+  transform: translateX(110%);
 }
 
 .featureCard::before {
@@ -1529,6 +1560,9 @@
   .featureImageHint,
   .moreProjectsBar > a,
   .drawerActions a,
+  .workBackdrop,
+  .featureCard,
+  .featureCard::after,
   .carouselArrow,
   .carouselDot,
   .carouselDotActive {
