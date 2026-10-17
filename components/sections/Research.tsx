@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion"
 import { useState } from "react"
 import { readDurationToken, useSpringToken } from "@/components/primitives/motionTokens"
+import { publicUrl } from "@/lib/public-url"
 import type { ResearchItem } from "@/lib/research"
 
 type ResearchProps = {
@@ -168,7 +169,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
             </div>
           ) : (
             <img
-              src={figureSrc}
+              src={publicUrl(figureSrc)}
               alt={figureAlt}
               loading="lazy"
               decoding="async"
