@@ -128,7 +128,6 @@ export default function ContactShowcase({ content }) {
           </article>
         </motion.div>
       </div>
-      <div className={styles.contactBottomLine}><span>BUILD WITH INTENT</span><span>LEARN IN PUBLIC</span><span>LEAVE THE CODE BETTER</span></div>
     </section>
   );
 }
