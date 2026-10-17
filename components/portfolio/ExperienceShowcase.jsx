@@ -49,8 +49,8 @@ export default function ExperienceShowcase() {
       <header className={styles.sectionHeader}>
         <motion.div className={styles.headingCopy} initial={reducedMotion ? false : { opacity: 0, y: 13 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={transition}>
           <p className={styles.eyebrow}><span>05</span><i /> EXPERIENCE <b /></p>
-          <h2 id="experience-heading">The work behind<br />the <span>result.</span></h2>
-          <p className={styles.lede}>Experience is more than a list of titles. It is the habit of tracing a problem, making a change that fits the system, and proving the result holds up.</p>
+          <h2 id="experience-heading">From first principles<br />to <span>proof.</span></h2>
+          <p className={styles.lede}>Useful in a code review or production incident: reproduce the behaviour, narrow the change, test edge cases, and leave a diff another engineer can review. This is the working loop I apply across independent builds, research, and upstream contributions.</p>
         </motion.div>
         <motion.aside className={styles.practiceCard} initial={reducedMotion ? false : { opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, amount: 0.18 }} transition={reducedMotion ? { duration: 0 } : { ...transition, delay: 0.08 }}>
           <div className={styles.practiceTop}><span className={styles.windowDots}><i /><i /><i /></span><span>ENGINEERING LOOP</span><span>4 STEPS</span></div>

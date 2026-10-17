@@ -6486,3 +6486,279 @@ body:has(.portfolio-standalone-showcase) .route-transition {
     background-attachment: scroll, scroll !important;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   CHAPTER ART DIRECTION — one continuous landscape, distinct visual worlds.
+   The fixed sunset remains the connective thread; each chapter gets its own
+   light, texture and motion instead of another identical glass-card backdrop.
+   -------------------------------------------------------------------------- */
+@keyframes chapterAtmospherePan {
+  0% { background-position: 50% 48%, 0 0, 0 0; }
+  100% { background-position: 58% 54%, 12px 8px, -8px 10px; }
+}
+@keyframes chapterRuleSweep {
+  0% { background-position: 0% 50%; opacity: .48; }
+  50% { opacity: .9; }
+  100% { background-position: 100% 50%; opacity: .58; }
+}
+@keyframes recruiterProofPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(58, 98, 255, .16); }
+  50% { box-shadow: 0 0 0 6px rgba(58, 98, 255, 0); }
+}
+
+body:has(.portfolio-home-page) {
+  --chapter-work: #627bff;
+  --chapter-research: #967bdb;
+  --chapter-open-source: #1aa789;
+  --chapter-experience: #e8a46a;
+  --chapter-skills: #4e91d9;
+  --chapter-coding: #6070e9;
+  --chapter-achievements: #c79a4f;
+  --chapter-about: #9b75c7;
+  --chapter-contact: #4b65ef;
+}
+
+/* Work — blueprint grid + cool project-light, distinct from the portrait hero. */
+body:has(.portfolio-home-page) .portfolio-home-page > section#work {
+  --chapter-accent: var(--chapter-work);
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#work::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  opacity: .96;
+  background-image:
+    radial-gradient(ellipse at 80% 14%, rgba(71, 99, 255, .30), transparent 35%),
+    radial-gradient(ellipse at 8% 80%, rgba(255, 191, 144, .36), transparent 36%),
+    repeating-linear-gradient(0deg, rgba(47, 66, 116, .055) 0 1px, transparent 1px 38px),
+    repeating-linear-gradient(90deg, rgba(47, 66, 116, .045) 0 1px, transparent 1px 38px),
+    linear-gradient(180deg, rgba(242, 245, 255, .42), rgba(231, 229, 250, .62) 48%, rgba(255, 238, 223, .54));
+  background-size: 100% 100%, 100% 100%, 38px 38px, 38px 38px, 100% 100%;
+  background-position: 50% 48%, 50% 50%, 0 0, 0 0, center;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  animation: chapterAtmospherePan 30s ease-in-out infinite alternate;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#work > div:not([aria-hidden="true"]):not([class*="drawerBackdrop"]) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Research — pale periwinkle lab canvas with a restrained node/graph field.
+   Hide the repeated photo inside this chapter so it does not restart mid-page. */
+body:has(.portfolio-home-page) .portfolio-home-page #research > section {
+  --chapter-accent: var(--chapter-research);
+  background: transparent !important;
+}
+body:has(.portfolio-home-page) .portfolio-home-page #research > section > div[aria-hidden="true"],
+body:has(.portfolio-home-page) .portfolio-home-page #research > section > div[aria-hidden="true"] {
+  display: none !important;
+}
+body:has(.portfolio-home-page) .portfolio-home-page #research > section::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 78% 20%, rgba(106, 125, 255, .25), transparent 28%),
+    radial-gradient(circle at 18% 72%, rgba(202, 140, 232, .22), transparent 31%),
+    radial-gradient(circle, rgba(91, 103, 185, .20) 1px, transparent 1.45px),
+    linear-gradient(132deg, rgba(237, 238, 255, .91), rgba(220, 229, 255, .86) 52%, rgba(255, 231, 224, .85));
+  background-size: 100% 100%, 100% 100%, 25px 25px, 100% 100%;
+  background-position: 50% 50%, 50% 50%, 0 0, center;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  animation: chapterAtmospherePan 34s ease-in-out infinite alternate;
+}
+body:has(.portfolio-home-page) .portfolio-home-page #research > section > div:not([aria-hidden="true"]) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Open Source — mint + cobalt contribution field; the GitHub heatmap remains
+   the evidence-bearing focal point, not a second generic card grid. */
+body:has(.portfolio-home-page) .portfolio-home-page > section#open-source {
+  --chapter-accent: var(--chapter-open-source);
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#open-source::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 84% 14%, rgba(55, 123, 255, .21), transparent 32%),
+    radial-gradient(ellipse at 12% 88%, rgba(53, 199, 160, .20), transparent 38%),
+    radial-gradient(circle, rgba(30, 108, 116, .18) .9px, transparent 1.4px),
+    linear-gradient(145deg, rgba(228, 246, 238, .82), rgba(222, 236, 255, .78) 55%, rgba(247, 239, 255, .72));
+  background-size: 100% 100%, 100% 100%, 21px 21px, 100% 100%;
+  background-position: 50% 50%, 50% 50%, 0 0, center;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 94%, transparent 100%);
+  animation: chapterAtmospherePan 36s ease-in-out infinite alternate;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#open-source > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Experience — warm paper + timeline glow; the process diagram remains dark
+   and technical, while the chronology is visually separate from Skills. */
+body:has(.portfolio-home-page) .portfolio-home-page > section#internships {
+  --chapter-accent: var(--chapter-experience);
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#internships::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 15% 20%, rgba(255, 195, 142, .38), transparent 36%),
+    radial-gradient(ellipse at 88% 72%, rgba(146, 129, 243, .22), transparent 39%),
+    linear-gradient(180deg, rgba(255, 242, 226, .72), rgba(244, 231, 246, .64) 52%, rgba(231, 238, 255, .68));
+  background-size: 100% 100%;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  animation: chapterAtmospherePan 32s ease-in-out infinite alternate;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#internships > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Skills — drafting-table grid, precise blue highlights and a terminal
+   canvas; tiles remain light so individual technologies are easy to scan. */
+body:has(.portfolio-home-page) .portfolio-home-page > section#skills {
+  --chapter-accent: var(--chapter-skills);
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#skills::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 83% 10%, rgba(76, 125, 255, .24), transparent 34%),
+    radial-gradient(ellipse at 12% 82%, rgba(109, 170, 228, .24), transparent 38%),
+    repeating-linear-gradient(0deg, rgba(42, 77, 151, .055) 0 1px, transparent 1px 30px),
+    repeating-linear-gradient(90deg, rgba(42, 77, 151, .045) 0 1px, transparent 1px 30px),
+    linear-gradient(140deg, rgba(232, 241, 255, .82), rgba(226, 230, 255, .77) 52%, rgba(255, 239, 229, .73));
+  background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px, 100% 100%;
+  background-position: 50% 50%, 50% 50%, 0 0, 0 0, center;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  animation: chapterAtmospherePan 28s ease-in-out infinite alternate;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#skills > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Coding — a cooler slate/indigo field with a blueprint motif, distinct from
+   the Skills console while retaining high-contrast metric panels. */
+body:has(.portfolio-home-page) .portfolio-home-page > section#coding {
+  --chapter-accent: var(--chapter-coding);
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#coding::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 82% 9%, rgba(79, 94, 255, .25), transparent 33%),
+    radial-gradient(ellipse at 16% 85%, rgba(107, 181, 225, .20), transparent 36%),
+    repeating-linear-gradient(135deg, rgba(50, 69, 142, .045) 0 1px, transparent 1px 18px),
+    linear-gradient(140deg, rgba(231, 238, 255, .88), rgba(224, 229, 251, .82) 56%, rgba(243, 233, 250, .81));
+  background-size: 100% 100%, 100% 100%, 18px 18px, 100% 100%;
+  background-position: 50% 50%, 50% 50%, 0 0, center;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 94%, transparent 100%);
+  animation: chapterAtmospherePan 31s ease-in-out infinite alternate;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#coding > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Achievements — archival parchment with a restrained gold light, rather
+   than repeating the same blue-lavender panels from every previous chapter. */
+body:has(.portfolio-home-page) .portfolio-home-page > section#certifications {
+  --chapter-accent: var(--chapter-achievements);
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#certifications::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 82% 12%, rgba(245, 190, 91, .28), transparent 35%),
+    radial-gradient(ellipse at 7% 80%, rgba(231, 143, 122, .20), transparent 37%),
+    radial-gradient(circle, rgba(166, 126, 54, .15) .8px, transparent 1.3px),
+    linear-gradient(130deg, rgba(255, 248, 230, .87), rgba(250, 236, 222, .83) 50%, rgba(246, 235, 250, .80));
+  background-size: 100% 100%, 100% 100%, 23px 23px, 100% 100%;
+  background-position: 50% 50%, 50% 50%, 0 0, center;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  animation: chapterAtmospherePan 38s ease-in-out infinite alternate;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#certifications > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* About — softer portrait-led light, with a rose/violet aura behind the ID
+   card; keep the shared scene softly visible at the chapter edges. */
+body:has(.portfolio-home-page) .portfolio-home-page > section#about {
+  --chapter-accent: var(--chapter-about);
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#about::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 50% 24%, rgba(205, 166, 241, .30), transparent 34%),
+    radial-gradient(ellipse at 92% 82%, rgba(255, 191, 155, .27), transparent 35%),
+    linear-gradient(140deg, rgba(250, 235, 244, .81), rgba(234, 231, 255, .76) 52%, rgba(255, 239, 227, .73));
+  background-size: 100% 100%;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  animation: chapterAtmospherePan 34s ease-in-out infinite alternate;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#about > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Contact — final chapter: violet/blue light converges on the dark mail
+   composer, the strongest contrast point on the entire scroll. */
+body:has(.portfolio-home-page) .portfolio-home-page > section#contact {
+  --chapter-accent: var(--chapter-contact);
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#contact::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 76% 24%, rgba(76, 104, 255, .28), transparent 34%),
+    radial-gradient(ellipse at 8% 70%, rgba(222, 161, 219, .28), transparent 39%),
+    linear-gradient(138deg, rgba(255, 238, 239, .81), rgba(231, 234, 255, .78) 50%, rgba(233, 238, 255, .75));
+  background-size: 100% 100%;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 94%, transparent 100%);
+  animation: chapterAtmospherePan 29s ease-in-out infinite alternate;
+}
+body:has(.portfolio-home-page) .portfolio-home-page > section#contact > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* The only research backdrop on the homepage is the shared hero scene below
+   these chapter tints, so there is no second landscape restarting mid-scroll. */
+@media (prefers-reduced-motion: reduce) {
+  body:has(.portfolio-home-page) .portfolio-home-page > section::before,
+  body:has(.portfolio-home-page) .portfolio-home-page #research > section::before {
+    animation: none !important;
+  }
+}

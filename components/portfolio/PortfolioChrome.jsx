@@ -25,6 +25,32 @@ const reducedMotion = () =>
 export default function PortfolioChrome() {
   const pathname = usePathname();
   const [active, setActive] = useState("home");
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setScrollProgress(0);
+      return undefined;
+    }
+    let frame = 0;
+    const updateProgress = () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const root = document.documentElement;
+        const scrollable = root.scrollHeight - window.innerHeight;
+        const amount = scrollable > 0 ? window.scrollY / scrollable : 0;
+        setScrollProgress(Math.min(1, Math.max(0, amount)));
+      });
+    };
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    return () => {
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     if (pathname !== "/") {
@@ -77,6 +103,9 @@ export default function PortfolioChrome() {
     <>
       <SidebarNavigation />
       <header className={styles.topbar}>
+        <div className={styles.scrollProgress} aria-hidden="true">
+          <span style={{ transform: "scaleX(" + scrollProgress + ")" }} />
+        </div>
         <nav className={styles.topNav} aria-label="Main navigation">
           {links.map((item) => (
             <a
