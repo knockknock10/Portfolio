@@ -471,7 +471,7 @@
 @media (max-width: 920px) {
   .stage { min-height: auto; overflow: visible; }
   .statsPosition { width: 100%; margin-left: 0; }
-  .stageContent { display: flex; flex-direction: column; gap: 14px; padding: 110px 22px 30px 150px; }
+  .stageContent { display: flex; flex-direction: column; gap: 14px; padding: 110px 22px 30px 165px; }
   .intro { width: min(100%, 620px); padding-bottom: 8px; }
   .intro h2 { white-space: normal; font-size: clamp(3.25rem, 8vw, 4.5rem); }
   .subtitle { max-width: 570px; }
@@ -491,7 +491,7 @@
   .pipelineVisual { height: 75px; }
 }
 @media (max-width: 620px) {
-  .stageContent { padding: 95px 14px 24px 18px; }
+  .stageContent { padding: 95px 14px 24px 62px; }
   .intro h2 { font-size: clamp(3.1rem, 14vw, 4rem); }
   .signature { display: none; }
   .eyebrow { margin-bottom: 14px; }
