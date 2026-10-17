@@ -28,14 +28,14 @@
 .ink path {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: write-stroke 560ms cubic-bezier(.42, 0, .25, 1) forwards;
+  animation: write-stroke 680ms cubic-bezier(.42, 0, .25, 1) forwards;
 }
 
-.h { animation-delay: 100ms !important; }
-.e { animation-delay: 570ms !important; }
-.firstL { animation-delay: 1020ms !important; }
-.secondL { animation-delay: 1420ms !important; }
-.o { animation-delay: 1820ms !important; }
+.h { animation-delay: 120ms !important; }
+.e { animation-delay: 560ms !important; }
+.firstL { animation-delay: 1000ms !important; }
+.secondL { animation-delay: 1440ms !important; }
+.o { animation-delay: 1880ms !important; }
 
 .leaving {
   pointer-events: none;
