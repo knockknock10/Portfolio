@@ -10,6 +10,7 @@ const items = [
   { id: "open-source", label: "Open Source" },
   { id: "internships", label: "Experience" },
   { id: "skills", label: "Skills" },
+  { id: "signals", label: "Coding" },
   { id: "certifications", label: "Achievements" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
