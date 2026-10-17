@@ -210,7 +210,7 @@ const journey = [
     subtitle: "Nano-scale sensor-network communication simulator",
     status: "Prior research",
     tone: "mint",
-    detail: "MATLAB-based research work focused on network communication, routing and packet propagation in nano-scale sensor systems. A precise date and public project link are not recorded in the portfolio source.",
+    detail: "MATLAB-based research work focused on network communication, routing and packet propagation in nano-scale sensor systems.",
     tags: ["MATLAB", "Embedded systems", "Routing", "Simulation"],
     href: "#research",
     linkLabel: "Research section",
@@ -275,7 +275,7 @@ export default function ExperienceShowcase({ researchItems = [], internships = [
     return {
       ...item,
       title: "SemBind-Audio Research",
-      detail: manuscript.abstract && manuscript.abstract !== "MISSING" ? manuscript.abstract : item.detail,
+      detail: item.detail,
       href: manuscript.link && manuscript.link !== "MISSING" ? manuscript.link : item.href,
       status: manuscript.status && manuscript.status !== "MISSING" ? "Submitted" : item.status,
     };
