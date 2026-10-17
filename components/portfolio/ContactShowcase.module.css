@@ -80,7 +80,6 @@
 .noteMark svg { width:19px; height:19px; }
 .contactNote strong { color:#30394e; font-size:.64rem; font-weight:780; }
 .contactNote p { margin:4px 0 0; color:#7f8798; font-size:.56rem; line-height:1.55; }
-.contactBottomLine { display:flex; justify-content:space-between; gap:12px; margin-top:15px; padding-top:12px; border-top:1px solid rgba(79,86,105,.15); color:#7e8598; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.51rem; font-weight:750; letter-spacing:.12em; }
 .contactSection a:focus-visible,.contactSection button:focus-visible { outline:2px solid #3b63ff; outline-offset:3px; }
 
 @media (max-width:1370px) {
@@ -121,7 +120,6 @@
   .formRow { grid-template-columns:minmax(0,1fr); gap:11px; }
   .contactForm input,.contactForm select { min-height:40px; }
   .contactForm textarea { min-height:126px; }
-  .contactBottomLine { gap:6px; font-size:.4rem; letter-spacing:.055em; }
 }
 @media (prefers-reduced-motion:reduce) {
   .emailCard,.profileCard,.contactForm input,.contactForm select,.contactForm textarea,.submitButton { transition:none !important; }
