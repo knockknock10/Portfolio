@@ -367,7 +367,7 @@ export default function FeaturedWork() {
         </div>
 
         <div className={styles.projectGrid} aria-live="polite">
-          {visibleProjects.map((project, index) => (
+          {visibleProjects.map((project) => (
             <article key={project.id} className={styles.projectCard}>
               <button type="button" className={styles.projectArtButton} onClick={() => setSelected(project)} aria-label={`Explore ${project.name} details`}>
                 <ProjectArtwork project={project} />
