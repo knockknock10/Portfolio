@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./HomeHero.module.css";
+import { publicUrl } from "@/lib/public-url";
 
 
 function SocialGlyph({ label }) {
@@ -94,7 +95,7 @@ export function HomeHero({
         <div className={styles.heroActions}>
           <a className={styles.primaryAction} href="#work">View my work <span aria-hidden="true">→</span></a>
           <a className={styles.secondaryAction} href="#contact">Get in touch <span aria-hidden="true">→</span></a>
-          <a className={styles.resumeAction} href={resumePath} target="_blank" rel="noreferrer" aria-label="Open resume PDF in a new tab">
+          <a className={styles.resumeAction} href={publicUrl(resumePath)} target="_blank" rel="noreferrer" aria-label="Open resume PDF in a new tab">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4V21H6z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"/><path d="M14 3.5v4h4M9 12h6M9 15h6M9 18h4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
             Resume PDF <span aria-hidden="true">↗</span>
           </a>
