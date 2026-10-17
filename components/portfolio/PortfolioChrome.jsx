@@ -26,7 +26,20 @@ export default function PortfolioChrome() {
   const [active, setActive] = useState("home");
 
   useEffect(() => {
-    if (pathname !== "/") return undefined;
+    if (pathname !== "/") {
+      const routeSections = {
+        "/research": "research",
+        "/work": "work",
+        "/open-source": "open-source",
+        "/experience": "internships",
+        "/skills": "skills",
+        "/achievements": "certifications",
+        "/about": "about",
+        "/contact": "contact",
+      };
+      setActive(routeSections[pathname] || "home");
+      return undefined;
+    }
     const targets = links.map((item) => document.getElementById(item.id)).filter(Boolean);
     if (!targets.length || !("IntersectionObserver" in window)) return undefined;
 
@@ -45,9 +58,8 @@ export default function PortfolioChrome() {
     return () => observer.disconnect();
   }, [pathname]);
 
-  if (pathname !== "/") return null;
-
   function navigate(event, id) {
+    if (pathname !== "/") return;
     const target = document.getElementById(id);
     if (!target) return;
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -64,7 +76,7 @@ export default function PortfolioChrome() {
           {links.map((item) => (
             <a
               key={item.id}
-              href={"#" + item.id}
+              href={pathname === "/" ? "#" + item.id : "/#" + item.id}
               className={active === item.id ? styles.topNavActive : ""}
               aria-current={active === item.id ? "location" : undefined}
               onClick={(event) => navigate(event, item.id)}
@@ -74,7 +86,7 @@ export default function PortfolioChrome() {
             </a>
           ))}
         </nav>
-        <a className={styles.talkButton} href="#contact" onClick={(event) => navigate(event, "contact")}>
+        <a className={styles.talkButton} href={pathname === "/" ? "#contact" : "/#contact"} onClick={(event) => navigate(event, "contact")}>
           Let’s Talk <span aria-hidden="true">→</span>
         </a>
       </header>
