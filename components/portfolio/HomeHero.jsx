@@ -59,8 +59,15 @@ export function HomeHero({
   socials = [],
   email = null,
   resumePath = "/resume.pdf",
+  data = null,
 }) {
   const links = buildSocialLinks(socials, email, resumePath);
+  const githubStats = data?.github || {};
+  const publicMetrics = [
+    { label: "Public repositories", value: githubStats.totalRepos, icon: "github" },
+    { label: "Stars across repositories", value: githubStats.totalStars, icon: "star" },
+    { label: "Public forks", value: githubStats.totalForks, icon: "fork" },
+  ];
   const nameParts = (fullName || "Sanjeev Kumar").trim().split(/\s+/);
   const firstName = nameParts.shift() || "Sanjeev";
   const lastName = nameParts.join(" ") || "Kumar";
@@ -85,8 +92,7 @@ export function HomeHero({
         </h1>
 
         <p className={styles.heroBio}>
-          I’m a computer science student who enjoys building backend systems, contributing to
-          open source, and exploring audio watermarking and applied AI.
+          I build backend platforms and contribute fixes that make it through real test suites and review. Alongside that engineering work, I’ve submitted a speech-watermarking manuscript and recently started exploring causal-temporal audio knowledge graphs.
         </p>
 
         <div className={styles.heroActions}>
@@ -114,18 +120,33 @@ export function HomeHero({
       <aside className={styles.rightCards} aria-label="Current focus">
         <div className={styles.quoteCard}>
           <span className={styles.quoteMark} aria-hidden="true">”</span>
-          <p>“Interesting problems lead to better engineers.”</p>
+          <p>“A change is only as good as the evidence that it works.”</p>
           <span className={styles.quoteRule} aria-hidden="true" />
         </div>
-        <a className={styles.currentCard} href="#research">
+        <a className={styles.currentCard} href="#internships">
           <span className={styles.currentDot} aria-hidden="true" />
           <span className={styles.currentCopy}>
-            <span>Currently working on</span>
-            <strong>SemBind-Audio</strong>
+            <span>Currently exploring</span>
+            <strong>Causal-temporal audio knowledge graphs</strong>
           </span>
           <span className={styles.currentArrow} aria-hidden="true">→</span>
         </a>
       </aside>
+
+      <div className={styles.statsBar} aria-label="Public GitHub repository snapshot">
+        {publicMetrics.map((metric) => (
+          <a className={styles.statItem} href="#open-source" key={metric.label} title="Saved public profile snapshot · 10 Oct 2026">
+            {metric.icon === "github" ? <SocialGlyph label="GitHub" /> : metric.icon === "star" ? (
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.7 6.3.9-4.55 4.45 1.07 6.28L12 17.2l-5.62 2.95 1.07-6.28L2.9 9.4l6.3-.9z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"/></svg>
+            ) : (
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v10m0-10a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM6 14l8-5m0-5v5m0-5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 5v8m0-8a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
+            <strong>{typeof metric.value === "number" ? metric.value.toLocaleString("en-US") : "—"}</strong>
+            <span>{metric.label}</span>
+          </a>
+        ))}
+      </div>
 
       <a className={styles.scrollCue} href="#work" aria-label="Scroll down to selected work">
         <span className={styles.scrollCueIcon} aria-hidden="true">↓</span>

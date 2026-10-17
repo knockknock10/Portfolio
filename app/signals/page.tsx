@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function SignalsPage() {
-  redirect("/problem-solving");
+  redirect("/#coding");
 }
