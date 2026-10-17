@@ -21,7 +21,7 @@ const reduceMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export default function SidebarNavigation() {
+export default function SidebarNavigation({ closingZoneVisible = false }) {
   const pathname = usePathname();
   const [active, setActive] = useState("home");
   const [pinnedOpen, setPinnedOpen] = useState(false);
@@ -83,7 +83,7 @@ export default function SidebarNavigation() {
 
   return (
     <aside
-      className={`${styles.sidebar} ${pinnedOpen ? styles.sidebarPinned : ""}`}
+      className={`${styles.sidebar} ${pinnedOpen ? styles.sidebarPinned : ""} ${closingZoneVisible ? styles.sidebarFooterClear : ""}`}
       aria-label="Portfolio section rail"
       onKeyDown={(event) => {
         if (event.key === "Escape") setPinnedOpen(false);

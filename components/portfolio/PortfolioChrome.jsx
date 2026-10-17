@@ -26,6 +26,37 @@ export default function PortfolioChrome() {
   const pathname = usePathname();
   const [active, setActive] = useState("home");
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [closingZoneVisible, setClosingZoneVisible] = useState(false);
+
+  useEffect(() => {
+    const closingRegions = Array.from(document.querySelectorAll(".visitorLine, .site-footer"));
+    if (!closingRegions.length) {
+      setClosingZoneVisible(false);
+      return undefined;
+    }
+    let frame = 0;
+    const updateClosingZone = () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const visible = closingRegions.some((element) => {
+          const rect = element.getBoundingClientRect();
+          return rect.top < window.innerHeight * 0.98 && rect.bottom > 0;
+        });
+        setClosingZoneVisible(visible);
+      });
+    };
+    const observer = new IntersectionObserver(updateClosingZone, { threshold: 0 });
+    closingRegions.forEach((element) => observer.observe(element));
+    window.addEventListener("scroll", updateClosingZone, { passive: true });
+    window.addEventListener("resize", updateClosingZone);
+    updateClosingZone();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", updateClosingZone);
+      window.removeEventListener("resize", updateClosingZone);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     if (pathname !== "/") {
@@ -101,8 +132,8 @@ export default function PortfolioChrome() {
 
   return (
     <>
-      <SidebarNavigation />
-      <header className={styles.topbar}>
+      <SidebarNavigation closingZoneVisible={closingZoneVisible} />
+      <header className={`${styles.topbar} ${closingZoneVisible ? styles.topbarFooterClear : ""}`}>
         <div className={styles.scrollProgress} aria-hidden="true">
           <span style={{ transform: "scaleX(" + scrollProgress + ")" }} />
         </div>
