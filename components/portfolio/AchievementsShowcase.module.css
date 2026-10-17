@@ -464,3 +464,27 @@
   .credentialGrid { grid-template-columns: minmax(0,1fr); }
   .credentialThumbnail { aspect-ratio: 1.7 / 1; }
 }
+
+
+/* Solid heading color and readable certificate metadata. */
+.achievementsIntro h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.achievementsIntro > p:not(.eyebrow) { font-size:clamp(.98rem,1.04vw,1.08rem); line-height:1.72; }
+.achievementTags span { font-size:.68rem; }
+.panelEyebrow { font-size:.58rem; line-height:1.4; }
+.panelHeading h3 { font-size:1rem; }
+.credentialCardTop small { font-size:.7rem; line-height:1.4; }
+.credentialCardTop h4 { font-size:.86rem; line-height:1.42; }
+.credentialPreview > p { font-size:.7rem; line-height:1.45; }
+.galleryOpenHint,.verifyCredential { font-size:.72rem; }
+.notVerified { font-size:.68rem; }
+.certificateDetails { font-size:.86rem; line-height:1.6; }
+.certificateIssuer { font-size:.94rem; line-height:1.55; }
+.certificateInstructions { font-size:.82rem; line-height:1.7; }
+.certificateDetails > p { font-size:.8rem; line-height:1.6; }
+.slotBadge,.pdfCorner { font-size:.57rem; }
+@media(max-width:640px) {
+  .achievementsIntro > p:not(.eyebrow) { font-size:.92rem; }
+  .credentialCardTop small { font-size:.68rem; }
+  .credentialCardTop h4 { font-size:.84rem; }
+  .credentialPreview > p,.notVerified { font-size:.67rem; }
+}
