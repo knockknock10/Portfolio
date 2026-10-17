@@ -1436,3 +1436,16 @@
     padding: 10px 8px;
   }
 }
+
+
+/* Keep the name's accent solid and keep the connected cursive signature readable. */
+.heroTitleSecond > span:first-child { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.signature { display:inline-flex; flex-direction:column; gap:0; align-items:flex-start; color:#30364b; font-family:"Snell Roundhand","Apple Chancery","Segoe Script",cursive; font-size:clamp(1.08rem,1.8vw,1.72rem); font-style:italic; font-weight:600; line-height:.75; letter-spacing:-.06em; white-space:nowrap; transform:rotate(-9deg) translateY(.06em); }
+.signature > span:first-child { margin-left:0; }
+.signature > span:last-child { margin-left:.78em; font-size:.76em; }
+@media(max-width:980px) {
+ .signature { font-size:clamp(1rem,3vw,1.5rem); }
+}
+@media(max-width:700px) {
+ .signature { font-size:clamp(.84rem,2.8vw,1.15rem); }
+}
