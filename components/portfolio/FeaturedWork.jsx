@@ -381,6 +381,18 @@ export default function FeaturedWork() {
             ref={carouselRef}
             className={styles.projectCarouselViewport}
             aria-live="polite"
+            onScroll={() => {
+              const container = carouselRef.current;
+              const cards = Array.from(container?.querySelectorAll("[data-project-card]") || []);
+              if (!container || !cards.length) return;
+              const nextIndex = cards.reduce((bestIndex, card, index) => {
+                const distance = Math.abs(card.offsetLeft - container.offsetLeft - container.scrollLeft - 4);
+                const bestCard = cards[bestIndex];
+                const bestDistance = Math.abs(bestCard.offsetLeft - container.offsetLeft - container.scrollLeft - 4);
+                return distance < bestDistance ? index : bestIndex;
+              }, 0);
+              setActiveCardIndex((current) => current === nextIndex ? current : nextIndex);
+            }}
           >
             <div className={styles.projectGrid}>
               {visibleProjects.map((project, index) => (
