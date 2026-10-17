@@ -300,6 +300,7 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
   }, [days, totals, period]);
 
   const yearOptions = useMemo(() => Object.keys(totals).sort((a, b) => Number(b) - Number(a)), [totals]);
+  const totalLabel = loadState === "live" ? total.toLocaleString() : loadState === "loading" ? "…" : "—";
   let lastMonthKey = "";
   const monthSlots = weeks.map((week, index) => {
     const firstOfMonth = week.find((day) => day.inRange && day.date.getDate() === 1);
@@ -336,9 +337,14 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
 
       <div className={styles.githubGraphMeta}>
         <span>{loadState === "loading" ? "Loading live contribution history…" : loadState === "fallback" ? "Contribution history unavailable" : `${startLabel} — ${endLabel}`}</span>
-        <span>{total.toLocaleString()} contributions</span>
+        <span>{totalLabel} contributions</span>
       </div>
 
+      {loadState === "fallback" ? (
+        <p className={styles.githubGraphUnavailable} role="status">
+          Live contribution data could not be loaded right now. No zero total is assumed. <a href={githubProfile} target="_blank" rel="noreferrer">View the live GitHub profile ↗</a>
+        </p>
+      ) : null}
       <div className={styles.githubHeatmapViewport} tabIndex={0} role="region" aria-label="Scrollable GitHub contribution calendar">
         <div className={styles.githubHeatmapInner}>
           <div className={styles.githubMonthRail} style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))` }}>
@@ -376,7 +382,7 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
       <div className={styles.githubGraphStats}>
         <div className={styles.githubGraphStat}>
           <span className={styles.graphStatIcon}>▥</span>
-          <span><strong>{total.toLocaleString()}</strong><small>Contributions</small></span>
+          <span><strong>{totalLabel}</strong><small>Contributions {loadState === "live" ? "" : loadState === "loading" ? "loading" : "unavailable"}</small></span>
         </div>
         <div className={styles.githubGraphStat}>
           <span className={styles.graphStatIcon}>⑂</span>
