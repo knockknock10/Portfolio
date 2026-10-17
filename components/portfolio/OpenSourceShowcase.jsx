@@ -211,7 +211,7 @@ function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, op
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("https://github-contributions-api.jogruber.de/v4/knockknock10?y=all", { signal: controller.signal })
+    fetch("/api/github-contributions", { signal: controller.signal })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error("Contribution data is unavailable")))
       .then((payload) => {
         const safeDays = Array.isArray(payload.contributions)
