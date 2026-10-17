@@ -317,7 +317,13 @@
 .pipelineTabs button strong { color: #20263a; font-weight: 650; }
 .pipelineTabs .pipelineTabActive { border-color: rgba(49,92,255,.45); background: rgba(255,255,255,.8); }
 .pipelineDetails p { margin: 9px 0 0; color: #4f566a; font-size: .76rem; line-height: 1.55; }
-.statsPosition { grid-column: 2; grid-row: 2; min-width: 0; }
+.statsPosition {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  width: calc(100% + clamp(65px, 5.7vw, 95px));
+  margin-left: -clamp(65px, 5.7vw, 95px);
+}
 .statsStrip {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
