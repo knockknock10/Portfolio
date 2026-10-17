@@ -8,7 +8,6 @@ const events = [
   { month: "OCT 2026", title: "AWS Bangalore Event 2026", detail: "Attended · Cloud and AI", tone: "amber", mark: "AWS" },
   { month: "OCT 2024", title: "Hacktoberfest 2024", detail: "Open-source contributions", tone: "violet", mark: "⌘" },
   { month: "MAR 2024", title: "College Technical Fest", detail: "Participation · Project showcase", tone: "green", mark: "✳" },
-  { month: "2024—2026", title: "Coding contests", detail: "LeetCode · Codeforces · GeeksforGeeks", tone: "blue", mark: "↗" },
 ];
 
 function Icon({ kind }) {
