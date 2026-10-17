@@ -1288,7 +1288,7 @@
 
   .workCanvas {
     width: calc(100% - 105px);
-    margin: 30px 20px 0 78px;
+    margin: 96px 20px 0 78px;
   }
 
   .workFeatureLayout {
@@ -1362,7 +1362,7 @@
 
   .workCanvas {
     width: auto;
-    margin: 30px 16px 0 70px;
+    margin: 90px 16px 0 70px;
     padding-bottom: 35px;
   }
 
