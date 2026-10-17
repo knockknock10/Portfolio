@@ -20,7 +20,9 @@
   background-size: cover;
   background-position: center 52%;
   background-repeat: no-repeat;
-  transform: scale(1.005);
+  filter: saturate(1.08) contrast(1.065) brightness(1.01);
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .heroShade {
@@ -59,8 +61,8 @@
   border: 1px solid rgba(255, 255, 255, .36);
   border-radius: 18px;
   color: #161925;
-  background: rgba(249, 247, 249, .27);
-  box-shadow: 0 10px 32px rgba(31, 32, 53, .055), inset 0 1px 0 rgba(255, 255, 255, .28);
+  background: rgba(249, 247, 249, .42);
+  box-shadow: 0 10px 32px rgba(31, 32, 53, .08), inset 0 1px 0 rgba(255, 255, 255, .42);
   backdrop-filter: blur(22px) saturate(125%);
   -webkit-backdrop-filter: blur(22px) saturate(125%);
   pointer-events: auto;

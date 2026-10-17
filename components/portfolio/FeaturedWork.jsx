@@ -264,11 +264,32 @@ function ProjectDetails({ project, onClose, onMove, index, total }) {
 export default function FeaturedWork() {
   const [activeFilter, setActiveFilter] = useState("All projects");
   const [selected, setSelected] = useState(null);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const carouselRef = useRef(null);
   const visibleProjects = useMemo(
     () => activeFilter === "All projects" ? projects : projects.filter((project) => project.filters.includes(activeFilter)),
     [activeFilter],
   );
   const selectedIndex = selected ? allProjects.findIndex((project) => project.id === selected.id) : -1;
+
+  function scrollToProject(index) {
+    const container = carouselRef.current;
+    const cards = container?.querySelectorAll("[data-project-card]");
+    const card = cards?.[index];
+    setActiveCardIndex(index);
+    if (!container || !card) return;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    container.scrollTo({
+      left: Math.max(0, card.offsetLeft - container.offsetLeft - 10),
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
+  }
+
+  function moveCarousel(direction) {
+    if (!visibleProjects.length) return;
+    const next = (activeCardIndex + direction + visibleProjects.length) % visibleProjects.length;
+    scrollToProject(next);
+  }
 
   const closeDetails = useCallback(() => setSelected(null), []);
   const moveProject = useCallback((direction) => {
@@ -337,7 +358,11 @@ export default function FeaturedWork() {
                 key={filter}
                 className={activeFilter === filter ? styles.filterActive : ""}
                 aria-pressed={activeFilter === filter}
-                onClick={() => setActiveFilter(filter)}
+                onClick={() => {
+                  setActiveFilter(filter);
+                  setActiveCardIndex(0);
+                  carouselRef.current?.scrollTo({ left: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+                }}
               >
                 {filter}
               </button>
@@ -345,27 +370,85 @@ export default function FeaturedWork() {
           </div>
         </div>
 
-        <div className={styles.projectGrid} aria-live="polite">
-          {visibleProjects.map((project) => (
-            <article key={project.id} className={styles.projectCard}>
-              <button type="button" className={styles.projectArtButton} onClick={() => setSelected(project)} aria-label={`Explore ${project.name} details`}>
-                <ProjectArtwork project={project} />
-                <span className={styles.openProject} aria-hidden="true"><Arrow diagonal /></span>
-              </button>
-              <div className={styles.projectCardBody}>
-                <div className={styles.projectCardEyebrow}><span>{project.category}</span><i data-status={project.status} /></div>
-                <div className={styles.projectCardTitleLine}>
-                  <h4>{project.name}</h4>
-                  <span className={styles.projectStatusText}>{project.status}</span>
-                </div>
-                <p>{project.description}</p>
-                <div className={styles.projectCardTags}>{project.tags.slice(0, 4).map((tag) => <span key={tag}>{tag}</span>)}</div>
-                <div className={styles.projectCardActions}>
-                  <button type="button" onClick={() => setSelected(project)}>View project <Arrow /></button>
-                  {project.live ? <a href={project.live} target="_blank" rel="noreferrer">Live ↗</a> : <a href={project.repo} target="_blank" rel="noreferrer">GitHub ↗</a>}
-                </div>
-              </div>
-            </article>
+        <div className={styles.carouselShell} role="region" aria-roledescription="carousel" aria-label="Selected projects">
+          <button
+            type="button"
+            className={`${styles.carouselArrow} ${styles.carouselArrowPrev}`}
+            onClick={() => moveCarousel(-1)}
+            aria-label="Previous project"
+            disabled={visibleProjects.length < 2}
+          >
+            <span aria-hidden="true">←</span>
+          </button>
+          <div
+            ref={carouselRef}
+            className={styles.projectCarouselViewport}
+            aria-live="polite"
+            onScroll={() => {
+              const container = carouselRef.current;
+              const cards = Array.from(container?.querySelectorAll("[data-project-card]") || []);
+              if (!container || !cards.length) return;
+              const nextIndex = cards.reduce((bestIndex, card, index) => {
+                const distance = Math.abs(card.offsetLeft - container.offsetLeft - container.scrollLeft - 4);
+                const bestCard = cards[bestIndex];
+                const bestDistance = Math.abs(bestCard.offsetLeft - container.offsetLeft - container.scrollLeft - 4);
+                return distance < bestDistance ? index : bestIndex;
+              }, 0);
+              setActiveCardIndex((current) => current === nextIndex ? current : nextIndex);
+            }}
+          >
+            <div className={styles.projectGrid}>
+              {visibleProjects.map((project, index) => (
+                <article
+                  key={project.id}
+                  data-project-card
+                  data-active={activeCardIndex === index ? "true" : "false"}
+                  className={styles.projectCard}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${index + 1} of ${visibleProjects.length}: ${project.name}`}
+                >
+                  <button type="button" className={styles.projectArtButton} onClick={() => setSelected(project)} aria-label={`Explore ${project.name} details`}>
+                    <ProjectArtwork project={project} />
+                    <span className={styles.openProject} aria-hidden="true"><Arrow diagonal /></span>
+                  </button>
+                  <div className={styles.projectCardBody}>
+                    <div className={styles.projectCardEyebrow}><span>{project.category}</span><i data-status={project.status} /></div>
+                    <div className={styles.projectCardTitleLine}>
+                      <h4>{project.name}</h4>
+                      <span className={styles.projectStatusText}>{project.status}</span>
+                    </div>
+                    <p>{project.description}</p>
+                    <div className={styles.projectCardTags}>{project.tags.slice(0, 4).map((tag) => <span key={tag}>{tag}</span>)}</div>
+                    <div className={styles.projectCardActions}>
+                      <button type="button" onClick={() => setSelected(project)}>View project <Arrow /></button>
+                      {project.live ? <a href={project.live} target="_blank" rel="noreferrer">Live ↗</a> : <a href={project.repo} target="_blank" rel="noreferrer">GitHub ↗</a>}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+          <button
+            type="button"
+            className={`${styles.carouselArrow} ${styles.carouselArrowNext}`}
+            onClick={() => moveCarousel(1)}
+            aria-label="Next project"
+            disabled={visibleProjects.length < 2}
+          >
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <div className={styles.carouselPagination} role="group" aria-label="Choose project">
+          {visibleProjects.map((project, index) => (
+            <button
+              key={project.id}
+              type="button"
+              className={activeCardIndex === index ? styles.carouselDotActive : styles.carouselDot}
+              onClick={() => scrollToProject(index)}
+              aria-label={`Show ${project.name}`}
+              aria-pressed={activeCardIndex === index}
+            />
           ))}
         </div>
 
