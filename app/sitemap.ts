@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next"
 import { getWorkData } from "@/lib/work"
 
+export const dynamic = "force-static"
+
 const siteRoot = "https://knockknock10.github.io/Portfolio"
 
 export default function sitemap(): MetadataRoute.Sitemap {
