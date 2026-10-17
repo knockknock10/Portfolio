@@ -179,14 +179,14 @@ export default function AchievementsShowcase({ items = [] }) {
         setSelectedIndex(null);
         return;
       }
-      if (event.key === "ArrowLeft" && items.length > 1) {
+      if (event.key === "ArrowLeft" && galleryItems.length > 1) {
         event.preventDefault();
-        setSelectedIndex((value) => value === null ? null : (value - 1 + items.length) % items.length);
+        setSelectedIndex((value) => value === null ? null : (value - 1 + galleryItems.length) % galleryItems.length);
         return;
       }
-      if (event.key === "ArrowRight" && items.length > 1) {
+      if (event.key === "ArrowRight" && galleryItems.length > 1) {
         event.preventDefault();
-        setSelectedIndex((value) => value === null ? null : (value + 1) % items.length);
+        setSelectedIndex((value) => value === null ? null : (value + 1) % galleryItems.length);
         return;
       }
       if (event.key !== "Tab") return;
@@ -214,7 +214,7 @@ export default function AchievementsShowcase({ items = [] }) {
       const restoreTarget = previousFocusRef.current;
       if (restoreTarget instanceof HTMLElement && restoreTarget.isConnected) restoreTarget.focus();
     };
-  }, [isGalleryOpen, items.length]);
+  }, [isGalleryOpen, galleryItems.length]);
 
   function step(delta) {
     setSelectedIndex((value) => value === null || !galleryItems.length ? null : (value + delta + galleryItems.length) % galleryItems.length);
