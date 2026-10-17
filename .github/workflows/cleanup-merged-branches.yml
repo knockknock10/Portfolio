@@ -46,8 +46,8 @@ jobs:
             let skipped = 0;
 
             for (const branch of branches) {
-              if (branch.name === "main") {
-                console.log("SKIP main");
+              if (branch.name === "main" || branch.protected) {
+                console.log("SKIP protected/default branch: " + branch.name);
                 skipped += 1;
                 continue;
               }
@@ -66,8 +66,35 @@ jobs:
                 pull.head.sha === branch.commit.sha
               );
 
-              if (!matchingMergedPull) {
-                console.log("SKIP branch without an exact merged-PR head match: " + branch.name);
+              let safeToDelete = Boolean(matchingMergedPull);
+              let reason = matchingMergedPull
+                ? "merged PR #" + matchingMergedPull.number
+                : "";
+
+              // Also clean stale branches whose entire history is already reachable
+              // from main, even when their old tip was not the exact PR merge head.
+              // The compare uses main as base and this branch as head: ahead_by === 0
+              // means this branch has no commits missing from main.
+              if (!safeToDelete) {
+                try {
+                  const comparison = await github.rest.repos.compareCommitsWithBasehead({
+                    owner,
+                    repo,
+                    basehead: "main..." + branch.name
+                  });
+                  if (comparison.data.ahead_by === 0) {
+                    safeToDelete = true;
+                    reason = "fully contained in main (" + comparison.data.status + ")";
+                  }
+                } catch (error) {
+                  console.log("SKIP branch because ancestry could not be verified: " + branch.name);
+                  skipped += 1;
+                  continue;
+                }
+              }
+
+              if (!safeToDelete) {
+                console.log("SKIP branch with commits not confirmed in main: " + branch.name);
                 skipped += 1;
                 continue;
               }
@@ -78,7 +105,7 @@ jobs:
                   repo,
                   ref: "heads/" + branch.name
                 });
-                console.log("DELETED merged PR #" + matchingMergedPull.number + " branch: " + branch.name);
+                console.log("DELETED " + reason + " branch: " + branch.name);
                 deleted += 1;
               } catch (error) {
                 if (error.status === 404 || error.status === 422) {
@@ -90,4 +117,4 @@ jobs:
               }
             }
 
-            console.log("Cleanup complete. Deleted " + deleted + " merged branch(es); skipped " + skipped + ".");
+            console.log("Cleanup complete. Deleted " + deleted + " branch(es); skipped " + skipped + ".");
