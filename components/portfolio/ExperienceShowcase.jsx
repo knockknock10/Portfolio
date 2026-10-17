@@ -72,16 +72,16 @@ export default function ExperienceShowcase({ researchItems = [], internships = [
       status: "Exploring",
       tone: "graph",
       visual: "graph",
-      links: [{ label: "Research overview", href: "#research" }],
+      links: [],
     },
     {
       key: "sembind",
       period: "JUN 2025 — SEP 2026",
       kind: "FIRST-AUTHOR RESEARCH",
-      title: semBind?.title || "SemBind-Audio",
+      title: "SemBind-Audio",
       description: "A reference-based speech-watermarking study comparing semantic contribution and spectral suitability for embedding placement across LibriSpeech test-clean. The manuscript was submitted to IEEE Signal Processing Letters; the work also records where joint placement did not beat spectral-only placement.",
       tags: ["HuBERT", "STFT", "Speech watermarking", "LibriSpeech", "SHA-256"],
-      status: hasValue(semBind?.status) ? semBind.status : "Manuscript submitted",
+      status: "Submitted manuscript",
       tone: "research",
       visual: "wave",
       featured: true,
@@ -139,7 +139,6 @@ export default function ExperienceShowcase({ researchItems = [], internships = [
               <div><span className={styles.threadMark} data-tone="opensource" /><span><strong>Open source</strong><small>Implement · test · respond to review</small></span></div>
               <div><span className={styles.threadMark} data-tone="systems" /><span><strong>Systems</strong><small>Build something another engineer can inspect</small></span></div>
             </div>
-            <a className={styles.fieldNoteLink} href="/resume.pdf" target="_blank" rel="noreferrer">Open résumé <ExternalMark /></a>
           </motion.aside>
         </header>
 
