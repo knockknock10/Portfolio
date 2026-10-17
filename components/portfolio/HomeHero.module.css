@@ -1251,3 +1251,22 @@
   .resumeAction { transition: none !important; }
   .resumeAction:hover { transform: none !important; }
 }
+
+
+/* Keep the glass navigation beside the section rail and clear it from the closing area. */
+.topbar {
+  padding: 0 clamp(24px, 2.8vw, 48px) 0 clamp(64px, 9vw, 152px);
+  transition: opacity 180ms ease, transform 240ms cubic-bezier(.2,.8,.2,1);
+}
+.sidebar {
+  transition: width 320ms cubic-bezier(.2,.8,.2,1), padding 320ms cubic-bezier(.2,.8,.2,1),
+    background-color 220ms ease, box-shadow 220ms ease, opacity 180ms ease,
+    transform 240ms cubic-bezier(.2,.8,.2,1);
+}
+.topbarFooterClear { opacity: 0; transform: translateY(-18px); pointer-events: none !important; }
+.sidebarFooterClear { opacity: 0; transform: translateX(-110%); pointer-events: none !important; }
+@media (max-width: 980px) {
+  .sidebar { display: none; }
+  .topbar { padding-inline: 16px; }
+}
+@media (max-width: 700px) { .topbar { padding-inline: 12px; } }
