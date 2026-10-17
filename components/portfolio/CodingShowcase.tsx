@@ -50,7 +50,7 @@ function PanelHeading({ icon, title, meta }: { icon: "code" | "trophy" | "github
   );
 }
 
-function StatCard({ icon, label, value, detail, href, tone = "blue" }: { icon: "code" | "trophy" | "github" | "clock"; label: string; value: string; detail: string; href?: string; tone?: "blue" | "violet" | "green" | "amber" }) {
+function StatCard({ icon, label, value, detail, href, tone = "blue" }: { icon: "code" | "trophy" | "github" | "clock" | "chart"; label: string; value: string; detail: string; href?: string; tone?: "blue" | "violet" | "green" | "amber" }) {
   const Body = (
     <>
       <div className={styles.statTop}><span className={styles.statGlyph} data-tone={tone}><Glyph kind={icon} /></span><span className={styles.statLabel}>{label}</span>{href ? <Arrow /> : null}</div>
