@@ -7,6 +7,7 @@ import PortfolioChrome from "@/components/portfolio/PortfolioChrome"
 import { RouteTransition } from "@/components/RouteTransition"
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider"
 import "./globals.css"
+import "./portfolio-scene.css"
 
 const interTight = localFont({
   src: "../node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2",

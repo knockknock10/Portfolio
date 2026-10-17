@@ -1,0 +1,56 @@
+/* One continuous cinematic scene shared by home and all section routes. */
+body:not(:has(.ds-page)) {
+  background-color: #dac7bd !important;
+  background-image:
+    linear-gradient(180deg, rgba(255, 247, 243, .08) 0%, rgba(255, 247, 243, .20) 46%, rgba(18, 23, 36, .09) 100%),
+    url("/images/hero-scene.webp") !important;
+  background-size: cover, cover !important;
+  background-position: center 52%, center 52% !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-attachment: fixed, fixed !important;
+}
+
+body:not(:has(.ds-page)) .site-shell,
+body:not(:has(.ds-page)) .route-transition,
+body:not(:has(.ds-page)) .home-page,
+body:not(:has(.ds-page)) .editorial-page,
+body:not(:has(.ds-page)) .route-shell,
+body:not(:has(.ds-page)) .research-route {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Keep content glass, not opaque section canvases, between portfolio chapters. */
+body:not(:has(.ds-page)) .portfolio-anchor,
+body:not(:has(.ds-page)) .portfolio-home-page > section:not(:first-child) {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+@media (max-width: 700px) {
+  body:not(:has(.ds-page)) {
+    background-attachment: scroll, scroll !important;
+    background-position: center 52%, center 52% !important;
+  }
+}
+
+/* Make the closing footer readable over the same landscape instead of switching back to a pale page. */
+body:not(:has(.ds-page)) .site-footer {
+  border-top: 1px solid rgba(255, 255, 255, .2) !important;
+  background: linear-gradient(180deg, rgba(24, 28, 42, .32), rgba(17, 21, 33, .86)) !important;
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+}
+body:not(:has(.ds-page)) .footer-name,
+body:not(:has(.ds-page)) .footer-email,
+body:not(:has(.ds-page)) .footer-socials a {
+  color: rgba(249, 250, 255, .94) !important;
+}
+body:not(:has(.ds-page)) .footer-navigation a,
+body:not(:has(.ds-page)) .footer-copyright {
+  color: rgba(224, 230, 245, .78) !important;
+}
+body:not(:has(.ds-page)) .footer-socials a {
+  border-color: rgba(255, 255, 255, .22) !important;
+  background: rgba(255, 255, 255, .07);
+}
