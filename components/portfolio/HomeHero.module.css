@@ -20,7 +20,9 @@
   background-size: cover;
   background-position: center 52%;
   background-repeat: no-repeat;
-  transform: scale(1.005);
+  filter: saturate(1.055) contrast(1.035);
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .heroShade {
@@ -34,9 +36,9 @@
     linear-gradient(180deg, rgba(18, 21, 35, .13) 0%, transparent 16%);
 }
 
-.topbar {
-  position: absolute;
-  z-index: 25;
+ .topbar {
+  position: fixed;
+  z-index: 60;
   top: 19px;
   left: 0;
   right: 0;
@@ -59,8 +61,8 @@
   border: 1px solid rgba(255, 255, 255, .36);
   border-radius: 18px;
   color: #161925;
-  background: rgba(249, 247, 249, .27);
-  box-shadow: 0 10px 32px rgba(31, 32, 53, .055), inset 0 1px 0 rgba(255, 255, 255, .28);
+  background: rgba(249, 247, 249, .42);
+  box-shadow: 0 10px 32px rgba(31, 32, 53, .08), inset 0 1px 0 rgba(255, 255, 255, .42);
   backdrop-filter: blur(22px) saturate(125%);
   -webkit-backdrop-filter: blur(22px) saturate(125%);
   pointer-events: auto;
