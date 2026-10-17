@@ -132,7 +132,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
           ) : null}
           {available(item.pdf) ? (
             <>
-              <a className="research-feature-primary research-pdf-primary" href={item.pdf} target="_blank" rel="noreferrer">
+              <a className="research-feature-primary research-pdf-primary" href={publicUrl(item.pdf)} target="_blank" rel="noreferrer">
                 Open IEEE submission <span aria-hidden="true">↗</span>
               </a>
               <a className="research-feature-download" href={item.pdf} download="SemBind.pdf">Download PDF ↓</a>
@@ -199,7 +199,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
             </button>
             {paperOpen ? (
               <div className="research-paper-preview" id="sembind-paper-preview">
-                <iframe src={item.pdf + "#view=FitH"} title="SemBind IEEE Signal Processing Letters submission" loading="lazy" />
+                <iframe src={publicUrl(item.pdf) + "#view=FitH"} title="SemBind IEEE Signal Processing Letters submission" loading="lazy" />
                 <p>PDF preview depends on your browser's built-in viewer. Open/download links remain available.</p>
               </div>
             ) : null}
@@ -296,7 +296,7 @@ export function Research({ items, standalone = false }: ResearchProps) {
                       {available(item.image) ? (
                         item.title.toLowerCase().includes("nanosensor") ? (
                           <div className="research-nanosensor-media">
-                            <img className="research-nanosensor-visual" src={item.image} alt="Conceptual nanosensor network showing sensor nodes, multi-hop routing and packet delivery to a gateway" loading="lazy" decoding="async" />
+                            <img className="research-nanosensor-visual" src={publicUrl(item.image)} alt="Conceptual nanosensor network showing sensor nodes, multi-hop routing and packet delivery to a gateway" loading="lazy" decoding="async" />
                             <p className="research-nanosensor-caption">Concept illustration · MATLAB research context</p>
                           </div>
                         ) : (
