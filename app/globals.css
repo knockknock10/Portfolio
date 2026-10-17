@@ -6411,3 +6411,34 @@ html:has(.portfolio-home-page) {
 /* The standalone Research route uses the same full-bleed showcase and shared global chrome. */
 body:has(.research-route) .site-shell { padding-block-start: 0; }
 .research-route { width: 100%; max-width: none; margin: 0; padding: 0; }
+
+
+/* One continuous atmospheric scene beneath the entire portfolio scroll. */
+body:has(.portfolio-home-page) {
+  background-color: #d7c6bc !important;
+  background-image:
+    linear-gradient(180deg, rgba(255, 247, 243, .18) 0%, rgba(255, 247, 243, .1) 35%, rgba(19, 23, 36, .17) 100%),
+    url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2800&q=92") !important;
+  background-size: cover, cover !important;
+  background-position: center center, center center !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-attachment: fixed, fixed !important;
+}
+
+body:has(.portfolio-home-page) .home-page.portfolio-home-page {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Section panels provide contrast; they should not reset the scenery between sections. */
+body:has(.portfolio-home-page) .portfolio-home-page .portfolio-anchor {
+  background: transparent;
+  background-color: transparent;
+}
+
+@media (max-width: 700px) {
+  body:has(.portfolio-home-page) {
+    background-attachment: scroll, scroll !important;
+    background-position: center center, 58% center !important;
+  }
+}
