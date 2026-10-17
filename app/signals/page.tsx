@@ -1,16 +1,16 @@
-import type { Metadata } from "next"
-import { ActivityShowcase } from "@/components/sections/PortfolioExperience"
-import { getSignalsData } from "@/lib/signals"
+import type { Metadata } from "next";
+import CodingShowcase from "@/components/portfolio/CodingShowcase";
+import { getSignalsData } from "@/lib/signals";
 
 export const metadata: Metadata = {
-  title: "Engineering Activity",
-  description: "GitHub contributions, profile achievements and LeetCode badges and problem-solving progress by Sanjeev Kumar.",
-}
+  title: "Coding & Engineering Activity",
+  description: "Saved problem-solving progress, contest history and coding activity by Sanjeev Kumar.",
+};
 
 export default function SignalsPage() {
   return (
     <main className="editorial-page signals-page">
-      <ActivityShowcase data={getSignalsData()} />
+      <CodingShowcase data={getSignalsData()} standalone />
     </main>
-  )
+  );
 }
