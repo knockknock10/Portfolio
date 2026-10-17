@@ -29,12 +29,20 @@ export default function CinematicIntro() {
 
     try {
       if (window.sessionStorage.getItem(SESSION_KEY)) return;
-      window.sessionStorage.setItem(SESSION_KEY, "1");
     } catch {
       // If storage is unavailable, the intro still works for this page view.
     }
 
     setVisible(true);
+    // Delay persistence slightly so React Strict Mode effect replay does not
+    // mark the intro as seen before its first real timer survives cleanup.
+    timers.current.push(window.setTimeout(() => {
+      try {
+        window.sessionStorage.setItem(SESSION_KEY, "1");
+      } catch {
+        // Storage can be disabled; the current intro can still complete.
+      }
+    }, 80));
     timers.current.push(window.setTimeout(() => setLeaving(true), EXIT_DELAY));
     timers.current.push(
       window.setTimeout(() => setVisible(false), EXIT_DELAY + EXIT_DURATION),
