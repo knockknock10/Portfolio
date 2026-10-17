@@ -1416,7 +1416,7 @@
   .rightCards { right: 18px; width: 258px; padding: 12px; }
   .statsBar {
     left: 18%;
-    width: min(60vw, 740px);
+    width: min(53vw, 660px);
     min-height: 114px;
   }
 }
