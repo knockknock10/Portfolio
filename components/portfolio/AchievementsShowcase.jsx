@@ -40,7 +40,7 @@ function SectionHeader({ icon, title, index, link, linkLabel }) {
 function CertificatePanel({ items }) {
   return (
     <article className={styles.panel + " " + styles.certPanel}>
-      <SectionHeader icon="shield" title="Certifications" index="01" link={items.length ? LEETCODE_URL : null} linkLabel={items.length ? "Credentials" : null}/>
+      <SectionHeader icon="shield" title="Certifications" index="01"/>
       {items.length ? (
         <div className={styles.certificateGrid}>
           {items.map((item) => (
@@ -139,10 +139,11 @@ function ContributionMini({ calendar }) {
   if (!days.length) {
     return (
       <div className={styles.noCalendar}>
-        <div className={styles.calendarPlaceholder} aria-hidden="true">
-          {Array.from({ length: 84 }, (_, i) => <i key={i} data-level={i % 11 === 0 ? "1" : i % 7 === 0 ? "2" : "0"}/>)}
+        <div className={styles.noCalendarMark}>
+          <span><SmallIcon kind="github"/></span>
+          <div><strong>Contribution calendar not in snapshot</strong><small>Current repository totals are available below.</small></div>
         </div>
-        <p>The latest saved data does not include GitHub’s contribution-day series, so this panel does not invent a heatmap.</p>
+        <p>The saved data does not include daily contribution records, so a heatmap will appear only after that data is refreshed.</p>
         <a href="#open-source">Open the contribution view in Open Source <span aria-hidden="true">↗</span></a>
       </div>
     );
