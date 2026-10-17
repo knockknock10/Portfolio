@@ -1590,3 +1590,7 @@
   background:
     linear-gradient(180deg, rgba(255, 247, 243, .12) 0%, rgba(255, 247, 243, .07) 35%, rgba(255, 247, 243, .18) 76%, rgba(22, 25, 37, .12) 100%);
 }
+
+
+/* Let Work inherit the exact same scenic pixels as Research and Open Source. */
+.workShade { background: transparent !important; }
