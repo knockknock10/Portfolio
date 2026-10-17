@@ -6878,3 +6878,69 @@ body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-lab
     width: calc(100% - clamp(246px, 16.2vw, 282px) - clamp(26px, 3vw, 52px)) !important;
   }
 }
+
+
+/* FINAL VISUAL FIX: the skip link is visible only for keyboard users. */
+.skip-link {
+  position: fixed !important; z-index: 2000 !important; top: 12px !important; left: 12px !important;
+  width: auto !important; height: auto !important; margin: 0 !important; overflow: visible !important;
+  clip: auto !important; clip-path: none !important;
+  transform: translateY(calc(-100% - 18px)) !important;
+  visibility: hidden !important; opacity: 0 !important;
+}
+.skip-link:focus:not(:focus-visible) {
+  transform: translateY(calc(-100% - 18px)) !important;
+  visibility: hidden !important; opacity: 0 !important;
+}
+.skip-link:focus-visible {
+  transform: translateY(0) !important; visibility: visible !important; opacity: 1 !important;
+  clip: auto !important; clip-path: none !important; padding: 12px 16px !important;
+  border-radius: 12px !important; color: #111521 !important; background: #fff !important;
+  box-shadow: 0 12px 32px rgba(15,18,31,.2) !important;
+}
+@media (min-width: 981px) {
+  .portfolio-home-page {
+    --portfolio-rail-offset: clamp(82px, 6.5vw, 116px);
+    --portfolio-right-space: clamp(24px, 2.8vw, 46px);
+  }
+  body:has(aside[class*="sidebar"]:hover) .portfolio-home-page,
+  body:has(aside[class*="sidebarPinned"]) .portfolio-home-page {
+    --portfolio-rail-offset: clamp(174px, 13vw, 208px);
+  }
+  main.portfolio-home-page > section:not(.portfolio-anchor):not([class*="hero"]) {
+    box-sizing: border-box;
+    width: min(1510px, calc(100% - var(--portfolio-rail-offset) - var(--portfolio-right-space)));
+    max-width: none;
+    margin-inline-start: var(--portfolio-rail-offset);
+    margin-inline-end: var(--portfolio-right-space);
+  }
+  .portfolio-home-page .stageContent {
+    box-sizing: border-box; width: 100%; max-width: 100%;
+    padding-inline-start: var(--portfolio-rail-offset) !important;
+    padding-inline-end: var(--portfolio-right-space) !important;
+  }
+}
+@media (max-width: 980px) {
+  .portfolio-home-page {
+    --portfolio-rail-offset: clamp(20px, 4vw, 38px);
+    --portfolio-right-space: clamp(18px, 4vw, 32px);
+  }
+  main.portfolio-home-page > section:not(.portfolio-anchor):not([class*="hero"]) {
+    box-sizing: border-box;
+    width: calc(100% - var(--portfolio-rail-offset) - var(--portfolio-right-space));
+    max-width: none;
+    margin-inline-start: var(--portfolio-rail-offset);
+    margin-inline-end: var(--portfolio-right-space);
+  }
+  .portfolio-home-page .stageContent { padding-inline: var(--portfolio-rail-offset) var(--portfolio-right-space) !important; }
+}
+.portfolio-home-page [class*="glassPanel"],
+.portfolio-home-page [class*="methodPanel"],
+.portfolio-home-page [class*="statsStrip"],
+.portfolio-home-page [class*="credentialPanel"],
+.portfolio-home-page [class*="githubCalendarPanel"],
+.portfolio-home-page [class*="contributionMixPanel"] {
+  box-shadow: 0 18px 48px rgba(29,35,58,.075), inset 0 1px 0 rgba(255,255,255,.96);
+}
+.portfolio-home-page a,
+.portfolio-home-page button { -webkit-tap-highlight-color: transparent; }
