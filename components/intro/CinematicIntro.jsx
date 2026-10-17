@@ -35,7 +35,7 @@ export default function CinematicIntro() {
     >
       <svg
         className={styles.hello}
-        viewBox="0 0 720 250"
+        viewBox="20 0 530 210"
         role="img"
         aria-label="hello"
         xmlns="http://www.w3.org/2000/svg"
