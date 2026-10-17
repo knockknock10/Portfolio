@@ -9,10 +9,10 @@ const evidenceUrl = "https://github.com/knockknock10/SemBind_Audio/tree/main/PAP
 const paperUrlFallback = "/papers/SemBind.pdf";
 
 const resultRows = [
-  { method: "Joint placement", forty: "8.85%", thirty: "21.18%", featured: true },
-  { method: "Spectral-only", forty: "8.28%", thirty: "19.12%" },
-  { method: "High-contribution", forty: "18.36%", thirty: "30.46%" },
-  { method: "Random", forty: "16.98%", thirty: "29.69%" },
+  { method: "Joint (Semantic + Spectral)", success: "100%", snr: "75.37", featured: true },
+  { method: "Semantic-only", success: "100%", snr: "73.30" },
+  { method: "Spectral-only", success: "100%", snr: "77.16" },
+  { method: "Random", success: "99.96%", snr: "74.25" },
 ];
 
 const stages = [
@@ -26,10 +26,6 @@ const stages = [
 
 function isAvailable(value) {
   return typeof value === "string" && value.trim() !== "" && !/^MISSING(?:\s|$|—)/i.test(value);
-}
-
-function Arrow() {
-  return <span className={styles.flowArrow} aria-hidden="true">→</span>;
 }
 
 function Waveform() {
@@ -122,11 +118,11 @@ function StatIcon({ kind }) {
 
 function StatsStrip() {
   const stats = [
-    { kind: "database", value: "2,620", label: "LibriSpeech test-clean", sub: "utterances" },
+    { kind: "database", value: "2,620", label: "Audio samples", sub: "LibriSpeech test-clean" },
     { kind: "people", value: "40", label: "Speakers", sub: "test-clean split" },
     { kind: "clock", value: "5.40 hrs", label: "Total audio", sub: "16 kHz speech" },
-    { kind: "rules", value: "5", label: "Placement rules", sub: "controlled comparison" },
-    { kind: "signal", value: "87–20 dB", label: "SNR sweep", sub: "six target levels" },
+    { kind: "rules", value: "100%", label: "Payload success", sub: "mean · 3 replicas per bit" },
+    { kind: "signal", value: "75.37 dB", label: "Mean SNR", sub: "joint method · E1" },
   ];
   return (
     <div className={styles.statsStrip} aria-label="Study scale">
@@ -156,17 +152,17 @@ function ResultsCard() {
       </header>
       <div className={styles.tableWrap}>
         <table className={styles.resultsTable}>
-          <thead><tr><th>Placement method</th><th>40 dB ↓</th><th>30 dB ↓</th></tr></thead>
+          <thead><tr><th>Method</th><th>Payload success ↑</th><th>Mean SNR (dB) ↑</th></tr></thead>
           <tbody>
             {resultRows.map((row) => (
               <tr className={row.featured ? styles.resultFeatured : ""} key={row.method}>
-                <th scope="row">{row.method}</th><td>{row.forty}</td><td>{row.thirty}</td>
+                <th scope="row">{row.method}</th><td>{row.success}</td><td>{row.snr}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p className={styles.tableNote}>Whisper tiny.en transcript-change rate at matched target SNR. Lower is better. Values are from the current manuscript.</p>
+      <p className={styles.tableNote}>Clean-reference E1 benchmark · n = 2,620. Random placement records one payload failure (99.96% success); joint roundtrip accuracy is 100% with three replicas per bit.</p>
     </article>
   );
 }
