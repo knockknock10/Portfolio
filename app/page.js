@@ -1,8 +1,8 @@
 import { Contact } from "@/components/sections/Contact";
 import ResearchShowcase from "@/components/sections/ResearchShowcase";
 import AchievementsShowcase from "@/components/portfolio/AchievementsShowcase";
+import CodingShowcase from "@/components/portfolio/CodingShowcase";
 import AboutShowcase from "@/components/portfolio/AboutShowcase";
-import { ActivityShowcase } from "@/components/sections/PortfolioExperience";
 import ExperienceShowcase from "@/components/portfolio/ExperienceShowcase";
 import SkillsShowcase from "@/components/portfolio/SkillsShowcase";
 import OpenSourceShowcase from "@/components/portfolio/OpenSourceShowcase";
@@ -40,19 +40,17 @@ export default async function HomePage() {
       <ExperienceShowcase researchItems={researchItems} internships={internships} />
 
       <SkillsShowcase />
-      <ActivityShowcase data={signalsData} />
+      <CodingShowcase data={signalsData} />
 
-      <AchievementsShowcase items={certifications} data={signalsData} />
+      <AchievementsShowcase items={certifications} />
 
       <AboutShowcase content={content} data={signalsData} />
 
-      <section id="contact" className="portfolio-anchor" tabIndex={-1}>
-        <Contact
-          email={content.contact.email}
-          socials={content.socials}
-          availabilityNote={content.identity.availabilityStatement}
-        />
-      </section>
+      <Contact
+        email={content.contact.email}
+        socials={content.socials}
+        availabilityNote={content.identity.availabilityStatement}
+      />
     </main>
   );
 }
