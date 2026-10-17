@@ -223,6 +223,17 @@ function GitHubContributionCalendar() {
   const total = payload?.totals?.[year] ?? days.reduce((sum, day) => sum + day.count, 0);
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+  const monthMarkers = days
+    .filter((day) => day.date.slice(8, 10) === "01")
+    .map((day) => {
+      const dayDate = new Date(day.date + "T00:00:00Z");
+      const dayOffset = Math.floor((dayDate.getTime() - firstDate.getTime()) / 86400000);
+      return {
+        label: monthNames[Number(day.date.slice(5, 7)) - 1],
+        week: Math.floor((leadingSlots + dayOffset) / 7),
+      };
+    });
+
   return (
     <article className={styles.githubCalendarPanel} aria-labelledby="github-calendar-heading">
       <header className={styles.githubCalendarHeader}>
@@ -266,8 +277,14 @@ function GitHubContributionCalendar() {
                 <small>Public contribution data · cached by the source service</small>
               </div>
               <div className={styles.githubCalendarViewport}>
-            <div className={styles.githubMonthLabels} aria-hidden="true">
-              {monthNames.map((month) => <span key={month}>{month}</span>)}
+            <div
+              className={styles.githubMonthLabels}
+              aria-hidden="true"
+              style={{ gridTemplateColumns: "repeat(" + weekCount + ", 10px)" }}
+            >
+              {monthMarkers.map((month) => (
+                <span key={month.label} style={{ gridColumn: month.week + 1 }}>{month.label}</span>
+              ))}
             </div>
             <div className={styles.githubCalendarRow}>
               <div className={styles.githubWeekdayLabels} aria-hidden="true">
