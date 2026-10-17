@@ -6943,3 +6943,15 @@ body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-lab
   box-shadow: 0 8px 26px rgba(18,22,34,.18);
   font-weight: 750;
 }
+
+
+/* Keep legacy portfolio routes aligned with the same solid-accent type system. */
+.hero-title-line,
+.hero-visual-art-title span {
+  color: #315cff !important;
+  background: none !important;
+  background-image: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: currentColor !important;
+}
