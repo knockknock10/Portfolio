@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function CertificationsPage() {
   return (
     <main className="editorial-page certifications-page">
-      <AchievementsShowcase items={getCertificationsData()} standalone />
+      <AchievementsShowcase items={getCertificationsData()} />
     </main>
   );
 }

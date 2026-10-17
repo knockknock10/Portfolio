@@ -64,6 +64,7 @@ function CredentialShelf({ items }) {
   );
 }
 
+/** @param {{ items?: import("@/lib/certifications").Certification[] }} props */
 export default function AchievementsShowcase({ items = [] }) {
   const reducedMotion = useReducedMotion();
   const reveal = (delay = 0) => ({
