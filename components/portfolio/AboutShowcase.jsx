@@ -69,7 +69,7 @@ function FactCard({ icon, label, value, note, tone = "blue", href }) {
   );
 }
 
-function FocusCard({ item, index }) {
+function FocusCard({ item }) {
   return (
     <a className={styles.focusItem} data-tone={item.tone} href={item.href}>
       <span className={styles.focusIcon}><Icon kind={item.icon}/></span>
@@ -85,8 +85,6 @@ export default function AboutShowcase({ content, data }) {
   const fullName = identity.professionalName || identity.fullName || "Sanjeev Kumar";
   const location = content?.contact?.location || "India";
   const repos = data?.github?.totalRepos;
-  const solved = data?.leetcode?.totalSolved;
-  const tools = Array.isArray(content?.tools) ? content.tools.filter(Boolean) : [];
   const motionProps = (delay = 0) => ({
     initial: reducedMotion ? false : { opacity: 0, y: 10 },
     whileInView: { opacity: 1, y: 0 },
