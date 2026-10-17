@@ -249,3 +249,215 @@
   }
   .editorWrap:hover .codeScene,.primaryAction:hover,.metricCard:hover,.carouselControls button:hover,.resourceCard:hover,.contestList li>a:hover { transform:none !important; }
 }
+
+/* PORTFOLIO POLISH: contribution calendar + activity snapshot. */
+.contributionInsights {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .75fr);
+  align-items: stretch;
+  gap: clamp(13px, 1.5vw, 22px);
+  margin: clamp(16px, 2vw, 24px) 0;
+}
+.githubCalendarPanel,
+.contributionMixPanel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.88);
+  border-radius: 21px;
+  box-shadow: 0 15px 40px rgba(36,35,51,.075), inset 0 1px 0 rgba(255,255,255,.95);
+}
+.githubCalendarPanel {
+  padding: clamp(14px, 1.8vw, 23px);
+  color: #171c29;
+  background: rgba(255,252,250,.82);
+  backdrop-filter: blur(20px) saturate(125%);
+  -webkit-backdrop-filter: blur(20px) saturate(125%);
+}
+.githubCalendarHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  min-width: 0;
+}
+.githubCalendarHeader > div { min-width: 0; }
+.githubCalendarHeader h3,
+.contributionMixHead h3 {
+  margin: 3px 0 0;
+  color: #171c29;
+  font-size: clamp(1.03rem, 1.35vw, 1.42rem);
+  font-weight: 760;
+  letter-spacing: -.045em;
+}
+.githubCalendarHeader p:not(.subEyebrow),
+.contributionMixHead p:not(.subEyebrow) {
+  margin: 6px 0 0;
+  color: #687084;
+  font-size: .74rem;
+  line-height: 1.5;
+}
+.githubCalendarHeader > a {
+  flex: 0 0 auto;
+  color: #273a80;
+  font-size: .72rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.githubCalendarHeader > a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.githubYearTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 17px;
+}
+.githubYearTabs button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 11px;
+  border: 1px solid rgba(52,65,103,.13);
+  border-radius: 10px;
+  color: #697186;
+  background: rgba(255,255,255,.6);
+  font-size: .72rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: color 160ms ease, background 160ms ease, transform 160ms ease, border-color 160ms ease;
+}
+.githubYearTabs button span { color: #9298a9; font-size: .62rem; font-weight: 550; }
+.githubYearTabs button:hover { transform: translateY(-1px); border-color: rgba(56,83,185,.3); }
+.githubYearTabs button[data-active="true"] {
+  border-color: #315cff;
+  color: #fff;
+  background: #315cff;
+  box-shadow: 0 5px 15px rgba(49,92,255,.18);
+}
+.githubYearTabs button[data-active="true"] span { color: rgba(255,255,255,.78); }
+.githubCalendarSummary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin: 16px 0 13px;
+}
+.githubCalendarSummary strong { color: #111521; font-size: 1.45rem; letter-spacing: -.06em; }
+.githubCalendarSummary > span { color: #3f4860; font-size: .8rem; font-weight: 650; }
+.githubCalendarSummary small { width: 100%; color: #8a91a2; font-size: .61rem; }
+.githubCalendarViewport {
+  min-width: 0;
+  padding: 9px 9px 10px;
+  border: 1px solid rgba(54,65,100,.09);
+  border-radius: 13px;
+  background: rgba(255,255,255,.65);
+}
+.githubMonthLabels {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 0 8px 28px;
+  color: #7d8497;
+  font-size: .55rem;
+  text-align: center;
+}
+.githubCalendarRow { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 7px; align-items: start; min-width: 0; }
+.githubWeekdayLabels {
+  display: grid;
+  grid-template-rows: repeat(7, 10px);
+  gap: 3px;
+  color: #8990a2;
+  font-size: .47rem;
+  line-height: 10px;
+}
+.githubWeekdayLabels span { height: 10px; }
+.githubContributionGrid {
+  display: grid;
+  grid-template-rows: repeat(7, 10px);
+  grid-auto-flow: column;
+  gap: 3px;
+  width: max-content;
+  min-width: 0;
+}
+.githubCalendarViewport { overflow-x: auto; scrollbar-width: thin; scrollbar-color: rgba(71,97,205,.25) transparent; }
+.githubContributionCell {
+  width: 10px;
+  height: 10px;
+  min-width: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 2.5px;
+  background: #e6e9f0;
+  cursor: default;
+  transition: outline-color 120ms ease, transform 120ms ease;
+}
+.githubContributionCell[data-level="1"] { background: #b7c6ff; }
+.githubContributionCell[data-level="2"] { background: #87a0ff; }
+.githubContributionCell[data-level="3"] { background: #557cff; }
+.githubContributionCell[data-level="4"] { background: #315cff; }
+.githubContributionCell:hover,
+.githubContributionCell:focus-visible { outline: 2px solid #131b2e; outline-offset: 1px; transform: scale(1.08); }
+.githubCalendarLegend { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 9px; color: #858c9e; font-size: .58rem; }
+.githubCalendarLegend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; background: #e6e9f0; }
+.githubCalendarLegend i[data-level="1"] { background: #b7c6ff; }
+.githubCalendarLegend i[data-level="2"] { background: #87a0ff; }
+.githubCalendarLegend i[data-level="3"] { background: #557cff; }
+.githubCalendarLegend i[data-level="4"] { background: #315cff; }
+.githubCalendarLegend span:first-child { margin-right: 3px; }
+.githubCalendarLegend span:last-child { margin-left: 3px; }
+.githubCalendarStatus {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 18px;
+  border: 1px dashed rgba(62,79,132,.22);
+  border-radius: 13px;
+  color: #626b80;
+  background: rgba(255,255,255,.54);
+  font-size: .76rem;
+  line-height: 1.55;
+}
+.githubCalendarStatus strong { color: #242b3d; }
+.githubCalendarStatus a { color: #294dbf; font-weight: 700; text-decoration: none; }
+.contributionMixPanel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(15px, 1.6vw, 22px);
+  color: #f5f7fb;
+  border-color: rgba(255,255,255,.09);
+  background: #101319;
+  box-shadow: 0 17px 43px rgba(13,17,27,.16);
+}
+.contributionMixHead h3 { color: #f6f7fa; }
+.contributionMixHead p:not(.subEyebrow) { color: #9ca4b4; }
+.contributionMixPanel .subEyebrow { color: #7d8b98; }
+.contributionMixChart { display: block; width: 100%; max-height: 300px; margin: 4px auto 0; overflow: visible; }
+.mixAxis { fill: none; stroke: #35d05d; stroke-width: 2.4; stroke-linecap: round; }
+.mixArea { fill: rgba(48,193,86,.43); stroke: none; }
+.mixLine { fill: none; stroke: #35d05d; stroke-width: 2.7; stroke-linejoin: round; }
+.mixDot { fill: #f1f8f2; stroke: #35d05d; stroke-width: 3; }
+.mixLabel { fill: #a5aab5; font: 500 16px var(--font-ui, Arial, sans-serif); }
+.contributionMixFoot { margin: 5px 0 0; color: #858d9c; font-size: .58rem; line-height: 1.5; }
+@media (max-width: 1050px) {
+  .contributionInsights { grid-template-columns: minmax(0, 1fr); }
+  .contributionMixChart { max-width: 520px; }
+}
+@media (max-width: 620px) {
+  .githubCalendarHeader { flex-direction: column; }
+  .githubCalendarHeader > a { white-space: normal; }
+  .githubYearTabs { gap: 5px; }
+  .githubYearTabs button { flex: 1 1 calc(50% - 5px); justify-content: center; }
+  .githubMonthLabels { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 5px; margin-left: 28px; }
+  .githubCalendarViewport { padding: 7px; }
+  .contributionMixPanel { padding: 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .githubYearTabs button,
+  .githubContributionCell { transition: none !important; }
+  .githubYearTabs button:hover,
+  .githubContributionCell:hover { transform: none !important; }
+}
