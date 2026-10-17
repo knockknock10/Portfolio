@@ -57,7 +57,7 @@ function localImage(value: unknown): string | "MISSING" {
   const file = resolve(root, path.replace(/^\/+/, "").replace(/^public\//, ""))
   const rel = relative(root, file)
   if (!rel || rel === ".." || rel.startsWith(".." + sep) || isAbsolute(rel) ||
-      !/\.(svg|png|jpe?g|webp|gif|avif)$/i.test(rel) || !existsSync(file)) return "MISSING"
+      !/\.(pdf|svg|png|jpe?g|webp|gif|avif)$/i.test(rel) || !existsSync(file)) return "MISSING"
   return "/" + rel.split(sep).join("/")
 }
 
