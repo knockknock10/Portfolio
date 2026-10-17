@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./CinematicIntro.module.css";
 
-const INTRO_HOLD = 2850;
-const EXIT_DURATION = 650;
+const INTRO_HOLD = 3100;
+const EXIT_DURATION = 750;
 
 export default function CinematicIntro() {
   const [visible, setVisible] = useState(false);
@@ -44,7 +44,7 @@ export default function CinematicIntro() {
           <path className={styles.e} pathLength="1" d="M 143 146 C 160 130, 174 111, 190 120 C 203 128, 192 143, 176 147 C 160 150, 156 137, 166 126 C 178 114, 194 122, 206 136 C 216 147, 227 150, 239 141" />
           <path className={styles.firstL} pathLength="1" d="M 239 141 C 260 98, 278 49, 292 35 C 303 25, 311 37, 304 59 C 293 98, 279 138, 286 154 C 292 167, 305 157, 319 144" />
           <path className={styles.secondL} pathLength="1" d="M 319 144 C 341 99, 357 49, 371 35 C 382 25, 390 37, 383 59 C 372 98, 359 138, 365 154 C 371 167, 385 157, 399 144" />
-          <path className={styles.o} pathLength="1" d="M 418 145 C 435 123, 455 113, 470 125 C 486 139, 469 160, 450 161 C 431 162, 427 142, 442 127 C 457 112, 475 121, 489 137 C 503 153, 515 151, 527 140" />
+          <path className={styles.o} pathLength="1" d="M 399 144 C 416 123, 436 111, 451 123 C 467 139, 450 160, 431 161 C 412 162, 408 142, 423 127 C 438 112, 456 121, 470 137 C 484 153, 496 151, 508 140" />
         </g>
       </svg>
     </div>
