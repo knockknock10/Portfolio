@@ -11,14 +11,12 @@ import FeaturedWork from "@/components/portfolio/FeaturedWork";
 import { getContent } from "@/lib/content.server";
 import { getSignalsData } from "@/lib/signals";
 import { getResearchData } from "@/lib/research";
-import { getInternshipsData } from "@/lib/internships";
 import { getCertificationsData } from "@/lib/certifications";
 
 export default async function HomePage() {
   const content = getContent();
   const signalsData = getSignalsData();
   const researchItems = getResearchData();
-  const internships = getInternshipsData();
   const certifications = getCertificationsData();
   const fullName =
     content.identity.professionalName ||
@@ -37,14 +35,14 @@ export default async function HomePage() {
 
       <OpenSourceShowcase />
 
-      <ExperienceShowcase researchItems={researchItems} internships={internships} />
+      <ExperienceShowcase />
 
       <SkillsShowcase />
       <CodingShowcase data={signalsData} />
 
       <AchievementsShowcase items={certifications} />
 
-      <AboutShowcase content={content} data={signalsData} />
+      <AboutShowcase content={content} />
 
       <Contact
         email={content.contact.email}
