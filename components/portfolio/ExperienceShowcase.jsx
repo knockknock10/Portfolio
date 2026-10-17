@@ -96,7 +96,7 @@ function internshipEvent(item, index) {
       : isResearchInternship
         ? "Research Internship · SRM University AP"
         : [role, company].filter(isPresent).join(" · ") || company || "Experience",
-    description: compact(item?.summary, isResearchInternship ? 360 : 280) || "Experience details are not available in the current portfolio data.",
+    description: compact(item?.summary, isResearchInternship || isIrhs ? 360 : 280) || "Experience details are not available in the current portfolio data.",
     status: isIrhs ? "Institutional experience" : isResearchInternship ? "Research experience" : "Experience",
     tone: isIrhs ? "amber" : isResearchInternship ? "blue" : "amber",
     kind: isResearchInternship ? "research" : "work",
@@ -201,7 +201,7 @@ export default function ExperienceShowcase({ internships = [] }) {
             <div className={styles.headerFootnote}><span aria-hidden="true">↳</span><span>Follow the timeline. Each entry says what was done—and what still needs a verified date.</span></div>
           </motion.div>
           <motion.div className={styles.chapterSignature} initial={reducedMotion ? false : { opacity: 0, x: 12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: reducedMotion ? 0 : 0.48, delay: reducedMotion ? 0 : 0.08 }}>
-            <div className={styles.signatureTop}><span>ENGINEERING LOG</span><span>2024 — 2026</span></div>
+            <div className={styles.signatureTop}><span>ENGINEERING LOG</span><span>ACTIVE THREADS</span></div>
             <div className={styles.signatureGraphic} aria-hidden="true">
               <svg viewBox="0 0 520 100" preserveAspectRatio="none">
                 <defs><linearGradient id="experienceLine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#f3b46d"/><stop offset=".48" stopColor="#7788ff"/><stop offset="1" stopColor="#79e4c6"/></linearGradient></defs>
