@@ -82,7 +82,6 @@ function DifficultyBar({ label, value, total, tone }) {
 }
 
 function SubmissionHeatmap({ days }) {
-  const reducedMotion = useReducedMotion();
   const calendar = useMemo(() => {
     if (!Array.isArray(days)) return [];
     return [...days]
