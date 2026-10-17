@@ -59,8 +59,15 @@ export function HomeHero({
   socials = [],
   email = null,
   resumePath = "/resume.pdf",
+  data = null,
 }) {
   const links = buildSocialLinks(socials, email, resumePath);
+  const githubStats = data?.github || {};
+  const publicMetrics = [
+    { label: "Public repositories", value: githubStats.totalRepos, icon: "github" },
+    { label: "Stars across repositories", value: githubStats.totalStars, icon: "star" },
+    { label: "Public forks", value: githubStats.totalForks, icon: "fork" },
+  ];
   const nameParts = (fullName || "Sanjeev Kumar").trim().split(/\s+/);
   const firstName = nameParts.shift() || "Sanjeev";
   const lastName = nameParts.join(" ") || "Kumar";
@@ -127,38 +134,19 @@ export function HomeHero({
         </a>
       </aside>
 
-      <div className={styles.statsBar} aria-label="Developer activity highlights">
-        <a className={styles.statItem} href="#open-source">
-          <SocialGlyph label="GitHub" />
-          <strong>120+</strong>
-          <span>Contributions</span>
-        </a>
-        <a className={styles.statItem} href="#open-source">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 4v10m0-10a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM6 14l8-5m0-5v5m0-5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 5v8m0-8a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <strong>20+</strong>
-          <span>Merged PRs</span>
-        </a>
-        <a className={styles.statItem} href="#work">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 3.5h12v17H6zM9 7v4m3-4v4m-3 5h6" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <strong>10+</strong>
-          <span>Repositories</span>
-        </a>
-        <a className={styles.statItem} href="#signals">
-          <span className={styles.codeMark} aria-hidden="true">〈›</span>
-          <strong>500+</strong>
-          <span>Problems Solved</span>
-        </a>
-        <a className={`${styles.statItem} ${styles.rankStat}`} href="#signals">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3 14h4v7H3zm7-7h4v14h-4zm7-4h4v18h-4z" fill="currentColor" />
-          </svg>
-          <strong>Top 12%</strong>
-          <span>Global Rank</span>
-        </a>
+      <div className={styles.statsBar} aria-label="Public GitHub repository snapshot">
+        {publicMetrics.map((metric) => (
+          <a className={styles.statItem} href="#open-source" key={metric.label} title="Saved public profile snapshot · 10 Oct 2026">
+            {metric.icon === "github" ? <SocialGlyph label="GitHub" /> : metric.icon === "star" ? (
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.7 6.3.9-4.55 4.45 1.07 6.28L12 17.2l-5.62 2.95 1.07-6.28L2.9 9.4l6.3-.9z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"/></svg>
+            ) : (
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v10m0-10a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM6 14l8-5m0-5v5m0-5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 5v8m0-8a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
+            <strong>{typeof metric.value === "number" ? metric.value.toLocaleString("en-US") : "—"}</strong>
+            <span>{metric.label}</span>
+          </a>
+        ))}
       </div>
 
       <a className={styles.scrollCue} href="#work" aria-label="Scroll down to selected work">
