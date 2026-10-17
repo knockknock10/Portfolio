@@ -20,7 +20,7 @@
   background-size: cover;
   background-position: center 52%;
   background-repeat: no-repeat;
-  filter: saturate(1.055) contrast(1.035);
+  filter: saturate(1.08) contrast(1.065) brightness(1.01);
   transform: translateZ(0);
   backface-visibility: hidden;
 }
