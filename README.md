@@ -54,7 +54,7 @@ The `Deploy to GitHub Pages` workflow builds a static Next.js export for the rep
 - Build command: `npm run build:pages`
 - Static output: `out/`
 - Contribution history is generated as a build-time static JSON file. GitHub Pages does not run a Node.js API server.
-- **One-time setup:** open **Settings → Pages → Build and deployment → Source: GitHub Actions** and save. The workflow then builds and publishes automatically on every push to `main`. The GitHub Actions token cannot enable Pages itself in this repository because creating the Pages site requires permissions it does not have.
+- **One-time setup:** open **Settings → Pages → Build and deployment → Source: GitHub Actions** and save. The workflow then builds and publishes on each push to `main`. Because the GitHub Actions token cannot create the first Pages site in this repository, enable that setting manually once, then open **Actions → Deploy portfolio to GitHub Pages → Run workflow** and choose `main` to publish immediately.
 
 ## Add certificates
 
