@@ -367,7 +367,7 @@ export default function FeaturedWork() {
           </div>
         </div>
 
-        <div className={styles.carouselShell} aria-label="Project carousel">
+        <div className={styles.carouselShell} role="region" aria-roledescription="carousel" aria-label="Selected projects">
           <button
             type="button"
             className={`${styles.carouselArrow} ${styles.carouselArrowPrev}`}
@@ -401,6 +401,9 @@ export default function FeaturedWork() {
                   data-project-card
                   data-active={activeCardIndex === index ? "true" : "false"}
                   className={styles.projectCard}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${index + 1} of ${visibleProjects.length}: ${project.name}`}
                 >
                   <button type="button" className={styles.projectArtButton} onClick={() => setSelected(project)} aria-label={`Explore ${project.name} details`}>
                     <ProjectArtwork project={project} />
