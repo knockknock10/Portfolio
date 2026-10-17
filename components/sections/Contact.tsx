@@ -52,7 +52,7 @@ export function Contact({ email, socials, availabilityNote, headingLevel = "h2",
   const [subject, setSubject] = useState("Collaboration");
   const [message, setMessage] = useState("");
   const [notice, setNotice] = useState("");
-  const transition = reducedMotion ? { duration: 0 } : { duration: 0.42, ease: [0.22, 1, 0.36, 1] };
+  const transition = reducedMotion ? { duration: 0 } : { duration: 0.42, ease: [0.22, 1, 0.36, 1] as const };
 
   const availableSocials = (socials ?? [])
     .filter((social): social is { platform: string; url: string } =>
