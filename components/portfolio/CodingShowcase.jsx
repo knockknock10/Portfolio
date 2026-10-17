@@ -269,7 +269,7 @@ export default function CodingShowcase({ data }) {
       <CodingProfileStrip />
 
       <div className={styles.codingDetailsGrid}>
-        <motion.article className={styles.glassPanel + " " + styles.difficultyPanel} {...snapshotMotion()}>
+        <motion.article className={styles.glassPanel} {...snapshotMotion()}>
           <div className={styles.panelHeading}><span className={styles.panelIcon}><Icon kind="chart"/></span><div><h3>Problem breakdown</h3><p>All values come from the saved LeetCode profile.</p></div><span className={styles.panelIndex}>01</span></div>
           <div className={styles.solvedHero}><strong>{numberText(solved)}</strong><span>accepted problems</span></div>
           <div className={styles.difficultyBars}>
@@ -280,7 +280,7 @@ export default function CodingShowcase({ data }) {
           <div className={styles.splitNote}><span>Profile ranking <strong>{numberText(leetcode.profileRank)}</strong></span><a href={LEETCODE_PROFILE} target="_blank" rel="noreferrer">Verify on LeetCode ↗</a></div>
         </motion.article>
 
-        <motion.article className={styles.glassPanel + " " + styles.activityPanel} {...snapshotMotion(.04)}>
+        <motion.article className={styles.glassPanel} {...snapshotMotion(.04)}>
           <div className={styles.panelHeading}><span className={styles.panelIcon}><Icon kind="calendar"/></span><div><h3>Practice activity</h3><p>Day-level activity is shown only when it exists in the saved data.</p></div><span className={styles.panelIndex}>02</span></div>
           <SubmissionHeatmap days={leetcode.dailySubmissionCalendar}/>
           <div className={styles.practicePrinciples}>
@@ -288,7 +288,7 @@ export default function CodingShowcase({ data }) {
           </div>
         </motion.article>
 
-        <motion.article className={styles.glassPanel + " " + styles.contestPanel} {...snapshotMotion(.08)}>
+        <motion.article className={styles.glassPanel} {...snapshotMotion(.08)}>
           <div className={styles.panelHeading}><span className={styles.panelIcon}><Icon kind="target"/></span><div><h3>Contest history</h3><p>Saved contest records · profile can change.</p></div><span className={styles.panelIndex}>03</span></div>
           <ContestHistory history={leetcode.contestHistory}/>
           <a className={styles.panelFooterLink} href={LEETCODE_PROFILE} target="_blank" rel="noreferrer">See the full contest history <Icon kind="arrow"/></a>
