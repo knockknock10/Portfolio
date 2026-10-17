@@ -5,7 +5,6 @@ import styles from "./AchievementsShowcase.module.css";
 
 const GITHUB_URL = "https://github.com/knockknock10";
 const LEETCODE_URL = "https://leetcode.com/u/knockknock10/";
-const SNAPSHOT_LABEL = "Profile data snapshot · 10 Oct 2026";
 
 function hasNumber(value) {
   return typeof value === "number" && Number.isFinite(value);
