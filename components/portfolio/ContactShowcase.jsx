@@ -42,10 +42,14 @@ export default function ContactShowcase({ content }) {
     { platform: "GitHub", url: "https://github.com/knockknock10" },
     { platform: "LinkedIn", url: "https://www.linkedin.com/in/sanjeev-kumar-ba567133a/" },
   ];
-  const configuredPlatforms = new Set(configuredSocials.map((item) => String(item.platform || "").toLowerCase()));
+  const hasConfiguredPlatform = (platform) => configuredSocials.some((item) => {
+    const label = String(item.platform || "").toLowerCase();
+    const url = String(item.url || "").toLowerCase();
+    return label.includes(platform.toLowerCase()) || url.includes(platform.toLowerCase());
+  });
   const socials = [
     ...configuredSocials,
-    ...fallbackSocials.filter((item) => !configuredPlatforms.has(item.platform.toLowerCase())),
+    ...fallbackSocials.filter((item) => !hasConfiguredPlatform(item.platform)),
   ];
   const profileCards = socials.map((item) => {
     const normalized = item.platform.toLowerCase();
