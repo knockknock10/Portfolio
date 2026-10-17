@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./FeaturedWork.module.css";
+import { publicUrl } from "@/lib/public-url";
 
 
 const featuredProject = {
@@ -181,7 +182,7 @@ function ProjectArtwork({ project, featured = false }) {
     <div className={featured ? styles.featureArtwork : styles.projectArtwork}>
       {!imageFailed && project.image ? (
         <img
-          src={project.image}
+          src={publicUrl(project.image)}
           alt={project.imageAlt || ""}
           loading={featured ? "eager" : "lazy"}
           decoding="async"
