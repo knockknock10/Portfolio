@@ -197,7 +197,7 @@ function PaperCard({ item }) {
         <div className={styles.paperPreview}>
           {!previewFailed ? (
             <iframe
-              src={pdf + "#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH"}
+              src={publicUrl(pdf) + "#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH"}
               title="First page of the SemBind research manuscript"
               loading="lazy"
               onError={() => setPreviewFailed(true)}
@@ -212,7 +212,7 @@ function PaperCard({ item }) {
           <p>IEEE Signal Processing Letters · Submitted manuscript</p>
           <div className={styles.resourceList}>
             {resources.map((resource) => (
-              <a key={resource.label} href={resource.href} target="_blank" rel="noreferrer" className={styles.resourceLink}>
+              <a key={resource.label} href={publicUrl(resource.href)} target="_blank" rel="noreferrer" className={styles.resourceLink}>
                 <span className={styles.resourceIcon}><ResourceIcon kind={resource.kind} /></span>
                 <span>{resource.label}</span>
                 <span className={styles.resourceArrow} aria-hidden="true">↗</span>
@@ -261,7 +261,7 @@ function ResearchAdditional({ items }) {
         {items.map((item) => (
           <article className={styles.additionalItem} key={item.title}>
             <div><h3>{item.title}</h3><p>{isAvailable(item.abstract) ? item.abstract : "Research experience and supporting technical work."}</p>{Array.isArray(item.tags) && <span>{item.tags.join(" · ")}</span>}</div>
-            {isAvailable(item.image) && <img src={item.image} alt="" loading="lazy" />}
+            {isAvailable(item.image) && <img src={publicUrl(item.image)} alt="" loading="lazy" />}
             {isAvailable(item.link) && <a href={item.link} target="_blank" rel="noreferrer">Explore ↗</a>}
           </article>
         ))}
@@ -301,7 +301,7 @@ export default function ResearchShowcase({ items = [], standalone = false }) {
             <p className={styles.summary}>A reference-based speech-watermarking study that makes embedding-location selection explicit, comparing semantic contribution and spectral suitability across the full LibriSpeech test-clean corpus.</p>
             <p className={styles.authors}>RESEARCH BY <strong>Sanjeev Kumar</strong><span>·</span><strong>Biswajit Maity</strong></p>
             <div className={styles.actions}>
-              <a className={styles.primaryAction} href={paper} target="_blank" rel="noreferrer">Read Paper <span aria-hidden="true">→</span></a>
+              <a className={styles.primaryAction} href={publicUrl(paper)} target="_blank" rel="noreferrer">Read Paper <span aria-hidden="true">→</span></a>
               <a className={styles.secondaryAction} href={repo} target="_blank" rel="noreferrer"><ResourceIcon kind="github" /> View Code <span aria-hidden="true">↗</span></a>
             </div>
           </motion.div>
