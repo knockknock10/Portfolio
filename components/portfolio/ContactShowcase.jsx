@@ -16,7 +16,9 @@ function Glyph({ kind }) {
 }
 
 const topicOptions = [
-  "Software engineering opportunity",
+  "Campus placement / off-campus role",
+  "Software engineering internship",
+  "Full-time software engineering opportunity",
   "Research collaboration",
   "Open-source contribution",
   "Project discussion",
