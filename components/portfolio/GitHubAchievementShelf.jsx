@@ -7,6 +7,7 @@ const achievements = [
     title: "Pull Shark",
     description: "Merged pull requests",
     image: "https://github.githubassets.com/assets/pull-shark-silver-0643f87ac9fd.png",
+    href: "https://github.com/knockknock10?achievement=pull-shark&tab=achievements",
     initials: "PS",
     count: "×3",
   },
@@ -14,24 +15,28 @@ const achievements = [
     title: "Galaxy Brain",
     description: "Accepted discussion answers",
     image: "https://github.githubassets.com/assets/galaxy-brain-default-847262c21056.png",
+    href: "https://github.com/knockknock10?achievement=galaxy-brain&tab=achievements",
     initials: "GB",
   },
   {
     title: "Quickdraw",
     description: "Fast issue or pull-request close",
-    image: "https://github.githubassets.com/assets/quickdraw-default-39c6aec8ff89.png",
+    image: "https://github.github.com/assets/quickdraw-default-39c6aec8ff89.png",
+    href: "https://github.com/knockknock10?achievement=quickdraw&tab=achievements",
     initials: "QD",
   },
   {
     title: "Pair Extraordinaire",
     description: "Co-authored merged pull request",
     image: "https://github.githubassets.com/assets/pair-extraordinaire-default-579438a20e01.png",
+    href: "https://github.com/knockknock10?achievement=pair-extraordinaire&tab=achievements",
     initials: "PE",
   },
   {
     title: "YOLO",
     description: "Merged pull request without review",
     image: "https://github.githubassets.com/assets/yolo-default-be0bbff04951.png",
+    href: "https://github.com/knockknock10?achievement=yolo&tab=achievements",
     initials: "YO",
   },
 ];
@@ -53,7 +58,7 @@ export default function GitHubAchievementShelf() {
           <a
             key={achievement.title}
             className={styles.badgeCard}
-            href="https://github.com/knockknock10?tab=achievements"
+            href={achievement.href}
             target="_blank"
             rel="noreferrer"
             title={achievement.title + " — " + achievement.description}
