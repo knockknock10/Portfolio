@@ -86,7 +86,7 @@ export default function AchievementsShowcase({ items = [] }) {
           <div className={styles.spotlightTop}><span><Icon kind="cap"/> ACADEMIC HIGHLIGHT</span><span>01 / RECORD</span></div>
           <div className={styles.spotlightValue}><strong>8.61</strong><span>CGPA</span></div>
           <div className={styles.spotlightRule}><i/></div>
-          <p>One documented academic measure. Degree details stay in About; this section keeps the result in view without repeating the full education card.</p>
+          <p>One academic signal, alongside implementations, experiments and code that can be inspected across the portfolio.</p>
           <div className={styles.spotlightFoot}><span className={styles.spotlightDot}/> <span>Source: portfolio profile information</span></div>
         </motion.aside>
       </header>
