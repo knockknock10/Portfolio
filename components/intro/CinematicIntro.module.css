@@ -12,18 +12,30 @@
 
 .hello {
   display: block;
-  padding: 0 0 .12em .02em;
-  color: #111;
-  font-family: "Apple Chancery", "Snell Roundhand", "Segoe Script", "Bradley Hand", "Brush Script MT", cursive;
-  font-size: clamp(132px, 25vw, 330px);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -.075em;
-  white-space: nowrap;
-  clip-path: inset(0 100% 0 0);
-  animation: hello-write 1450ms cubic-bezier(.35, 0, .2, 1) 100ms forwards;
-  will-change: clip-path;
+  width: min(88vw, 900px);
+  height: auto;
+  overflow: visible;
 }
+
+.ink {
+  fill: none;
+  stroke: #111;
+  stroke-width: 5.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ink path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: write-stroke 520ms cubic-bezier(.42, 0, .25, 1) forwards;
+}
+
+.h { animation-delay: 100ms !important; }
+.e { animation-delay: 570ms !important; }
+.firstL { animation-delay: 1000ms !important; }
+.secondL { animation-delay: 1370ms !important; }
+.o { animation-delay: 1740ms !important; }
 
 .leaving {
   pointer-events: none;
@@ -35,9 +47,8 @@
   to { opacity: 1; }
 }
 
-@keyframes hello-write {
-  from { clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0 -4% 0 0); }
+@keyframes write-stroke {
+  to { stroke-dashoffset: 0; }
 }
 
 @keyframes intro-leave {
@@ -45,14 +56,15 @@
 }
 
 @media (max-width: 600px) {
-  .hello { font-size: clamp(108px, 28vw, 172px); }
+  .hello { width: 94vw; }
+  .ink { stroke-width: 4.5; }
 }
 
 @media (max-height: 520px) {
-  .hello { font-size: clamp(96px, 27vh, 170px); }
+  .hello { width: min(76vw, 650px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .intro, .hello { animation: none !important; }
-  .hello { clip-path: none; }
+  .intro, .ink path { animation: none !important; }
+  .ink path { stroke-dasharray: none; stroke-dashoffset: 0; }
 }
