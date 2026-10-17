@@ -97,7 +97,7 @@ function SubmissionHeatmap({ days }) {
       const month = day.date.slice(0, 7);
       if (!seen.includes(month)) seen.push(month);
     }
-    return seen.slice(-12).map((month) => month.slice(5));
+    return seen.slice(-12);
   }, [calendar]);
 
   if (!calendar.length) {
@@ -111,11 +111,11 @@ function SubmissionHeatmap({ days }) {
 
   return (
     <div className={styles.heatmapContent}>
-      <div className={styles.monthLabels}>{monthLabels.map((month, index) => <span key={month + index}>{new Date("2026-" + month + "-01T00:00:00Z").toLocaleDateString("en-US", { month: "short", timeZone: "UTC" })}</span>)}</div>
+      <div className={styles.monthLabels}>{monthLabels.map((month) => <span key={month}>{new Date(month + "-01T00:00:00Z").toLocaleDateString("en-US", { month: "short", timeZone: "UTC" })}</span>)}</div>
       <div className={styles.heatmapGrid} role="img" aria-label={"LeetCode submission activity for " + calendar.length + " saved days"}>
         {calendar.map((day) => {
           const level = day.submissions <= 0 ? 0 : day.submissions / max >= .75 ? 4 : day.submissions / max >= .5 ? 3 : day.submissions / max >= .25 ? 2 : 1;
-          return <i key={day.date} data-level={level} title={day.date + " · " + day.submissions + " submissions"} style={{ animationDelay: reducedMotion ? "0ms" : Math.min(calendar.indexOf(day) % 90, 89) * 4 + "ms" }}/>;
+          return <i key={day.date} data-level={level} title={day.date + " · " + day.submissions + " submissions"}/>;
         })}
       </div>
       <div className={styles.heatmapLegend}><span>Less</span>{[0,1,2,3,4].map(level => <i key={level} data-level={level}/>)}<span>More</span><small>Saved LeetCode profile data</small></div>
