@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import styles from "./AchievementsShowcase.module.css";
 
@@ -75,6 +75,7 @@ function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext })
   if (!item) return null;
   return (
     <div
+      ref={dialogRef}
       className={styles.certificateLightbox}
       role="dialog"
       aria-modal="true"
@@ -108,6 +109,11 @@ function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext })
 export default function AchievementsShowcase({ items = [] }) {
   const reducedMotion = useReducedMotion();
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const dialogRef = useRef(null);
+  const previousFocusRef = useRef(null);
+  const isGalleryOpen = selectedIndex !== null;
+  const selectedIndexRef = useRef(selectedIndex);
+  useEffect(() => { selectedIndexRef.current = selectedIndex; }, [selectedIndex]);
   const reveal = (delay = 0) => ({
     initial: reducedMotion ? false : { opacity: 0, y: 12 },
     whileInView: { opacity: 1, y: 0 },
@@ -117,20 +123,55 @@ export default function AchievementsShowcase({ items = [] }) {
   const selectedItem = selectedIndex !== null && items[selectedIndex] ? items[selectedIndex] : null;
 
   useEffect(() => {
-    if (selectedIndex === null) return undefined;
+    if (!isGalleryOpen) return undefined;
     const originalOverflow = document.body.style.overflow;
+    previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     document.body.style.overflow = "hidden";
+    const closeButton = dialogRef.current?.querySelector('button[aria-label="Close certificate gallery"]');
+    closeButton?.focus();
+
     function onKeyDown(event) {
-      if (event.key === "Escape") setSelectedIndex(null);
-      if (event.key === "ArrowLeft" && items.length > 1) setSelectedIndex((value) => value === null ? null : (value - 1 + items.length) % items.length);
-      if (event.key === "ArrowRight" && items.length > 1) setSelectedIndex((value) => value === null ? null : (value + 1) % items.length);
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setSelectedIndex(null);
+        return;
+      }
+      if (event.key === "ArrowLeft" && items.length > 1) {
+        event.preventDefault();
+        setSelectedIndex((value) => value === null ? null : (value - 1 + items.length) % items.length);
+        return;
+      }
+      if (event.key === "ArrowRight" && items.length > 1) {
+        event.preventDefault();
+        setSelectedIndex((value) => value === null ? null : (value + 1) % items.length);
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(dialogRef.current?.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])') ?? []);
+      if (!focusable.length) {
+        event.preventDefault();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !dialogRef.current?.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || !dialogRef.current?.contains(document.activeElement))) {
+        event.preventDefault();
+        first.focus();
+      }
     }
+
     window.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", onKeyDown);
+      const restoreTarget = previousFocusRef.current;
+      if (restoreTarget instanceof HTMLElement && restoreTarget.isConnected) restoreTarget.focus();
     };
-  }, [selectedIndex, items.length]);
+  }, [isGalleryOpen, items.length]);
 
   function step(delta) {
     setSelectedIndex((value) => value === null || !items.length ? null : (value + delta + items.length) % items.length);
