@@ -180,6 +180,8 @@
   min-width: 0;
 }
 .methodHeader { gap: 13px; margin-bottom: 17px; }
+.methodPanel { transition: border-color 220ms ease, box-shadow 220ms ease; }
+.methodPanel:hover { border-color: rgba(255,255,255,.94); box-shadow: 0 19px 46px rgba(33,37,71,.16), inset 0 1px 0 rgba(255,255,255,.9); }
 .methodIcon, .panelIcon {
   display: grid;
   flex: 0 0 auto;
@@ -234,7 +236,9 @@
   height: 84px;
   place-items: center;
   margin-bottom: 11px;
+  transition: transform 220ms ease, filter 220ms ease;
 }
+.pipelineUnit:hover .pipelineVisual { transform: translateY(-3px); filter: saturate(1.12); }
 .waveform { width: 100%; max-width: 116px; height: 48px; overflow: visible; fill: #7e48dc; }
 .spectrogram, .saliencyMap {
   display: grid;
@@ -379,7 +383,9 @@
   box-shadow: 0 13px 32px rgba(43,45,77,.09), inset 0 1px 0 rgba(255,255,255,.86);
   backdrop-filter: blur(24px) saturate(125%);
   -webkit-backdrop-filter: blur(24px) saturate(125%);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
 }
+.panel:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.96); box-shadow: 0 18px 40px rgba(43,45,77,.13), inset 0 1px 0 rgba(255,255,255,.92); }
 .panelHeader { gap: 12px; min-height: 59px; padding: 14px 18px 10px; }
 .panelIcon { width: 25px; height: 25px; color: #192e67; }
 .panelIcon svg { width: 25px; height: 25px; }
@@ -520,6 +526,7 @@
   .additionalItem a { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .primaryAction, .secondaryAction { transition: none; }
-  .primaryAction:hover, .secondaryAction:hover { transform: none; }
+  .primaryAction, .secondaryAction, .methodPanel, .pipelineVisual, .panel { transition: none; }
+  .primaryAction:hover, .secondaryAction:hover, .panel:hover, .pipelineUnit:hover .pipelineVisual { transform: none; }
+  .panel:hover, .methodPanel:hover { box-shadow: 0 13px 32px rgba(43,45,77,.09), inset 0 1px 0 rgba(255,255,255,.86); }
 }
