@@ -29,7 +29,7 @@ export const portfolioContent: PortfolioContent = {
   socials: [
     { platform: "GitHub profile", url: "https://github.com/knockknock10" },
     { platform: "LeetCode profile", url: "https://leetcode.com/u/knockknock10/" },
-    { platform: "LinkedIn", url: "https://www.linkedin.com/in/-sanjeev-kr" },
+    { platform: "LinkedIn", url: "https://www.linkedin.com/in/sanjeev-kumar-ba567133a/" },
   ],
   projects: [
     {
