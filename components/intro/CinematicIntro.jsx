@@ -35,17 +35,18 @@ export default function CinematicIntro() {
     >
       <svg
         className={styles.hello}
-        viewBox="20 0 530 210"
+        viewBox="0 0 520 210"
         role="img"
         aria-label="hello"
         xmlns="http://www.w3.org/2000/svg"
       >
         <g className={styles.ink}>
-          <path className={styles.h} pathLength="1" d="M 62 176 C 75 138, 91 69, 108 43 C 117 29, 126 39, 121 60 C 111 103, 98 146, 104 163 C 110 180, 129 161, 146 145" />
-          <path className={styles.e} pathLength="1" d="M 143 146 C 160 130, 174 111, 190 120 C 203 128, 192 143, 176 147 C 160 150, 156 137, 166 126 C 178 114, 194 122, 206 136 C 216 147, 227 150, 239 141" />
-          <path className={styles.firstL} pathLength="1" d="M 239 141 C 260 98, 278 49, 292 35 C 303 25, 311 37, 304 59 C 293 98, 279 138, 286 154 C 292 167, 305 157, 319 144" />
-          <path className={styles.secondL} pathLength="1" d="M 319 144 C 341 99, 357 49, 371 35 C 382 25, 390 37, 383 59 C 372 98, 359 138, 365 154 C 371 167, 385 157, 399 144" />
-          <path className={styles.o} pathLength="1" d="M 399 144 C 416 123, 436 111, 451 123 C 467 139, 450 160, 431 161 C 412 162, 408 142, 423 127 C 438 112, 456 121, 470 137 C 484 153, 496 151, 508 140" />
+          <path className={styles.h} pathLength="1" d="M 28 158 C 43 134, 59 65, 72 42 C 79 27, 91 32, 86 50 C 76 87, 63 126, 66 148 C 68 162, 82 151, 100 132 C 111 121, 119 120, 127 133 C 134 144, 135 150, 148 146" />
+          <path className={styles.e} pathLength="1" d="M 148 146 C 164 127, 183 112, 200 122 C 213 130, 202 145, 187 147 C 172 149, 169 136, 180 126 C 192 116, 208 128, 222 140 C 232 149, 242 151, 254 143" />
+          <path className={styles.eCrossbar} pathLength="1" d="M 171 137 C 184 133, 197 128, 207 123" />
+          <path className={styles.firstL} pathLength="1" d="M 254 143 C 269 111, 283 57, 296 38 C 304 25, 315 31, 309 50 C 299 83, 281 128, 285 147 C 288 161, 302 153, 315 142" />
+          <path className={styles.secondL} pathLength="1" d="M 315 142 C 330 110, 344 56, 357 38 C 365 25, 376 31, 370 50 C 360 83, 342 128, 346 147 C 349 161, 363 153, 376 142" />
+          <path className={styles.o} pathLength="1" d="M 376 142 C 389 128, 406 116, 420 127 C 435 139, 420 155, 406 156 C 392 157, 389 144, 401 132 C 414 119, 426 130, 438 142 C 449 153, 461 150, 474 139" />
         </g>
       </svg>
     </div>
