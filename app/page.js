@@ -1,12 +1,10 @@
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import ResearchShowcase from "@/components/sections/ResearchShowcase";
-import { Internships } from "@/components/sections/Internships";
 import { Certifications } from "@/components/sections/Certifications";
-import {
-  ActivityShowcase,
-  SkillsExplorer,
-} from "@/components/sections/PortfolioExperience";
+import { ActivityShowcase } from "@/components/sections/PortfolioExperience";
+import ExperienceShowcase from "@/components/portfolio/ExperienceShowcase";
+import SkillsShowcase from "@/components/portfolio/SkillsShowcase";
 import OpenSourceShowcase from "@/components/portfolio/OpenSourceShowcase";
 import { HomeHero } from "@/components/portfolio/HomeHero";
 import FeaturedWork from "@/components/portfolio/FeaturedWork";
@@ -40,11 +38,9 @@ export default async function HomePage() {
 
       <OpenSourceShowcase />
 
-      <section id="internships" className="portfolio-anchor" tabIndex={-1}>
-        <Internships items={internships} />
-      </section>
+      <ExperienceShowcase researchItems={researchItems} internships={internships} />
 
-      <SkillsExplorer />
+      <SkillsShowcase />
       <ActivityShowcase data={signalsData} />
 
       <section id="certifications" className="portfolio-anchor" tabIndex={-1}>
