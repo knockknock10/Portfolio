@@ -963,3 +963,23 @@
   .authors { font-size:.64rem; }
   .tableNote { font-size:.7rem; }
 }
+
+
+/* Flat heading accent, and prevent long research titles forcing horizontal overflow. */
+.intro h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
+.intro h2 { max-width:100%; white-space:normal; text-wrap:balance; overflow-wrap:anywhere; }
+.subtitle { font-size:clamp(1.04rem,1.25vw,1.3rem); line-height:1.58; }
+.summary { font-size:clamp(.96rem,1.02vw,1.08rem); line-height:1.75; }
+.pipelineTitle { font-size:clamp(.7rem,.78vw,.8rem); line-height:1.45; }
+.pipelineDetail { font-size:clamp(.66rem,.7vw,.73rem); line-height:1.5; }
+.statCopy > span { font-size:.73rem; line-height:1.48; }
+.statCopy small { font-size:.68rem; line-height:1.45; }
+@media(max-width:980px) {
+ .intro h2 { white-space:normal; font-size:clamp(2.65rem,7.2vw,4rem); }
+ .pipelineTitle { font-size:.72rem; }
+ .pipelineDetail { font-size:.67rem; }
+}
+@media(max-width:640px) {
+ .pipelineTitle { font-size:.73rem; }
+ .pipelineDetail { font-size:.68rem; }
+}
