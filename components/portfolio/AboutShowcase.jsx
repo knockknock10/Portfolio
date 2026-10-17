@@ -42,8 +42,7 @@ function PhotoCard({ name }) {
       <div className={styles.photoStage}>
         <div className={styles.photoGlow} aria-hidden="true"/>
         {!imageFailed ? (
-          /* # CHANGE THIS IMAGE: save your high-resolution portrait in public/images/, then replace the src below with that file path, e.g. src="/images/sanjeev-about.webp". */
-          <img className={styles.portraitImage} src="/images/replace-with-your-photo.webp" alt={"Portrait of " + name} loading="lazy" onError={() => setImageFailed(true)}/>
+          <img className={styles.portraitImage} src="/images/sanjeev-portrait.png" alt={"Portrait of " + name} loading="lazy" onError={() => setImageFailed(true)}/>
         ) : (
           <div className={styles.portraitPlaceholder} aria-label="Portrait image placeholder">
             <span>{initials}</span>
