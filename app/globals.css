@@ -6833,23 +6833,6 @@ body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-lab
 .skip-link:focus,
 .skip-link:focus-visible { visibility: visible !important; }
 
-/* Keep highlighted heading words crisp and solid; no gradient-filled text. */
-.home-page h1 > span,
-.home-page h2 > span,
-.home-page h3 > span,
-.home-page [class*="Intro"] h2 span,
-.home-page [class*="intro"] h2 span,
-.home-page [class*="headingCopy"] h2 span,
-.home-page [class*="Title"] span,
-.home-page [class*="title"] span {
-  color: #315cff !important;
-  background: none !important;
-  background-image: none !important;
-  background-clip: initial !important;
-  -webkit-background-clip: initial !important;
-  -webkit-text-fill-color: currentColor !important;
-}
-
 /* The content rail widens gently with the sidebar instead of letting panels sit underneath it. */
 @media (min-width: 981px) {
   .portfolio-home-page [class*="stageContent"] {
@@ -6882,7 +6865,7 @@ body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-lab
 
 /* FINAL VISUAL FIX: the skip link is visible only for keyboard users. */
 .skip-link {
-  position: fixed !important; z-index: 2000 !important; top: 12px !important; left: 12px !important;
+  position: fixed !important; z-index: 10001 !important; top: 12px !important; left: clamp(88px, 8vw, 148px) !important;
   width: auto !important; height: auto !important; margin: 0 !important; overflow: visible !important;
   clip: auto !important; clip-path: none !important;
   transform: translateY(calc(-100% - 18px)) !important;
