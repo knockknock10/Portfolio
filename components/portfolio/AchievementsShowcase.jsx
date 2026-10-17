@@ -71,7 +71,7 @@ function CredentialShelf({ items, onSelect }) {
   );
 }
 
-function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext }) {
+function CredentialLightbox({ item, index, total, onClose, onPrevious, onNext, dialogRef }) {
   if (!item) return null;
   return (
     <div
@@ -112,8 +112,6 @@ export default function AchievementsShowcase({ items = [] }) {
   const dialogRef = useRef(null);
   const previousFocusRef = useRef(null);
   const isGalleryOpen = selectedIndex !== null;
-  const selectedIndexRef = useRef(selectedIndex);
-  useEffect(() => { selectedIndexRef.current = selectedIndex; }, [selectedIndex]);
   const reveal = (delay = 0) => ({
     initial: reducedMotion ? false : { opacity: 0, y: 12 },
     whileInView: { opacity: 1, y: 0 },
@@ -205,7 +203,7 @@ export default function AchievementsShowcase({ items = [] }) {
         <a href="/about">About my background <Icon kind="external"/></a>
       </motion.footer>
 
-      {selectedItem ? <CredentialLightbox item={selectedItem} index={selectedIndex} total={items.length} onClose={() => setSelectedIndex(null)} onPrevious={() => step(-1)} onNext={() => step(1)}/> : null}
+      {selectedItem ? <CredentialLightbox item={selectedItem} index={selectedIndex} total={items.length} dialogRef={dialogRef} onClose={() => setSelectedIndex(null)} onPrevious={() => step(-1)} onNext={() => step(1)}/> : null}
     </section>
   );
 }
