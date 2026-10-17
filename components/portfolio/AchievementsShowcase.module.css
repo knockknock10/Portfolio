@@ -273,3 +273,23 @@
   .certificatePrevious:hover,
   .certificateNext:hover { transform: none !important; }
 }
+
+
+/* GitHub achievement row matching the supplied badge reference. */
+.githubAchievementPanel { min-width:0; margin:0 0 14px; padding:clamp(16px,2vw,25px); border:1px solid rgba(255,255,255,.92); border-radius:22px; color:#171c29; background:rgba(255,252,250,.8); box-shadow:0 16px 40px rgba(35,37,55,.065),inset 0 1px 0 rgba(255,255,255,.96); backdrop-filter:blur(20px) saturate(128%); -webkit-backdrop-filter:blur(20px) saturate(128%); }
+.githubAchievementHeader { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:17px; }
+.githubAchievementHeader h3 { margin:5px 0 0; color:#161b27; font-size:clamp(1.15rem,1.5vw,1.55rem); font-weight:780; letter-spacing:-.045em; }
+.githubAchievementHeader p:not(.panelEyebrow) { margin:6px 0 0; color:#6b7387; font-size:.74rem; line-height:1.5; }
+.githubAchievementHeader>a { flex:0 0 auto; color:#2f4ec1; font-size:.7rem; font-weight:750; text-decoration:none; }
+.githubAchievementHeader>a:hover { text-decoration:underline; text-underline-offset:4px; }
+.githubAchievementGrid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(8px,1.4vw,18px); }
+.githubAchievement { display:flex; min-width:0; flex-direction:column; align-items:center; gap:8px; padding:11px 6px 12px; border:1px solid rgba(73,83,115,.08); border-radius:16px; color:inherit; background:rgba(255,255,255,.55); text-align:center; text-decoration:none; transition:transform 220ms cubic-bezier(.2,.8,.2,1),background 220ms ease,box-shadow 220ms ease,border-color 220ms ease; }
+.githubAchievement:hover { transform:translateY(-4px); border-color:rgba(49,92,255,.2); background:rgba(255,255,255,.92); box-shadow:0 14px 28px rgba(31,39,67,.09); }
+.githubAchievementArt { position:relative; display:grid; width:clamp(62px,7vw,102px); aspect-ratio:1; place-items:center; border:1px solid rgba(69,82,122,.1); border-radius:50%; background:#f1f2f6; box-shadow:0 7px 17px rgba(30,35,54,.07),inset 0 1px 0 #fff; }
+.githubAchievementArt img { display:block; width:94%; height:94%; object-fit:contain; }
+.githubAchievementCount { position:absolute; right:-9px; bottom:-3px; display:grid; min-width:36px; height:28px; place-items:center; padding:0 8px; border:1px solid rgba(20,24,35,.1); border-radius:999px; color:#111521; background:#f0f1f3; box-shadow:0 4px 10px rgba(20,24,35,.12); font-size:.72rem; font-weight:850; }
+.githubAchievement>strong { color:#20263a; font-size:clamp(.62rem,.82vw,.8rem); font-weight:760; line-height:1.3; overflow-wrap:anywhere; }
+.githubAchievement>small { color:#82899b; font-size:.59rem; line-height:1.4; overflow-wrap:anywhere; }
+@media(max-width:780px) { .githubAchievementGrid { grid-template-columns:repeat(3,minmax(0,1fr)); } .githubAchievementHeader { flex-direction:column; } .githubAchievementArt { width:clamp(64px,13vw,92px); } }
+@media(max-width:420px) { .githubAchievementGrid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(prefers-reduced-motion:reduce) { .githubAchievement { transition:none!important; } .githubAchievement:hover { transform:none!important; } }
