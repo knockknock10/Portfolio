@@ -12,6 +12,7 @@ export default function CinematicIntro() {
   const timers = useRef([]);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
     setVisible(true);
     timers.current.push(window.setTimeout(() => setLeaving(true), INTRO_HOLD));
     timers.current.push(
