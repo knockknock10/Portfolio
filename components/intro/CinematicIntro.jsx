@@ -1,74 +1,28 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./CinematicIntro.module.css";
 
-const SESSION_KEY = "sanjeev-portfolio-intro-seen-v1";
-const EXIT_DELAY = 1720;
-const EXIT_DURATION = 620;
+const INTRO_HOLD = 2850;
+const EXIT_DURATION = 650;
 
 export default function CinematicIntro() {
   const [visible, setVisible] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const timers = useRef([]);
 
-  const clearTimers = useCallback(() => {
-    timers.current.forEach((timer) => window.clearTimeout(timer));
-    timers.current = [];
-  }, []);
-
-  const dismiss = useCallback(() => {
-    if (!visible || leaving) return;
-    clearTimers();
-    setLeaving(true);
-    timers.current.push(window.setTimeout(() => setVisible(false), EXIT_DURATION));
-  }, [clearTimers, leaving, visible]);
-
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    try {
-      if (window.sessionStorage.getItem(SESSION_KEY)) return;
-    } catch {
-      // If storage is unavailable, the intro still works for this page view.
-    }
-
     setVisible(true);
-    // Delay persistence slightly so React Strict Mode effect replay does not
-    // mark the intro as seen before its first real timer survives cleanup.
-    timers.current.push(window.setTimeout(() => {
-      try {
-        window.sessionStorage.setItem(SESSION_KEY, "1");
-      } catch {
-        // Storage can be disabled; the current intro can still complete.
-      }
-    }, 80));
-    timers.current.push(window.setTimeout(() => setLeaving(true), EXIT_DELAY));
+    timers.current.push(window.setTimeout(() => setLeaving(true), INTRO_HOLD));
     timers.current.push(
-      window.setTimeout(() => setVisible(false), EXIT_DELAY + EXIT_DURATION),
+      window.setTimeout(() => setVisible(false), INTRO_HOLD + EXIT_DURATION),
     );
 
     return () => {
-      clearTimers();
+      timers.current.forEach((timer) => window.clearTimeout(timer));
+      timers.current = [];
     };
-  }, [clearTimers]);
-
-  useEffect(() => {
-    const onKeyDown = (event) => {
-      if (event.key === "Escape") dismiss();
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [dismiss]);
-
-  useEffect(() => {
-    if (!visible) return undefined;
-    const previousOverflow = document.documentElement.style.overflow;
-    document.documentElement.style.overflow = "hidden";
-    return () => {
-      document.documentElement.style.overflow = previousOverflow;
-    };
-  }, [visible]);
+  }, []);
 
   if (!visible) return null;
 
@@ -76,38 +30,23 @@ export default function CinematicIntro() {
     <div
       className={`${styles.intro} ${leaving ? styles.leaving : ""}`}
       role="status"
-      aria-label="Welcome to Sanjeev Kumar's portfolio"
+      aria-label="hello"
     >
-      <div className={styles.ambient} aria-hidden="true">
-        <span className={styles.orbOne} />
-        <span className={styles.orbTwo} />
-        <span className={styles.orbThree} />
-        <span className={styles.grain} />
-      </div>
-
-      <div className={styles.topline}>
-        <span className={styles.monogram}>SK<span>.</span></span>
-        <span className={styles.toplineLabel}>PORTFOLIO <span> / </span> 2026</span>
-      </div>
-
-      <div className={styles.center}>
-        <p className={styles.eyebrow}><span className={styles.eyebrowDot} /> SOFTWARE · OPEN SOURCE · APPLIED AI</p>
-        <h1 className={styles.greeting}>
-          <span className={styles.hello}>Hello<span className={styles.period}>.</span></span>
-          <span className={styles.nameLine}>I’m <span className={styles.name}>Sanjeev Kumar</span><span className={styles.period}>.</span></span>
-        </h1>
-        <p className={styles.subline}>Curiosity into craft. Ideas into impact.</p>
-      </div>
-
-      <div className={styles.bottomline}>
-        <span className={styles.location}>BUILDING FROM INDIA <span aria-hidden="true">↗</span></span>
-        <div className={styles.progressTrack} aria-hidden="true">
-          <span className={styles.progress} />
-        </div>
-        <button className={styles.skip} onClick={dismiss} type="button">
-          Skip intro <span aria-hidden="true">↗</span>
-        </button>
-      </div>
+      <svg
+        className={styles.hello}
+        viewBox="0 0 720 250"
+        role="img"
+        aria-label="hello"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g className={styles.ink}>
+          <path className={styles.h} pathLength="1" d="M 48 174 C 62 148, 76 77, 91 44 C 99 27, 111 34, 108 57 C 103 91, 91 137, 95 158 C 98 177, 119 163, 139 139" />
+          <path className={styles.e} pathLength="1" d="M 132 143 C 148 127, 164 110, 178 120 C 191 130, 174 145, 158 145 C 143 145, 145 123, 162 117 C 180 110, 195 130, 208 141 C 222 152, 238 137, 250 124 C 267 138, 282 128, 298 115" />
+          <path className={styles.firstL} pathLength="1" d="M 298 115 C 314 80, 332 53, 350 34 C 361 22, 370 31, 364 53 C 353 94, 336 133, 340 151 C 343 168, 361 158, 377 141" />
+          <path className={styles.secondL} pathLength="1" d="M 369 145 C 385 108, 404 51, 422 34 C 433 23, 441 33, 435 55 C 424 95, 407 134, 411 151 C 415 168, 432 157, 448 141" />
+          <path className={styles.o} pathLength="1" d="M 450 139 C 466 119, 484 105, 499 116 C 515 128, 499 153, 480 158 C 460 164, 454 142, 470 124 C 486 106, 507 119, 520 137 C 535 158, 553 160, 575 143 C 596 127, 616 111, 636 119 C 656 128, 640 151, 622 153 C 601 156, 603 128, 625 119 C 645 111, 661 133, 678 145" />
+        </g>
+      </svg>
     </div>
   );
 }
