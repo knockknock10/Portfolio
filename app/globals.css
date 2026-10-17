@@ -6826,3 +6826,55 @@ body:has(.portfolio-home-page) .portfolio-home-page #research > section[aria-lab
     animation: none !important;
   }
 }
+
+
+/* PORTFOLIO POLISH: the keyboard skip link is visible only when keyboard-focused. */
+.skip-link:not(:focus):not(:focus-visible) { visibility: hidden !important; }
+.skip-link:focus,
+.skip-link:focus-visible { visibility: visible !important; }
+
+/* Keep highlighted heading words crisp and solid; no gradient-filled text. */
+.home-page h1 > span,
+.home-page h2 > span,
+.home-page h3 > span,
+.home-page [class*="Intro"] h2 span,
+.home-page [class*="intro"] h2 span,
+.home-page [class*="headingCopy"] h2 span,
+.home-page [class*="Title"] span,
+.home-page [class*="title"] span {
+  color: #315cff !important;
+  background: none !important;
+  background-image: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+/* The content rail widens gently with the sidebar instead of letting panels sit underneath it. */
+@media (min-width: 981px) {
+  .portfolio-home-page [class*="stageContent"] {
+    transition: padding-left 320ms cubic-bezier(.2,.8,.2,1);
+  }
+  body:has(.sidebar:hover) .portfolio-home-page [class*="stageContent"] {
+    padding-left: clamp(252px, 16.6vw, 292px) !important;
+  }
+  .portfolio-home-page [class*="codingSection"],
+  .portfolio-home-page [class*="achievementsSection"],
+  .portfolio-home-page [class*="aboutSection"],
+  .portfolio-home-page [class*="contactSection"],
+  .portfolio-home-page [class*="skillsSection"],
+  .portfolio-home-page [class*="experienceSection"],
+  .portfolio-home-page [class*="openSourceSection"] {
+    transition: margin-left 320ms cubic-bezier(.2,.8,.2,1), width 320ms cubic-bezier(.2,.8,.2,1);
+  }
+  body:has(.sidebar:hover) .portfolio-home-page [class*="codingSection"],
+  body:has(.sidebar:hover) .portfolio-home-page [class*="achievementsSection"],
+  body:has(.sidebar:hover) .portfolio-home-page [class*="aboutSection"],
+  body:has(.sidebar:hover) .portfolio-home-page [class*="contactSection"],
+  body:has(.sidebar:hover) .portfolio-home-page [class*="skillsSection"],
+  body:has(.sidebar:hover) .portfolio-home-page [class*="experienceSection"],
+  body:has(.sidebar:hover) .portfolio-home-page [class*="openSourceSection"] {
+    margin-left: clamp(246px, 16.2vw, 282px) !important;
+    width: calc(100% - clamp(246px, 16.2vw, 282px) - clamp(26px, 3vw, 52px)) !important;
+  }
+}
