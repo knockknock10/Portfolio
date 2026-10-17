@@ -56,7 +56,7 @@
 
 .workCanvas {
   width: min(1450px, calc(100% - clamp(228px, 17vw, 280px)));
-  margin: 34px clamp(26px, 3vw, 52px) 0 clamp(188px, 13.5vw, 224px);
+  margin: 99px clamp(26px, 3vw, 52px) 0 clamp(188px, 13.5vw, 224px);
   padding: 0 0 58px;
 }
 
@@ -1312,7 +1312,7 @@
 @media (max-width: 1050px) {
   .workCanvas {
     width: calc(100% - 105px);
-    margin: 30px 20px 0 78px;
+    margin: 96px 20px 0 78px;
   }
 
   .workFeatureLayout {
@@ -1377,7 +1377,7 @@
 
   .workCanvas {
     width: auto;
-    margin: 30px 16px 0 70px;
+    margin: 90px 16px 0 70px;
     padding-bottom: 35px;
   }
 

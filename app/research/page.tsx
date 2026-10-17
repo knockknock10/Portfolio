@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Research } from "@/components/sections/Research"
+import ResearchShowcase from "@/components/sections/ResearchShowcase"
 import { getResearchData } from "@/lib/research"
 
 export const metadata: Metadata = {
@@ -18,8 +18,8 @@ export default function ResearchPage() {
     )
   }
   return (
-    <main className="editorial-page research-page">
-      <Research items={items} standalone />
+    <main className="research-route">
+      <ResearchShowcase items={items} standalone />
     </main>
   )
 }

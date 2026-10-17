@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./FeaturedWork.module.css";
 
+
 const featuredProject = {
   id: "aevor-platform",
   name: "Aevor Platform",
@@ -303,6 +304,8 @@ export default function FeaturedWork() {
     <section id="work" className={styles.workSection} aria-labelledby="work-title" tabIndex={-1}>
       <div className={styles.workBackdrop} aria-hidden="true" />
       <div className={styles.workShade} aria-hidden="true" />
+
+
 
       <div className={styles.workCanvas}>
         <div className={styles.workFeatureLayout}>

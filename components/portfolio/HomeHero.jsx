@@ -1,21 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import SidebarNavigation from "./SidebarNavigation";
 import styles from "./HomeHero.module.css";
 
-const sectionLinks = [
-  { id: "home", label: "Home" },
-  { id: "work", label: "Work" },
-  { id: "research", label: "Research" },
-  { id: "open-source", label: "Open Source" },
-  { id: "internships", label: "Experience" },
-  { id: "skills", label: "Skills" },
-  { id: "signals", label: "Coding" },
-  { id: "certifications", label: "Achievements" },
-  { id: "about", label: "About" },
-  { id: "contact", label: "Contact" },
-];
 
 function SocialGlyph({ label }) {
   const name = (label || "").toLowerCase();
@@ -74,61 +60,18 @@ export function HomeHero({
   email = null,
   resumePath = "/resume.pdf",
 }) {
-  const [active, setActive] = useState("home");
   const links = buildSocialLinks(socials, email, resumePath);
   const nameParts = (fullName || "Sanjeev Kumar").trim().split(/\s+/);
   const firstName = nameParts.shift() || "Sanjeev";
   const lastName = nameParts.join(" ") || "Kumar";
 
-  useEffect(() => {
-    const targets = sectionLinks.map((item) => document.getElementById(item.id)).filter(Boolean);
-    if (!targets.length || !("IntersectionObserver" in window)) return undefined;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((entry) => entry.isIntersecting);
-        if (!visible.length) return;
-
-        const nearest = visible.reduce((best, entry) => {
-          const currentDistance = Math.abs(entry.boundingClientRect.top - window.innerHeight * 0.28);
-          const bestDistance = Math.abs(best.boundingClientRect.top - window.innerHeight * 0.28);
-          return currentDistance < bestDistance ? entry : best;
-        });
-
-        setActive(nearest.target.id);
-      },
-      { rootMargin: "-12% 0px -66% 0px", threshold: 0 },
-    );
-
-    targets.forEach((target) => observer.observe(target));
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <section id="home" className={styles.hero} aria-labelledby="hero-title" tabIndex={-1}>
       <div className={styles.heroVisual} aria-hidden="true" />
       <div className={styles.heroShade} aria-hidden="true" />
 
-      <SidebarNavigation />
-
-      <header className={styles.topbar}>
-        <nav className={styles.topNav} aria-label="Main navigation">
-          {sectionLinks.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              className={active === item.id ? styles.topNavActive : ""}
-              aria-current={active === item.id ? "location" : undefined}
-            >
-              {item.label}
-              {active === item.id && <span className={styles.topNavDot} aria-hidden="true" />}
-            </a>
-          ))}
-        </nav>
-        <a className={styles.talkButton} href="#contact">
-          Let’s Talk <span aria-hidden="true">→</span>
-        </a>
-      </header>
 
       <div className={styles.heroCopy}>
         <p className={styles.heroEyebrow}>CSE <span aria-hidden="true">·</span> SRM UNIVERSITY AP</p>

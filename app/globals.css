@@ -6406,3 +6406,8 @@ html:has(.portfolio-home-page) {
     scroll-behavior: auto;
   }
 }
+
+
+/* The standalone Research route uses the same full-bleed showcase and shared global chrome. */
+body:has(.research-route) .site-shell { padding-block-start: 0; }
+.research-route { width: 100%; max-width: none; margin: 0; padding: 0; }
