@@ -5,7 +5,7 @@
 
 > Software engineering · Open source · Applied audio AI · Research
 
-**Deployment URL (awaiting first-time Pages setup): [knockknock10.github.io/Portfolio](https://knockknock10.github.io/Portfolio/)**
+**Live site: [knockknock10.github.io/Portfolio](https://knockknock10.github.io/Portfolio/)**
 
 A responsive, motion-led portfolio for my software engineering projects, upstream open-source contributions, SemBind-Audio research, technical skills, coding profiles, experience, and contact links.
 
@@ -48,13 +48,13 @@ npm run build
 
 ## GitHub Pages deployment
 
-The `Deploy to GitHub Pages` workflow builds and validates a static Next.js export for the repository path `/Portfolio`. The first publish is pending the one-time Pages setting described below; after that setting is saved, the workflow publishes commits pushed to `main`.
+The `Deploy portfolio to GitHub Pages` workflow builds, validates, and publishes a static Next.js export for the repository path `/Portfolio` whenever a change reaches `main`.
 
 - Site URL: [https://knockknock10.github.io/Portfolio/](https://knockknock10.github.io/Portfolio/)
 - Build command: `npm run build:pages`
 - Static output: `out/`
 - Contribution history is generated as a build-time static JSON file. GitHub Pages does not run a Node.js API server.
-- **One-time setup:** open **Settings → Pages → Build and deployment → Source: GitHub Actions** and save. The workflow then builds and publishes on each push to `main`. Because the GitHub Actions token cannot create the first Pages site in this repository, enable that setting manually once, then open **Actions → Deploy portfolio to GitHub Pages → Run workflow** and choose `main` to publish immediately.
+- GitHub Pages is configured to deploy from GitHub Actions. The workflow runs checks for each relevant App Router page and verifies that assets use `/Portfolio/` before publishing.
 
 ## Add certificates
 
