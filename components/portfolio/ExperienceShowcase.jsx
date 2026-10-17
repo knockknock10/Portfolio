@@ -127,7 +127,7 @@ function internshipEvent(item, index) {
 
 function EvidenceLink({ href, children, subtle = false }) {
   if (!isPresent(href)) return null;
-  const external = /^https?:\\/\\//i.test(href);
+  const external = /^https?:\/\//i.test(href);
   return (
     <a className={subtle ? styles.evidenceLinkSubtle : styles.evidenceLink} href={href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
       {children}<span aria-hidden="true">↗</span>
