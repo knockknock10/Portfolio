@@ -113,6 +113,7 @@ function EventTrail() {
   );
 }
 
+/** @param {{ items?: import("@/lib/certifications").Certification[], standalone?: boolean }} props */
 export default function AchievementsShowcase({ items = [], standalone = false }) {
   const reducedMotion = useReducedMotion();
   const entryTransition = reducedMotion ? { duration: 0 } : { duration: 0.42, ease: [0.22, 1, 0.36, 1] };
