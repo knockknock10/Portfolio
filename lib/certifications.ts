@@ -50,14 +50,16 @@ function records(source: string): unknown[] {
   }
 }
 
-function localImage(value: unknown): string | "MISSING" {
+function localImage(value: unknown, allowPdf = false): string | "MISSING" {
   const path = text(value)
   if (!path || /^https?:\/\//i.test(path)) return "MISSING"
   const root = resolve(process.cwd(), "public")
   const file = resolve(root, path.replace(/^\/+/, "").replace(/^public\//, ""))
   const rel = relative(root, file)
+  const allowedImage = /\.(svg|png|jpe?g|webp|gif|avif)$/i.test(rel)
+  const allowedPdf = allowPdf && /\.pdf$/i.test(rel)
   if (!rel || rel === ".." || rel.startsWith(".." + sep) || isAbsolute(rel) ||
-      !/\.(pdf|svg|png|jpe?g|webp|gif|avif)$/i.test(rel) || !existsSync(file)) return "MISSING"
+      (!allowedImage && !allowedPdf) || !existsSync(file)) return "MISSING"
   return "/" + rel.split(sep).join("/")
 }
 
@@ -116,7 +118,7 @@ export function getCertificationsData(): Certification[] {
         credentialUrl,
         skillsCovered: skillList(record.skillsCovered ?? record["skills covered"]),
         badgeImage: localImage(record.badgeImage ?? record["badge image"]),
-        certificateImage: localImage(record.certificateImage ?? record["certificate image"]),
+        certificateImage: localImage(record.certificateImage ?? record["certificate image"], true),
         verificationStatus,
       }]
     })
