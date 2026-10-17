@@ -249,7 +249,7 @@ export default function AchievementsShowcase({ items = [], data }) {
         <motion.div className={styles.achievementsIntro} initial={reducedMotion ? false : { opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .2 }} transition={{ duration: reducedMotion ? 0 : .4 }}>
           <p className={styles.eyebrow}><span>07</span><i/> ACHIEVEMENTS <b/></p>
           <h2 id="achievements-heading">Achievements &amp; <span>Certifications</span></h2>
-          <p>A record of academic progress, measured problem-solving, research milestones and work that can be inspected. Each number comes from the saved profile data; live profiles are one click away.</p>
+          <p>A record of academic progress, measured problem-solving, research milestones and work that can be inspected. Profile metrics are from the saved snapshot; academic details are from your portfolio information.</p>
           <div className={styles.introActions}>
             <a href={LEETCODE_URL} target="_blank" rel="noreferrer">LeetCode profile <span aria-hidden="true">↗</span></a>
             <a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub profile <span aria-hidden="true">↗</span></a>
