@@ -42,6 +42,7 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
   const [methodOpen, setMethodOpen] = useState(false)
   const [paperOpen, setPaperOpen] = useState(false)
   const [selectedFigure, setSelectedFigure] = useState<"placement" | "architecture">("placement")
+  const [selectedMethodStep, setSelectedMethodStep] = useState(0)
   const [figureLoadFailed, setFigureLoadFailed] = useState(false)
   const link = available(item.link) ? item.link : null
   const authors = Array.isArray(item.authors) ? item.authors : []
@@ -115,12 +116,37 @@ function FeaturedResearch({ item }: { item: ResearchItem }) {
           className={methodOpen ? "research-method-panel is-open" : "research-method-panel"}
           hidden={!methodOpen}
         >
-          <ol>
-            <li><strong>Represent.</strong> Extract spectro-temporal features and frozen HuBERT embeddings.</li>
-            <li><strong>Select.</strong> Combine semantic saliency with spectral suitability to pick robust locations.</li>
-            <li><strong>Embed.</strong> Adapt the watermark strength to each selected region.</li>
-            <li><strong>Verify.</strong> Bind a 256-bit SHA-256 digest and verify through extraction and voting.</li>
-          </ol>
+          <div className="research-method-stepper" role="tablist" aria-label="SemBind research pipeline">
+            {[
+              { label: "Represent", short: "01", detail: "Transform the waveform into an STFT representation and extract frozen HuBERT features. The semantic model informs placement; it does not replace signal-level checks." },
+              { label: "Select", short: "02", detail: "Score candidate time-frequency regions using semantic contribution and local spectral suitability, then compare joint, semantic-only, spectral-only and random placement." },
+              { label: "Embed", short: "03", detail: "Embed a cryptographically bound payload with region-adaptive strength, then reconstruct the audio and evaluate perceptual and task-level changes." },
+              { label: "Verify", short: "04", detail: "Extract replicated payload bits, reconstruct the digest and compare it with the registered reference for ownership verification." },
+            ].map((step, index) => (
+              <button
+                className={selectedMethodStep === index ? "research-method-step is-active" : "research-method-step"}
+                key={step.short}
+                type="button"
+                role="tab"
+                id={`sembind-step-${step.short}`}
+                aria-selected={selectedMethodStep === index}
+                aria-controls="sembind-step-detail"
+                onClick={() => setSelectedMethodStep(index)}
+              >
+                <span>{step.short}</span>
+                <strong>{step.label}</strong>
+              </button>
+            ))}
+          </div>
+          <div className="research-method-detail" id="sembind-step-detail" role="tabpanel" aria-labelledby={`sembind-step-${String(selectedMethodStep + 1).padStart(2, "0")}`}>
+            <span className="research-method-detail-index">PIPELINE STEP {String(selectedMethodStep + 1).padStart(2, "0")} / 04</span>
+            <p>{[
+              "Transform the waveform into an STFT representation and extract frozen HuBERT features. The semantic model informs placement; it does not replace signal-level checks.",
+              "Score candidate time-frequency regions using semantic contribution and local spectral suitability, then compare joint, semantic-only, spectral-only and random placement.",
+              "Embed a cryptographically bound payload with region-adaptive strength, then reconstruct the audio and evaluate perceptual and task-level changes.",
+              "Extract replicated payload bits, reconstruct the digest and compare it with the registered reference for ownership verification.",
+            ][selectedMethodStep]}</p>
+          </div>
         </div>
 
         <div className="research-feature-actions">
