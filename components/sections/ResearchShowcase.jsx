@@ -87,7 +87,7 @@ function PipelineVisual() {
   return (
     <div className={styles.pipeline} aria-label="SemBind methodology from audio input through spectrogram, transformer features, contribution map and adaptive placement to SHA-256 binding">
       {stages.map((stage, index) => (
-        <div className={styles.pipelineUnit} key={stage.kind}>
+        <div className={styles.pipelineUnit} key={stage.kind} style={{ gridColumn: String(index * 2 + 1) }}>
           <div className={styles.pipelineVisual}>
             {stage.kind === "wave" && <Waveform />}
             {stage.kind === "spectrogram" && <Spectrogram />}
@@ -102,8 +102,10 @@ function PipelineVisual() {
           </div>
           <strong className={styles.pipelineTitle}>{stage.title}</strong>
           <span className={styles.pipelineDetail}>{stage.detail}</span>
-          {index < stages.length - 1 && <Arrow />}
         </div>
+      ))}
+      {stages.slice(0, -1).map((stage, index) => (
+        <span className={styles.flowArrow} aria-hidden="true" key={stage.kind + "-arrow"} style={{ gridColumn: String(index * 2 + 2) }}>→</span>
       ))}
     </div>
   );
@@ -277,8 +279,6 @@ export default function ResearchShowcase({ items = [], standalone = false }) {
   const additional = items.filter((item) => item !== featured);
   const repo = isAvailable(featured?.link) ? featured.link : repositoryUrl;
   const paper = isAvailable(featured?.pdf) ? featured.pdf : paperUrlFallback;
-  const title = "SemBind-Audio";
-
   if (!featured) return null;
 
   return (
@@ -296,6 +296,7 @@ export default function ResearchShowcase({ items = [], standalone = false }) {
           >
             <div className={styles.eyebrow}><span className={styles.sectionNumber}>03</span><span className={styles.eyebrowDot}>·</span><span>RESEARCH</span><i /></div>
             <h2 id="research-showcase-title">SemBind-<span>Audio</span></h2>
+            <span className={styles.signature} aria-hidden="true">Research</span>
             <p className={styles.subtitle}>Semantic-Aware Zero-Trust Audio Watermarking Framework via Transformer-Based Representation and Cryptographic Binding</p>
             <p className={styles.summary}>A reference-based speech-watermarking study that makes embedding-location selection explicit, comparing semantic contribution and spectral suitability across the full LibriSpeech test-clean corpus.</p>
             <p className={styles.authors}>RESEARCH BY <strong>Sanjeev Kumar</strong><span>·</span><strong>Biswajit Maity</strong></p>
