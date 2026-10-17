@@ -244,26 +244,28 @@ function GitHubContributionCalendar() {
         </div>
       ) : (
         <>
-          <div className={styles.githubYearTabs} aria-label="Choose GitHub contribution year">
-            {years.map((availableYear) => (
-              <button
-                type="button"
-                key={availableYear}
-                aria-pressed={year === availableYear}
-                data-active={year === availableYear ? "true" : "false"}
-                onClick={() => setSelectedYear(availableYear)}
-              >
-                {availableYear}
-                <span>{Number(payload?.totals?.[availableYear] || 0).toLocaleString("en-US")}</span>
-              </button>
-            ))}
-          </div>
-          <div className={styles.githubCalendarSummary}>
-            <strong>{Number(total || 0).toLocaleString("en-US")}</strong>
-            <span>contributions in {year}</span>
-            <small>Public contribution data · cached by the source service</small>
-          </div>
-          <div className={styles.githubCalendarViewport}>
+          <div className={styles.githubCalendarBody}>
+            <div className={styles.githubYearTabs} aria-label="Choose GitHub contribution year">
+              {years.map((availableYear) => (
+                <button
+                  type="button"
+                  key={availableYear}
+                  aria-pressed={year === availableYear}
+                  data-active={year === availableYear ? "true" : "false"}
+                  onClick={() => setSelectedYear(availableYear)}
+                >
+                  {availableYear}
+                  <span>{Number(payload?.totals?.[availableYear] || 0).toLocaleString("en-US")}</span>
+                </button>
+              ))}
+            </div>
+            <div className={styles.githubCalendarMain}>
+              <div className={styles.githubCalendarSummary}>
+                <strong>{Number(total || 0).toLocaleString("en-US")}</strong>
+                <span>contributions in {year}</span>
+                <small>Public contribution data · cached by the source service</small>
+              </div>
+              <div className={styles.githubCalendarViewport}>
             <div className={styles.githubMonthLabels} aria-hidden="true">
               {monthNames.map((month) => <span key={month}>{month}</span>)}
             </div>
@@ -296,7 +298,9 @@ function GitHubContributionCalendar() {
               </div>
             </div>
           </div>
-          <div className={styles.githubCalendarLegend}><span>Less</span>{[0, 1, 2, 3, 4].map((level) => <i key={level} data-level={level} />)}<span>More</span></div>
+              <div className={styles.githubCalendarLegend}><span>Less</span>{[0, 1, 2, 3, 4].map((level) => <i key={level} data-level={level} />)}<span>More</span></div>
+            </div>
+          </div>
         </>
       )}
     </article>
