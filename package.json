@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint app components lib next.config.ts --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --check ."
+    "format": "prettier --check .",
+    "build:pages": "GITHUB_PAGES=true next build"
   },
   "dependencies": {
     "@fontsource-variable/inter-tight": "^5.2.8",
