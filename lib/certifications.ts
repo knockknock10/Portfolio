@@ -1,6 +1,6 @@
 import "server-only"
 
-import { existsSync, readFileSync } from "node:fs"
+import { existsSync, readFileSync, readdirSync } from "node:fs"
 import { isAbsolute, join, relative, resolve, sep } from "node:path"
 
 export type CertificationField = string | "MISSING"
@@ -92,7 +92,7 @@ function noExpiry(value: string | "MISSING"): boolean {
 export function getCertificationsData(): Certification[] {
   try {
     const markdown = readFileSync(join(process.cwd(), "PORTFOLIO-DATA.md"), "utf8")
-    return records(section(markdown)).flatMap((raw): Certification[] => {
+    const configured = records(section(markdown)).flatMap((raw): Certification[] => {
       if (typeof raw !== "object" || raw === null || Array.isArray(raw)) return []
       const record = raw as Record<string, unknown>
       const title = text(record.title)
@@ -120,6 +120,43 @@ export function getCertificationsData(): Certification[] {
         verificationStatus,
       }]
     })
+
+    const certificateDirectory = join(process.cwd(), "public", "certificates")
+    const configuredFiles = new Set(
+      configured
+        .map((item) => item.certificateImage)
+        .filter((value): value is string => typeof value === "string" && value !== "MISSING")
+        .map((value) => value.split("/").pop()?.toLowerCase() ?? ""),
+    )
+    const automatic: Certification[] = existsSync(certificateDirectory)
+      ? readdirSync(certificateDirectory, { withFileTypes: true })
+          .filter((entry) => entry.isFile() && /\.(pdf|png|jpe?g|webp|gif|avif|svg)$/i.test(entry.name))
+          .filter((entry) => !configuredFiles.has(entry.name.toLowerCase()))
+          .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" }))
+          .map((entry): Certification => {
+            const rawName = entry.name.replace(/\.(pdf|png|jpe?g|webp|gif|avif|svg)$/i, "")
+            const title = rawName
+              .replace(/[_-]+/g, " ")
+              .replace(/\s+/g, " ")
+              .trim()
+              .replace(/^\w/, (first) => first.toUpperCase()) || "Certificate"
+            const certificateImage = "/certificates/" + encodeURIComponent(entry.name)
+            return {
+              title,
+              issuer: "MISSING",
+              issueDate: "MISSING",
+              expiryDate: "MISSING",
+              credentialId: "MISSING",
+              credentialUrl: "MISSING",
+              skillsCovered: "MISSING",
+              badgeImage: "MISSING",
+              certificateImage,
+              verificationStatus: "self-reported",
+            }
+          })
+      : []
+
+    return [...configured, ...automatic]
   } catch {
     return []
   }
