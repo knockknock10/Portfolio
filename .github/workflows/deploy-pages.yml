@@ -60,6 +60,7 @@ jobs:
           test -s out/signals/index.html
           test -s out/work/index.html
           test -s out/api/github-contributions.json
+          test -s out/api/public-pull-requests.json
           test -s out/robots.txt
           test -s out/sitemap.xml
 
