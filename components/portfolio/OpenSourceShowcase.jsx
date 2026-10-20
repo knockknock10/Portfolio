@@ -178,7 +178,7 @@ export default function OpenSourceShowcase() {
         setSelectedOwner((current) => safeItems.some((item) => item.owner.toLowerCase() === current.toLowerCase()) ? current : preferredOwner);
         setIndexMeta({
           generatedAt: typeof payload.generatedAt === "string" ? payload.generatedAt : null,
-          reportedTotal: Number.isFinite(payload.reportedTotal) ? payload.reportedTotal : safeItems.length,
+          sourceResultCount: Number.isFinite(payload.sourceResultCount) ? payload.sourceResultCount : 0,
           indexedCount: Number.isFinite(payload.indexedCount) ? payload.indexedCount : safeItems.length,
           truncated: Boolean(payload.truncated),
           incompleteResults: Boolean(payload.incompleteResults),
@@ -241,7 +241,7 @@ export default function OpenSourceShowcase() {
     ? "Loading the public contribution index…"
     : loadState === "fallback"
       ? "Showing the curated contribution list; the full index could not be refreshed."
-      : `${(indexMeta?.indexedCount ?? contributions.length).toLocaleString()} public pull requests indexed${indexMeta?.truncated ? ` (showing the first ${indexMeta.indexedCount.toLocaleString()} of ${indexMeta.reportedTotal.toLocaleString()})` : ""}${indexMeta?.incompleteResults ? " · GitHub reported an incomplete search result" : ""}.`;
+      : `${(indexMeta?.indexedCount ?? contributions.length).toLocaleString()} public pull requests across ${organizations.length.toLocaleString()} organization owners indexed${indexMeta?.truncated ? " · GitHub Search API limit reached; older contributions may be missing" : ""}${indexMeta?.incompleteResults ? " · GitHub reported an incomplete search result" : ""}.`;
 
   function selectOrganization(owner) {
     setSelectedOwner(owner);
