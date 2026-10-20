@@ -298,7 +298,6 @@ export default function OpenSourceShowcase() {
                 <button
                   key={organization.owner.toLowerCase()}
                   type="button"
-                  role="listitem"
                   aria-pressed={isSelected}
                   className={isSelected ? styles.organizationButtonActive : styles.organizationButton}
                   onClick={() => selectOrganization(organization.owner)}
