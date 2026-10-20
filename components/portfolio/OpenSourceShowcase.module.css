@@ -4,1029 +4,737 @@
   width: min(1450px, calc(100% - clamp(228px, 17vw, 280px)));
   margin: 54px clamp(26px, 3vw, 52px) 0 clamp(188px, 13.5vw, 224px);
   padding: 0 0 clamp(34px, 4vw, 56px);
-  color: #11141c;
+  color: #151925;
   scroll-margin-top: 6rem;
 }
 
-.openSourceIntroLayout {
-  display: grid;
-  grid-template-columns: minmax(285px, .72fr) minmax(0, 1.65fr);
-  align-items: stretch;
-  gap: clamp(22px, 2.35vw, 38px);
+.openSourceHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 2px 0 22px;
+  border-bottom: 1px solid rgba(44, 53, 75, .16);
 }
 
-.openSourceIntro {
-  display: flex;
+.openSourceHeader > div {
   min-width: 0;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 4px 0 10px;
 }
 
 .openSourceEyebrow {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 0 0 18px;
-  color: #282d3b;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: .68rem;
-  font-weight: 750;
+  gap: 10px;
+  margin: 0 0 13px;
+  color: #6c7487;
+  font: 750 .65rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   letter-spacing: .15em;
-  white-space: nowrap;
 }
 
-.openSourceEyebrow > span {
-  color: #6f7587;
-  font-size: 1.55rem;
-  font-weight: 450;
-  letter-spacing: -.06em;
-}
-
-.openSourceEyebrow > i {
-  width: 22px;
+.openSourceEyebrow span {
+  display: inline-block;
+  width: 26px;
   height: 1px;
-  background: rgba(64, 70, 89, .52);
+  background: #8c94a6;
 }
 
-.openSourceEyebrow > b {
-  width: 45px;
-  height: 1px;
-  background: rgba(64, 70, 89, .28);
-}
-
-.openSourceIntro h2 {
+.openSourceHeader h2 {
   margin: 0;
-  color: #0c1018;
-  font-size: clamp(3.5rem, 5.05vw, 5.25rem);
-  font-weight: 650;
-  letter-spacing: -.083em;
-  line-height: .92;
+  color: #11141d;
+  font-size: clamp(2.1rem, 3.5vw, 3.5rem);
+  font-weight: 680;
+  letter-spacing: -.07em;
+  line-height: 1.03;
+  text-wrap: balance;
 }
 
-.openSourceIntro h2 span {
-  display: block;
-  padding: .05em .06em .12em 0;
-  color: #3860ff;
-  background: linear-gradient(100deg, #287aff 0%, #3f57ff 46%, #8744dd 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.openSourceHeader h2 span {
+  color: #385cf6;
 }
 
 .openSourceLead {
-  max-width: 390px;
-  margin: 18px 0 0;
-  color: #424a5b;
-  font-size: clamp(.92rem, 1vw, 1.04rem);
-  line-height: 1.52;
-  letter-spacing: -.015em;
+  max-width: 590px;
+  margin: 12px 0 0;
+  color: #626a7a;
+  font-size: .92rem;
+  line-height: 1.65;
   text-wrap: pretty;
 }
 
-.openSourceActions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  margin-top: 23px;
-}
-
-.githubProfileButton,
-.allContributionsButton {
-  display: inline-flex;
-  min-height: 46px;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 0 17px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-size: .79rem;
-  font-weight: 650;
-  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
-}
-
-.githubProfileButton {
-  color: #fff;
-  border: 1px solid rgba(9, 13, 22, .4);
-  background: #10141d;
-  box-shadow: 0 11px 24px rgba(13, 17, 27, .16), inset 0 1px 0 rgba(255, 255, 255, .13);
-}
-
-.githubProfileButton > svg {
-  width: 22px;
-  height: 22px;
-  flex: 0 0 22px;
-}
-
-.githubProfileButton:hover,
-.githubProfileButton:focus-visible {
-  transform: translateY(-2px);
-  background: #25314b;
-  box-shadow: 0 15px 30px rgba(13, 17, 27, .2);
-}
-
-.actionArrow {
-  margin-left: 4px;
-  font-size: 1.15rem;
-  transition: transform 180ms ease;
-}
-
-.githubProfileButton:hover .actionArrow {
-  transform: translateX(3px);
-}
-
-.allContributionsButton {
-  color: #202638;
-  border: 1px solid rgba(255, 255, 255, .72);
-  background: rgba(255, 251, 249, .61);
-  box-shadow: 0 7px 20px rgba(39, 36, 48, .045), inset 0 1px 0 rgba(255, 255, 255, .8);
-}
-
-.allContributionsButton:hover,
-.allContributionsButton:focus-visible {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, .88);
-}
-
-.allContributionsButton > span {
-  font-size: 1rem;
-  transition: transform 180ms ease;
-}
-
-.allContributionsButton:hover > span {
-  transform: translateX(3px);
-}
-
-.openSourceProofLine {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px 15px;
-  margin-top: auto;
-  padding-top: 24px;
-  color: #697082;
-  font-size: .65rem;
-}
-
-.openSourceProofLine span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.openSourceProofLine span:first-child i {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #31b58a;
-  box-shadow: 0 0 0 4px rgba(49, 181, 138, .12);
-}
-
-.githubGraphPanel {
-  position: relative;
-  display: grid;
-  min-width: 0;
-  grid-template-columns: minmax(0, 1fr) 142px;
-  gap: 19px;
-  padding: clamp(18px, 2vw, 25px);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, .42);
-  border-radius: 25px;
-  color: #f3f5fc;
-  background:
-    radial-gradient(circle at 83% 0%, rgba(89, 116, 255, .15), transparent 39%),
-    linear-gradient(125deg, rgba(24, 29, 44, .96), rgba(19, 24, 38, .94) 60%, rgba(35, 39, 56, .91));
-  box-shadow: 0 23px 52px rgba(19, 21, 33, .21), inset 0 1px 0 rgba(255, 255, 255, .17);
-  backdrop-filter: blur(18px) saturate(125%);
-  -webkit-backdrop-filter: blur(18px) saturate(125%);
-}
-
-.githubGraphPanel::before {
-  position: absolute;
-  top: -130px;
-  left: 27%;
-  width: 350px;
-  height: 240px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(83, 104, 201, .12), transparent 68%);
-  content: "";
-  pointer-events: none;
-}
-
-.githubGraphMain {
-  position: relative;
-  z-index: 1;
-  min-width: 0;
-}
-
-.githubGraphTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(226, 232, 255, .095);
-}
-
-.githubGraphTitle {
-  display: inline-flex;
-  min-width: 0;
-  align-items: center;
-  gap: 12px;
-  color: #f5f7ff;
-  font-size: .9rem;
-  font-weight: 650;
-  letter-spacing: -.025em;
-  text-decoration: none;
-}
-
-.githubGraphMark {
-  display: block;
-  width: 28px;
-  height: 28px;
-  flex: 0 0 28px;
-}
-
-.githubTitleArrow {
-  color: #9ba9cb;
-  font-size: .85rem;
-  opacity: .68;
-  transition: transform 180ms ease, opacity 180ms ease;
-}
-
-.githubGraphTitle:hover .githubTitleArrow {
-  transform: translate(2px, -2px);
-  opacity: 1;
-}
-
-.githubGraphTop select {
-  max-width: 135px;
-  min-height: 31px;
-  padding: 0 7px;
-  border: 1px solid rgba(229, 234, 255, .12);
-  border-radius: 9px;
-  outline-offset: 3px;
-  color: #e7ecff;
-  background: rgba(255, 255, 255, .055);
-  font: inherit;
-  font-size: .64rem;
-}
-
-.githubGraphTop select option {
-  color: #171b28;
-  background: #fff;
-}
-
-.githubGraphMeta {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 12px 0 10px;
-  color: #a8b2c8;
-  font-size: .62rem;
-}
-
-.githubGraphMeta span:last-child {
-  color: #e6ebfd;
-  font-weight: 650;
-  white-space: nowrap;
-}
-
-.githubHeatmapViewport {
-  width: 100%;
-  overflow-x: auto;
-  padding: 3px 0 5px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(148, 164, 222, .4) transparent;
-  overscroll-behavior-inline: contain;
-}
-
-.githubHeatmapInner {
-  min-width: 440px;
-}
-
-.githubMonthRail {
-  display: grid;
-  gap: 3px;
-  min-height: 18px;
-  margin-bottom: 4px;
-  color: #aeb8cd;
-  font-size: .58rem;
-}
-
-.githubMonthRail span {
-  overflow: visible;
-  white-space: nowrap;
-}
-
-.githubHeatmapBody {
-  display: grid;
-  grid-template-columns: 25px minmax(0, 1fr);
-  gap: 7px;
-}
-
-.githubWeekdayRail {
-  display: grid;
-  grid-template-rows: repeat(7, 9px);
-  gap: 3px;
-  color: #9ba5be;
-  font-size: .57rem;
-  line-height: 9px;
-}
-
-.githubHeatmapGrid {
-  display: grid;
-  gap: 3px;
-  min-width: 0;
-}
-
-.githubHeatmapWeek {
-  display: grid;
-  grid-template-rows: repeat(7, 9px);
-  gap: 3px;
-}
-
-.githubHeatmapDay {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  aspect-ratio: 1;
-  border: 1px solid rgba(255, 255, 255, .025);
-  border-radius: 2.3px;
-  background: rgba(122, 137, 170, .15);
-}
-
-.githubHeatmapDay[data-level="empty"] {
-  background: transparent;
-  border-color: transparent;
-}
-
-.githubHeatmapDay[data-level="0"] {
-  background: #1d2942;
-}
-
-.githubHeatmapDay[data-level="1"] {
-  background: #244b9c;
-}
-
-.githubHeatmapDay[data-level="2"] {
-  background: #2876e8;
-}
-
-.githubHeatmapDay[data-level="3"] {
-  background: #38a6fb;
-}
-
-.githubHeatmapDay[data-level="4"] {
-  background: #83dcff;
-}
-
-.githubGraphFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 11px;
-}
-
-.heatmapLegend {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: #a7b1c8;
-  font-size: .58rem;
-  white-space: nowrap;
-}
-
-.heatmapLegend span {
-  margin-right: 3px;
-}
-
-.heatmapLegend i {
-  display: block;
-  width: 9px;
-  height: 9px;
-  border-radius: 2px;
-  background: #1d2942;
-}
-
-.heatmapLegend i[data-level="1"] { background: #244b9c; }
-.heatmapLegend i[data-level="2"] { background: #2876e8; }
-.heatmapLegend i[data-level="3"] { background: #38a6fb; }
-.heatmapLegend i[data-level="4"] { background: #83dcff; }
-
-.heatmapSource {
-  color: #8996b3;
-  font-size: .55rem;
-  text-align: right;
-}
-
-.githubGraphStats {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  justify-content: center;
-  gap: 13px;
-  padding-left: 16px;
-  border-left: 1px solid rgba(226, 232, 255, .11);
-}
-
-.githubGraphStat {
-  display: grid;
-  grid-template-columns: 35px minmax(0, 1fr);
-  gap: 10px;
-  align-items: center;
-}
-
-.graphStatIcon {
-  display: grid;
-  width: 35px;
-  height: 35px;
-  place-items: center;
-  border: 1px solid rgba(213, 224, 255, .09);
-  border-radius: 11px;
-  color: #b5caff;
-  background: linear-gradient(145deg, rgba(121, 147, 223, .26), rgba(255, 255, 255, .055));
-  font-size: 1.05rem;
-}
-
-.githubGraphStat strong {
-  display: block;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: -.035em;
-  line-height: 1.15;
-}
-
-.githubGraphStat small {
-  display: block;
-  margin-top: 3px;
-  color: #aeb7cc;
-  font-size: .59rem;
-  line-height: 1.3;
-}
-
-.graphStatNote {
-  margin: 0;
-  color: #8996b3;
-  font-size: .54rem;
-  line-height: 1.4;
-}
-
-.featuredContributionsPanel {
-  margin-top: 22px;
-  padding: clamp(15px, 1.8vw, 24px);
-  border: 1px solid rgba(255, 255, 255, .77);
-  border-radius: 25px;
-  background: rgba(255, 249, 246, .76);
-  box-shadow: 0 19px 52px rgba(42, 33, 42, .105), inset 0 1px 0 rgba(255, 255, 255, .88);
-  backdrop-filter: blur(20px) saturate(118%);
-  -webkit-backdrop-filter: blur(20px) saturate(118%);
-}
-
-.featuredContributionsHeader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 15px;
-}
-
-.featuredContributionsHeader > div > p {
-  margin: 0 0 7px;
-  color: #6a7287;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: .59rem;
-  font-weight: 750;
-  letter-spacing: .14em;
-}
-
-.featuredContributionsHeader h3 {
-  margin: 0;
-  color: #151924;
-  font-size: clamp(1.28rem, 1.8vw, 1.7rem);
-  font-weight: 680;
-  letter-spacing: -.055em;
-}
-
-.featuredContributionsHeader > div > span {
-  display: block;
-  margin-top: 4px;
-  color: #72788a;
-  font-size: .67rem;
-}
-
-.featuredContributionsHeader > a {
+.profileLink {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   gap: 9px;
-  padding: 5px 0;
-  color: #262e43;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(35, 43, 61, .15);
+  border-radius: 11px;
+  color: #283044;
+  background: rgba(255, 255, 255, .62);
+  box-shadow: 0 5px 14px rgba(34, 41, 57, .045);
+  font-size: .76rem;
+  font-weight: 680;
   text-decoration: none;
-  font-size: .7rem;
-  font-weight: 700;
-  white-space: nowrap;
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
 }
 
-.featuredContributionsHeader > a > span {
-  display: inline-block;
-  font-size: 1rem;
+.profileLink > svg {
+  width: 17px;
+  height: 17px;
+}
+
+.profileLink > span {
+  color: #6d7a98;
   transition: transform 180ms ease;
 }
 
-.featuredContributionsHeader > a:hover > span {
-  transform: translateX(3px);
+.profileLink:hover,
+.profileLink:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(56, 92, 246, .32);
+  background: #fff;
 }
 
-.contributionFilters {
+.profileLink:hover > span {
+  transform: translate(2px, -2px);
+}
+
+.indexMetaLine {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  margin: 0 0 13px;
-}
-
-.contributionFilter,
-.contributionFilterActive {
-  display: inline-flex;
-  align-items: center;
   gap: 8px;
-  min-height: 30px;
-  padding: 0 10px;
-  border: 1px solid rgba(54, 64, 89, .12);
-  border-radius: 999px;
-  color: #596174;
-  background: rgba(255, 255, 255, .49);
-  cursor: pointer;
-  font: inherit;
-  font-size: .62rem;
-  font-weight: 650;
-  transition: transform 170ms ease, background-color 170ms ease, color 170ms ease;
+  margin: 14px 0 16px;
+  color: #777e8e;
+  font-size: .69rem;
+  line-height: 1.5;
 }
 
-.contributionFilter span,
-.contributionFilterActive span {
-  color: #81889a;
-  font-size: .57rem;
+.indexStatus,
+.indexStatusLive {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: #9aa1b1;
 }
 
-.contributionFilter:hover,
-.contributionFilterActive:hover {
-  transform: translateY(-1px);
+.indexStatusLive {
+  background: #20a777;
+  box-shadow: 0 0 0 3px rgba(32, 167, 119, .12);
 }
 
-.contributionFilterActive {
-  border-color: rgba(20, 27, 43, .86);
-  color: #fff;
-  background: #161d2d;
-  box-shadow: 0 5px 12px rgba(22, 29, 45, .12);
+.indexMetaLine > a {
+  margin-left: auto;
+  color: #4459b8;
+  font-weight: 700;
+  text-decoration: none;
+  text-underline-offset: 3px;
 }
 
-.contributionFilterActive span {
-  color: #cbd4e9;
+.indexMetaLine > a:hover {
+  text-decoration: underline;
 }
 
-.contributionCardGrid {
+.organizationExplorer {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.contributionCard {
-  display: grid;
-  min-width: 0;
-  min-height: 176px;
-  grid-template-columns: minmax(0, 1fr) 96px;
-  gap: 11px;
-  overflow: hidden;
-  padding: 11px;
-  border: 1px solid rgba(255, 255, 255, .92);
-  border-radius: 15px;
-  background: rgba(255, 255, 255, .69);
-  box-shadow: 0 6px 18px rgba(34, 32, 46, .045), inset 0 1px 0 rgba(255, 255, 255, .88);
-  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
-}
-
-.contributionCard:hover {
-  transform: translateY(-3px);
-  border-color: #fff;
-  box-shadow: 0 14px 28px rgba(34, 32, 46, .1), inset 0 1px 0 #fff;
-}
-
-.contributionCardMain {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
+  grid-template-columns: minmax(235px, 290px) minmax(0, 1fr);
   align-items: stretch;
+  gap: 14px;
 }
 
-.contributionCardHeader {
-  display: grid;
+.organizationRail,
+.organizationDetail {
   min-width: 0;
-  grid-template-columns: 29px minmax(0, 1fr);
-  align-items: start;
-  gap: 8px;
+  border: 1px solid rgba(55, 65, 88, .11);
+  border-radius: 19px;
+  background: rgba(255, 255, 255, .7);
+  box-shadow: 0 13px 35px rgba(39, 42, 58, .055), inset 0 1px 0 rgba(255, 255, 255, .92);
+  backdrop-filter: blur(16px) saturate(112%);
+  -webkit-backdrop-filter: blur(16px) saturate(112%);
 }
 
-.contributionOrgLogo {
+.organizationRail {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  max-height: 880px;
+  padding: 16px 11px 11px;
+}
+
+.organizationRailHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  padding: 0 5px 11px;
+}
+
+.organizationRailHeading > span,
+.detailEyebrow {
+  color: #7b8292;
+  font: 750 .61rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: .13em;
+}
+
+.organizationRailHeading > strong {
+  display: inline-flex;
+  min-width: 25px;
+  min-height: 23px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  border: 1px solid rgba(48, 60, 89, .1);
+  border-radius: 7px;
+  color: #626b7f;
+  background: rgba(240, 243, 249, .8);
+  font-size: .67rem;
+}
+
+.organizationSearch,
+.pullRequestSearch {
+  width: 100%;
+  min-width: 0;
+  min-height: 39px;
+  padding: 0 11px;
+  border: 1px solid rgba(58, 67, 90, .13);
+  border-radius: 10px;
+  outline: none;
+  color: #222a3b;
+  background: rgba(246, 247, 251, .86);
+  font: inherit;
+  font-size: .74rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.organizationSearch::placeholder,
+.pullRequestSearch::placeholder {
+  color: #9299a9;
+}
+
+.organizationSearch:focus,
+.pullRequestSearch:focus {
+  border-color: rgba(61, 92, 238, .63);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(61, 92, 238, .09);
+}
+
+.organizationList {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 11px;
+  overflow-y: auto;
+  padding: 0 1px 2px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #d7dcea transparent;
+}
+
+.organizationButton,
+.organizationButtonActive {
   display: grid;
-  width: 29px;
-  height: 29px;
+  width: 100%;
+  min-width: 0;
+  min-height: 57px;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: #3b4355;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.organizationButton:hover {
+  border-color: rgba(62, 76, 106, .08);
+  background: rgba(239, 242, 249, .7);
+}
+
+.organizationButton:active,
+.organizationButtonActive:active {
+  transform: scale(.99);
+}
+
+.organizationButtonActive {
+  border-color: rgba(63, 89, 226, .19);
+  color: #182444;
+  background: linear-gradient(100deg, rgba(72, 99, 245, .11), rgba(93, 114, 247, .055));
+  box-shadow: inset 3px 0 0 #4763f2;
+}
+
+.organizationAvatar,
+.organizationAvatarLarge {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
   place-items: center;
   overflow: hidden;
-  border: 1px solid rgba(43, 50, 69, .12);
-  border-radius: 8px;
-  color: #fff;
-  background: #151b29;
-  text-decoration: none;
-  transition: transform 180ms ease;
+  border: 1px solid rgba(46, 57, 79, .11);
+  border-radius: 10px;
+  color: #4356a8;
+  background: #edf0fa;
+  font-size: .8rem;
+  font-weight: 750;
 }
 
-.contributionOrgLogo:hover {
-  transform: scale(1.05);
-}
-
-.contributionOrgLogo img {
+.organizationAvatar img,
+.organizationAvatarLarge img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.contributionOrgLogo svg {
-  width: 20px;
-  height: 20px;
+.organizationAvatar > span,
+.organizationAvatarLarge > span {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
 }
 
-.contributionCardTitle {
-  min-width: 0;
-}
-
-.contributionRepoLabel {
+.organizationButtonText {
   display: flex;
   min-width: 0;
-  align-items: center;
+  flex-direction: column;
   gap: 4px;
-  color: #485167;
-  font-size: .58rem;
-  font-weight: 700;
-  line-height: 1.25;
 }
 
-.contributionRepoLabel span {
+.organizationButtonText strong {
   overflow: hidden;
+  color: inherit;
+  font-size: .77rem;
+  font-weight: 700;
+  line-height: 1.25;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.contributionRepoLabel i {
-  color: #9298a8;
-  font-style: normal;
-}
-
-.contributionCardTitle h3 {
-  display: -webkit-box;
-  margin: 4px 0 0;
+.organizationButtonText small {
   overflow: hidden;
-  color: #161a24;
-  font-size: .76rem;
-  font-weight: 700;
-  letter-spacing: -.025em;
+  color: #8a91a1;
+  font-size: .61rem;
   line-height: 1.25;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.contributionStatus {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  padding: 4px 7px;
-  border: 1px solid rgba(55, 170, 110, .12);
-  border-radius: 999px;
-  color: #1d9969;
-  background: rgba(50, 188, 129, .12);
-  font-size: .54rem;
-  font-weight: 750;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.contributionStatus[data-status="open"] {
-  border-color: rgba(56, 104, 245, .12);
-  color: #365fee;
-  background: rgba(64, 104, 255, .11);
-}
-
-.contributionCardHeader .contributionStatus {
-  grid-column: 2;
-  margin-top: -1px;
-}
-
-.contributionCardDescription {
-  display: -webkit-box;
-  min-height: 38px;
-  margin: 8px 0 7px;
-  overflow: hidden;
-  color: #62697a;
-  font-size: .63rem;
-  line-height: 1.42;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.contributionTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.contributionTags span {
-  display: inline-flex;
-  max-width: 100%;
-  align-items: center;
+.organizationCount {
+  min-width: 28px;
   padding: 4px 6px;
-  border: 1px solid rgba(63, 74, 99, .09);
-  border-radius: 6px;
-  color: #60687b;
-  background: rgba(238, 239, 247, .71);
-  font-size: .53rem;
-  white-space: nowrap;
+  border: 1px solid rgba(55, 65, 88, .09);
+  border-radius: 7px;
+  color: #687186;
+  background: rgba(255, 255, 255, .7);
+  font-size: .64rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-align: center;
 }
 
-.contributionCardFooter {
+.organizationButtonActive .organizationCount {
+  border-color: rgba(70, 94, 229, .16);
+  color: #3851c1;
+  background: rgba(255, 255, 255, .82);
+}
+
+.organizationEmpty {
+  margin: 0;
+  padding: 17px 9px;
+  color: #7c8494;
+  font-size: .75rem;
+  line-height: 1.55;
+}
+
+.organizationDetail {
   display: flex;
+  flex-direction: column;
+  padding: clamp(16px, 2vw, 25px);
+}
+
+.organizationDetailHeader {
+  display: flex;
+  min-width: 0;
   align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  margin-top: auto;
-  padding-top: 7px;
-  color: #71798c;
+  gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(53, 63, 85, .11);
+}
+
+.organizationAvatarLarge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  font-size: 1.15rem;
+}
+
+.organizationDetailIdentity {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.detailEyebrow {
+  display: block;
+  margin-bottom: 5px;
   font-size: .56rem;
 }
 
-.contributionCardFooter b {
-  color: #343d53;
-  font-weight: 750;
+.organizationDetailIdentity h3 {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #171c29;
+  font-size: clamp(1.15rem, 1.7vw, 1.55rem);
+  font-weight: 730;
+  letter-spacing: -.045em;
+  line-height: 1.2;
 }
 
-.contributionGitHubLink {
+.organizationDetailIdentity > a {
+  display: inline-block;
+  margin-top: 4px;
+  color: #727c91;
+  font-size: .68rem;
+  text-decoration: none;
+}
+
+.organizationDetailIdentity > a:hover {
+  color: #385cf6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.organizationDetailMetrics {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 20px);
+  margin-left: auto;
+  padding-left: 8px;
+}
+
+.organizationDetailMetrics > span {
+  display: flex;
+  min-width: 42px;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.organizationDetailMetrics strong {
+  color: #202a42;
+  font-size: 1rem;
+  font-weight: 740;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.organizationDetailMetrics small {
+  color: #8a91a0;
+  font-size: .61rem;
+}
+
+.pullRequestTools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 13px;
+  padding: 15px 0 12px;
+}
+
+.statusFilters {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.statusFilter,
+.statusFilterActive {
   display: inline-flex;
-  min-height: 25px;
+  min-height: 30px;
   align-items: center;
   gap: 6px;
-  padding: 2px 0 2px 6px;
-  color: #20283a;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #747c8d;
   background: transparent;
+  font: inherit;
+  font-size: .66rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.statusFilter > span,
+.statusFilterActive > span {
+  color: #969eae;
+  font-size: .6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.statusFilter:hover {
+  color: #3e4658;
+  background: rgba(235, 238, 246, .8);
+}
+
+.statusFilterActive {
+  border-color: rgba(66, 87, 207, .15);
+  color: #3149bb;
+  background: rgba(73, 96, 230, .1);
+}
+
+.statusFilterActive > span {
+  color: #566ac8;
+}
+
+.pullRequestSearch {
+  flex: 0 1 210px;
+  min-height: 34px;
+  font-size: .67rem;
+}
+
+.pullRequestListRegion {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.pullRequestList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contributionRow {
+  margin: 0;
+  border-bottom: 1px solid rgba(53, 63, 85, .085);
+}
+
+.contributionRow:first-child {
+  border-top: 1px solid rgba(53, 63, 85, .085);
+}
+
+.contributionRowLink {
+  display: flex;
+  min-width: 0;
+  min-height: 76px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 11px 8px;
+  border-radius: 9px;
+  color: inherit;
   text-decoration: none;
-  transition: color 170ms ease, transform 170ms ease;
-  white-space: nowrap;
+  transition: background-color 150ms ease, transform 150ms ease;
 }
 
-.contributionGitHubLink svg {
-  display: block;
-  width: 22px;
-  height: 22px;
-  transition: transform 170ms ease;
+.contributionRowLink:hover {
+  background: rgba(237, 240, 248, .67);
 }
 
-.contributionGitHubLink span {
-  font-size: .54rem;
-  font-weight: 750;
+.contributionRowLink:hover .contributionArrow {
+  transform: translate(2px, -2px);
+  color: #385cf6;
 }
 
-.contributionGitHubLink:hover {
-  color: #3159f5;
-}
-
-.contributionGitHubLink:hover svg {
-  transform: scale(1.09);
-}
-
-.contributionRepoPreview {
-  position: relative;
+.contributionRowMain {
   display: flex;
   min-width: 0;
   flex-direction: column;
   align-items: flex-start;
-  gap: 9px;
-  overflow: hidden;
-  padding: 10px 8px;
-  border: 1px solid rgba(231, 238, 255, .1);
-  border-radius: 10px;
-  color: #f4f6ff;
-  background:
-    radial-gradient(circle at 100% 0%, rgba(73, 106, 242, .22), transparent 48%),
-    linear-gradient(155deg, #152038, #0f1626 76%, #1b2942);
-}
-
-.repoPreviewTop {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 5px;
-  color: #b3c0df;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: .48rem;
-  line-height: 1.2;
-  overflow-wrap: anywhere;
-}
-
-.repoPreviewTop > i {
-  width: 5px;
-  height: 5px;
-  flex: 0 0 5px;
-  border-radius: 50%;
-  background: #77a0ff;
-}
-
-.repoPreviewMark {
-  width: 30px;
-  height: 30px;
-  margin-top: auto;
-  color: #e8edff;
-}
-
-.repoPreviewStatus {
-  color: #b1c0df;
-  font-size: .53rem;
-  line-height: 1.2;
-}
-
-.repoPreviewLines {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
   gap: 4px;
 }
 
-.repoPreviewLines i {
-  display: block;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(178, 197, 239, .2);
-}
-
-.repoPreviewLines i:nth-child(2) { width: 77%; }
-.repoPreviewLines i:nth-child(3) { width: 55%; }
-
-.showAllContributions {
+.contributionRepository {
   display: flex;
-  min-height: 40px;
+  max-width: 100%;
   align-items: center;
-  justify-content: center;
-  gap: 9px;
-  margin: 14px auto 0;
-  padding: 0 16px;
-  border: 1px solid rgba(50, 60, 83, .16);
-  border-radius: 999px;
-  color: #252c3e;
-  background: rgba(255, 255, 255, .55);
-  cursor: pointer;
-  font: inherit;
-  font-size: .69rem;
-  font-weight: 700;
-  transition: transform 180ms ease, background-color 180ms ease;
-}
-
-.showAllContributions:hover {
-  transform: translateY(-1px);
-  background: #fff;
-}
-
-.showAllContributions > span {
-  font-size: 1rem;
-}
-
-.communityStrip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-  padding: 10px 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.communityStrip::-webkit-scrollbar { display: none; }
-
-.communityStripLabel {
-  flex: 0 0 auto;
-  padding-right: 5px;
-  color: #626a7e;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: .56rem;
-  font-weight: 750;
-  letter-spacing: .12em;
-}
-
-.communityPill {
-  display: inline-flex;
-  min-height: 36px;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 7px;
-  padding: 0 9px;
-  border: 1px solid rgba(255, 255, 255, .76);
-  border-radius: 999px;
-  color: #394154;
-  background: rgba(255, 250, 247, .64);
-  text-decoration: none;
-  font-size: .62rem;
-  font-weight: 650;
-  box-shadow: 0 5px 15px rgba(35, 34, 47, .04);
-  transition: transform 180ms ease, background-color 180ms ease;
+  gap: 5px;
+  overflow: hidden;
+  color: #6f788b;
+  font: 650 .62rem/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.communityPill:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, .95);
-}
-
-.communityPill img {
-  display: block;
-  width: 20px;
-  height: 20px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.communityArrow {
-  color: #7b8395;
-  transition: transform 180ms ease;
-}
-
-.communityPill:hover .communityArrow {
-  transform: translate(2px, -2px);
-}
-
-.openSourceValues {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
-  margin-top: 7px;
-  padding: 13px 8px;
-  border: 1px solid rgba(255, 255, 255, .76);
-  border-radius: 18px;
-  background: rgba(255, 249, 247, .65);
-  box-shadow: 0 10px 28px rgba(42, 33, 42, .065), inset 0 1px 0 rgba(255, 255, 255, .85);
-  backdrop-filter: blur(17px) saturate(118%);
-  -webkit-backdrop-filter: blur(17px) saturate(118%);
-}
-
-.openSourceValues > div {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 10px;
-  padding: 2px clamp(9px, 1.4vw, 20px);
-}
-
-.openSourceValues > div + div {
-  border-left: 1px solid rgba(72, 79, 98, .18);
-}
-
-.valueGlyph {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  flex: 0 0 38px;
-  place-items: center;
-  border-radius: 12px;
-  font-size: 1.35rem;
+.contributionRepository > span:last-child {
+  color: #8790a4;
   font-weight: 500;
 }
 
-.valueGlyph[data-color="blue"] { color: #3164ff; background: rgba(60, 104, 255, .11); }
-.valueGlyph[data-color="violet"] { color: #6b4af3; background: rgba(116, 75, 255, .1); }
-.valueGlyph[data-color="cyan"] { color: #168cc5; background: rgba(42, 170, 219, .12); }
-.valueGlyph[data-color="coral"] { color: #ef666b; background: rgba(244, 110, 113, .12); }
-
-.openSourceValues strong {
-  display: block;
-  color: #242a39;
-  font-size: .74rem;
-  font-weight: 750;
+.contributionRepository > span:nth-child(1) {
+  color: #3c4a6a;
 }
 
-.openSourceValues small {
+.contributionRowMain > strong {
   display: block;
-  margin-top: 3px;
-  color: #687084;
-  font-size: .59rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: #1d2537;
+  font-size: .8rem;
+  font-weight: 690;
+  letter-spacing: -.015em;
   line-height: 1.35;
+}
+
+.contributionRowMain > small {
+  color: #9298a5;
+  font-size: .63rem;
+  line-height: 1.35;
+}
+
+.contributionRowEnd {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.contributionStatus {
+  display: inline-flex;
+  min-height: 25px;
+  align-items: center;
+  padding: 0 8px;
+  border: 1px solid rgba(105, 115, 135, .15);
+  border-radius: 999px;
+  color: #737b8b;
+  background: rgba(240, 242, 247, .82);
+  font-size: .61rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.contributionStatus[data-status="merged"] {
+  border-color: rgba(32, 151, 104, .13);
+  color: #19845b;
+  background: rgba(32, 151, 104, .085);
+}
+
+.contributionStatus[data-status="open"] {
+  border-color: rgba(50, 93, 225, .13);
+  color: #355bd2;
+  background: rgba(50, 93, 225, .085);
+}
+
+.contributionArrow {
+  color: #8790a3;
+  font-size: .85rem;
+  transition: transform 150ms ease, color 150ms ease;
+}
+
+.noPullRequests {
+  display: flex;
+  min-height: 180px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 25px;
+  color: #838b9a;
+  text-align: center;
+}
+
+.noPullRequests > strong {
+  color: #394257;
+  font-size: .83rem;
+}
+
+.noPullRequests > span {
+  font-size: .72rem;
+  line-height: 1.6;
+}
+
+.noPullRequests a {
+  color: #385cf6;
+}
+
+.pullRequestFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding: 13px 7px 0;
+  color: #8b92a1;
+  font-size: .65rem;
+  line-height: 1.5;
+}
+
+.pullRequestFooter > a {
+  color: #53617d;
+  font-weight: 680;
+  text-decoration: none;
+}
+
+.pullRequestFooter > a:hover {
+  color: #385cf6;
+}
+
+.showMoreButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 31px;
+  padding: 0 10px;
+  border: 1px solid rgba(58, 69, 97, .13);
+  border-radius: 9px;
+  color: #3f4d70;
+  background: rgba(255, 255, 255, .75);
+  font: inherit;
+  font-size: .66rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.showMoreButton:hover {
+  border-color: rgba(58, 92, 229, .29);
+  background: #fff;
+}
+
+.sourceNote {
+  margin: 13px 2px 0;
+  color: #8a91a1;
+  font-size: .64rem;
+  line-height: 1.6;
+}
+
+.sourceNote a {
+  color: #65718d;
+  text-decoration: none;
+}
+
+.sourceNote a:hover {
+  color: #385cf6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
 }
 
 .openSourceSection a:focus-visible,
 .openSourceSection button:focus-visible,
-.openSourceSection select:focus-visible {
-  outline: 2px solid #3564ff;
+.openSourceSection input:focus-visible {
+  outline: 2px solid #385cf6;
   outline-offset: 3px;
 }
 
@@ -1037,31 +745,22 @@
     margin-right: 25px;
   }
 
-  .githubGraphPanel {
-    grid-template-columns: minmax(0, 1fr) 122px;
-    gap: 13px;
+  .organizationExplorer {
+    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
   }
 
-  .githubGraphStats {
-    padding-left: 12px;
+  .organizationDetailMetrics {
+    gap: 10px;
   }
 
-  .contributionCard {
-    grid-template-columns: minmax(0, 1fr) 80px;
-    gap: 8px;
-    padding: 9px;
+  .pullRequestTools {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
-  .repoPreviewTop {
-    font-size: .44rem;
-  }
-
-  .contributionCardTitle h3 {
-    font-size: .72rem;
-  }
-
-  .contributionCardDescription {
-    font-size: .6rem;
+  .pullRequestSearch {
+    flex: 0 0 auto;
+    width: 100%;
   }
 }
 
@@ -1071,52 +770,33 @@
     margin: 48px 20px 0 78px;
   }
 
-  .openSourceIntroLayout {
-    grid-template-columns: minmax(225px, .68fr) minmax(0, 1.32fr);
-    gap: 18px;
+  .organizationExplorer {
+    grid-template-columns: minmax(210px, 245px) minmax(0, 1fr);
+    gap: 10px;
   }
 
-  .openSourceIntro h2 {
-    font-size: clamp(3.3rem, 6vw, 4.7rem);
+  .organizationDetail {
+    padding: 15px;
   }
 
-  .githubGraphPanel {
-    grid-template-columns: minmax(0, 1fr);
+  .organizationDetailHeader {
+    flex-wrap: wrap;
   }
 
-  .githubGraphStats {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px 12px;
-    padding: 12px 0 0;
-    border-top: 1px solid rgba(226, 232, 255, .11);
-    border-left: 0;
+  .organizationDetailMetrics {
+    width: 100%;
+    justify-content: flex-start;
+    margin: 2px 0 0 66px;
+    padding-left: 0;
   }
 
-  .graphStatNote {
-    grid-column: 1 / -1;
+  .contributionRowLink {
+    gap: 10px;
+    padding-inline: 3px;
   }
 
-  .contributionCardGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .contributionCard {
-    grid-template-columns: minmax(0, 1fr) 88px;
-  }
-
-  .openSourceValues {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .openSourceValues > div:nth-child(3) {
-    border-left: 0;
-  }
-
-  .openSourceValues > div:nth-child(n + 3) {
-    border-top: 1px solid rgba(72, 79, 98, .18);
-    padding-top: 10px;
-    margin-top: 10px;
+  .contributionRowEnd {
+    gap: 7px;
   }
 }
 
@@ -1127,309 +807,166 @@
     padding-bottom: 36px;
   }
 
-  .openSourceIntroLayout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 23px;
+  .openSourceHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
   }
 
-  .openSourceEyebrow {
-    gap: 9px;
-    font-size: .61rem;
-  }
-
-  .openSourceIntro h2 {
-    font-size: clamp(3.45rem, 11.4vw, 4.8rem);
+  .openSourceHeader h2 {
+    font-size: clamp(2rem, 8vw, 3.15rem);
+    line-height: 1.06;
   }
 
   .openSourceLead {
-    font-size: .89rem;
-    line-height: 1.55;
+    font-size: .82rem;
   }
 
-  .openSourceActions {
-    gap: 8px;
+  .profileLink {
+    min-height: 38px;
   }
 
-  .githubProfileButton,
-  .allContributionsButton {
-    min-height: 42px;
-    padding-inline: 12px;
-    font-size: .7rem;
-  }
-
-  .openSourceProofLine {
-    padding-top: 17px;
-  }
-
-  .githubGraphPanel {
-    padding: 15px;
-    border-radius: 21px;
-  }
-
-  .githubGraphTop {
+  .indexMetaLine {
     align-items: flex-start;
+    font-size: .64rem;
   }
 
-  .githubGraphTitle {
-    gap: 8px;
-    font-size: .76rem;
+  .indexMetaLine > a {
+    margin-left: 14px;
   }
 
-  .githubGraphMark {
-    width: 24px;
-    height: 24px;
-    flex-basis: 24px;
+  .organizationExplorer {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .githubGraphTop select {
-    max-width: 116px;
-    font-size: .58rem;
+  .organizationRail {
+    max-height: none;
+    padding: 13px 10px 10px;
   }
 
-  .githubGraphMeta {
+  .organizationList {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 5px;
+  }
+
+  .organizationButton,
+  .organizationButtonActive {
+    width: 198px;
+    min-width: 198px;
+    min-height: 58px;
+  }
+
+  .organizationDetailHeader {
+    gap: 11px;
+  }
+
+  .organizationAvatarLarge {
+    width: 44px;
+    height: 44px;
+  }
+
+  .organizationDetailIdentity h3 {
+    font-size: 1.12rem;
+  }
+
+  .organizationDetailMetrics {
+    margin-left: 55px;
+  }
+
+  .pullRequestTools {
+    gap: 10px;
+    padding-top: 12px;
+  }
+
+  .statusFilters {
+    flex-wrap: nowrap;
+    width: 100%;
+    padding: 1px 0 4px;
+    overflow-x: auto;
+  }
+
+  .statusFilter,
+  .statusFilterActive {
+    flex: 0 0 auto;
+  }
+
+  .contributionRowLink {
+    min-height: 72px;
+    padding: 10px 4px;
+  }
+
+  .contributionRowMain > strong {
+    font-size: .75rem;
+  }
+
+  .contributionRowMain > small {
+    font-size: .59rem;
+  }
+
+  .contributionRowEnd {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 5px;
+  }
+
+  .contributionStatus {
+    min-height: 22px;
+    padding-inline: 6px;
     font-size: .56rem;
   }
 
-  .githubHeatmapInner {
-    min-width: 445px;
-  }
-
-  .githubGraphStats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .featuredContributionsPanel {
-    margin-top: 16px;
-    padding: 13px;
-    border-radius: 20px;
-  }
-
-  .featuredContributionsHeader {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .featuredContributionsHeader > div > span {
-    line-height: 1.45;
-  }
-
-  .featuredContributionsHeader > a {
-    font-size: .68rem;
-  }
-
-  .contributionCardGrid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 9px;
-  }
-
-  .contributionCard {
-    grid-template-columns: minmax(0, 1fr) 78px;
-    min-height: 166px;
-    padding: 10px;
-  }
-
-  .contributionCardTitle h3 {
-    font-size: .76rem;
-  }
-
-  .contributionCardDescription {
-    font-size: .63rem;
-  }
-
-  .contributionRepoPreview {
-    padding: 9px 7px;
-  }
-
-  .contributionGitHubLink span {
-    font-size: .53rem;
-  }
-
-  .communityStrip {
-    gap: 6px;
-  }
-
-  .communityStripLabel {
+  .contributionArrow {
     display: none;
   }
+}
 
-  .communityPill {
-    min-height: 32px;
+@media (max-width: 430px) {
+  .organizationDetailMetrics {
+    margin-left: 0;
+  }
+
+  .organizationDetailMetrics > span {
+    min-width: 35px;
+  }
+
+  .organizationDetailIdentity h3 {
+    overflow-wrap: normal;
+    font-size: 1rem;
+  }
+
+  .organizationDetailIdentity > a {
+    font-size: .62rem;
+  }
+
+  .organizationDetail {
+    padding: 12px;
+  }
+
+  .statusFilter,
+  .statusFilterActive {
+    gap: 4px;
     padding-inline: 7px;
-    font-size: .57rem;
+    font-size: .6rem;
   }
 
-  .communityPill img {
-    width: 17px;
-    height: 17px;
-  }
-
-  .openSourceValues {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-    padding: 7px 13px;
-  }
-
-  .openSourceValues > div {
-    padding: 10px 3px;
-  }
-
-  .openSourceValues > div + div,
-  .openSourceValues > div:nth-child(3) {
-    border-top: 1px solid rgba(72, 79, 98, .16);
-    border-left: 0;
-  }
-
-  .openSourceValues > div:nth-child(n + 3) {
-    margin-top: 0;
-    padding-top: 10px;
+  .contributionRowLink {
+    gap: 7px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .githubProfileButton,
-  .allContributionsButton,
-  .actionArrow,
-  .githubTitleArrow,
-  .contributionCard,
-  .contributionOrgLogo,
-  .contributionGitHubLink,
-  .contributionGitHubLink svg,
-  .contributionFilter,
-  .contributionFilterActive,
-  .showAllContributions,
-  .communityPill,
-  .communityArrow {
+  .profileLink,
+  .profileLink > span,
+  .organizationButton,
+  .organizationButtonActive,
+  .contributionRowLink,
+  .contributionArrow,
+  .statusFilter,
+  .statusFilterActive,
+  .showMoreButton {
     transition: none !important;
   }
-}
-
-
-/* Detail pass: keep the GitHub heatmap, year selector, stats, and badges in one composed panel. */
-.githubGraphPanel {
-  grid-template-columns: 86px minmax(0, 1fr) minmax(138px, .34fr);
-  grid-template-rows: minmax(0, 1fr) auto;
-  align-items: stretch;
-  gap: clamp(12px, 1.5vw, 20px);
-  padding: clamp(15px, 1.8vw, 25px);
-}
-.githubGraphYearRail {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 7px;
-  grid-column: 1;
-  grid-row: 1;
-}
-.githubGraphYearRail > span {
-  padding: 0 4px 4px;
-  color: #8f9ab2;
-  font: 750 .61rem/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
-  letter-spacing: .12em;
-}
-.githubGraphYear,
-.githubGraphYearActive {
-  display: flex;
-  min-width: 0;
-  min-height: 39px;
-  align-items: center;
-  justify-content: center;
-  padding: 7px 6px;
-  border: 1px solid rgba(226,232,255,.13);
-  border-radius: 10px;
-  color: #c5cee4;
-  background: rgba(255,255,255,.045);
-  font-size: .73rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 170ms ease, color 170ms ease, border-color 170ms ease, transform 170ms ease;
-}
-.githubGraphYear:hover,
-.githubGraphYearActive:hover { transform: translateY(-1px); }
-.githubGraphYearActive {
-  border-color: rgba(111,139,255,.9);
-  color: #fff;
-  background: #315cff;
-  box-shadow: 0 7px 19px rgba(49,92,255,.23);
-}
-.githubGraphMain { grid-column: 2; grid-row: 1; }
-.githubGraphStats { grid-column: 3; grid-row: 1; }
-.githubGraphBadges {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  min-width: 0;
-  padding-top: 2px;
-}
-.openSourceLead { font-size: clamp(1rem, 1.05vw, 1.1rem); line-height: 1.7; }
-.githubGraphTitle { font-size: 1rem; }
-.githubGraphMeta { font-size: .72rem; line-height: 1.45; }
-.githubGraphStat small { font-size: .67rem; line-height: 1.4; }
-.graphStatNote, .heatmapSource { font-size: .64rem; line-height: 1.5; }
-.featuredContributionsHeader > div > span { font-size: .82rem; line-height: 1.5; }
-.contributionCardDescription { font-size: .8rem; line-height: 1.65; }
-.contributionTags span { font-size: .64rem; }
-.communityPill { font-size: .74rem; }
-.openSourceValues small { font-size: .72rem; line-height: 1.5; }
-
-@media (max-width: 1200px) {
-  .githubGraphPanel {
-    grid-template-columns: 78px minmax(0, 1fr);
-    grid-template-rows: auto auto auto;
-  }
-  .githubGraphYearRail { grid-column: 1; grid-row: 1; }
-  .githubGraphMain { grid-column: 2; grid-row: 1; }
-  .githubGraphStats {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    align-items: start;
-    gap: 10px;
-    padding: 14px 0 0;
-    border-left: 0;
-    border-top: 1px solid rgba(226,232,255,.11);
-  }
-  .githubGraphBadges { grid-column: 1 / -1; grid-row: 3; }
-  .graphStatNote { grid-column: 1 / -1; }
-}
-@media (max-width: 700px) {
-  .githubGraphPanel { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; }
-  .githubGraphYearRail {
-    grid-column: 1;
-    grid-row: 1;
-    flex-direction: row;
-    overflow-x: auto;
-    padding-bottom: 3px;
-  }
-  .githubGraphYearRail > span { display: none; }
-  .githubGraphYear, .githubGraphYearActive { flex: 0 0 auto; min-width: 64px; min-height: 36px; }
-  .githubGraphMain { grid-column: 1; grid-row: 2; }
-  .githubGraphStats {
-    grid-column: 1;
-    grid-row: 3;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .githubGraphBadges { grid-column: 1; grid-row: 4; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .githubGraphYear, .githubGraphYearActive { transition: none !important; }
-  .githubGraphYear:hover, .githubGraphYearActive:hover { transform: none !important; }
-}
-
-
-/* Solid section headline and accessible explanation for the graph fallback. */
-.openSourceIntro h2 span { color:#315cff!important; background:none!important; background-image:none!important; -webkit-background-clip:initial!important; background-clip:initial!important; -webkit-text-fill-color:currentColor!important; }
-.githubGraphUnavailable { margin:10px 0 12px; padding:11px 13px; border:1px solid rgba(136,147,179,.2); border-radius:10px; color:#4c5670; background:rgba(255,255,255,.06); font-size:.78rem; line-height:1.6; }
-.githubGraphUnavailable a { color:#b7c7ff; font-weight:750; text-decoration:underline; text-underline-offset:3px; }
-.contributionCardDescription { font-size:.78rem; line-height:1.62; }
-.contributionTags span { font-size:.68rem; }
-.communityPill { font-size:.69rem; }
-.heatmapSource,.graphStatNote { font-size:.68rem; line-height:1.5; }
-@media(max-width:700px) {
- .githubGraphUnavailable { font-size:.72rem; }
- .contributionCardDescription { font-size:.73rem; }
- .contributionTags span { font-size:.64rem; }
- .communityPill { font-size:.65rem; }
 }
