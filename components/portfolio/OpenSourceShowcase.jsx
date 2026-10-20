@@ -2,192 +2,100 @@
 
 import { useEffect, useMemo, useState } from "react";
 import styles from "./OpenSourceShowcase.module.css";
-import GitHubAchievementShelf from "./GitHubAchievementShelf";
 import { publicUrl } from "@/lib/public-url";
 
 const githubProfile = "https://github.com/knockknock10";
 const allPullRequests = "https://github.com/pulls?q=is%3Apr+author%3Aknockknock10";
+const PAGE_SIZE = 20;
 
-const contributions = [
-  {
-    id: "kestra-databricks-290",
-    organization: "Kestra",
-    handle: "kestra-io",
-    organizationUrl: "https://github.com/kestra-io",
-    logo: "https://github.com/kestra-io.png",
-    repository: "plugin-databricks",
-    title: "DBFS trigger support",
-    number: 290,
-    status: "Merged",
-    url: "https://github.com/kestra-io/plugin-databricks/pull/290",
-    description: "Added Databricks task-plugin functionality with execution handling and focused test coverage.",
-    tags: ["Java", "Gradle", "Plugin"],
-  },
-  {
-    id: "kestra-snyk-27",
-    organization: "Kestra",
-    handle: "kestra-io",
-    organizationUrl: "https://github.com/kestra-io",
-    logo: "https://github.com/kestra-io.png",
-    repository: "plugin-snyk",
-    title: "Issue listing and polling",
-    number: 27,
-    status: "Open",
-    url: "https://github.com/kestra-io/plugin-snyk/pull/27",
-    description: "Introduces issue listing and polling-trigger support, with tests and maintainer feedback in the review loop.",
-    tags: ["Java", "Gradle", "API"],
-  },
-  {
-    id: "kestra-fabric-39",
-    organization: "Kestra",
-    handle: "kestra-io",
-    organizationUrl: "https://github.com/kestra-io",
-    logo: "https://github.com/kestra-io.png",
-    repository: "plugin-microsoft-fabric",
-    title: "Power BI dataset refresh on Fabric",
-    number: 39,
-    status: "Open",
-    url: "https://github.com/kestra-io/plugin-microsoft-fabric/pull/39",
-    description: "Ported legacy dataset refresh behavior into Microsoft Fabric; this upstream pull request is still open for review.",
-    tags: ["Java", "Azure", "Plugin"],
-  },
-  {
-    id: "camel-k-6866",
-    organization: "Apache Camel K",
-    handle: "apache",
-    organizationUrl: "https://github.com/apache/camel-k",
-    logo: "https://github.com/apache.png",
-    repository: "camel-k",
-    title: "NetworkPolicy cleanup",
-    number: 6866,
-    status: "Merged",
-    url: "https://github.com/apache/camel-k/pull/6866",
-    description: "Worked on network-policy test setup and E2E validation in the Camel K Kubernetes workflow.",
-    tags: ["Kubernetes", "Tests", "Networking"],
-  },
-  {
-    id: "wanaku-245",
-    organization: "Wanaku AI",
-    handle: "wanaku-ai",
-    organizationUrl: "https://github.com/wanaku-ai",
-    logo: "https://github.com/wanaku-ai.png",
-    repository: "wanaku-tests",
-    title: "Policy lifecycle tests",
-    number: 245,
-    status: "Merged",
-    url: "https://github.com/wanaku-ai/wanaku-tests/pull/245",
-    description: "Added test-focused improvements that make policy lifecycle behavior easier to validate.",
-    tags: ["Java", "Tests", "CI/CD"],
-  },
-  {
-    id: "aevor-114",
-    organization: "Aevor",
-    handle: "Aevor",
-    organizationUrl: "https://github.com/Aevor",
-    logo: "https://avatars.githubusercontent.com/u/291477028?v=4",
-    repository: "platform",
-    title: "AI limit package",
-    number: 114,
-    status: "Merged",
-    url: "https://github.com/Aevor/platform/pull/114",
-    description: "Platform-side changes for the multi-repository developer-tooling project.",
-    tags: ["Go", "API", "Platform"],
-  },
-  {
-    id: "aevor-105",
-    organization: "Aevor",
-    handle: "Aevor",
-    organizationUrl: "https://github.com/Aevor",
-    logo: "https://avatars.githubusercontent.com/u/291477028?v=4",
-    repository: "platform",
-    title: "Pull-request handlers",
-    number: 105,
-    status: "Merged",
-    url: "https://github.com/Aevor/platform/pull/105",
-    description: "Developed pull-request handler functionality in the Aevor platform repository.",
-    tags: ["Go", "GitHub API", "Backend"],
-  },
-  {
-    id: "podiom-335",
-    organization: "Podiom",
-    handle: "Podiom",
-    organizationUrl: "https://github.com/Podiom",
-    logo: "https://github.com/Podiom.png",
-    repository: "Podiom",
-    title: "Native activity tests",
-    number: 335,
-    status: "Merged",
-    url: "https://github.com/Podiom/Podiom/pull/335",
-    description: "Contributed native activity test coverage and reliability improvements.",
-    tags: ["Tests", "Reliability", "Java"],
-  },
-  {
-    id: "open-nsw-263",
-    organization: "OpenNSW",
-    handle: "OpenNSW",
-    organizationUrl: "https://github.com/OpenNSW",
-    logo: "https://avatars.githubusercontent.com/u/255828504?v=4",
-    repository: "core",
-    title: "Integration test work",
-    number: 263,
-    status: "Open",
-    url: "https://github.com/OpenNSW/core/pull/263",
-    description: "Test-focused changes in the core project; the pull request remains under review.",
-    tags: ["Testing", "Database", "Integration"],
-  },
-  {
-    id: "open-nsw-265",
-    organization: "OpenNSW",
-    handle: "OpenNSW",
-    organizationUrl: "https://github.com/OpenNSW",
-    logo: "https://avatars.githubusercontent.com/u/255828504?v=4",
-    repository: "core",
-    title: "Database test fix",
-    number: 265,
-    status: "Open",
-    url: "https://github.com/OpenNSW/core/pull/265",
-    description: "A database test fix currently tracked as an open contribution.",
-    tags: ["Database", "Tests", "Java"],
-  },
-  {
-    id: "ansvisor-970",
-    organization: "Ansvisor",
-    handle: "ansvisor",
-    organizationUrl: "https://github.com/ansvisor",
-    logo: "https://avatars.githubusercontent.com/u/274837157?v=4",
-    repository: "ansvisor",
-    title: "Agent-active-brand",
-    number: 970,
-    status: "Merged",
-    url: "https://github.com/ansvisor/ansvisor/pull/970",
-    description: "Issue-driven implementation work merged into the upstream AI and developer-tooling codebase.",
-    tags: ["Go", "Tests", "Bug fix"],
-  },
-  {
-    id: "terraform-308",
-    organization: "Kestra",
-    handle: "kestra-io",
-    organizationUrl: "https://github.com/kestra-io",
-    logo: "https://github.com/kestra-io.png",
-    repository: "terraform-provider-kestra",
-    title: "Import resource listing",
-    number: 308,
-    status: "Merged",
-    url: "https://github.com/kestra-io/terraform-provider-kestra/pull/308",
-    description: "Terraform-provider improvements around listing imported resources.",
-    tags: ["Terraform", "Go", "Provider"],
-  },
+const organizationNames = {
+  "kestra-io": "Kestra",
+  apache: "Apache",
+  "wanaku-ai": "Wanaku AI",
+  aevor: "Aevor",
+  podiom: "Podiom",
+  opennsw: "OpenNSW",
+  ansvisor: "Ansvisor",
+  knockknock10: "My repositories",
+};
+
+const fallbackContributions = [
+  { id: "kestra-databricks-290", owner: "kestra-io", repository: "plugin-databricks", title: "DBFS trigger support", number: 290, status: "Merged", url: "https://github.com/kestra-io/plugin-databricks/pull/290" },
+  { id: "kestra-snyk-27", owner: "kestra-io", repository: "plugin-snyk", title: "Issue listing and polling", number: 27, status: "Open", url: "https://github.com/kestra-io/plugin-snyk/pull/27" },
+  { id: "kestra-fabric-39", owner: "kestra-io", repository: "plugin-microsoft-fabric", title: "Power BI dataset refresh on Fabric", number: 39, status: "Open", url: "https://github.com/kestra-io/plugin-microsoft-fabric/pull/39" },
+  { id: "camel-k-6866", owner: "apache", repository: "camel-k", title: "NetworkPolicy cleanup", number: 6866, status: "Merged", url: "https://github.com/apache/camel-k/pull/6866" },
+  { id: "wanaku-245", owner: "wanaku-ai", repository: "wanaku-tests", title: "Policy lifecycle tests", number: 245, status: "Merged", url: "https://github.com/wanaku-ai/wanaku-tests/pull/245" },
+  { id: "aevor-114", owner: "Aevor", repository: "platform", title: "AI limit package", number: 114, status: "Merged", url: "https://github.com/Aevor/platform/pull/114" },
+  { id: "aevor-105", owner: "Aevor", repository: "platform", title: "Pull-request handlers", number: 105, status: "Merged", url: "https://github.com/Aevor/platform/pull/105" },
+  { id: "podiom-335", owner: "Podiom", repository: "Podiom", title: "Native activity tests", number: 335, status: "Merged", url: "https://github.com/Podiom/Podiom/pull/335" },
+  { id: "open-nsw-263", owner: "OpenNSW", repository: "core", title: "Integration test work", number: 263, status: "Open", url: "https://github.com/OpenNSW/core/pull/263" },
+  { id: "open-nsw-265", owner: "OpenNSW", repository: "core", title: "Database test fix", number: 265, status: "Open", url: "https://github.com/OpenNSW/core/pull/265" },
+  { id: "ansvisor-970", owner: "ansvisor", repository: "ansvisor", title: "Agent-active-brand", number: 970, status: "Merged", url: "https://github.com/ansvisor/ansvisor/pull/970" },
+  { id: "terraform-308", owner: "kestra-io", repository: "terraform-provider-kestra", title: "Import resource listing", number: 308, status: "Merged", url: "https://github.com/kestra-io/terraform-provider-kestra/pull/308" },
 ];
 
-const communities = [
-  { name: "Kestra", logo: "https://github.com/kestra-io.png", url: "https://github.com/kestra-io" },
-  { name: "Apache Camel K", logo: "https://github.com/apache.png", url: "https://github.com/apache/camel-k" },
-  { name: "Wanaku AI", logo: "https://github.com/wanaku-ai.png", url: "https://github.com/wanaku-ai" },
-  { name: "Aevor", logo: "https://avatars.githubusercontent.com/u/291477028?v=4", url: "https://github.com/Aevor" },
-  { name: "OpenNSW", logo: "https://avatars.githubusercontent.com/u/255828504?v=4", url: "https://github.com/OpenNSW" },
-  { name: "Podiom", logo: "https://github.com/Podiom.png", url: "https://github.com/Podiom" },
-  { name: "Ansvisor", logo: "https://avatars.githubusercontent.com/u/274837157?v=4", url: "https://github.com/ansvisor" },
-];
+function ownerLabel(owner) {
+  return organizationNames[owner.toLowerCase()] ??
+    owner.split(/[-_.]+/).filter(Boolean).map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(" ");
+}
+
+function ownerUrl(owner) {
+  return `https://github.com/${encodeURIComponent(owner)}`;
+}
+
+function itemStatus(item) {
+  if (item.status === "Merged" || item.mergedAt) return "Merged";
+  if (item.state === "open" || item.status === "Open") return "Open";
+  return "Closed";
+}
+
+function safePublicPullRequest(item) {
+  if (
+    !item ||
+    typeof item.owner !== "string" ||
+    !/^[A-Za-z0-9-]+$/.test(item.owner) ||
+    typeof item.repository !== "string" ||
+    !/^[A-Za-z0-9._-]+$/.test(item.repository) ||
+    typeof item.title !== "string" ||
+    !Number.isInteger(item.number) ||
+    item.number < 1 ||
+    typeof item.url !== "string"
+  ) return null;
+
+  let url;
+  try {
+    url = new URL(item.url);
+  } catch {
+    return null;
+  }
+
+  if (
+    url.protocol !== "https:" ||
+    url.hostname !== "github.com" ||
+    url.pathname !== `/${item.owner}/${item.repository}/pull/${item.number}`
+  ) return null;
+
+  return {
+    id: `${item.owner}/${item.repository}#${item.number}`,
+    owner: item.owner,
+    repository: item.repository,
+    number: item.number,
+    title: item.title.trim(),
+    url: url.href,
+    state: item.state === "open" ? "open" : "closed",
+    mergedAt: typeof item.mergedAt === "string" ? item.mergedAt : null,
+    createdAt: typeof item.createdAt === "string" ? item.createdAt : null,
+    updatedAt: typeof item.updatedAt === "string" ? item.updatedAt : null,
+    status: ["Merged", "Open", "Closed"].includes(item.status) ? item.status : undefined,
+  };
+}
+
+function formatDate(value) {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(date);
+}
 
 function GitHubMark({ className = "" }) {
   return (
@@ -197,357 +105,302 @@ function GitHubMark({ className = "" }) {
   );
 }
 
-function formatLocalDate(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+function OrganizationAvatar({ owner, name, large = false }) {
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <span className={large ? styles.organizationAvatarLarge : styles.organizationAvatar} aria-hidden="true">
+      {!failed ? (
+        <img src={`https://github.com/${encodeURIComponent(owner)}.png?size=96`} alt="" loading="lazy" onError={() => setFailed(true)} />
+      ) : (
+        <span>{name.charAt(0).toUpperCase()}</span>
+      )}
+    </span>
+  );
 }
 
-function GitHubContributionGraph({ communityCount, mergedCount, trackedCount, openCount }) {
-  const [days, setDays] = useState([]);
-  const [totals, setTotals] = useState({});
-  const [period, setPeriod] = useState("last");
+function ContributionRow({ item }) {
+  const status = itemStatus(item);
+  const dateLabel = formatDate(item.updatedAt) ?? formatDate(item.createdAt);
+
+  return (
+    <li className={styles.contributionRow}>
+      <a className={styles.contributionRowLink} href={item.url} target="_blank" rel="noreferrer">
+        <span className={styles.contributionRowMain}>
+          <span className={styles.contributionRepository}>{item.repository}<span>/</span> <span>#{item.number}</span></span>
+          <strong>{item.title}</strong>
+          <small>{dateLabel ? `Updated ${dateLabel}` : "Open pull request details on GitHub"}</small>
+        </span>
+        <span className={styles.contributionRowEnd}>
+          <span className={styles.contributionStatus} data-status={status.toLowerCase()}>{status}</span>
+          <span className={styles.contributionArrow} aria-hidden="true">↗</span>
+        </span>
+      </a>
+    </li>
+  );
+}
+
+export default function OpenSourceShowcase() {
+  const [contributions, setContributions] = useState(fallbackContributions);
+  const [selectedOwner, setSelectedOwner] = useState("kestra-io");
+  const [organizationQuery, setOrganizationQuery] = useState("");
+  const [pullRequestQuery, setPullRequestQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [loadState, setLoadState] = useState("loading");
+  const [indexMeta, setIndexMeta] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch(publicUrl("/api/github-contributions.json"), { signal: controller.signal })
-      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Contribution data is unavailable")))
+
+    fetch(publicUrl("/api/public-pull-requests.json"), { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Public pull-request index is unavailable")))
       .then((payload) => {
-        const safeDays = Array.isArray(payload.contributions)
-          ? payload.contributions.filter((day) =>
-              day &&
-              /^\d{4}-\d{2}-\d{2}$/.test(day.date) &&
-              Number.isFinite(day.count) &&
-              day.count >= 0 &&
-              Number.isFinite(day.level) &&
-              day.level >= 0 &&
-              day.level <= 4
-            )
-          : [];
-        if (!safeDays.length) throw new Error("Contribution history is empty");
-        const safeTotals = payload.total && typeof payload.total === "object"
-          ? Object.fromEntries(Object.entries(payload.total).filter(([year, count]) => /^\d{4}$/.test(year) && Number.isFinite(count)))
-          : {};
-        setDays(safeDays);
-        setTotals(safeTotals);
+        if (!payload?.available || !Array.isArray(payload.contributions)) {
+          throw new Error("Public pull-request index was not generated");
+        }
+
+        const safeItems = payload.contributions.map(safePublicPullRequest).filter(Boolean);
+        if (payload.contributions.length > 0 && safeItems.length === 0) {
+          throw new Error("Public pull-request index did not pass validation");
+        }
+
+        if (safeItems.length === 0) {
+          setLoadState("fallback");
+          return;
+        }
+
+        const ownerCounts = new Map();
+        safeItems.forEach((item) => ownerCounts.set(item.owner.toLowerCase(), (ownerCounts.get(item.owner.toLowerCase()) ?? 0) + 1));
+        const preferredOwner = [...ownerCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "kestra-io";
+
+        setContributions(safeItems);
+        setSelectedOwner((current) => safeItems.some((item) => item.owner.toLowerCase() === current.toLowerCase()) ? current : preferredOwner);
+        setIndexMeta({
+          generatedAt: typeof payload.generatedAt === "string" ? payload.generatedAt : null,
+          sourceResultCount: Number.isFinite(payload.sourceResultCount) ? payload.sourceResultCount : 0,
+          indexedCount: Number.isFinite(payload.indexedCount) ? payload.indexedCount : safeItems.length,
+          truncated: Boolean(payload.truncated),
+          incompleteResults: Boolean(payload.incompleteResults),
+        });
         setLoadState("live");
       })
       .catch((error) => {
         if (error.name !== "AbortError") setLoadState("fallback");
       });
+
     return () => controller.abort();
   }, []);
 
-  const { weeks, total, startLabel, endLabel } = useMemo(() => {
-    const contributionMap = new Map(days.map((day) => [day.date, day]));
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    let rangeStart;
-    let rangeEnd;
+  const organizations = useMemo(() => {
+    const grouped = new Map();
 
-    if (period === "last") {
-      rangeEnd = today;
-      rangeStart = new Date(today);
-      rangeStart.setDate(rangeStart.getDate() - 364);
-    } else {
-      const year = Number(period);
-      rangeStart = new Date(year, 0, 1);
-      rangeEnd = new Date(year, 11, 31);
-      if (year === today.getFullYear()) rangeEnd = today;
-    }
+    contributions.forEach((item) => {
+      const key = item.owner.toLowerCase();
+      if (!grouped.has(key)) grouped.set(key, { owner: item.owner, items: [] });
+      grouped.get(key).items.push(item);
+    });
 
-    const actualStart = new Date(rangeStart);
-    actualStart.setHours(0, 0, 0, 0);
-    const actualEnd = new Date(rangeEnd);
-    actualEnd.setHours(23, 59, 59, 999);
-    const gridStart = new Date(actualStart);
-    gridStart.setDate(gridStart.getDate() - gridStart.getDay());
-    const gridEnd = new Date(actualEnd);
-    gridEnd.setDate(gridEnd.getDate() + (6 - gridEnd.getDay()));
+    return [...grouped.values()]
+      .map((organization) => ({
+        ...organization,
+        name: ownerLabel(organization.owner),
+        mergedCount: organization.items.filter((item) => itemStatus(item) === "Merged").length,
+        openCount: organization.items.filter((item) => itemStatus(item) === "Open").length,
+        closedCount: organization.items.filter((item) => itemStatus(item) === "Closed").length,
+      }))
+      .sort((a, b) => b.items.length - a.items.length || a.name.localeCompare(b.name));
+  }, [contributions]);
 
-    const builtWeeks = [];
-    let weekStart = new Date(gridStart);
-    let periodTotal = 0;
-    while (weekStart <= gridEnd) {
-      const week = [];
-      for (let dayIndex = 0; dayIndex < 7; dayIndex += 1) {
-        const date = new Date(weekStart);
-        date.setDate(weekStart.getDate() + dayIndex);
-        const key = formatLocalDate(date);
-        const inRange = date >= actualStart && date <= actualEnd;
-        const item = inRange ? contributionMap.get(key) : null;
-        const count = item ? item.count : 0;
-        if (item) periodTotal += item.count;
-        week.push({
-          key,
-          date,
-          count,
-          level: item ? item.level : 0,
-          inRange,
-        });
-      }
-      builtWeeks.push(week);
-      weekStart.setDate(weekStart.getDate() + 7);
-    }
+  const filteredOrganizations = useMemo(() => {
+    const query = organizationQuery.trim().toLowerCase();
+    if (!query) return organizations;
+    return organizations.filter((organization) =>
+      organization.name.toLowerCase().includes(query) || organization.owner.toLowerCase().includes(query),
+    );
+  }, [organizations, organizationQuery]);
 
-    return {
-      weeks: builtWeeks,
-      total: period === "last" ? periodTotal : (totals[period] ?? periodTotal),
-      startLabel: actualStart.toLocaleDateString("en-US", { month: "short", year: "numeric" }),
-      endLabel: actualEnd.toLocaleDateString("en-US", { month: "short", year: "numeric" }),
-    };
-  }, [days, totals, period]);
+  const selectedOrganization = organizations.find((organization) => organization.owner.toLowerCase() === selectedOwner.toLowerCase()) ?? organizations[0] ?? null;
 
-  const yearOptions = useMemo(() => Object.keys(totals).sort((a, b) => Number(b) - Number(a)), [totals]);
-  const totalLabel = loadState === "live" ? total.toLocaleString() : loadState === "loading" ? "…" : "—";
-  let lastMonthKey = "";
-  const monthSlots = weeks.map((week, index) => {
-    const firstOfMonth = week.find((day) => day.inRange && day.date.getDate() === 1);
-    const firstInRange = week.find((day) => day.inRange);
-    const marker = firstOfMonth || (index === 0 ? firstInRange : null);
-    if (!marker) return { key: index, label: "" };
-    const monthKey = marker.date.getFullYear() + "-" + marker.date.getMonth();
-    if (monthKey === lastMonthKey) return { key: index, label: "" };
-    lastMonthKey = monthKey;
-    return {
-      key: index,
-      label: marker.date.toLocaleDateString("en-US", { month: "short" }),
-    };
-  });
+  const filteredPullRequests = useMemo(() => {
+    if (!selectedOrganization) return [];
+    const query = pullRequestQuery.trim().toLowerCase();
 
-  return (
-    <aside className={styles.githubGraphPanel} aria-labelledby="github-graph-heading">
-      <nav className={styles.githubGraphYearRail} aria-label="Choose GitHub contribution period">
-        <span>YEAR</span>
-        <button type="button" className={period === "last" ? styles.githubGraphYearActive : styles.githubGraphYear} aria-pressed={period === "last"} onClick={() => setPeriod("last")}>12 mo</button>
-        {yearOptions.map((year) => (
-          <button key={year} type="button" className={period === year ? styles.githubGraphYearActive : styles.githubGraphYear} aria-pressed={period === year} onClick={() => setPeriod(year)}>{year}</button>
-        ))}
-      </nav>
-      <div className={styles.githubGraphMain}>
-        <div className={styles.githubGraphTop}>
-        <a className={styles.githubGraphTitle} href={githubProfile} target="_blank" rel="noreferrer" aria-label="Open Sanjeev's GitHub profile">
-          <GitHubMark className={styles.githubGraphMark} />
-          <span id="github-graph-heading">GitHub contributions</span>
-          <span className={styles.githubTitleArrow} aria-hidden="true">↗</span>
-        </a>
+    return selectedOrganization.items
+      .filter((item) => statusFilter === "All" || itemStatus(item) === statusFilter)
+      .filter((item) => !query || item.title.toLowerCase().includes(query) || item.repository.toLowerCase().includes(query) || String(item.number).includes(query))
+      .sort((a, b) => {
+        const dateA = a.updatedAt ? Date.parse(a.updatedAt) : a.createdAt ? Date.parse(a.createdAt) : 0;
+        const dateB = b.updatedAt ? Date.parse(b.updatedAt) : b.createdAt ? Date.parse(b.createdAt) : 0;
+        return dateB - dateA || b.number - a.number;
+      });
+  }, [selectedOrganization, pullRequestQuery, statusFilter]);
 
-      </div>
+  const visiblePullRequests = filteredPullRequests.slice(0, visibleCount);
+  const indexedLabel = loadState === "loading"
+    ? "Loading the public contribution index…"
+    : loadState === "fallback"
+      ? "Showing the curated contribution list; the full index could not be refreshed."
+      : `${(indexMeta?.indexedCount ?? contributions.length).toLocaleString()} public pull requests across ${organizations.length.toLocaleString()} project owners indexed${indexMeta?.truncated ? " · GitHub Search API limit reached; older contributions may be missing" : ""}${indexMeta?.incompleteResults ? " · GitHub reported an incomplete search result" : ""}.`;
 
-      <div className={styles.githubGraphMeta}>
-        <span>{loadState === "loading" ? "Loading live contribution history…" : loadState === "fallback" ? "Contribution history unavailable" : `${startLabel} — ${endLabel}`}</span>
-        <span>{totalLabel} contributions</span>
-      </div>
+  function selectOrganization(owner) {
+    setSelectedOwner(owner);
+    setPullRequestQuery("");
+    setStatusFilter("All");
+    setVisibleCount(PAGE_SIZE);
+  }
 
-      {loadState === "fallback" ? (
-        <p className={styles.githubGraphUnavailable} role="status">
-          Live contribution data could not be loaded right now. No zero total is assumed. <a href={githubProfile} target="_blank" rel="noreferrer">View the live GitHub profile ↗</a>
-        </p>
-      ) : null}
-      <div className={styles.githubHeatmapViewport} tabIndex={0} role="region" aria-label="Scrollable GitHub contribution calendar">
-        <div className={styles.githubHeatmapInner}>
-          <div className={styles.githubMonthRail} style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))` }}>
-            {monthSlots.map((month) => <span key={month.key}>{month.label}</span>)}
-          </div>
-          <div className={styles.githubHeatmapBody}>
-            <div className={styles.githubWeekdayRail} aria-hidden="true">
-              <span></span><span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span>
-            </div>
-            <div className={styles.githubHeatmapGrid} style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))` }} role="grid" aria-label="Daily contribution levels">
-              {weeks.map((week, weekIndex) => (
-                <div className={styles.githubHeatmapWeek} key={weekIndex} role="row">
-                  {week.map((day) => (
-                    <span
-                      key={day.key}
-                      className={styles.githubHeatmapDay}
-                      data-level={!day.inRange ? "empty" : loadState === "live" ? day.level : "unknown"}
-                      title={!day.inRange ? "" : loadState === "live" ? `${day.count} contributions on ${day.key}` : `Contribution data ${loadState} for ${day.key}`}
-                      role="gridcell"
-                      aria-label={!day.inRange ? "Outside selected period" : loadState === "live" ? `${day.count} contributions on ${day.key}` : `Contribution data ${loadState} for ${day.key}`}
-                    />
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-        <div className={styles.githubGraphFooter}>
-          {loadState === "live" ? (
-            <span className={styles.heatmapLegend}><span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><i data-level="4" /><span>More</span></span>
-          ) : <span className={styles.heatmapSource}>Intensity legend appears when contribution data loads.</span>}
-          <span className={styles.heatmapSource}>{loadState === "live" ? "Live public contribution history" : "Source: GitHub profile"}</span>
-        </div>
-      </div>
-      <div className={styles.githubGraphStats}>
-        <div className={styles.githubGraphStat}>
-          <span className={styles.graphStatIcon}>▥</span>
-          <span><strong>{totalLabel}</strong><small>Contributions {loadState === "live" ? "" : loadState === "loading" ? "loading" : "unavailable"}</small></span>
-        </div>
-        <div className={styles.githubGraphStat}>
-          <span className={styles.graphStatIcon}>⑂</span>
-          <span><strong>{mergedCount}</strong><small>Merged PRs shown</small></span>
-        </div>
-        <div className={styles.githubGraphStat}>
-          <span className={styles.graphStatIcon}>⌘</span>
-          <span><strong>{trackedCount}</strong><small>PRs tracked here</small></span>
-        </div>
-        <div className={styles.githubGraphStat}>
-          <span className={styles.graphStatIcon}>♧</span>
-          <span><strong>{communityCount}</strong><small>Communities</small></span>
-        </div>
-        <p className={styles.graphStatNote}>{openCount} pull requests in the curated list are still open.</p>
-      </div>
-      <div className={styles.githubGraphBadges}>
-        <GitHubAchievementShelf />
-      </div>
-    </aside>
-  );
-}
-
-function ContributionCard({ item }) {
-  const [logoFailed, setLogoFailed] = useState(false);
-
-  return (
-    <article className={styles.contributionCard}>
-      <div className={styles.contributionCardMain}>
-        <div className={styles.contributionCardHeader}>
-          <a className={styles.contributionOrgLogo} href={item.organizationUrl} target="_blank" rel="noreferrer" aria-label={`Visit ${item.organization}`}>
-            {!logoFailed ? <img src={item.logo} alt="" loading="lazy" onError={() => setLogoFailed(true)} /> : <GitHubMark />}
-          </a>
-          <div className={styles.contributionCardTitle}>
-            <div className={styles.contributionRepoLabel}><span>{item.organization}</span><i>/</i><span>{item.repository}</span></div>
-            <h3>{item.title}</h3>
-          </div>
-          <span className={styles.contributionStatus} data-status={item.status.toLowerCase()}>{item.status}</span>
-        </div>
-        <p className={styles.contributionCardDescription}>{item.description}</p>
-        <div className={styles.contributionTags}>{item.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-        <div className={styles.contributionCardFooter}>
-          <span>Pull request <b>#{item.number}</b></span>
-          <a className={styles.contributionGitHubLink} href={item.url} target="_blank" rel="noreferrer" aria-label={`Open ${item.organization} ${item.repository} pull request ${item.number} on GitHub`}>
-            <GitHubMark />
-            <span>Open on GitHub</span>
-          </a>
-        </div>
-      </div>
-      <div className={styles.contributionRepoPreview} aria-hidden="true">
-        <span className={styles.repoPreviewTop}><i />{item.repository}</span>
-        <GitHubMark className={styles.repoPreviewMark} />
-        <span className={styles.repoPreviewStatus}>{item.status === "Merged" ? "Merged upstream" : "Under review"}</span>
-        <span className={styles.repoPreviewLines}><i /><i /><i /></span>
-      </div>
-    </article>
-  );
-}
-
-export default function OpenSourceShowcase() {
-  const [filter, setFilter] = useState("all");
-  const [showAll, setShowAll] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(6);
-
-  const organizationsCount = communities.length;
-  const mergedCount = contributions.filter((item) => item.status === "Merged").length;
-  const openCount = contributions.filter((item) => item.status === "Open").length;
-  const filteredContributions = useMemo(
-    () => contributions.filter((item) => filter === "all" || item.status.toLowerCase() === filter),
-    [filter],
-  );
-  const visibleContributions = showAll ? filteredContributions : filteredContributions.slice(0, visibleCount);
+  function updateStatusFilter(status) {
+    setStatusFilter(status);
+    setVisibleCount(PAGE_SIZE);
+  }
 
   return (
     <section className={styles.openSourceSection} id="open-source" aria-labelledby="open-source-heading" tabIndex={-1}>
-      <div className={styles.openSourceIntroLayout}>
-        <div className={styles.openSourceIntro}>
-          <p className={styles.openSourceEyebrow}><span>04</span><i /> OPEN SOURCE <b /></p>
-          <h2 id="open-source-heading">Open <span>Source</span></h2>
-          <p className={styles.openSourceLead}>I work in upstream codebases—reproducing issues, adding tests, responding to review, and improving tools other developers rely on. Every card below links to the original pull request.</p>
-          <div className={styles.openSourceActions}>
-            <a className={styles.githubProfileButton} href={githubProfile} target="_blank" rel="noreferrer">
-              <GitHubMark /> <span>View GitHub</span><span className={styles.actionArrow} aria-hidden="true">→</span>
-            </a>
-            <a className={styles.allContributionsButton} href={allPullRequests} target="_blank" rel="noreferrer">
-              See all contributions <span aria-hidden="true">→</span>
-            </a>
+      <header className={styles.openSourceHeader}>
+        <div>
+          <p className={styles.openSourceEyebrow}>OPEN SOURCE <span /> CONTRIBUTION INDEX</p>
+          <h2 id="open-source-heading">Contributions, <span>by project owner.</span></h2>
+          <p className={styles.openSourceLead}>Choose an organization or repository owner to see the public pull requests I have opened there.</p>
+        </div>
+        <a className={styles.profileLink} href={githubProfile} target="_blank" rel="noreferrer">
+          <GitHubMark /> GitHub profile <span aria-hidden="true">↗</span>
+        </a>
+      </header>
+
+      <div className={styles.indexMetaLine} aria-live="polite">
+        <span className={loadState === "live" ? styles.indexStatusLive : styles.indexStatus} aria-hidden="true" />
+        <span>{indexedLabel}</span>
+        <a href={allPullRequests} target="_blank" rel="noreferrer">View all on GitHub ↗</a>
+      </div>
+
+      <div className={styles.organizationExplorer}>
+        <aside className={styles.organizationRail} aria-label="Filter contributions by project owner">
+          <div className={styles.organizationRailHeading}>
+            <span>PROJECT OWNERS</span>
+            <strong>{organizations.length.toLocaleString()}</strong>
           </div>
-          <div className={styles.openSourceProofLine}>
-            <span><i /> {organizationsCount} communities</span>
-            <span>{mergedCount} curated merged PRs</span>
-            <span>{openCount} open PRs tracked</span>
+          <label className={styles.visuallyHidden} htmlFor="organization-search">Find an organization or owner</label>
+          <input
+            id="organization-search"
+            className={styles.organizationSearch}
+            type="search"
+            value={organizationQuery}
+            onChange={(event) => setOrganizationQuery(event.target.value)}
+            placeholder="Find an organization…"
+          />
+
+          <div className={styles.organizationList} role="list">
+            {filteredOrganizations.map((organization) => {
+              const isSelected = organization.owner.toLowerCase() === (selectedOrganization?.owner ?? "").toLowerCase();
+
+              return (
+                <button
+                  key={organization.owner.toLowerCase()}
+                  type="button"
+                  aria-pressed={isSelected}
+                  className={isSelected ? styles.organizationButtonActive : styles.organizationButton}
+                  onClick={() => selectOrganization(organization.owner)}
+                >
+                  <OrganizationAvatar owner={organization.owner} name={organization.name} />
+                  <span className={styles.organizationButtonText}>
+                    <strong>{organization.name}</strong>
+                    <small>@{organization.owner}</small>
+                  </span>
+                  <span className={styles.organizationCount}>{organization.items.length.toLocaleString()}</span>
+                </button>
+              );
+            })}
+            {filteredOrganizations.length === 0 ? <p className={styles.organizationEmpty}>No owner matches that search.</p> : null}
           </div>
-        </div>
-        <GitHubContributionGraph communityCount={organizationsCount} mergedCount={mergedCount} trackedCount={contributions.length} openCount={openCount} />
+        </aside>
+
+        <section className={styles.organizationDetail} aria-labelledby="selected-organization-heading">
+          {selectedOrganization ? (
+            <>
+              <header className={styles.organizationDetailHeader}>
+                <OrganizationAvatar owner={selectedOrganization.owner} name={selectedOrganization.name} large />
+                <div className={styles.organizationDetailIdentity}>
+                  <span className={styles.detailEyebrow}>CONTRIBUTIONS TO</span>
+                  <h3 id="selected-organization-heading">{selectedOrganization.name}</h3>
+                  <a href={ownerUrl(selectedOrganization.owner)} target="_blank" rel="noreferrer">@{selectedOrganization.owner} <span aria-hidden="true">↗</span></a>
+                </div>
+                <div className={styles.organizationDetailMetrics} aria-label="Pull request summary">
+                  <span><strong>{selectedOrganization.items.length.toLocaleString()}</strong><small>Total</small></span>
+                  <span><strong>{selectedOrganization.mergedCount.toLocaleString()}</strong><small>Merged</small></span>
+                  <span><strong>{selectedOrganization.openCount.toLocaleString()}</strong><small>Open</small></span>
+                </div>
+              </header>
+
+              <div className={styles.pullRequestTools}>
+                <div className={styles.statusFilters} role="group" aria-label="Filter pull requests by status">
+                  {[
+                    { label: "All", count: selectedOrganization.items.length },
+                    { label: "Merged", count: selectedOrganization.mergedCount },
+                    { label: "Open", count: selectedOrganization.openCount },
+                    { label: "Closed", count: selectedOrganization.closedCount },
+                  ].map((filter) => (
+                    <button
+                      key={filter.label}
+                      type="button"
+                      aria-pressed={statusFilter === filter.label}
+                      className={statusFilter === filter.label ? styles.statusFilterActive : styles.statusFilter}
+                      onClick={() => updateStatusFilter(filter.label)}
+                    >
+                      {filter.label}<span>{filter.count.toLocaleString()}</span>
+                    </button>
+                  ))}
+                </div>
+                <label className={styles.visuallyHidden} htmlFor="pull-request-search">Search this organization's pull requests</label>
+                <input
+                  id="pull-request-search"
+                  className={styles.pullRequestSearch}
+                  type="search"
+                  value={pullRequestQuery}
+                  onChange={(event) => {
+                    setPullRequestQuery(event.target.value);
+                    setVisibleCount(PAGE_SIZE);
+                  }}
+                  placeholder="Search this organization…"
+                />
+              </div>
+
+              <div className={styles.pullRequestListRegion} aria-live="polite">
+                {filteredPullRequests.length > 0 ? (
+                  <ul className={styles.pullRequestList}>
+                    {visiblePullRequests.map((item) => <ContributionRow key={item.id} item={item} />)}
+                  </ul>
+                ) : (
+                  <div className={styles.noPullRequests}>
+                    <strong>No pull requests found.</strong>
+                    <span>Try another status or search term.</span>
+                  </div>
+                )}
+              </div>
+
+              <footer className={styles.pullRequestFooter}>
+                <span>Showing {Math.min(visibleCount, filteredPullRequests.length).toLocaleString()} of {filteredPullRequests.length.toLocaleString()}</span>
+                {visibleCount < filteredPullRequests.length ? (
+                  <button type="button" className={styles.showMoreButton} onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}>
+                    Show 20 more <span aria-hidden="true">↓</span>
+                  </button>
+                ) : (
+                  <a href={`https://github.com/${selectedOrganization.owner}/?tab=repositories`} target="_blank" rel="noreferrer">Explore repositories ↗</a>
+                )}
+              </footer>
+            </>
+          ) : (
+            <div className={styles.noPullRequests}>
+              <strong>No contribution data available.</strong>
+              <span>Visit the <a href={allPullRequests} target="_blank" rel="noreferrer">public pull-request list on GitHub</a>.</span>
+            </div>
+          )}
+        </section>
       </div>
 
-      <div className={styles.featuredContributionsPanel}>
-        <div className={styles.featuredContributionsHeader}>
-          <div>
-            <p>UPSTREAM WORK / REVIEW TRAIL</p>
-            <h3>Featured contributions</h3>
-            <span>Small, verifiable slices of work—not a list of claims.</span>
-          </div>
-          <a href={allPullRequests} target="_blank" rel="noreferrer">View all on GitHub <span aria-hidden="true">→</span></a>
-        </div>
-
-        <div className={styles.contributionFilters} role="group" aria-label="Filter featured pull requests">
-          {[
-            { id: "all", label: "All", count: contributions.length },
-            { id: "merged", label: "Merged", count: mergedCount },
-            { id: "open", label: "Open", count: openCount },
-          ].map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={filter === item.id ? styles.contributionFilterActive : styles.contributionFilter}
-              aria-pressed={filter === item.id}
-              onClick={() => {
-                setFilter(item.id);
-                setShowAll(false);
-                setVisibleCount(6);
-              }}
-            >
-              {item.label}<span>{item.count}</span>
-            </button>
-          ))}
-        </div>
-
-        <div className={styles.contributionCardGrid} aria-live="polite">
-          {visibleContributions.map((item) => <ContributionCard key={item.id} item={item} />)}
-        </div>
-
-        {filteredContributions.length > 6 ? (
-          <button
-            type="button"
-            className={styles.showAllContributions}
-            aria-expanded={showAll}
-            onClick={() => setShowAll((current) => !current)}
-          >
-            {showAll ? "Show fewer contributions" : `Explore all ${filteredContributions.length} curated pull requests`}
-            <span aria-hidden="true">{showAll ? "−" : "+"}</span>
-          </button>
-        ) : null}
-      </div>
-
-      <div className={styles.communityStrip} aria-label="Open-source communities">
-        <span className={styles.communityStripLabel}>COMMUNITIES</span>
-        {communities.map((community) => (
-          <a key={community.name} href={community.url} target="_blank" rel="noreferrer" className={styles.communityPill}>
-            <img src={community.logo} alt="" loading="lazy" />
-            <span>{community.name}</span>
-            <span className={styles.communityArrow} aria-hidden="true">↗</span>
-          </a>
-        ))}
-      </div>
-
-      <div className={styles.openSourceValues}>
-        <div><span className={styles.valueGlyph} data-color="blue">◇</span><span><strong>Make a real impact</strong><small>Small fixes in software people use.</small></span></div>
-        <div><span className={styles.valueGlyph} data-color="violet">⌘</span><span><strong>Learn in public</strong><small>Follow issues through review.</small></span></div>
-        <div><span className={styles.valueGlyph} data-color="cyan">↗</span><span><strong>Collaborate upstream</strong><small>Respect project conventions.</small></span></div>
-        <div><span className={styles.valueGlyph} data-color="coral">♡</span><span><strong>Give back</strong><small>Improve tools I use and learn from.</small></span></div>
-      </div>
+      <p className={styles.sourceNote}>
+        Public pull requests authored by <a href={githubProfile} target="_blank" rel="noreferrer">@knockknock10</a>. The index is generated during site deployment; pull requests created after the last deployment will appear on the next build.
+      </p>
     </section>
   );
 }
