@@ -241,7 +241,7 @@ export default function OpenSourceShowcase() {
     ? "Loading the public contribution index…"
     : loadState === "fallback"
       ? "Showing the curated contribution list; the full index could not be refreshed."
-      : `${(indexMeta?.indexedCount ?? contributions.length).toLocaleString()} public pull requests across ${organizations.length.toLocaleString()} organization owners indexed${indexMeta?.truncated ? " · GitHub Search API limit reached; older contributions may be missing" : ""}${indexMeta?.incompleteResults ? " · GitHub reported an incomplete search result" : ""}.`;
+      : `${(indexMeta?.indexedCount ?? contributions.length).toLocaleString()} public pull requests across ${organizations.length.toLocaleString()} project owners indexed${indexMeta?.truncated ? " · GitHub Search API limit reached; older contributions may be missing" : ""}${indexMeta?.incompleteResults ? " · GitHub reported an incomplete search result" : ""}.`;
 
   function selectOrganization(owner) {
     setSelectedOwner(owner);
@@ -260,8 +260,8 @@ export default function OpenSourceShowcase() {
       <header className={styles.openSourceHeader}>
         <div>
           <p className={styles.openSourceEyebrow}>OPEN SOURCE <span /> CONTRIBUTION INDEX</p>
-          <h2 id="open-source-heading">Contributions, <span>by organization.</span></h2>
-          <p className={styles.openSourceLead}>Choose an organization to see the public pull requests I have opened there.</p>
+          <h2 id="open-source-heading">Contributions, <span>by project owner.</span></h2>
+          <p className={styles.openSourceLead}>Choose an organization or repository owner to see the public pull requests I have opened there.</p>
         </div>
         <a className={styles.profileLink} href={githubProfile} target="_blank" rel="noreferrer">
           <GitHubMark /> GitHub profile <span aria-hidden="true">↗</span>
@@ -275,12 +275,12 @@ export default function OpenSourceShowcase() {
       </div>
 
       <div className={styles.organizationExplorer}>
-        <aside className={styles.organizationRail} aria-label="Filter contributions by organization">
+        <aside className={styles.organizationRail} aria-label="Filter contributions by project owner">
           <div className={styles.organizationRailHeading}>
-            <span>ORGANIZATIONS</span>
+            <span>PROJECT OWNERS</span>
             <strong>{organizations.length.toLocaleString()}</strong>
           </div>
-          <label className={styles.visuallyHidden} htmlFor="organization-search">Find an organization</label>
+          <label className={styles.visuallyHidden} htmlFor="organization-search">Find an organization or owner</label>
           <input
             id="organization-search"
             className={styles.organizationSearch}
@@ -311,7 +311,7 @@ export default function OpenSourceShowcase() {
                 </button>
               );
             })}
-            {filteredOrganizations.length === 0 ? <p className={styles.organizationEmpty}>No organization matches that search.</p> : null}
+            {filteredOrganizations.length === 0 ? <p className={styles.organizationEmpty}>No owner matches that search.</p> : null}
           </div>
         </aside>
 
