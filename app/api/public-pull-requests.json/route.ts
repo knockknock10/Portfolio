@@ -37,7 +37,7 @@ type PublicPullRequest = {
 
 async function fetchPage(page: number): Promise<GitHubSearchPayload> {
   const url = new URL(SEARCH_ENDPOINT)
-  url.searchParams.set("q", "author:knockknock10 is:pr")
+  url.searchParams.set("q", "author:knockknock10 is:pr -user:knockknock10")
   url.searchParams.set("sort", "updated")
   url.searchParams.set("order", "desc")
   url.searchParams.set("per_page", String(PAGE_SIZE))
