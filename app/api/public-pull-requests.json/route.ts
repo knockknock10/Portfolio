@@ -101,6 +101,8 @@ function normalizePullRequest(item: GitHubSearchPullRequest): PublicPullRequest 
 
   const owner = repositoryParts[1]
   const repository = repositoryParts[2]
+  // The portfolio should highlight contributions to other owners' projects, not PRs in Sanjeev's own repositories.
+  if (owner.toLowerCase() === "knockknock10") return null
   const mergedAt = item.pull_request?.merged_at ?? null
 
   return {
@@ -147,16 +149,12 @@ export async function GET() {
       return rightDate - leftDate
     })
 
-    if (reportedTotal > 0 && contributions.length === 0) {
-      throw new Error("GitHub returned no valid public pull-request records.")
-    }
-
     return Response.json({
       available: true,
       generatedAt: new Date().toISOString(),
-      reportedTotal,
+      sourceResultCount: reportedTotal,
       indexedCount: contributions.length,
-      truncated: reportedTotal > contributions.length,
+      truncated: reportedTotal > MAX_SEARCH_RESULTS,
       incompleteResults: payloads.some((payload) => payload.incomplete_results === true),
       contributions,
     })
@@ -164,7 +162,7 @@ export async function GET() {
     return Response.json({
       available: false,
       generatedAt: new Date().toISOString(),
-      reportedTotal: 0,
+      sourceResultCount: 0,
       indexedCount: 0,
       truncated: false,
       incompleteResults: false,
