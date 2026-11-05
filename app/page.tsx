@@ -2,9 +2,15 @@ import { Header, type NavLink } from "@/components/site/Header"
 import { Hero, type Fact } from "@/components/site/Hero"
 import { Work } from "@/components/site/Work"
 import { Research } from "@/components/site/Research"
-import { OpenSource } from "@/components/site/OpenSource"
+// import { OpenSource } from "@/components/site/OpenSource"
+import { OpenSourceGlass } from "@/components/site/OpenSourceGlass"
+import { LiquidField } from "@/components/site/LiquidField"
+import { Interactions } from "@/components/site/Interactions"
+import { Certificates, type CertificateView } from "@/components/site/Certificates"
+import { SkillsGlass } from "@/components/site/SkillsGlass"
+import { getCertificationsData } from "@/lib/certifications"
 import { Experience } from "@/components/site/Experience"
-import { Skills } from "@/components/site/Skills"
+// import { Skills } from "@/components/site/Skills"
 import { Practice } from "@/components/site/Practice"
 import { About } from "@/components/site/About"
 import { Contact, type ContactLink } from "@/components/site/Contact"
@@ -22,6 +28,7 @@ const links: NavLink[] = [
   { id: "open-source", label: "Open source" },
   { id: "experience", label: "Experience" },
   { id: "skills", label: "Skills" },
+  { id: "certificates", label: "Certificates" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
 ]
@@ -36,6 +43,20 @@ export default async function HomePage() {
   const research = getResearchData()
   const internships = getInternshipsData()
   const upstream = await getUpstream()
+  const certificates: CertificateView[] = getCertificationsData().map((item) => {
+    const value = (field: string | "MISSING") => (field === "MISSING" ? null : field)
+    const file = value(item.certificateImage)
+    return {
+      title: item.title,
+      issuer: value(item.issuer),
+      date: value(item.issueDate),
+      credentialId: value(item.credentialId),
+      credentialUrl: value(item.credentialUrl),
+      skills: Array.isArray(item.skillsCovered) ? item.skillsCovered : [],
+      file,
+      isPdf: file ? /\.pdf$/i.test(file) : false,
+    }
+  })
 
   const name = content.identity.professionalName ?? content.identity.fullName ?? "Sanjeev Kumar"
   const email = content.contact.email
@@ -65,16 +86,19 @@ export default async function HomePage() {
 
   return (
     <>
+      <LiquidField />
+      <Interactions />
       <Header name={name} links={links} resumeHref={resumeHref} email={email} />
       <main id="main-content" tabIndex={-1}>
         <Hero email={email} resumeHref={resumeHref} github={github} linkedin={linkedin} leetcode={leetcode} facts={facts} />
         <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
         <Research paper={paper} other={otherResearch} />
-        <OpenSource data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} />
+        <OpenSourceGlass data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} />
         <Experience internships={internships} />
-        <Skills>
+        <SkillsGlass>
           <Practice stats={signals.leetcode} />
-        </Skills>
+        </SkillsGlass>
+        <Certificates items={certificates} />
         <About location={content.contact.location} />
         <Contact email={email} location={content.contact.location} links={contactLinks} />
       </main>
