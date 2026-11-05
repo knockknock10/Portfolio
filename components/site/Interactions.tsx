@@ -28,7 +28,7 @@ export function Interactions() {
   return null
 }
 
-/* Previous implementation retained verbatim as line comments (inactive):
+// Previous implementation retained verbatim below as inactive line comments:
 // "use client"
 // 
 // import { useEffect } from "react"
@@ -154,4 +154,3 @@ export function Interactions() {
 //   return null
 // }
 // 
-*/

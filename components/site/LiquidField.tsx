@@ -14,7 +14,7 @@ export function LiquidField() {
   )
 }
 
-/* Previous pointer-following implementation retained verbatim as line comments:
+// Previous pointer-following implementation retained verbatim below as inactive line comments:
 // "use client"
 // 
 // import { useEffect, useRef } from "react"
@@ -69,4 +69,3 @@ export function LiquidField() {
 //   )
 // }
 // 
-*/
