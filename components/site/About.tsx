@@ -1,8 +1,10 @@
 import { Reveal } from "./Reveal"
+import { BackgroundSVG } from "./BackgroundSVG"
 
 export function About({ location }: { location: string | null }) {
   return (
     <section className="sk-section sk-section--tint" id="about" aria-labelledby="about-title">
+      <BackgroundSVG variant="triangle" className="sk-deco-svg sk-deco-svg--triangle sk-deco-svg--right-bottom" />
       <div className="sk-wrap">
         <Reveal>
           <div className="sk-head">

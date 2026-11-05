@@ -1,6 +1,8 @@
 import type { UpstreamProject, UpstreamPullRequest, UpstreamSummary } from "@/lib/upstream.server"
 import { ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
+import { BackgroundSVG } from "./BackgroundSVG"
+import { CurvedLineBetween } from "./CurvedLineBetween"
 
 const PREVIEW_COUNT = 3
 const dateFormat = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })
@@ -40,6 +42,9 @@ function counts(project: UpstreamProject) {
 export function OpenSource({ data, profileUrl }: { data: UpstreamSummary; profileUrl: string }) {
   return (
     <section className="sk-section sk-section--tint" id="open-source" aria-labelledby="oss-title">
+      <BackgroundSVG variant="circle" className="sk-deco-svg sk-deco-svg--circle sk-deco-svg--right-top" />
+      <BackgroundSVG variant="square" className="sk-deco-svg sk-deco-svg--square sk-deco-svg--left-middle" />
+      <BackgroundSVG variant="triangle" className="sk-deco-svg sk-deco-svg--triangle sk-deco-svg--right-bottom" />
       <div className="sk-wrap">
         <Reveal>
           <div className="sk-head">
@@ -131,6 +136,7 @@ export function OpenSource({ data, profileUrl }: { data: UpstreamSummary; profil
           </Reveal>
         )}
       </div>
+      <CurvedLineBetween flipped />
     </section>
   )
 }

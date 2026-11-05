@@ -1,5 +1,6 @@
 import type { Internship } from "@/lib/internships"
 import { Reveal } from "./Reveal"
+import { BackgroundSVG } from "./BackgroundSVG"
 
 /*
   Dates, team size and employer links were never recorded for these entries
@@ -12,6 +13,7 @@ function list(value: string[] | "MISSING"): string[] {
 export function Experience({ internships }: { internships: Internship[] }) {
   return (
     <section className="sk-section sk-section--tight-bottom" id="experience" aria-labelledby="experience-title">
+      <BackgroundSVG variant="triangle" className="sk-deco-svg sk-deco-svg--triangle sk-deco-svg--right-top" />
       <div className="sk-wrap">
         <Reveal>
           <div className="sk-head">
