@@ -5,6 +5,7 @@ import { publicUrl } from "@/lib/public-url"
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider"
 import "./site.css"
 import "./glass.css"
+import "./portfolio-polish.css"
 
 const interTight = localFont({
   src: "../node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2",
