@@ -93,8 +93,18 @@ export default async function HomePage() {
         <Hero email={email} resumeHref={resumeHref} github={github} linkedin={linkedin} leetcode={leetcode} facts={facts} />
         <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
         <Research paper={paper} other={otherResearch} />
+        {/*
+          Previous OpenSource section retained for reference, not rendered:
+          <OpenSource data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} />
+        */}
         <OpenSourceGlass data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} />
         <Experience internships={internships} />
+        {/*
+          Previous Skills wrapper retained for reference, not rendered:
+          <Skills>
+            <Practice stats={signals.leetcode} />
+          </Skills>
+        */}
         <SkillsGlass>
           <Practice stats={signals.leetcode} />
         </SkillsGlass>
