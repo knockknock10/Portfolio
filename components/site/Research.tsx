@@ -3,6 +3,7 @@ import type { ResearchItem } from "@/lib/research"
 import { ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
 import { Wave } from "./Wave"
+import { BackgroundSVG } from "./BackgroundSVG"
 
 /*
   Result figures below are the ones already published on the previous Research
@@ -35,6 +36,7 @@ export function Research({ paper, other }: { paper: ResearchItem | null; other: 
     <section className="sk-section sk-dark" id="research" aria-labelledby="research-title">
       <Wave edge="top" />
       <Wave edge="bottom" />
+      <BackgroundSVG variant="blob2" className="sk-moving-svg sk-moving-svg--projects-middle" />
       <div className="sk-wrap">
         <Reveal>
           <div className="sk-head">

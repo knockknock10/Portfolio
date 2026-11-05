@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import { Reveal } from "./Reveal"
+import { BackgroundSVG } from "./BackgroundSVG"
 
 /*
   Grouped from the skills already listed in lib/portfolio-data.ts and the previous
@@ -16,6 +17,8 @@ const rows: { label: string; items: string; learning?: string }[] = [
 export function Skills({ children }: { children?: ReactNode }) {
   return (
     <section className="sk-section sk-section--follow" id="skills" aria-labelledby="skills-title">
+      <BackgroundSVG variant="circle" className="sk-deco-svg sk-deco-svg--circle sk-deco-svg--left-middle" />
+      <BackgroundSVG variant="triangle" className="sk-deco-svg sk-deco-svg--triangle sk-deco-svg--right-bottom" />
       <div className="sk-wrap">
         <Reveal>
           <div className="sk-head">

@@ -1,0 +1,12 @@
+name: Portfolio Browser Tools
+version: 0.0.1
+schema: v1
+
+mcpServers:
+  - name: Playwright
+    command: npx
+    args:
+      - -y
+      - "@playwright/mcp@latest"
+    cwd: /Users/kr/portfolio
+    connectionTimeout: 30000

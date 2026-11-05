@@ -1,0 +1,650 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner:
+    - generic:
+      - link "Sanjeev Kumar" [ref=e3] [cursor=pointer]:
+        - /url: "#top"
+      - navigation "Sections" [ref=e4]:
+        - link "Work" [ref=e5] [cursor=pointer]:
+          - /url: "#work"
+        - link "Research" [ref=e6] [cursor=pointer]:
+          - /url: "#research"
+        - link "Open source" [ref=e7] [cursor=pointer]:
+          - /url: "#open-source"
+        - link "Experience" [ref=e8] [cursor=pointer]:
+          - /url: "#experience"
+        - link "Skills" [ref=e9] [cursor=pointer]:
+          - /url: "#skills"
+        - link "About" [ref=e10] [cursor=pointer]:
+          - /url: "#about"
+        - link "Contact" [ref=e11] [cursor=pointer]:
+          - /url: "#contact"
+      - link "Résumé" [ref=e13] [cursor=pointer]:
+        - /url: /resume.pdf
+  - main [ref=e14]:
+    - region [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - generic [ref=e18]:
+            - paragraph [ref=e19]: Computer science student at SRM University AP
+            - heading "Sanjeev Kumar" [level=1] [ref=e20]:
+              - generic [ref=e21]: Sanjeev
+              - generic [ref=e22]: Kumar
+            - paragraph [ref=e23]: I build backend systems, send pull requests to open-source projects, and do research on speech watermarking.
+            - paragraph [ref=e24]: Open to software engineering internships and full-time roles.
+            - generic [ref=e25]:
+              - link "See my work" [ref=e26] [cursor=pointer]:
+                - /url: "#work"
+              - link "Résumé" [ref=e29] [cursor=pointer]:
+                - /url: /resume.pdf
+              - link "Email me" [ref=e32] [cursor=pointer]:
+                - /url: mailto:Sanjeev.kr10111@gmail.com
+            - generic [ref=e33]:
+              - link "GitHub" [ref=e34] [cursor=pointer]:
+                - /url: https://github.com/knockknock10
+              - link "LinkedIn" [ref=e37] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/sanjeev-kumar-ba567133a/
+              - link "LeetCode" [ref=e40] [cursor=pointer]:
+                - /url: https://leetcode.com/u/knockknock10/
+          - img "Sanjeev Kumar standing on a metro platform" [ref=e46]
+        - generic [ref=e47]:
+          - definition [ref=e49]:
+            - strong [ref=e50]: "28"
+            - generic [ref=e51]: pull requests merged upstream
+          - definition [ref=e53]:
+            - strong [ref=e54]: "9"
+            - generic [ref=e55]: open-source projects contributed to
+          - definition [ref=e57]:
+            - strong [ref=e58]: "404"
+            - generic [ref=e59]: LeetCode problems solved
+          - definition [ref=e61]:
+            - strong [ref=e62]: 1,997
+            - generic [ref=e63]: LeetCode contest rating
+    - region [ref=e64]:
+      - generic [ref=e65]:
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - paragraph [ref=e69]: Selected work
+            - heading "Things I've built" [level=2] [ref=e70]
+          - paragraph [ref=e71]: Five projects, each linked to its source code. Where there's a screenshot it's the real app; where there isn't, I've described how it's put together.
+        - generic [ref=e72]:
+          - article [ref=e74]:
+            - generic [ref=e75]:
+              - heading "Aevor" [level=3] [ref=e76]
+              - generic [ref=e77]:
+                - generic [ref=e78]: In development
+                - generic [ref=e79]: Platform architecture and engineering
+              - paragraph [ref=e80]: A developer platform that turns a GitHub issue into a proposed, validated pull request. Every proposed change is reviewed by a person before publication.
+              - list "Aevor technologies" [ref=e81]:
+                - listitem [ref=e82]: Go
+                - listitem [ref=e83]: Gin
+                - listitem [ref=e84]: GORM
+                - listitem [ref=e85]: PostgreSQL
+                - listitem [ref=e86]: React
+                - listitem [ref=e87]: FastAPI
+                - listitem [ref=e88]: Docker
+              - generic [ref=e89]:
+                - link "Platform code" [ref=e90] [cursor=pointer]:
+                  - /url: https://github.com/Aevor/platform
+                - link "Frontend code" [ref=e93] [cursor=pointer]:
+                  - /url: https://github.com/Aevor/Frontend
+            - generic [ref=e97]:
+              - paragraph [ref=e98]: How it works
+              - list [ref=e99]:
+                - listitem [ref=e100]: Read the issue and pull in a bounded amount of repository context
+                - listitem [ref=e101]: Propose a change as a diff a person can review
+                - listitem [ref=e102]: Apply the approved change and validate it with the project's own toolchain
+                - listitem [ref=e103]: Publish only after an explicit review
+          - article [ref=e105]:
+            - generic [ref=e106]:
+              - heading "CommitHub" [level=3] [ref=e107]
+              - generic [ref=e108]:
+                - generic [ref=e109]: In development
+                - generic [ref=e110]: Full-stack engineering
+              - paragraph [ref=e111]: "A GitHub-style collaboration platform I built to understand what happens under the interface: repositories, branches, commits, pull requests, reviews, merge conflicts and access control."
+              - list "CommitHub technologies" [ref=e112]:
+                - listitem [ref=e113]: React
+                - listitem [ref=e114]: Node.js
+                - listitem [ref=e115]: Express
+                - listitem [ref=e116]: MongoDB
+                - listitem [ref=e117]: Socket.io
+                - listitem [ref=e118]: Docker
+              - generic [ref=e119]:
+                - link "Live demo" [ref=e120] [cursor=pointer]:
+                  - /url: https://knockknock10.github.io/CommitHub/
+                - link "Code" [ref=e123] [cursor=pointer]:
+                  - /url: https://github.com/knockknock10/CommitHub
+            - generic [ref=e127]:
+              - paragraph [ref=e128]: How it works
+              - list [ref=e129]:
+                - listitem [ref=e130]: Model repositories, branches, commits and pull requests
+                - listitem [ref=e131]: Enforce permissions at the business-operation boundary, with JWT authentication and roles
+                - listitem [ref=e132]: Keep repository and review activity in sync in real time over WebSockets
+          - article [ref=e134]:
+            - generic [ref=e135]:
+              - heading "Wandera" [level=3] [ref=e136]
+              - generic [ref=e137]: Deployed
+              - paragraph [ref=e139]: A travel-stay listing site where you can browse places, look through photos and read or write reviews.
+              - list "Wandera technologies" [ref=e140]:
+                - listitem [ref=e141]: Node.js
+                - listitem [ref=e142]: Express
+                - listitem [ref=e143]: MongoDB
+                - listitem [ref=e144]: Cloudinary
+              - generic [ref=e145]:
+                - link "Live site" [ref=e146] [cursor=pointer]:
+                  - /url: https://wandera-bncl.onrender.com
+                - link "Code" [ref=e149] [cursor=pointer]:
+                  - /url: https://github.com/knockknock10/Wandera
+            - figure "The listings page" [ref=e152]:
+              - img "Wandera's listings page showing a grid of stays with photos and prices" [ref=e153]
+          - article [ref=e156]:
+            - generic [ref=e157]:
+              - heading "NovaFest" [level=3] [ref=e158]
+              - generic [ref=e159]: Completed
+              - paragraph [ref=e161]: A full-stack web project with a React front end and a Node.js, Express and MongoDB back end.
+              - list "NovaFest technologies" [ref=e162]:
+                - listitem [ref=e163]: React
+                - listitem [ref=e164]: Tailwind CSS
+                - listitem [ref=e165]: Express
+                - listitem [ref=e166]: MongoDB
+              - generic [ref=e167]:
+                - link "Live site" [ref=e168] [cursor=pointer]:
+                  - /url: https://novanest-1.netlify.app/
+                - link "Code" [ref=e171] [cursor=pointer]:
+                  - /url: https://github.com/knockknock10/NOVAFEST
+            - figure "The landing page" [ref=e174]:
+              - img "Landing page with a large hero photo of a modern house and a call-to-action" [ref=e175]
+          - article [ref=e178]:
+            - generic [ref=e179]:
+              - heading "ConvergenceGuard" [level=3] [ref=e180]
+              - generic [ref=e181]: Early stage
+              - paragraph [ref=e183]: An early microservices scaffold organised around inventory, order and payment services. I'm using it to work through where service boundaries should go.
+              - list "ConvergenceGuard technologies" [ref=e184]:
+                - listitem [ref=e185]: Microservices
+                - listitem [ref=e186]: Inventory
+                - listitem [ref=e187]: Orders
+                - listitem [ref=e188]: Payments
+              - link "Code" [ref=e190] [cursor=pointer]:
+                - /url: https://github.com/knockknock10/ConvergenceGuard
+            - generic [ref=e194]:
+              - paragraph [ref=e195]: The three services
+              - list [ref=e196]:
+                - listitem [ref=e197]: "Inventory: owns stock state"
+                - listitem [ref=e198]: "Orders: owns the order lifecycle"
+                - listitem [ref=e199]: "Payments: owns payment state, with a coordinator proposed to tie the flow together"
+        - paragraph [ref=e201]:
+          - text: There are 27 public repositories in total, including smaller experiments and my DSA practice.
+          - link "Browse them on GitHub" [ref=e202] [cursor=pointer]:
+            - /url: https://github.com/knockknock10?tab=repositories
+    - region [ref=e205]:
+      - generic [ref=e206]:
+        - generic [ref=e208]:
+          - generic [ref=e209]:
+            - paragraph [ref=e210]: Research
+            - heading "Watermarking speech" [level=2] [ref=e211]
+          - paragraph [ref=e212]: My first-author paper looks at where to hide a watermark in speech so that it survives, and whether a self-supervised model can help choose the spot.
+        - generic [ref=e213]:
+          - generic [ref=e215]:
+            - 'heading "SemBind: Inspectable Self-Supervised and Spectral Placement for Reference-Based Speech Watermarking" [level=3] [ref=e216]'
+            - generic [ref=e217]:
+              - generic [ref=e218]:
+                - term [ref=e219]: Authors
+                - definition [ref=e220]: Sanjeev Kumar, Aditya Kumar Sahu, Banashree Mandal, Biswajit Maity
+              - generic [ref=e221]:
+                - term [ref=e222]: Venue
+                - definition [ref=e223]: Submitted to IEEE Signal Processing Letters
+              - generic [ref=e224]:
+                - term [ref=e225]: Year
+                - definition [ref=e226]: "2026"
+            - paragraph [ref=e227]: "A controlled study of reference-based speech-watermark placement across all 2,620 LibriSpeech test-clean utterances, comparing five placement rules over six target SNRs. The HuBERT contribution map is directionally informative: low-contribution placement changes fewer transcripts than high-contribution placement. However, spectral-only placement changes fewer Whisper tiny.en transcripts than joint placement at five of the six tested strengths, so the current joint fusion does not consistently outperform spectral-only placement. The paper identifies local spectral suitability as the stronger operational criterion."
+            - generic [ref=e228]:
+              - link "Read the paper" [ref=e229] [cursor=pointer]:
+                - /url: /papers/SemBind.pdf
+              - link "Code" [ref=e232] [cursor=pointer]:
+                - /url: https://github.com/knockknock10/SemBind_Audio
+          - generic [ref=e236]:
+            - heading "Placement rules compared" [level=3] [ref=e237]
+            - paragraph [ref=e238]: Clean-reference benchmark across all 2,620 test-clean utterances.
+            - table [ref=e239]:
+              - rowgroup [ref=e240]:
+                - row [ref=e241]:
+                  - columnheader "Placement rule" [ref=e242]
+                  - columnheader "Payload recovered" [ref=e243]
+                  - columnheader "Mean SNR (dB)" [ref=e244]
+              - rowgroup [ref=e245]:
+                - row [ref=e246]:
+                  - rowheader "Joint (semantic + spectral)" [ref=e247]
+                  - cell "100%" [ref=e248]
+                  - cell "75.37" [ref=e249]
+                - row [ref=e250]:
+                  - rowheader "Semantic only" [ref=e251]
+                  - cell "100%" [ref=e252]
+                  - cell "73.30" [ref=e253]
+                - row [ref=e254]:
+                  - rowheader "Spectral only" [ref=e255]
+                  - cell "100%" [ref=e256]
+                  - cell "77.16" [ref=e257]
+                - row [ref=e258]:
+                  - rowheader "Random" [ref=e259]
+                  - cell "99.96%" [ref=e260]
+                  - cell "74.25" [ref=e261]
+            - generic [ref=e262]:
+              - generic [ref=e263]:
+                - strong [ref=e264]: 2,620
+                - text: audio samples (LibriSpeech test-clean)
+              - generic [ref=e265]:
+                - strong [ref=e266]: "40"
+                - text: speakers
+              - generic [ref=e267]:
+                - strong [ref=e268]: 5.40 hrs
+                - text: of 16 kHz speech
+              - generic [ref=e269]:
+                - strong [ref=e270]: "3"
+                - text: replicas of each payload bit
+        - paragraph [ref=e272]: "What I found: the model's contribution map is a useful signal, but in the current tests local spectral suitability was the stronger criterion, and the joint method did not consistently beat spectral-only. The paper has been submitted and is not yet published."
+        - generic [ref=e274]:
+          - heading "Nanosensor Network Communication Simulator" [level=3] [ref=e275]
+          - generic [ref=e276]:
+            - paragraph [ref=e277]: MATLAB-based research experience focused on nano-scale sensor-network communication, including routing and packet propagation.
+            - paragraph [ref=e278]: MATLAB · Nano-scale sensor networks · Routing · Packet propagation
+    - region [ref=e279]:
+      - generic [ref=e280]:
+        - generic [ref=e282]:
+          - generic [ref=e283]:
+            - paragraph [ref=e284]: Open source
+            - heading "Work in other people's code" [level=2] [ref=e285]
+          - paragraph [ref=e286]: I send pull requests to projects I don't own, mostly tests, CI fixes, plugins and docs. Here is what has been merged, and what is still waiting on review.
+        - generic [ref=e288]:
+          - generic [ref=e289]:
+            - strong [ref=e290]: "28"
+            - text: pull requests merged
+          - generic [ref=e291]:
+            - strong [ref=e292]: "15"
+            - text: open, in review
+          - generic [ref=e293]:
+            - strong [ref=e294]: "9"
+            - text: projects
+        - generic [ref=e295]:
+          - article [ref=e297]:
+            - generic [ref=e298]:
+              - heading "Ansvisor" [level=3] [ref=e299]
+              - generic [ref=e300]: 15 merged
+            - list [ref=e301]:
+              - listitem [ref=e302]:
+                - 'link "Merged feat(catalog): add WooCommerce connector (#1275) ansvisor #1789 1 Nov 2026" [ref=e303] [cursor=pointer]':
+                  - /url: https://github.com/ansvisor/ansvisor/pull/1789
+                  - generic [ref=e304]: Merged
+                  - generic [ref=e305]:
+                    - text: "feat(catalog): add WooCommerce connector (#1275)"
+                    - generic [ref=e306]: "ansvisor #1789"
+                  - generic [ref=e307]: 1 Nov 2026
+              - listitem [ref=e308]:
+                - 'link "Merged feat(content): publish qualified reviewers on regulated pages ansvisor #1916 1 Nov 2026" [ref=e309] [cursor=pointer]':
+                  - /url: https://github.com/ansvisor/ansvisor/pull/1916
+                  - generic [ref=e310]: Merged
+                  - generic [ref=e311]:
+                    - text: "feat(content): publish qualified reviewers on regulated pages"
+                    - generic [ref=e312]: "ansvisor #1916"
+                  - generic [ref=e313]: 1 Nov 2026
+              - listitem [ref=e314]:
+                - 'link "Merged feat(audit): show score change since previous completed audit (#916) ansvisor #1461 25 Oct 2026" [ref=e315] [cursor=pointer]':
+                  - /url: https://github.com/ansvisor/ansvisor/pull/1461
+                  - generic [ref=e316]: Merged
+                  - generic [ref=e317]:
+                    - text: "feat(audit): show score change since previous completed audit (#916)"
+                    - generic [ref=e318]: "ansvisor #1461"
+                  - generic [ref=e319]: 25 Oct 2026
+            - group [ref=e320]:
+              - generic "Show 12 more +" [ref=e321] [cursor=pointer]
+          - article [ref=e323]:
+            - generic [ref=e324]:
+              - heading "Kestra" [level=3] [ref=e325]
+              - generic [ref=e326]: 4 merged · 2 open
+            - list [ref=e327]:
+              - listitem [ref=e328]:
+                - 'link "Merged feat(snyk): add issue listing and polling trigger plugin-snyk #27 20 Oct 2026" [ref=e329] [cursor=pointer]':
+                  - /url: https://github.com/kestra-io/plugin-snyk/pull/27
+                  - generic [ref=e330]: Merged
+                  - generic [ref=e331]:
+                    - text: "feat(snyk): add issue listing and polling trigger"
+                    - generic [ref=e332]: "plugin-snyk #27"
+                  - generic [ref=e333]: 20 Oct 2026
+              - listitem [ref=e334]:
+                - 'link "Merged feat(powerbi): port legacy dataset refresh to Fabric plugin-microsoft-fabric #39 19 Oct 2026" [ref=e335] [cursor=pointer]':
+                  - /url: https://github.com/kestra-io/plugin-microsoft-fabric/pull/39
+                  - generic [ref=e336]: Merged
+                  - generic [ref=e337]:
+                    - text: "feat(powerbi): port legacy dataset refresh to Fabric"
+                    - generic [ref=e338]: "plugin-microsoft-fabric #39"
+                  - generic [ref=e339]: 19 Oct 2026
+              - listitem [ref=e340]:
+                - 'link "Merged feat(dbfs): add Databricks File System trigger plugin-databricks #290 9 Oct 2026" [ref=e341] [cursor=pointer]':
+                  - /url: https://github.com/kestra-io/plugin-databricks/pull/290
+                  - generic [ref=e342]: Merged
+                  - generic [ref=e343]:
+                    - text: "feat(dbfs): add Databricks File System trigger"
+                    - generic [ref=e344]: "plugin-databricks #290"
+                  - generic [ref=e345]: 9 Oct 2026
+            - group [ref=e346]:
+              - generic "Show 3 more +" [ref=e347] [cursor=pointer]
+          - article [ref=e349]:
+            - generic [ref=e350]:
+              - heading "Podiom" [level=3] [ref=e351]
+              - generic [ref=e352]: 3 merged · 5 open
+            - list [ref=e353]:
+              - listitem [ref=e354]:
+                - 'link "Merged test(server): cover native agent activity helpers Podiom #335 12 Oct 2026" [ref=e355] [cursor=pointer]':
+                  - /url: https://github.com/Podiom/Podiom/pull/335
+                  - generic [ref=e356]: Merged
+                  - generic [ref=e357]:
+                    - text: "test(server): cover native agent activity helpers"
+                    - generic [ref=e358]: "Podiom #335"
+                  - generic [ref=e359]: 12 Oct 2026
+              - listitem [ref=e360]:
+                - 'link "Merged test(tools): cover copyFile behavior Podiom #334 12 Oct 2026" [ref=e361] [cursor=pointer]':
+                  - /url: https://github.com/Podiom/Podiom/pull/334
+                  - generic [ref=e362]: Merged
+                  - generic [ref=e363]:
+                    - text: "test(tools): cover copyFile behavior"
+                    - generic [ref=e364]: "Podiom #334"
+                  - generic [ref=e365]: 12 Oct 2026
+              - listitem [ref=e366]:
+                - 'link "Merged test: cover interview MCP forwarding Podiom #327 11 Oct 2026" [ref=e367] [cursor=pointer]':
+                  - /url: https://github.com/Podiom/Podiom/pull/327
+                  - generic [ref=e368]: Merged
+                  - generic [ref=e369]:
+                    - text: "test: cover interview MCP forwarding"
+                    - generic [ref=e370]: "Podiom #327"
+                  - generic [ref=e371]: 11 Oct 2026
+            - group [ref=e372]:
+              - generic "Show 5 more +" [ref=e373] [cursor=pointer]
+          - article [ref=e375]:
+            - generic [ref=e376]:
+              - heading "eengelking" [level=3] [ref=e377]
+              - generic [ref=e378]: 2 merged
+            - list [ref=e379]:
+              - listitem [ref=e380]:
+                - 'link "Merged docs: add SonarCloud and CodeQL badges to README podium #518 20 Oct 2026" [ref=e381] [cursor=pointer]':
+                  - /url: https://github.com/eengelking/podium/pull/518
+                  - generic [ref=e382]: Merged
+                  - generic [ref=e383]:
+                    - text: "docs: add SonarCloud and CodeQL badges to README"
+                    - generic [ref=e384]: "podium #518"
+                  - generic [ref=e385]: 20 Oct 2026
+              - listitem [ref=e386]:
+                - 'link "Merged test: reduce Markdown linearity timing flake podium #519 20 Oct 2026" [ref=e387] [cursor=pointer]':
+                  - /url: https://github.com/eengelking/podium/pull/519
+                  - generic [ref=e388]: Merged
+                  - generic [ref=e389]:
+                    - text: "test: reduce Markdown linearity timing flake"
+                    - generic [ref=e390]: "podium #519"
+                  - generic [ref=e391]: 20 Oct 2026
+          - article [ref=e393]:
+            - generic [ref=e394]:
+              - heading "Wanaku AI" [level=3] [ref=e395]
+              - generic [ref=e396]: 2 merged
+            - list [ref=e397]:
+              - listitem [ref=e398]:
+                - 'link "Merged Fix/227 action policy lifecycle upstream wanaku-tests #245 12 Oct 2026" [ref=e399] [cursor=pointer]':
+                  - /url: https://github.com/wanaku-ai/wanaku-tests/pull/245
+                  - generic [ref=e400]: Merged
+                  - generic [ref=e401]:
+                    - text: Fix/227 action policy lifecycle upstream
+                    - generic [ref=e402]: "wanaku-tests #245"
+                  - generic [ref=e403]: 12 Oct 2026
+              - listitem [ref=e404]:
+                - 'link "Merged ci: publish multiplatform test MCP server images (#238) wanaku-tests #244 9 Oct 2026" [ref=e405] [cursor=pointer]':
+                  - /url: https://github.com/wanaku-ai/wanaku-tests/pull/244
+                  - generic [ref=e406]: Merged
+                  - generic [ref=e407]:
+                    - text: "ci: publish multiplatform test MCP server images (#238)"
+                    - generic [ref=e408]: "wanaku-tests #244"
+                  - generic [ref=e409]: 9 Oct 2026
+          - article [ref=e411]:
+            - generic [ref=e412]:
+              - heading "Apache" [level=3] [ref=e413]
+              - generic [ref=e414]: 1 merged · 3 open
+            - list [ref=e415]:
+              - listitem [ref=e416]:
+                - 'link "Merged Feature/6859 network policy clean camel-k #6866 13 Oct 2026" [ref=e417] [cursor=pointer]':
+                  - /url: https://github.com/apache/camel-k/pull/6866
+                  - generic [ref=e418]: Merged
+                  - generic [ref=e419]:
+                    - text: Feature/6859 network policy clean
+                    - generic [ref=e420]: "camel-k #6866"
+                  - generic [ref=e421]: 13 Oct 2026
+              - listitem [ref=e422]:
+                - 'link "Open fix(ci): publish multi-architecture images with Buildx imagetools camel-k #6927 3 Nov 2026" [ref=e423] [cursor=pointer]':
+                  - /url: https://github.com/apache/camel-k/pull/6927
+                  - generic [ref=e424]: Open
+                  - generic [ref=e425]:
+                    - text: "fix(ci): publish multi-architecture images with Buildx imagetools"
+                    - generic [ref=e426]: "camel-k #6927"
+                  - generic [ref=e427]: 3 Nov 2026
+              - listitem [ref=e428]:
+                - 'link "Open feat(keda): add IBM MQ auto scaler mapping camel-k #6922 31 Oct 2026" [ref=e429] [cursor=pointer]':
+                  - /url: https://github.com/apache/camel-k/pull/6922
+                  - generic [ref=e430]: Open
+                  - generic [ref=e431]:
+                    - text: "feat(keda): add IBM MQ auto scaler mapping"
+                    - generic [ref=e432]: "camel-k #6922"
+                  - generic [ref=e433]: 31 Oct 2026
+            - group [ref=e434]:
+              - generic "Show 1 more +" [ref=e435] [cursor=pointer]
+          - article [ref=e437]:
+            - generic [ref=e438]:
+              - heading "webpack" [level=3] [ref=e439]
+              - generic [ref=e440]: 1 merged
+            - list [ref=e441]:
+              - listitem [ref=e442]:
+                - 'link "Merged docs: clarify npm audit warnings for dev dependencies webpack #20356 26 Jan 2026" [ref=e443] [cursor=pointer]':
+                  - /url: https://github.com/webpack/webpack/pull/20356
+                  - generic [ref=e444]: Merged
+                  - generic [ref=e445]:
+                    - text: "docs: clarify npm audit warnings for dev dependencies"
+                    - generic [ref=e446]: "webpack #20356"
+                  - generic [ref=e447]: 26 Jan 2026
+          - article [ref=e449]:
+            - generic [ref=e450]:
+              - heading "OpenNSW" [level=3] [ref=e451]
+              - generic [ref=e452]: 4 open
+            - list [ref=e453]:
+              - listitem [ref=e454]:
+                - 'link "Open test(database): prepare focused issue #254 change core #265 28 Oct 2026" [ref=e455] [cursor=pointer]':
+                  - /url: https://github.com/OpenNSW/core/pull/265
+                  - generic [ref=e456]: Open
+                  - generic [ref=e457]:
+                    - text: "test(database): prepare focused issue #254 change"
+                    - generic [ref=e458]: "core #265"
+                  - generic [ref=e459]: 28 Oct 2026
+              - listitem [ref=e460]:
+                - 'link "Open Test/254 integration upstream core #263 13 Oct 2026" [ref=e461] [cursor=pointer]':
+                  - /url: https://github.com/OpenNSW/core/pull/263
+                  - generic [ref=e462]: Open
+                  - generic [ref=e463]:
+                    - text: Test/254 integration upstream
+                    - generic [ref=e464]: "core #263"
+                  - generic [ref=e465]: 13 Oct 2026
+              - listitem [ref=e466]:
+                - 'link "Open Test/254 driver parsers upstream core #262 7 Oct 2026" [ref=e467] [cursor=pointer]':
+                  - /url: https://github.com/OpenNSW/core/pull/262
+                  - generic [ref=e468]: Open
+                  - generic [ref=e469]:
+                    - text: Test/254 driver parsers upstream
+                    - generic [ref=e470]: "core #262"
+                  - generic [ref=e471]: 7 Oct 2026
+            - group [ref=e472]:
+              - generic "Show 1 more +" [ref=e473] [cursor=pointer]
+          - article [ref=e475]:
+            - generic [ref=e476]:
+              - heading "Google" [level=3] [ref=e477]
+              - generic [ref=e478]: 1 open
+            - list [ref=e479]:
+              - listitem [ref=e480]:
+                - 'link "Open Avoid BDD path saturation with balanced n-ary evaluation xls #5222 1 Nov 2026" [ref=e481] [cursor=pointer]':
+                  - /url: https://github.com/google/xls/pull/5222
+                  - generic [ref=e482]: Open
+                  - generic [ref=e483]:
+                    - text: Avoid BDD path saturation with balanced n-ary evaluation
+                    - generic [ref=e484]: "xls #5222"
+                  - generic [ref=e485]: 1 Nov 2026
+        - paragraph [ref=e487]:
+          - text: I'm also building Aevor, my own organisation, where 121 pull requests have been merged. Those are not counted above. Closed pull requests that were not merged are left out. Counts were generated when this site was last built (4 Nov 2026).
+          - link "Full history on GitHub" [ref=e488] [cursor=pointer]:
+            - /url: https://github.com/knockknock10
+    - region [ref=e491]:
+      - generic [ref=e492]:
+        - generic [ref=e494]:
+          - generic [ref=e495]:
+            - paragraph [ref=e496]: Experience
+            - heading "Where I've worked" [level=2] [ref=e497]
+          - paragraph [ref=e498]: University research and institutional work so far. Both are described the way they happened, not dressed up as job titles they weren't.
+        - generic [ref=e499]:
+          - article [ref=e501]:
+            - generic [ref=e502]:
+              - heading "Research Intern (Summer)" [level=3] [ref=e503]
+              - paragraph [ref=e504]: SRM University AP · Amaravati, Andhra Pradesh, India
+            - generic [ref=e505]:
+              - paragraph [ref=e506]: Research internship during which I continued SemBind-Audio, a semantic-aware speech-watermarking study using transformer-based audio representations, STFT-based embedding placement and SHA-256 payload binding. I also worked on a MATLAB nanosensor-network communication simulator focused on routing and packet propagation.
+              - list [ref=e507]:
+                - listitem [ref=e508]: Continued implementation and evaluation work on SemBind-Audio
+                - listitem [ref=e509]: Worked with transformer-based audio representations, STFT and cryptographic payload binding
+                - listitem [ref=e510]: Built and analyzed MATLAB simulations for nanosensor-network routing and packet propagation
+              - list "Topics and tools" [ref=e511]:
+                - listitem [ref=e512]: SemBind-Audio
+                - listitem [ref=e513]: HuBERT / STFT
+                - listitem [ref=e514]: SHA-256 binding
+                - listitem [ref=e515]: MATLAB · nanosensor networks
+          - article [ref=e517]:
+            - generic [ref=e518]:
+              - heading "Protocol & Digital Outreach Planning" [level=3] [ref=e519]
+              - paragraph [ref=e520]: IRHS · SRM University AP · Amaravati, Andhra Pradesh, India
+            - generic [ref=e521]:
+              - paragraph [ref=e522]: "Worked with IRHS at SRM University AP on protocols for planned initiatives. The work connected digital outreach and marketing with operational planning: structuring repeatable workflows, documenting procedures and making the steps for future activities easier to coordinate. This is described as protocol and workflow work, not as a software-engineering job title."
+              - list [ref=e523]:
+                - listitem [ref=e524]: Designed and documented protocols for planned initiatives
+                - listitem [ref=e525]: Structured repeatable steps for digital outreach and coordination
+                - listitem [ref=e526]: Translated broad initiative needs into clearer workflows and procedures
+              - list "Topics and tools" [ref=e527]:
+                - listitem [ref=e528]: Protocol design
+                - listitem [ref=e529]: Workflow documentation
+                - listitem [ref=e530]: Digital outreach
+                - listitem [ref=e531]: Operational planning
+    - region [ref=e532]:
+      - generic [ref=e533]:
+        - generic [ref=e535]:
+          - generic [ref=e536]:
+            - paragraph [ref=e537]: Skills
+            - heading "What I work with" [level=2] [ref=e538]
+          - paragraph [ref=e539]: Go and Java for backend work, React and Node for the web, Python for research. Things I'm still learning are marked.
+        - generic [ref=e541]:
+          - generic [ref=e542]:
+            - term [ref=e543]: Languages
+            - definition [ref=e544]:
+              - text: Go, Java, C++, C, Python, JavaScript, SQL
+              - emphasis [ref=e545]: · learning Rust
+          - generic [ref=e546]:
+            - term [ref=e547]: Backend and data
+            - definition [ref=e548]: Node.js, Express, Gin, GORM, REST APIs, PostgreSQL, MongoDB, WebSockets
+          - generic [ref=e549]:
+            - term [ref=e550]: Frontend
+            - definition [ref=e551]: React, Next.js, Tailwind CSS, Vite
+          - generic [ref=e552]:
+            - term [ref=e553]: Infrastructure and tooling
+            - definition [ref=e554]:
+              - text: Docker, Git, GitHub Actions, AWS
+              - emphasis [ref=e555]: · learning Kubernetes
+          - generic [ref=e556]:
+            - term [ref=e557]: Machine learning and research
+            - definition [ref=e558]: PyTorch, Transformers, HuBERT, STFT-based audio processing, SHA-256 payload binding
+        - generic [ref=e560]:
+          - generic [ref=e561]:
+            - heading "Problem solving" [level=3] [ref=e562]
+            - paragraph [ref=e563]: I practise data structures and algorithms regularly. It keeps the fundamentals sharp for the systems I build.
+          - generic [ref=e564]:
+            - generic [ref=e565]:
+              - generic [ref=e570]:
+                - generic [ref=e571]: "404"
+                - generic [ref=e572]: solved
+              - generic [ref=e573]: 87 acceptance
+            - generic [ref=e576]:
+              - generic [ref=e577]: Easy 128
+              - generic [ref=e578]: Med 206
+              - generic [ref=e579]: Hard 70
+            - generic [ref=e580]:
+              - generic [ref=e581]: 1,997rating
+              - generic [ref=e582]: 1491.597Contest rating trend1997.113
+              - generic [ref=e586]: 7 contests attended
+          - generic [ref=e587]:
+            - generic [ref=e588]: Figures are from my public LeetCode profile when this site was last built.
+            - generic [ref=e589]:
+              - link "LeetCode" [ref=e590] [cursor=pointer]:
+                - /url: https://leetcode.com/u/knockknock10/
+              - link "Codeforces" [ref=e593] [cursor=pointer]:
+                - /url: https://codeforces.com/profile/knockknock10
+              - link "HackerRank" [ref=e596] [cursor=pointer]:
+                - /url: https://www.hackerrank.com/profile/knockknock10
+              - link "NeetCode" [ref=e599] [cursor=pointer]:
+                - /url: https://neetcode.io/user/DigitalTrill950
+              - link "GeeksforGeeks" [ref=e602] [cursor=pointer]:
+                - /url: https://www.geeksforgeeks.org/profile/karthikjaihh0z
+    - region [ref=e605]:
+      - generic [ref=e606]:
+        - generic [ref=e609]:
+          - paragraph [ref=e610]: About
+          - heading "A bit about me" [level=2] [ref=e611]
+        - generic [ref=e612]:
+          - generic [ref=e614]:
+            - paragraph [ref=e615]: I'm a third-year B.Tech student in Computer Science and Engineering at SRM University AP. Most of what I know, I learned by building something and then finding out what broke.
+            - paragraph [ref=e616]: That has meant shipping web projects, sending fixes and tests to open-source codebases I didn't write, debugging infrastructure, and turning a research idea about speech watermarking into code that I could measure.
+            - paragraph [ref=e617]: "I like backend and platform work: clear service boundaries, honest error handling, and systems that are easy for the next person to read. I'm looking for internships and full-time roles where I can keep doing that with a strong team."
+          - generic [ref=e619]:
+            - generic [ref=e620]:
+              - heading "Education" [level=3] [ref=e621]
+              - strong [ref=e622]: B.Tech, Computer Science and Engineering
+              - paragraph [ref=e623]: SRM University AP, currently in third year
+            - generic [ref=e624]:
+              - heading "What I'm focused on" [level=3] [ref=e625]
+              - list [ref=e626]:
+                - listitem [ref=e627]: Backend and platform engineering
+                - listitem [ref=e628]: Contributing to open-source projects
+                - listitem [ref=e629]: Speech watermarking research
+                - listitem [ref=e630]: Data structures and algorithms
+            - generic [ref=e631]:
+              - heading "Based in" [level=3] [ref=e632]
+              - strong [ref=e633]: Amaravati, Andhra Pradesh, India
+    - region [ref=e634]:
+      - generic [ref=e635]:
+        - generic [ref=e636]:
+          - paragraph [ref=e637]: Contact
+          - heading "Let's talk about working together." [level=2] [ref=e638]
+          - paragraph [ref=e639]: I'm open to software engineering internships and full-time roles. The quickest way to reach me is email, and I reply to every message.
+          - link "Sanjeev.kr10111@gmail.com" [ref=e640] [cursor=pointer]:
+            - /url: mailto:Sanjeev.kr10111@gmail.com
+        - generic [ref=e641]:
+          - generic [ref=e642]:
+            - link "GitHub knockknock10" [ref=e643] [cursor=pointer]:
+              - /url: https://github.com/knockknock10
+              - generic [ref=e644]: GitHub
+              - generic [ref=e647]: knockknock10
+            - link "LinkedIn Sanjeev Kumar" [ref=e648] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/sanjeev-kumar-ba567133a/
+              - generic [ref=e649]: LinkedIn
+              - generic [ref=e652]: Sanjeev Kumar
+            - link "LeetCode knockknock10" [ref=e653] [cursor=pointer]:
+              - /url: https://leetcode.com/u/knockknock10/
+              - generic [ref=e654]: LeetCode
+              - generic [ref=e657]: knockknock10
+            - link "Résumé PDF" [ref=e658] [cursor=pointer]:
+              - /url: /resume.pdf
+              - generic [ref=e659]: Résumé
+              - generic [ref=e662]: PDF
+          - paragraph [ref=e663]: Based in Amaravati, Andhra Pradesh, India.
+  - contentinfo [ref=e664]:
+    - generic [ref=e665]:
+      - generic [ref=e666]: © 2026 Sanjeev Kumar
+      - generic [ref=e667]:
+        - text: Built with Next.js. Source on
+        - link "GitHub" [ref=e668] [cursor=pointer]:
+          - /url: https://github.com/knockknock10/Portfolio

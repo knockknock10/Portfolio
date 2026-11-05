@@ -1,6 +1,8 @@
 import { publicUrl } from "@/lib/public-url"
 import { ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
+import { BackgroundSVG } from "./BackgroundSVG"
+import { CurvedLineBetween } from "./CurvedLineBetween"
 
 type ProjectLink = { label: string; href: string; primary?: boolean }
 
@@ -118,6 +120,9 @@ const projects: Project[] = [
 export function Work({ repoCount }: { repoCount: number | null }) {
   return (
     <section className="sk-section" id="work" aria-labelledby="work-title">
+      <BackgroundSVG variant="blob1" className="sk-moving-svg sk-moving-svg--projects-top" />
+      <BackgroundSVG variant="blob2" className="sk-moving-svg sk-moving-svg--projects-middle" />
+      <BackgroundSVG variant="blob3" className="sk-moving-svg sk-moving-svg--projects-bottom" />
       <div className="sk-wrap">
         <Reveal>
           <div className="sk-head">
@@ -210,6 +215,7 @@ export function Work({ repoCount }: { repoCount: number | null }) {
           </p>
         </Reveal>
       </div>
+      <CurvedLineBetween />
     </section>
   )
 }

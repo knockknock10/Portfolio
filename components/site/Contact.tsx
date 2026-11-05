@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
 import { Wave } from "./Wave"
+import { BackgroundSVG } from "./BackgroundSVG"
 
 export type ContactLink = { label: string; detail: string; href: string }
 
@@ -14,6 +15,7 @@ export function Contact({ email, location, links }: ContactProps) {
   return (
     <section className="sk-section sk-dark" id="contact" aria-labelledby="contact-title">
       <Wave edge="top" />
+      <BackgroundSVG variant="blob1" className="sk-moving-svg sk-moving-svg--projects-top" />
       <div className="sk-wrap">
         <Reveal>
           <p className="sk-eyebrow">Contact</p>
