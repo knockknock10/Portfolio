@@ -2,24 +2,23 @@
 
 **Live site:** https://knockknock10.github.io/Portfolio/
 
-A single-page portfolio covering my software projects, backend and platform engineering interests, upstream open-source contributions, speech-watermarking research, university experience, technical skills and contact details.
+This is my personal portfolio. I use it to keep a few projects, research work, open-source contributions and contact details in one place.
 
-## What is on the site
+## What's on the site
 
-- **Selected work:** Aevor, CommitHub, Wandera, NovaFest and other engineering projects, with links to code or live demos.
-- **Research:** SemBind-Audio methodology, clean-reference evaluation results, paper and source repository. The page distinguishes submitted work from published work and describes the current robustness limitations.
-- **Open source:** Source-linked upstream pull requests, grouped by project and organisation.
-- **Experience:** University research and protocol/workflow work, described without inventing dates or job titles.
-- **Skills and problem solving:** Technologies grouped by area and saved coding-profile statistics with their snapshot date.
-- **Contact:** Email, GitHub, LinkedIn and résumé.
+- **Projects:** Aevor, CommitHub, SemBind-Audio and FailureScope, with links to their repositories.
+- **Research:** The SemBind-Audio approach, the experiments I've run so far, the paper draft and the limitations found during testing.
+- **Open source:** Links to contributions in the projects I've worked with.
+- **Problem solving:** Coding profiles and saved statistics. Numbers are shown with the date they were recorded.
+- **About and contact:** Education, background, résumé and ways to reach me.
 
-## Technology
+## Built with
 
-Next.js 15, React 19, TypeScript, CSS, Framer Motion and Lenis. The project is exported as a static site for GitHub Pages; it does not rely on a Node.js server at runtime.
+Next.js 15, React 19, TypeScript, CSS, Framer Motion and Lenis. The site is exported as a static site and hosted on GitHub Pages; it does not need a Node.js server at runtime.
 
-## Run locally
+## Run it locally
 
-Requirements: Node.js 22 or newer and npm.
+You need Node.js 22 or newer and npm.
 
 ```bash
 git clone https://github.com/knockknock10/Portfolio.git
@@ -30,7 +29,7 @@ npm run dev
 
 Open http://localhost:3000.
 
-## Validate the GitHub Pages build locally
+## Check the GitHub Pages build
 
 ```bash
 npm ci
@@ -39,35 +38,35 @@ npx tsc --noEmit
 npm run build:pages
 ```
 
-The static export is written to `out/`. The Pages workflow additionally checks the generated routes and the `/Portfolio/` asset paths before creating a deployment artifact.
+The static files are written to `out/`. The Pages workflow also checks the generated routes and the `/Portfolio/` asset paths before deployment.
 
 ## Publishing
 
-The workflow at `.github/workflows/deploy-pages.yml` is the single publisher for the project site.
+The workflow in `.github/workflows/deploy-pages.yml` handles the site deployment.
 
-1. Open a pull request targeting `main`. The workflow runs lint, TypeScript checks, builds the static export and verifies all required HTML, JSON and public assets. Pull requests do not deploy.
-2. Merge the pull request into `main`. A push to `main` runs the same checks and publishes the generated artifact to GitHub Pages.
-3. Check the **Actions** tab for the `Deploy portfolio to GitHub Pages` run. The `Publish GitHub Pages` job must finish successfully before considering the live site updated.
+1. Open a pull request against `main`. It runs linting, TypeScript checks, the static build and route checks.
+2. Merge the pull request into `main`.
+3. Check the Actions tab and make sure the `Deploy portfolio to GitHub Pages` run finishes successfully.
 
-The site is hosted at the repository path `/Portfolio/`, so static assets must use the `/Portfolio/` base path. Do not add a second Next.js Pages publisher or deploy a build made without `GITHUB_PAGES=true`.
+The site is hosted under `/Portfolio/`, so keep that base path when changing asset or route handling. Don't add a second workflow that publishes the same site.
 
-## Portfolio data
+## Updating the content
 
-`lib/portfolio-data.ts` contains curated public profile content. `PORTFOLIO-DATA.md` records supporting source snapshots for GitHub, LeetCode, projects, research and experience. Refresh changing metrics before presenting them as current.
+The text shown on the site is kept in `lib/portfolio-data.ts`. When updating coding-profile numbers or other changing information, keep the date of the saved snapshot with it rather than presenting an old value as live.
 
-Only add material to `public/` that is intended to be publicly accessible. Never commit access tokens, private credentials or documents that should not be public.
+Only put files in `public/` that are meant to be publicly accessible. Don't commit API keys, tokens or private documents.
 
 ## Repository layout
 
 - `app/` — page routes, layout and styles.
-- `components/site/` — portfolio sections and UI.
-- `lib/` — typed portfolio data and source readers.
-- `public/` — static images, paper and résumé.
-- `.github/workflows/` — quality checks and the GitHub Pages publisher.
-- `_archive/` — retained legacy material kept for reference.
+- `components/site/` — the sections and components used by the site.
+- `lib/` — portfolio content and data helpers.
+- `public/` — images, paper and résumé files.
+- `.github/workflows/` — checks and GitHub Pages deployment.
+- `_archive/` — older files kept for reference.
 
 ## Profiles
 
-- GitHub: https://github.com/knockknock10
-- LeetCode: https://leetcode.com/u/knockknock10/
-- LinkedIn: https://www.linkedin.com/in/sanjeev-kumar-ba567133a/
+- [GitHub](https://github.com/knockknock10)
+- [LeetCode](https://leetcode.com/u/knockknock10/)
+- [LinkedIn](https://www.linkedin.com/in/sanjeev-kumar-ba567133a/)
