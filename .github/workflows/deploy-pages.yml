@@ -1,0 +1,120 @@
+name: Deploy portfolio to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # PR checks may replace older checks for the same PR. Production publishes
+  # share one non-cancelling group so an upload cannot interrupt a deployment.
+  group: github-pages-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'production' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Build and verify static site
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Build GitHub Pages export
+        run: npm run build:pages
+
+      - name: Verify exported pages and assets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Every retained App Router URL must have a static destination.
+          for path in \
+            index.html \
+            404.html \
+            about/index.html \
+            certifications/index.html \
+            contact/index.html \
+            design-system/index.html \
+            internships/index.html \
+            open-source/index.html \
+            problem-solving/index.html \
+            research/index.html \
+            signals/index.html \
+            work/index.html \
+            api/github-contributions.json \
+            robots.txt \
+            sitemap.xml \
+            favicon.svg \
+            resume.pdf \
+            papers/SemBind.pdf \
+            images/sanjeev-portrait.webp
+          do
+            test -s "out/$path" || { echo "Missing static output: out/$path"; exit 1; }
+          done
+
+          # Check project-Pages URLs, not root-domain links that break on /Portfolio.
+          grep -q '/Portfolio/_next/' out/index.html
+          grep -q '/Portfolio/images/sanjeev-portrait.webp' out/index.html
+          grep -q '/Portfolio/resume.pdf' out/index.html
+          grep -q '/Portfolio/papers/SemBind.pdf' out/index.html
+
+          # The former hero-scene asset was removed; ensure nothing still points to it.
+          ! grep -R -q 'hero-scene.webp' out
+
+          # Make sure the generated document does not regress to root-level asset URLs.
+          ! grep -q 'href="/resume.pdf"' out/index.html
+          ! grep -q 'src="/images/sanjeev-portrait.webp"' out/index.html
+
+          echo "Static export checks passed."
+
+      - name: Add Pages marker
+        run: touch out/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    name: Publish GitHub Pages
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Deploy static artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

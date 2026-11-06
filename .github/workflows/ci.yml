@@ -41,5 +41,22 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: GitHub Pages static export
+        run: npm run build:pages
+
+      - name: Verify GitHub Pages artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s out/index.html
+          test -s out/404.html
+          test -s out/api/github-contributions.json
+          test -s out/resume.pdf
+          test -s out/papers/SemBind.pdf
+          grep -q '/Portfolio/_next/' out/index.html
+          grep -q '/Portfolio/images/sanjeev-portrait.webp' out/index.html
+          grep -q '/Portfolio/resume.pdf' out/index.html
+          grep -q '/Portfolio/papers/SemBind.pdf' out/index.html
+
       - name: Type check
         run: npx tsc --noEmit
