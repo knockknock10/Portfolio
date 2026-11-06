@@ -11,13 +11,16 @@ export const portfolioContent: PortfolioContent = {
     fullName: "Sanjeev Kumar",
     professionalName: "Sanjeev Kumar",
     pronouns: null,
-    roleTitle: "Software Engineering · Open Source · Applied AI",
+    // Previous wording retained in git history: "Software Engineering · Open Source · Applied AI".
+    roleTitle: "Backend & Platform Engineering · Open Source · Research",
+    // Previous tagline: "I build developer tools, contribute to open source, and turn research ideas into working systems."
     tagline:
-      "I build developer tools, contribute to open source, and turn research ideas into working systems.",
+      "I build backend services and developer tools, contribute fixes upstream, and test research ideas through code.",
     shortBio:
       "Third-year B.Tech Computer Science and Engineering student at SRM University AP.",
+    // Previous longBio retained in git history; the new version is more specific about the work.
     longBio:
-      "Most of my learning happens by building: shipping projects, contributing to existing codebases, debugging infrastructure, and turning research ideas into working implementations.",
+      "I learn by building and reviewing software: designing APIs, debugging services, writing tests, contributing fixes to existing projects, and evaluating research ideas with measurable experiments.",
     availabilityStatus: null,
     availabilityStatement: null,
   },
@@ -46,7 +49,8 @@ export const portfolioContent: PortfolioContent = {
       role: "Platform architecture and engineering",
       tools: ["Go", "Gin", "GORM", "PostgreSQL", "React", "FastAPI", "Docker"],
       overview: [
-        "Aevor is a multi-repository developer-tooling platform built around one goal: turn a GitHub issue into a reviewed, validated pull request without giving an AI model permission to publish changes on its own.",
+        // Earlier wording: "without giving an AI model permission to publish changes on its own."
+        "Aevor is a multi-repository developer-tooling platform built around one goal: turn a GitHub issue into a reviewed, validated pull request without allowing automation to publish a change before human review.",
         "The pipeline assembles bounded repository context, proposes a change, generates a reviewable diff, validates it with the project's own toolchain, and leaves publication behind a human review gate.",
       ],
       processSteps: [
@@ -87,14 +91,15 @@ export const portfolioContent: PortfolioContent = {
     },
     {
       title: "SemBind-Audio",
-      category: "Applied AI research",
+      // Previously labelled "Applied AI research"; the project is specifically about speech watermarking.
+      category: "Speech watermarking research",
       status: "Research and evaluation",
       description:
         "A semantic-aware audio watermarking research framework combining transformer-based audio representations with cryptographic metadata binding.",
       year: null,
       client: null,
       medium: "Python · PyTorch · HuBERT · STFT · SHA-256",
-      tags: ["Python", "PyTorch", "HuBERT", "STFT", "Audio ML", "SHA-256"],
+      tags: ["Python", "PyTorch", "HuBERT", "STFT", "Audio signal processing", "SHA-256"],
       imagePaths: null,
       role: "Research implementation and evaluation",
       tools: ["Python", "PyTorch", "HuBERT", "Transformers", "LibriSpeech", "SHA-256"],

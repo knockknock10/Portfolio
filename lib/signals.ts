@@ -13,6 +13,8 @@ export interface ContestTrendPoint {
 }
 
 export interface SignalStats {
+  /** Date of the static portfolio data snapshot. */
+  snapshotDate: string | null
   github: {
     totalRepos: SignalNumber
     totalStars: SignalNumber
@@ -75,6 +77,7 @@ export function getSignalsData(): SignalStats {
   const badges = badge === "MISSING" ? [] : [badge]
 
   return {
+    snapshotDate: data.snapshotDate,
     github: {
       totalRepos: numberValue(data.stats.totalRepos),
       totalStars: numberValue(data.stats.totalStars),

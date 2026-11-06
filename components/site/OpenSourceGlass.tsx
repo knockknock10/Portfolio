@@ -45,12 +45,12 @@ export function OpenSourceGlass({ data, profileUrl }: { data: UpstreamSummary; p
             <div>
               <p className="sk-eyebrow">Open source</p>
               <h2 className="sk-h2" id="oss-title">
-                Organisations I&apos;ve contributed to
+                Open-source contributions
               </h2>
             </div>
             <p className="sk-lede">
-              I send pull requests to projects I don&apos;t own, mostly tests, CI fixes, plugins and docs. Pick an
-              organisation to see exactly what I did there.
+              I contribute fixes, tests, plugins and documentation to projects beyond my own repositories. Each entry
+              links to the original pull request, so the implementation and review history are there to inspect.
             </p>
           </div>
         </Reveal>

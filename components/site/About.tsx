@@ -20,7 +20,8 @@ export function About({ location }: { location: string | null }) {
         <div className="sk-about">
           <Reveal>
             <div className="sk-prose">
-              <p>
+              {/* Previous About copy retained for reference:
+<p>
                 I&apos;m a third-year B.Tech student in Computer Science and Engineering at SRM University AP. Most of what
                 I know, I learned by building something and then finding out what broke.
               </p>
@@ -34,6 +35,22 @@ export function About({ location }: { location: string | null }) {
                 easy for the next person to read. I&apos;m looking for internships and full-time roles where I can keep
                 doing that with a strong team.
               </p>
+              */}
+              <p>
+                I&apos;m a third-year B.Tech student in Computer Science and Engineering at SRM University AP. I learn
+                by building software, reading code written by other people, and working out why a system behaves the
+                way it does.
+              </p>
+              <p>
+                My work so far spans backend services and developer tools, full-stack applications, upstream open-source
+                contributions, and a research project on speech watermarking. I like going beyond a working demo:
+                understanding the data flow, testing edge cases, and being clear about what the results do and do not show.
+              </p>
+              <p>
+                I&apos;m especially interested in backend and platform engineering: service boundaries, APIs, databases,
+                testing, reliability, and code that another engineer can maintain. I&apos;m looking for software
+                engineering internships where I can learn from experienced engineers and contribute useful work.
+              </p>
             </div>
           </Reveal>
 
@@ -43,7 +60,8 @@ export function About({ location }: { location: string | null }) {
                 <h3>Education</h3>
                 <strong>B.Tech, Computer Science and Engineering</strong>
                 <p>SRM University AP, currently in third year</p>
-                <p className="gl-fact-line">CGPA 8.7 / 10 · Expected graduation 2028</p>
+                {/* Corrected from the earlier displayed 8.7; the supplied record states 8.61. */}
+                <p className="gl-fact-line">CGPA 8.61 / 10 · Expected graduation 2028</p>
               </div>
               <div className="sk-panel">
                 <h3>What I&apos;m focused on</h3>
