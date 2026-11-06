@@ -2,7 +2,7 @@
 
 Snapshot date: 2026-10-10  
 Repository: https://github.com/knockknock10/Portfolio  
-Branch: fix/portfolio-route-content
+Branch: main
 
 Source-backed data contract and public API snapshot for the current portfolio. Data that cannot be verified is marked MISSING. Scripts use Node.js built-in APIs and add no dependencies.
 
