@@ -4,6 +4,7 @@ import { ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
 import { Wave } from "./Wave"
 import { BackgroundSVG } from "./BackgroundSVG"
+import { PaperViewer } from "./PaperViewer"
 
 /*
   Result figures below are the ones already published on the previous Research
@@ -80,11 +81,7 @@ export function Research({ paper, other }: { paper: ResearchItem | null; other: 
                 </dl>
                 {isText(paper.abstract) ? <p>{paper.abstract}</p> : null}
                 <div className="sk-hero__actions">
-                  {pdf ? (
-                    <a className="sk-btn sk-btn--light sk-btn--small" href={pdf} target="_blank" rel="noreferrer">
-                      Read the paper <ArrowUpRight />
-                    </a>
-                  ) : null}
+                  {pdf ? <PaperViewer pdf={pdf} title={paper.title} /> : null}
                   {code ? (
                     <a className="sk-btn sk-btn--light sk-btn--small" href={code} target="_blank" rel="noreferrer">
                       Code <ArrowUpRight />

@@ -54,6 +54,7 @@ export default async function HomePage() {
       credentialId: value(item.credentialId),
       credentialUrl: value(item.credentialUrl),
       skills: Array.isArray(item.skillsCovered) ? item.skillsCovered : [],
+      verificationStatus: item.verificationStatus,
       file,
       isPdf: file ? /\.pdf$/i.test(file) : false,
     }

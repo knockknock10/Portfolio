@@ -3091,7 +3091,16 @@ The experience descriptions below are based on Sanjeev's direct account. Dates, 
 
 ## SECTION 11 — CERTIFICATIONS
 
-No items found in repo.
+These entries appear in the supplied résumé records. They are shown as self-reported credentials until a certificate file or issuer verification URL is added. No course-certificate scans or verification URLs are currently hosted in this repository.
+
+~~~json
+[
+  {"title":"CS50's Introduction to Programming with Python","issuer":"Harvard University","issueDate":"2026","expiryDate":"MISSING","credentialId":"MISSING","credentialUrl":"MISSING","skillsCovered":["Python","Programming fundamentals"],"badgeImage":"MISSING","certificateImage":"MISSING","verificationStatus":"self-reported"},
+  {"title":"Alpha — Data Structures & Algorithms with Java","issuer":"Apna College","issueDate":"2024–2025","expiryDate":"MISSING","credentialId":"MISSING","credentialUrl":"MISSING","skillsCovered":["Java","Data structures","Algorithms"],"badgeImage":"MISSING","certificateImage":"MISSING","verificationStatus":"self-reported"},
+  {"title":"MERN Stack Development","issuer":"Apna College","issueDate":"2024–2025","expiryDate":"MISSING","credentialId":"MISSING","credentialUrl":"MISSING","skillsCovered":["MongoDB","Express","React","Node.js"],"badgeImage":"MISSING","certificateImage":"MISSING","verificationStatus":"self-reported"},
+  {"title":"SQL (Intermediate)","issuer":"HackerRank","issueDate":"2025","expiryDate":"MISSING","credentialId":"MISSING","credentialUrl":"MISSING","skillsCovered":["SQL"],"badgeImage":"MISSING","certificateImage":"MISSING","verificationStatus":"self-reported"}
+]
+~~~
 
 ## MISSING DATA REGISTER — SECTIONS 9–11
 
