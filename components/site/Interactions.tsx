@@ -82,7 +82,8 @@ export function Interactions() {
         element.style.translate = `${(dx * 0.055).toFixed(1)}px ${(dy * 0.075).toFixed(1)}px`
       }
       const magnetLeave = (event: PointerEvent) => {
-        ;(event.currentTarget as HTMLElement).style.translate = "0 0"
+        const element = event.currentTarget as HTMLElement
+        element.style.translate = "0 0"
       }
       magneticNodes.forEach((element) => {
         element.addEventListener("pointermove", magnetMove)
