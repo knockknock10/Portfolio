@@ -1,6 +1,9 @@
+import { BackToTop } from "./BackToTop"
+
 export function SiteFooter({ name }: { name: string }) {
   return (
     <footer className="sk-footer">
+      <BackToTop />
       <div className="sk-footer__inner">
         <span>
           © {new Date().getFullYear()} {name}
