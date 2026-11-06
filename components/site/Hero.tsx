@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import { publicUrl } from "@/lib/public-url"
 import { ArrowRight, ArrowUpRight, Download, GitHub, LinkedIn, Code } from "./icons"
 
@@ -12,7 +15,34 @@ type HeroProps = {
   facts: Fact[]
 }
 
+const focusAreas = [
+  {
+    id: "systems",
+    label: "Backend & systems",
+    title: "Designing the parts beneath the interface",
+    note: "Service boundaries, APIs, databases and dependable backend workflows.",
+    href: "#work",
+  },
+  {
+    id: "open-source",
+    label: "Open source",
+    title: "Learning in codebases shared by everyone",
+    note: "Issue investigation, focused fixes, tests and collaboration with maintainers.",
+    href: "#open-source",
+  },
+  {
+    id: "research",
+    label: "Audio intelligence",
+    title: "Teaching software to remember a sound scene",
+    note: "Speech watermarking and temporal audio knowledge graphs.",
+    href: "#research",
+  },
+]
+
 export function Hero({ email, resumeHref, github, linkedin, leetcode, facts }: HeroProps) {
+  const [activeFocus, setActiveFocus] = useState("research")
+  const selected = focusAreas.find((item) => item.id === activeFocus) ?? focusAreas[2]
+
   return (
     <section className="sk-hero" id="top" aria-labelledby="hero-title">
       <div className="sk-wrap">
@@ -43,23 +73,35 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts }: H
               ) : null}
             </div>
 
-            <nav className="sk-hero__focus" aria-label="Explore my focus areas">
-              <a className="sk-hero__focus-chip" href="#work" data-tilt>
-                <span className="sk-hero__focus-index">01</span>
-                <span>Backend & systems</span>
-                <ArrowUpRight />
-              </a>
-              <a className="sk-hero__focus-chip" href="#open-source" data-tilt>
-                <span className="sk-hero__focus-index">02</span>
-                <span>Open source</span>
-                <ArrowUpRight />
-              </a>
-              <a className="sk-hero__focus-chip" href="#research" data-tilt>
-                <span className="sk-hero__focus-index">03</span>
-                <span>Audio intelligence</span>
-                <ArrowUpRight />
-              </a>
-            </nav>
+            <div className="sk-hero__explorer">
+              <div className="sk-hero__explorer-head">
+                <span>Choose a thread to explore</span>
+                <span>01 — 03</span>
+              </div>
+              <nav className="sk-hero__focus" aria-label="Explore my focus areas">
+                {focusAreas.map((item, index) => (
+                  <a
+                    className="sk-hero__focus-chip"
+                    key={item.id}
+                    href={item.href}
+                    data-active={activeFocus === item.id}
+                    onMouseEnter={() => setActiveFocus(item.id)}
+                    onFocus={() => setActiveFocus(item.id)}
+                    onClick={() => setActiveFocus(item.id)}
+                  >
+                    <span className="sk-hero__focus-index">{String(index + 1).padStart(2, "0")}</span>
+                    <span>{item.label}</span>
+                    <ArrowUpRight />
+                  </a>
+                ))}
+              </nav>
+              <div className="sk-hero__focus-preview" aria-live="polite" key={selected.id}>
+                <span className="sk-hero__focus-preview-label">A little more about this thread</span>
+                <strong>{selected.title}</strong>
+                <p>{selected.note}</p>
+                <a href={selected.href}>Explore this part <ArrowRight /></a>
+              </div>
+            </div>
 
             <div className="sk-hero__links">
               {github ? (
@@ -91,9 +133,10 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts }: H
                 fetchPriority="high"
               />
             </div>
-            <div className="sk-portrait__signal sk-portrait__signal--top">
+            <div className="sk-portrait__signal sk-portrait__signal--top" aria-live="polite">
               <span>Currently exploring</span>
-              <strong>Audio → knowledge graphs</strong>
+              <strong>{selected.label}</strong>
+              <small>{selected.note}</small>
             </div>
             <div className="sk-portrait__signal sk-portrait__signal--bottom">
               <span className="sk-portrait__signal-dot" aria-hidden="true" />

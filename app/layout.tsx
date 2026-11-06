@@ -7,6 +7,7 @@ import "./site.css"
 import "./glass.css"
 import "./portfolio-polish.css"
 import "./portfolio-interactions.css"
+import "./portfolio-experience.css"
 
 const interTight = localFont({
   src: "../node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2",

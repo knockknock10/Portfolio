@@ -9,28 +9,28 @@
 */
 
 :root {
-  --paper: #e6ebf0;
-  --paper-2: #d9e0e7;
-  --surface: rgba(255, 255, 255, 0.5);
-  --ink: #10161d;
-  --ink-2: #2d3944;
-  --muted: #566471;
-  --rule: rgba(16, 22, 29, 0.12);
-  --accent: #d2441e;
-  --accent-deep: #a8330f;
+  --paper: #f1ede5;
+  --paper-2: #e5ddd0;
+  --surface: rgba(255, 253, 248, 0.62);
+  --ink: #211f1a;
+  --ink-2: #47433b;
+  --muted: #746e62;
+  --rule: rgba(42, 36, 27, 0.13);
+  --accent: #b9684c;
+  --accent-deep: #8e4d37;
 
-  --glass: rgba(255, 255, 255, 0.46);
-  --glass-strong: rgba(255, 255, 255, 0.66);
+  --glass: rgba(255, 253, 248, 0.53);
+  --glass-strong: rgba(255, 253, 248, 0.72);
   --glass-edge: rgba(255, 255, 255, 0.78);
-  --glass-shade: rgba(16, 22, 29, 0.1);
-  --glass-blur: blur(22px) saturate(170%);
+  --glass-shade: rgba(45, 37, 27, 0.13);
+  --glass-blur: blur(20px) saturate(145%);
   --radius: 28px;
 
-  --blob-a: #a6e3d8;
-  --blob-b: #ffc5ae;
-  --blob-c: #b9c6ff;
-  --blob-d: #f6e2a2;
-  --blob-e: #d8c4ff;
+  --blob-a: #bed8c9;
+  --blob-b: #edc7b1;
+  --blob-c: #c9cbd8;
+  --blob-d: #e8d8b4;
+  --blob-e: #d9c3c0;
 }
 
 html {
@@ -61,9 +61,9 @@ body {
   width: 38vmax;
   height: 38vmax;
   border-radius: 46% 54% 52% 48% / 52% 44% 56% 48%;
-  opacity: 0.85;
+  opacity: 0.68;
   will-change: transform, border-radius;
-  animation: lq-morph 22s ease-in-out infinite alternate;
+  animation: lq-morph 28s ease-in-out infinite alternate;
 }
 .lq-blob--a {
   background: var(--blob-a);
@@ -287,9 +287,10 @@ main,
 
 /* Dark sections become dark glass slabs */
 .sk-dark {
+  color: var(--on-dark);
   margin-inline: clamp(8px, 2vw, 26px);
   border-radius: clamp(28px, 4vw, 54px);
-  background: rgba(15, 21, 29, 0.9);
+  background: rgba(33, 31, 27, 0.94);
   -webkit-backdrop-filter: blur(34px) saturate(140%);
   backdrop-filter: blur(34px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.14);
