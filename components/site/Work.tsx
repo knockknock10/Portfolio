@@ -79,8 +79,8 @@ const projects: Project[] = [
   },
   {
     title: "NovaFest",
-    status: "Completed",
-    summary: "A full-stack web project with a React front end and a Node.js, Express and MongoDB back end.",
+    status: "Prototype",
+    summary: "A property-listing UI branded NovaNest, alongside a separate e-commerce API experiment in the same repository. They are not connected yet, and the sign-in screen is a mock flow.",
     tags: ["React", "Tailwind CSS", "Express", "MongoDB"],
     links: [
       { label: "Live site", href: "https://novanest-1.netlify.app/", primary: true },
