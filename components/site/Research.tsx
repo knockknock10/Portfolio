@@ -94,41 +94,41 @@ export function Research({ paper, other }: { paper: ResearchItem | null; other: 
                 <span className="gl-research-card__eyebrow">SonicMap RQ1 · research prototype</span>
                 <span className="gl-research-card__title">Causal-temporal audio knowledge graphs</span>
                 <span className="gl-research-card__abstract">
-                  Turning multichannel audio observations into time-indexed source and relation hypotheses, with
-                  evidence-linked memory that can answer what the system knew at a particular moment.
+                  I'm working on tracking sound-source observations across a recording and keeping the relationships
+                  between them over time. The main audio pipeline and the late-arrival timing tests are being evaluated
+                  separately for now.
                 </span>
                 <span className="gl-research-card__tags">
                   <span>Multichannel audio</span>
                   <span>Source tracking</span>
                   <span>Temporal relations</span>
-                  <span>Bitemporal memory</span>
+                  <span>Event-time queries</span>
                 </span>
                 <details className="gl-kg-details">
                   <summary>What I am investigating <span aria-hidden="true">＋</span></summary>
                   <div>
                     <p>
-                      The graph separates event time (when a relation held in the scene) from knowledge time
-                      (when the system received that evidence). Versioned assertions preserve earlier snapshots
-                      when observations arrive late or a relation is corrected, extended or retracted.
+                      One question is how to handle evidence that arrives late. A query about an earlier moment should
+                      not use information the system had not received yet. The current graph path stores event-time
+                      relations; the separate knowledge-time work is still being developed.
                     </p>
                     <p>
-                      A controlled delayed-arrival diagnostic is in place. The next research step is to evaluate
-                      receipt-time behaviour with predicted audio observations and compare event-log, event-time
-                      graph and bitemporal-graph baselines.
+                      I have a deterministic delayed-arrival test using synthetic observations. It compares log and
+                      graph query paths, but it does not yet feed predicted audio detections into a bitemporal graph.
                     </p>
                     <small>
-                      This remains a prototype, not a validated real-time end-to-end system; synthetic tests
-                      establish software semantics, not audio accuracy or research novelty.
+                      The current system is a research prototype, not a validated real-time end-to-end system.
+                      The relation-extraction results are still weak, and the research novelty has not been established.
                     </small>
                   </div>
                 </details>
-                <span className="gl-research-card__action gl-research-card__action--static">
-                  Ongoing work <span aria-hidden="true">↗</span>
-                </span>
               </div>
               <div className="gl-research-entry__footer">
-                <span>Knowledge-time-aware temporal graph memory</span>
+                <span>Audio tracking and temporal graph queries</span>
                 <span>In progress</span>
+                <a href="https://github.com/knockknock10/Portfolio/blob/main/SONICMAP-RQ1.md" target="_blank" rel="noreferrer">
+                  Research notes <ArrowUpRight />
+                </a>
               </div>
             </article>
           </Reveal>
