@@ -52,7 +52,7 @@ The site is hosted under `/Portfolio/`, so keep that base path when changing ass
 
 ## Updating the content
 
-The main project and profile text is kept in `lib/portfolio-data.ts`. The research and experience sections use the records in `PORTFOLIO-DATA.md`. When updating coding-profile numbers or other changing information, keep the date of the saved snapshot with it rather than presenting an old value as live.
+The profile and contact details are kept in `lib/portfolio-data.ts`. The selected project cards are in `components/site/Work.tsx`, and the research section is in `components/site/Research.tsx`. The research and experience records, along with saved GitHub and LeetCode data, are in `PORTFOLIO-DATA.md`. When updating coding-profile numbers, keep the date of the saved snapshot with them.
 
 Only put files in `public/` that are meant to be publicly accessible. Don't commit API keys, tokens or private documents.
 
