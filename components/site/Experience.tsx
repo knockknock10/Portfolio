@@ -20,12 +20,13 @@ export function Experience({ internships }: { internships: Internship[] }) {
             <div>
               <p className="sk-eyebrow">Experience</p>
               <h2 className="sk-h2" id="experience-title">
-                Where I&apos;ve worked
+                Research &amp; university work
               </h2>
             </div>
+            {/* Previous heading retained for reference: “Where I’ve worked”. */}
             <p className="sk-lede">
-              University research and institutional work so far. Both are described the way they happened, not dressed up
-              as job titles they weren&apos;t.
+              This section covers a university research internship and protocol and workflow work for a campus
+              initiative. Each entry is described by its actual responsibilities, not an inflated job title.
             </p>
           </div>
         </Reveal>

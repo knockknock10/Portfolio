@@ -23,13 +23,13 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts }: H
               <span>Sanjeev</span>
               <span>Kumar</span>
             </h1>
+            {/* Previous hero copy retained: “I build backend systems, send pull requests to open-source projects, and do research on speech watermarking.” */}
             <p className="sk-hero__lede">
-              I build backend systems, send pull requests to open-source projects, and do research on speech
-              watermarking.
+              I build backend services and developer tools, contribute fixes to open-source projects, and research
+              speech watermarking.
             </p>
-            <p className="sk-hero__status">
-              Open to software engineering internships and full-time roles.
-            </p>
+            {/* Internship search reflects my current position as a student. */}
+            <p className="sk-hero__status">Open to software engineering internships.</p>
 
             <div className="sk-hero__actions">
               <a className="sk-btn sk-btn--solid" href="#work">

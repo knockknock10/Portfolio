@@ -47,8 +47,8 @@ export function Research({ paper, other }: { paper: ResearchItem | null; other: 
               </h2>
             </div>
             <p className="sk-lede">
-              My first-author paper looks at where to hide a watermark in speech so that it survives, and whether a
-              self-supervised model can help choose the spot.
+              My first-author paper studies how to choose time-frequency locations for speech watermarks, combining
+              semantic representations with spectral suitability.
             </p>
           </div>
         </Reveal>
@@ -131,9 +131,9 @@ export function Research({ paper, other }: { paper: ResearchItem | null; other: 
 
         <Reveal>
           <p className="sk-note" style={{ color: "var(--on-dark-muted)", marginTop: "clamp(28px, 4vw, 44px)" }}>
-            What I found: the model&apos;s contribution map is a useful signal, but in the current tests local spectral
-            suitability was the stronger criterion, and the joint method did not consistently beat spectral-only. The paper
-            has been submitted and is not yet published.
+            What I found: semantic saliency is useful, but in the current clean-reference tests spectral suitability
+            remained the stronger placement signal; the joint method did not consistently beat spectral-only. The tested
+            attacks also exposed a robustness limitation that remains open. The paper has been submitted and is not yet published.
           </p>
         </Reveal>
 

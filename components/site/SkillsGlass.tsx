@@ -9,7 +9,7 @@ const groups: { id: string; label: string; items: string[]; learning?: string[] 
   { id: "backend", label: "Backend", items: ["Node.js", "Express", "Gin", "GORM", "REST APIs", "Microservices", "WebSockets"] },
   { id: "frontend", label: "Frontend", items: ["React", "Next.js", "HTML5", "CSS3", "Tailwind CSS", "Vite", "Webpack"] },
   { id: "data", label: "Databases", items: ["PostgreSQL", "MongoDB", "SQL"] },
-  { id: "infra", label: "DevOps and cloud", items: ["Docker", "GitHub Actions", "CI/CD", "Linux", "AWS"], learning: ["Kubernetes"] },
+  { id: "infra", label: "DevOps and cloud", items: ["Docker", "Kubernetes", "GitHub Actions", "CI/CD", "Linux", "AWS"] },
   { id: "ml", label: "ML and research", items: ["PyTorch", "Transformers", "HuBERT", "STFT audio processing", "SHA-256 payload binding"] },
   { id: "tools", label: "Tools", items: ["Git", "Postman", "Vercel", "Netlify", "VS Code", "Vim"] },
 ]
@@ -30,8 +30,8 @@ export function SkillsGlass({ children }: { children?: ReactNode }) {
               </h2>
             </div>
             <p className="sk-lede">
-              Go and Java for backend work, React and Node for the web, Python for research. Pick a group to see what is
-              in it.
+              Go, Java and C++ for backend and systems work; React and Node for web applications; Python for research.
+              Tools I&apos;ve used are listed directly, with Rust marked separately as learning.
             </p>
           </div>
         </Reveal>

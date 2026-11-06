@@ -222,7 +222,13 @@ function ContestSparkline({
   )
 }
 
-export function Practice({ stats }: { stats: SignalStats["leetcode"] }) {
+export function Practice({
+  stats,
+  snapshotDate,
+}: {
+  stats: SignalStats["leetcode"]
+  snapshotDate: string | null
+}) {
   const solved = num(stats.totalSolved)
   const totalQuestions = typeof stats.totalQuestions === "number" ? stats.totalQuestions : 3500
   const solvedNum = typeof stats.totalSolved === "number" ? stats.totalSolved : 0
@@ -236,6 +242,14 @@ export function Practice({ stats }: { stats: SignalStats["leetcode"] }) {
 
   const hasContestHistory =
     Array.isArray(stats.contestHistory) && stats.contestHistory.length > 0
+  const snapshotLabel = snapshotDate
+    ? new Date(`${snapshotDate}T00:00:00Z`).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        timeZone: "UTC",
+      })
+    : null
 
   return (
     <Reveal>
@@ -292,7 +306,11 @@ export function Practice({ stats }: { stats: SignalStats["leetcode"] }) {
         </div>
 
         <div className="sk-practice__foot">
-          <span>Figures are from my public LeetCode profile when this site was last built.</span>
+          <span>
+            {snapshotLabel
+              ? `LeetCode profile snapshot: ${snapshotLabel}.`
+              : "Figures are from the last saved public LeetCode profile snapshot."}
+          </span>
           <span className="sk-practice__links">
             {profiles.map((profile) => (
               <a

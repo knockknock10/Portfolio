@@ -6,7 +6,7 @@ import { Research } from "@/components/site/Research"
 import { OpenSourceGlass } from "@/components/site/OpenSourceGlass"
 import { LiquidField } from "@/components/site/LiquidField"
 import { Interactions } from "@/components/site/Interactions"
-import { CursorLens } from "@/components/site/CursorLens"
+// import { CursorLens } from "@/components/site/CursorLens" // Preserved, intentionally inactive: no pointer-following cursor effect.
 import { Certificates, type CertificateView } from "@/components/site/Certificates"
 import { SkillsGlass } from "@/components/site/SkillsGlass"
 import { getCertificationsData } from "@/lib/certifications"
@@ -59,6 +59,9 @@ export default async function HomePage() {
     }
   })
 
+  // Do not show navigation for a section that has no certificate entries.
+  const navLinks = links.filter((link) => link.id !== "certificates" || certificates.length > 0)
+
   const name = content.identity.professionalName ?? content.identity.fullName ?? "Sanjeev Kumar"
   const email = content.contact.email
   const resumeHref = publicUrl(content.resumePath ?? "/resume.pdf")
@@ -66,13 +69,11 @@ export default async function HomePage() {
   const linkedin = socialUrl(content.socials, /linkedin/i)
   const leetcode = socialUrl(content.socials, /leetcode/i)
 
-  const solved = signals.leetcode.totalSolved
-  const rating = signals.leetcode.contestRating
+  // LeetCode figures stay in the practice section with their source snapshot date.
+  // The hero only carries contribution metrics built from the upstream PR index.
   const facts: Fact[] = [
     upstream.available ? { value: String(upstream.mergedCount), label: "pull requests merged upstream" } : null,
-    upstream.available ? { value: String(upstream.projectCount), label: "open-source projects contributed to" } : null,
-    typeof solved === "number" ? { value: String(solved), label: "LeetCode problems solved" } : null,
-    typeof rating === "number" ? { value: Math.round(rating).toLocaleString("en-US"), label: "LeetCode contest rating" } : null,
+    upstream.available ? { value: String(upstream.projectCount), label: "upstream projects contributed to" } : null,
   ].filter((fact): fact is Fact => fact !== null)
 
   const paper = research.find((item) => /sembind/i.test(item.title)) ?? research[0] ?? null
@@ -89,8 +90,8 @@ export default async function HomePage() {
     <>
       <LiquidField />
       <Interactions />
-      <CursorLens />
-      <Header name={name} links={links} resumeHref={resumeHref} email={email} />
+      {/* <CursorLens /> Preserved but disabled: no pointer-following lens. */}
+      <Header name={name} links={navLinks} resumeHref={resumeHref} email={email} />
       <main id="main-content" tabIndex={-1}>
         <Hero email={email} resumeHref={resumeHref} github={github} linkedin={linkedin} leetcode={leetcode} facts={facts} />
         <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
@@ -104,11 +105,11 @@ export default async function HomePage() {
         {/*
           Previous Skills wrapper retained for reference, not rendered:
           <Skills>
-            <Practice stats={signals.leetcode} />
+            <Practice stats={signals.leetcode} snapshotDate={signals.snapshotDate} />
           </Skills>
         */}
         <SkillsGlass>
-          <Practice stats={signals.leetcode} />
+          <Practice stats={signals.leetcode} snapshotDate={signals.snapshotDate} />
         </SkillsGlass>
         <Certificates items={certificates} />
         <About location={content.contact.location} />
