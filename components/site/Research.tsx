@@ -3,25 +3,10 @@ import type { ResearchItem } from "@/lib/research"
 import { ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
 import { PaperViewer } from "./PaperViewer"
+import { KnowledgeGraphExplorer } from "./KnowledgeGraphExplorer"
 
 function isText(value: string | string[] | undefined | null): value is string {
   return typeof value === "string" && value !== "MISSING" && value.trim() !== ""
-}
-
-function KnowledgeGraphMark() {
-  return (
-    <svg className="gl-kg-mark" viewBox="0 0 420 190" role="img" aria-label="Concept illustration of audio observations connected into a temporal knowledge graph">
-      <path d="M70 95 185 42 324 82M70 95 185 150 324 82M185 42 185 150M185 42 324 82M185 150 324 82" />
-      <path d="M324 82 385 42M324 82 385 144" className="gl-kg-mark__secondary" />
-      <circle cx="70" cy="95" r="25" className="gl-kg-mark__node gl-kg-mark__node--audio" />
-      <circle cx="185" cy="42" r="20" className="gl-kg-mark__node" />
-      <circle cx="185" cy="150" r="20" className="gl-kg-mark__node" />
-      <circle cx="324" cy="82" r="25" className="gl-kg-mark__node gl-kg-mark__node--focus" />
-      <circle cx="385" cy="42" r="11" className="gl-kg-mark__node gl-kg-mark__node--small" />
-      <circle cx="385" cy="144" r="11" className="gl-kg-mark__node gl-kg-mark__node--small" />
-      <path d="M59 95h22M70 84v22M179 42h12M185 36v12M318 82h12M324 76v12" className="gl-kg-mark__cross" />
-    </svg>
-  )
 }
 
 function Metadata({ item }: { item: ResearchItem }) {
@@ -105,7 +90,7 @@ export function Research({ paper, other }: { paper: ResearchItem | null; other: 
                 <span className="gl-research-year">2026</span>
               </div>
               <div className="gl-research-card gl-research-card--kg">
-                <KnowledgeGraphMark />
+                <KnowledgeGraphExplorer />
                 <span className="gl-research-card__eyebrow">SonicMap RQ1 · research prototype</span>
                 <span className="gl-research-card__title">Causal-temporal audio knowledge graphs</span>
                 <span className="gl-research-card__abstract">
