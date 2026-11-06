@@ -64,7 +64,7 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts }: H
             </div>
           </div>
 
-          <div className="sk-portrait">
+          <div className="sk-portrait" data-tilt>
             <div className="sk-portrait__shape" aria-hidden="true" />
             <div className="sk-portrait__photo">
               <img

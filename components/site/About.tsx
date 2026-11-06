@@ -43,6 +43,7 @@ export function About({ location }: { location: string | null }) {
                 <h3>Education</h3>
                 <strong>B.Tech, Computer Science and Engineering</strong>
                 <p>SRM University AP, currently in third year</p>
+                <p className="gl-fact-line">CGPA 8.7 / 10 · Expected graduation 2028</p>
               </div>
               <div className="sk-panel">
                 <h3>What I&apos;m focused on</h3>
