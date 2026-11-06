@@ -26,7 +26,7 @@ function SkillLogo({name}:{name:string}) {
   </span>
 }
 
-const groups: { id: string; label: string; items: string[]; learning?: string[] } = [
+const groups: { id: string; label: string; items: string[]; learning?: string[] }[] = [
   { id: "languages", label: "Languages", items: ["Go", "Java", "C++", "C", "Python", "JavaScript", "SQL", "Bash"], learning: ["Rust"] },
   { id: "backend", label: "Backend", items: ["Node.js", "Express", "Gin", "GORM", "REST APIs", "Microservices", "WebSockets"] },
   { id: "frontend", label: "Frontend", items: ["React", "Next.js", "HTML5", "CSS3", "Tailwind CSS", "Vite", "Webpack"] },
