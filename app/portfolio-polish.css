@@ -26,7 +26,7 @@
 /* Decorative blur glows and pulsing loaders are not part of the active design. */
 .sk-practice-glow,
 .gl-graph__skeleton {
-  display: none !important;
+  visibility: hidden !important;
   animation: none !important;
 }
 
