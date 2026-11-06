@@ -3094,7 +3094,7 @@ These entries appear in the supplied résumé records. They are shown as self-re
 - status — MISSING: no publication or review status is stated.
 - image — MISSING: no research-specific image exists under `public/`.
 
-### Institutional experience and research internship
+### Work and university experience
 
 - IRHS official title, dates and duration — MISSING: the description records protocol design, workflow documentation and digital-outreach planning, but no official title or dates were supplied.
 - CCC Digital Pvt. Ltd. — Software Intern, June–July 2026, two months. Exact calendar days, location, team size and technology stack were not supplied.
