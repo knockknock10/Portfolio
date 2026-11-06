@@ -21,7 +21,7 @@ export function Experience({ internships }: { internships: Internship[] }) {
           <div className="sk-head">
             <div>
               <p className="sk-eyebrow">Experience</p>
-              <h2 className="sk-h2" id="experience-title">Experience</h2>
+              <h2 className="sk-h2" id="experience-title">Work I&apos;ve done</h2>
             </div>
             <p className="sk-lede">
               A few things I've worked on outside my own projects.
