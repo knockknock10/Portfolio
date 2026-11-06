@@ -3,12 +3,16 @@
 import { useEffect } from "react"
 
 /**
- * Keeps the small reading-progress rule in the header in sync with the page.
- * Motion-heavy counters, pointer tilt, and magnetic button movement are off.
+ * Light, pointer-aware movement for the liquid backdrop, portrait, profile and
+ * research cards. Every effect is skipped when the visitor prefers reduced motion.
  */
 export function Interactions() {
   useEffect(() => {
     const root = document.documentElement
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches
+    const cleanups: Array<() => void> = []
+
     const updateProgress = () => {
       const max = root.scrollHeight - window.innerHeight
       const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0
@@ -18,139 +22,81 @@ export function Interactions() {
     updateProgress()
     window.addEventListener("scroll", updateProgress, { passive: true })
     window.addEventListener("resize", updateProgress)
+    cleanups.push(() => window.removeEventListener("scroll", updateProgress))
+    cleanups.push(() => window.removeEventListener("resize", updateProgress))
 
-    return () => {
-      window.removeEventListener("scroll", updateProgress)
-      window.removeEventListener("resize", updateProgress)
+    if (!reduceMotion && finePointer) {
+      const field = document.querySelector<HTMLElement>(".lq-field")
+      if (field) {
+        const moveField = (event: PointerEvent) => {
+          const x = event.clientX / Math.max(window.innerWidth, 1) - 0.5
+          const y = event.clientY / Math.max(window.innerHeight, 1) - 0.5
+          field.style.setProperty("--px", (x * 2).toFixed(3))
+          field.style.setProperty("--py", (y * 2).toFixed(3))
+        }
+        const resetField = () => {
+          field.style.setProperty("--px", "0")
+          field.style.setProperty("--py", "0")
+        }
+        window.addEventListener("pointermove", moveField, { passive: true })
+        window.addEventListener("pointerleave", resetField)
+        cleanups.push(() => window.removeEventListener("pointermove", moveField))
+        cleanups.push(() => window.removeEventListener("pointerleave", resetField))
+      }
+
+      const tiltNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-tilt]"))
+      const tiltMove = (event: PointerEvent) => {
+        if (event.pointerType === "touch") return
+        const element = event.currentTarget as HTMLElement
+        const rect = element.getBoundingClientRect()
+        if (!rect.width || !rect.height) return
+        const x = (event.clientX - rect.left) / rect.width - 0.5
+        const y = (event.clientY - rect.top) / rect.height - 0.5
+        element.style.setProperty("--tilt-x", `${(-y * 3.2).toFixed(2)}deg`)
+        element.style.setProperty("--tilt-y", `${(x * 3.8).toFixed(2)}deg`)
+        element.style.setProperty("--mx", `${((x + 0.5) * 100).toFixed(1)}%`)
+        element.style.setProperty("--my", `${((y + 0.5) * 100).toFixed(1)}%`)
+      }
+      const tiltLeave = (event: PointerEvent) => {
+        const element = event.currentTarget as HTMLElement
+        element.style.setProperty("--tilt-x", "0deg")
+        element.style.setProperty("--tilt-y", "0deg")
+        element.style.setProperty("--mx", "50%")
+        element.style.setProperty("--my", "50%")
+      }
+      tiltNodes.forEach((element) => {
+        element.addEventListener("pointermove", tiltMove)
+        element.addEventListener("pointerleave", tiltLeave)
+      })
+      cleanups.push(() => tiltNodes.forEach((element) => {
+        element.removeEventListener("pointermove", tiltMove)
+        element.removeEventListener("pointerleave", tiltLeave)
+      }))
+
+      const magneticNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-magnetic]"))
+      const magnetMove = (event: PointerEvent) => {
+        const element = event.currentTarget as HTMLElement
+        const rect = element.getBoundingClientRect()
+        const dx = event.clientX - (rect.left + rect.width / 2)
+        const dy = event.clientY - (rect.top + rect.height / 2)
+        element.style.translate = `${(dx * 0.055).toFixed(1)}px ${(dy * 0.075).toFixed(1)}px`
+      }
+      const magnetLeave = (event: PointerEvent) => {
+        const element = event.currentTarget as HTMLElement
+        element.style.translate = "0 0"
+      }
+      magneticNodes.forEach((element) => {
+        element.addEventListener("pointermove", magnetMove)
+        element.addEventListener("pointerleave", magnetLeave)
+      })
+      cleanups.push(() => magneticNodes.forEach((element) => {
+        element.removeEventListener("pointermove", magnetMove)
+        element.removeEventListener("pointerleave", magnetLeave)
+      }))
     }
+
+    return () => cleanups.forEach((cleanup) => cleanup())
   }, [])
 
   return null
 }
-
-// Previous implementation retained verbatim below as inactive line comments:
-// "use client"
-// 
-// import { useEffect } from "react"
-// 
-// /**
-//  * Small, page-wide behaviours that work on plain markup:
-//  *  - [data-tilt]      cards lean toward the pointer
-//  *  - .sk-btn          buttons are pulled slightly toward the pointer
-//  *  - number counters  figures count up once when they scroll into view
-//  *  - scroll progress  exposes --progress (0..1) on <html> for the header bar
-//  * Everything is skipped for visitors who prefer reduced motion.
-//  */
-// const COUNTER_SELECTOR = ".sk-fact strong, .sk-oss-totals strong, .sk-practice__numbers strong, [data-count]"
-// 
-// function parseCount(text: string) {
-//   const match = text.trim().match(/^([^0-9]*)([0-9][0-9,]*)(\.\d+)?(.*)$/)
-//   if (!match) return null
-//   const [, prefix, whole, decimals = "", suffix] = match
-//   const value = Number((whole + decimals).replace(/,/g, ""))
-//   if (!Number.isFinite(value)) return null
-//   return { prefix, value, decimals: decimals ? decimals.length - 1 : 0, suffix, grouped: whole.includes(",") }
-// }
-// 
-// export function Interactions() {
-//   useEffect(() => {
-//     const root = document.documentElement
-//     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-//     const cleanups: Array<() => void> = []
-// 
-//     // Scroll progress
-//     const onScroll = () => {
-//       const max = root.scrollHeight - window.innerHeight
-//       root.style.setProperty("--progress", max > 0 ? String(Math.min(1, window.scrollY / max)) : "0")
-//     }
-//     onScroll()
-//     window.addEventListener("scroll", onScroll, { passive: true })
-//     cleanups.push(() => window.removeEventListener("scroll", onScroll))
-// 
-//     // Counters
-//     const counters = Array.from(document.querySelectorAll<HTMLElement>(COUNTER_SELECTOR))
-//     if (!reduce && counters.length) {
-//       const observer = new IntersectionObserver(
-//         (entries) => {
-//           for (const entry of entries) {
-//             if (!entry.isIntersecting) continue
-//             observer.unobserve(entry.target)
-//             const el = entry.target as HTMLElement
-//             const parsed = parseCount(el.textContent ?? "")
-//             if (!parsed) continue
-//             const start = performance.now()
-//             const duration = 1400
-//             const format = (n: number) =>
-//               parsed.prefix +
-//               n.toLocaleString("en-US", {
-//                 minimumFractionDigits: parsed.decimals,
-//                 maximumFractionDigits: parsed.decimals,
-//                 useGrouping: parsed.grouped,
-//               }) +
-//               parsed.suffix
-//             const step = (now: number) => {
-//               const t = Math.min(1, (now - start) / duration)
-//               const eased = 1 - Math.pow(1 - t, 4)
-//               el.textContent = format(parsed.value * eased)
-//               if (t < 1) requestAnimationFrame(step)
-//               else el.textContent = format(parsed.value)
-//             }
-//             requestAnimationFrame(step)
-//           }
-//         },
-//         { threshold: 0.6 },
-//       )
-//       counters.forEach((el) => observer.observe(el))
-//       cleanups.push(() => observer.disconnect())
-//     }
-// 
-//     // Tilt and magnetic pull (pointer devices only)
-//     if (!reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-//       const tiltMove = (event: PointerEvent) => {
-//         const el = (event.currentTarget as HTMLElement)
-//         const rect = el.getBoundingClientRect()
-//         const nx = (event.clientX - rect.left) / rect.width - 0.5
-//         const ny = (event.clientY - rect.top) / rect.height - 0.5
-//         el.style.setProperty("--tilt-x", `${(-ny * 5).toFixed(2)}deg`)
-//         el.style.setProperty("--tilt-y", `${(nx * 6).toFixed(2)}deg`)
-//       }
-//       const tiltLeave = (event: PointerEvent) => {
-//         const el = event.currentTarget as HTMLElement
-//         el.style.setProperty("--tilt-x", "0deg")
-//         el.style.setProperty("--tilt-y", "0deg")
-//       }
-//       const magnetMove = (event: PointerEvent) => {
-//         const el = event.currentTarget as HTMLElement
-//         const rect = el.getBoundingClientRect()
-//         const dx = event.clientX - (rect.left + rect.width / 2)
-//         const dy = event.clientY - (rect.top + rect.height / 2)
-//         el.style.transform = `translate(${(dx * 0.14).toFixed(1)}px, ${(dy * 0.2).toFixed(1)}px)`
-//       }
-//       const magnetLeave = (event: PointerEvent) => {
-//         (event.currentTarget as HTMLElement).style.transform = ""
-//       }
-// 
-//       document.querySelectorAll<HTMLElement>("[data-tilt]").forEach((el) => {
-//         el.addEventListener("pointermove", tiltMove)
-//         el.addEventListener("pointerleave", tiltLeave)
-//         cleanups.push(() => {
-//           el.removeEventListener("pointermove", tiltMove)
-//           el.removeEventListener("pointerleave", tiltLeave)
-//         })
-//       })
-//       document.querySelectorAll<HTMLElement>(".sk-btn:not(.sk-btn--small)").forEach((el) => {
-//         el.addEventListener("pointermove", magnetMove)
-//         el.addEventListener("pointerleave", magnetLeave)
-//         cleanups.push(() => {
-//           el.removeEventListener("pointermove", magnetMove)
-//           el.removeEventListener("pointerleave", magnetLeave)
-//         })
-//       })
-//     }
-// 
-//     return () => cleanups.forEach((fn) => fn())
-//   }, [])
-// 
-//   return null
-// }
-// 

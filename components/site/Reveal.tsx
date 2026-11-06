@@ -1,6 +1,6 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react"
 
 type RevealProps = {
   children: ReactNode
@@ -9,35 +9,41 @@ type RevealProps = {
 }
 
 /**
- * Content is visible on first paint for readers, search crawlers, reduced-motion
- * users and full-page captures. Layout provides hierarchy without hiding
- * sections until a scroll observer fires.
+ * A progressive reveal: content remains visible without JavaScript, while
+ * supported browsers animate each block once as it enters the viewport.
  */
-export function Reveal({ children, className }: RevealProps) {
-  return <div className={className}>{children}</div>
-}
+export function Reveal({ children, delay = 0, className }: RevealProps) {
+  const ref = useRef<HTMLDivElement>(null)
 
-// Previous scroll-triggered reveal implementation retained below, inactive:
-// "use client"
-// import { motion, useReducedMotion } from "framer-motion"
-// import type { ReactNode } from "react"
-// type RevealProps = {
-//   children: ReactNode
-//   delay?: number
-//   className?: string
-// }
-// export function Reveal({ children, delay = 0, className }: RevealProps) {
-//   const reduceMotion = useReducedMotion()
-//   if (reduceMotion) return <div className={className}>{children}</div>
-//   return (
-//     <motion.div
-//       className={className}
-//       initial={{ opacity: 0, y: 22 }}
-//       whileInView={{ opacity: 1, y: 0 }}
-//       viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-//       transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}
-//     >
-//       {children}
-//     </motion.div>
-//   )
-// }
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+      element.dataset.visible = "true"
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue
+          element.dataset.visible = "true"
+          observer.unobserve(element)
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -5% 0px" },
+    )
+
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
+
+  const style = { "--reveal-delay": `${Math.max(0, delay)}s` } as CSSProperties
+
+  return (
+    <div ref={ref} className={["sk-reveal", className].filter(Boolean).join(" ")} style={style}>
+      {children}
+    </div>
+  )
+}
