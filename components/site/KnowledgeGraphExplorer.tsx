@@ -30,10 +30,10 @@ const stages = [
   {
     id: "relation",
     number: "04",
-    label: "Temporal relation",
-    short: "Bitemporal memory",
-    title: "Remember what was known, and when",
-    detail: "The bitemporal graph distinguishes event time (when a relation held) from knowledge time (when the system received it). Versioned assertions preserve earlier snapshots when evidence arrives late or is corrected.",
+    label: "Late-arrival tests",
+    short: "Knowledge-time question",
+    title: "Ask what the system knew at the time",
+    detail: "The current graph path stores event-time relations. A separate synthetic test explores how queries should behave when evidence arrives late; a full knowledge-time model is not yet connected to predicted audio observations.",
   },
 ] as const
 
