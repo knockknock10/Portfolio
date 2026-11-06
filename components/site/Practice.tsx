@@ -130,11 +130,8 @@ function MiniCalendar({
   data: Array<{ date: string; submissions: number }> | null
 }) {
   if (!data || data.length === 0) return null
-
-  // Get last 35 days for a 5x7 mini grid
   const days = data.slice(-35)
   const maxSubs = Math.max(...days.map((d) => d.submissions), 1)
-
   const getLevel = (count: number) => {
     if (count === 0) return 0
     const pct = count / maxSubs
@@ -183,15 +180,13 @@ function ContestSparkline({
     .filter((p): p is { ratingAfterContest: number; date: string } =>
       typeof p.ratingAfterContest === "number"
     )
-    .slice(-20) // Last 20 contests
+    .slice(-20)
 
   if (validPoints.length < 2) return null
-
   const ratings = validPoints.map((p) => p.ratingAfterContest)
   const min = Math.min(...ratings)
   const max = Math.max(...ratings)
   const range = max - min || 1
-
   const width = 200
   const height = 50
   const padding = 4
@@ -234,14 +229,11 @@ export function Practice({
   const solvedNum = typeof stats.totalSolved === "number" ? stats.totalSolved : 0
   const rating = num(stats.contestRating)
   const attended = num(stats.contestAttendedCount)
-
   const easy = typeof stats.easySolved === "number" ? stats.easySolved : 0
   const medium = typeof stats.mediumSolved === "number" ? stats.mediumSolved : 0
   const hard = typeof stats.hardSolved === "number" ? stats.hardSolved : 0
   const acceptance = typeof stats.acceptanceRate === "string" ? stats.acceptanceRate : null
-
-  const hasContestHistory =
-    Array.isArray(stats.contestHistory) && stats.contestHistory.length > 0
+  const hasContestHistory = Array.isArray(stats.contestHistory) && stats.contestHistory.length > 0
   const snapshotLabel = snapshotDate
     ? new Date(`${snapshotDate}T00:00:00Z`).toLocaleDateString("en-GB", {
         day: "numeric",
@@ -263,29 +255,23 @@ export function Practice({
         </div>
 
         <div className="sk-practice__visuals">
-          {/* Network visualization background layer */}
           <div className="sk-practice-glow sk-practice-glow--1" aria-hidden="true" />
           <div className="sk-practice-glow sk-practice-glow--2" aria-hidden="true" />
           <div className="sk-practice-glow sk-practice-glow--3" aria-hidden="true" />
-          {/* Progress ring with solved count */}
           <div className="sk-practice__stat">
             <CircularProgress value={solvedNum} max={totalQuestions}>
               <span className="sk-practice__stat-value">{solved}</span>
               <span className="sk-practice__stat-label">solved</span>
             </CircularProgress>
-            {acceptance && (
-              <span className="sk-practice__stat-meta">{acceptance} acceptance</span>
-            )}
+            {acceptance && <span className="sk-practice__stat-meta">{acceptance} acceptance</span>}
           </div>
 
-          {/* Difficulty breakdown */}
           {(easy > 0 || medium > 0 || hard > 0) && (
             <div className="sk-practice__breakdown">
               <DifficultyBar easy={easy} medium={medium} hard={hard} total={solvedNum || 1} />
             </div>
           )}
 
-          {/* Contest sparkline */}
           {hasContestHistory && rating && (
             <div className="sk-practice__contests">
               <div className="sk-contest-header">
@@ -297,7 +283,6 @@ export function Practice({
             </div>
           )}
 
-          {/* Mini calendar heatmap */}
           {stats.dailySubmissionCalendar && stats.dailySubmissionCalendar.length > 0 && (
             <div className="sk-practice__calendar">
               <MiniCalendar data={stats.dailySubmissionCalendar} />
@@ -313,10 +298,23 @@ export function Practice({
           </span>
         </div>
         <div className="sk-practice__profiles" aria-label="Problem-solving profiles">
-          {profiles.map(profile => (
-            <a className="sk-profile-card" key={profile.href} href={profile.href} target="_blank" rel="noreferrer">
+          {profiles.map((profile, index) => (
+            <a
+              className="sk-profile-card"
+              key={profile.href}
+              href={profile.href}
+              target="_blank"
+              rel="noreferrer"
+              data-tilt
+              style={{ "--profile-index": index } as React.CSSProperties}
+              aria-label={`Open ${profile.label} profile in a new tab`}
+            >
               <span className="sk-profile-card__mark" aria-hidden="true">{profile.mark}</span>
-              <span className="sk-profile-card__copy"><strong>{profile.label}</strong><small>{profile.detail}</small></span>
+              <span className="sk-profile-card__copy">
+                <strong>{profile.label}</strong>
+                <small>{profile.detail}</small>
+                <em>Open profile</em>
+              </span>
               <span className="sk-profile-card__arrow" aria-hidden="true"><ArrowUpRight /></span>
             </a>
           ))}
