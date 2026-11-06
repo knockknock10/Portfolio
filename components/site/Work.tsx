@@ -111,7 +111,7 @@ const projects: Project[] = [
   },
 ]
 
-function ProjectVisual({ project }: { project: Project }) {
+function ProjectVisual({ project, reduceMotion }: { project: Project; reduceMotion: boolean }) {
   const [activeStep, setActiveStep] = useState(0)
 
   if (project.image) {
@@ -145,7 +145,7 @@ function ProjectVisual({ project }: { project: Project }) {
       <AnimatePresence mode="wait" initial={false}>
         <motion.p key={selected} className="gl-workbench__flow-detail"
           initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }}
-          transition={{ duration: 0.22 }} aria-live="polite">
+          transition={{ duration: reduceMotion ? 0 : 0.22 }} aria-live="polite">
           {selected}
         </motion.p>
       </AnimatePresence>
@@ -212,9 +212,9 @@ export function Work({ repoCount }: { repoCount: number | null }) {
               <p className="gl-workbench__hint">Select a project to inspect its details</p>
             </div>
 
-            <div className="gl-workbench__stage" id="work-stage" role="tabpanel" aria-labelledby={`work-tab-${activeIndex}`}>
+            <div className="gl-workbench__stage" id="work-stage" role="tabpanel" aria-labelledby={`work-tab-${activeIndex}`} data-tilt>
               <AnimatePresence mode="wait" initial={false}>
-                <motion.article className="gl-workbench__project" key={active.title} data-tilt
+                <motion.article className="gl-workbench__project" key={active.title}
                   initial={reduceMotion ? false : { opacity: 0, y: 18, filter: "blur(5px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   exit={reduceMotion ? undefined : { opacity: 0, y: -12, filter: "blur(4px)" }}
@@ -228,7 +228,7 @@ export function Work({ repoCount }: { repoCount: number | null }) {
                     {active.role ? <p className="gl-workbench__role">{active.role}</p> : null}
                     <p className="gl-workbench__summary">{active.summary}</p>
                   </div>
-                  <ProjectVisual key={active.title} project={active} />
+                  <ProjectVisual key={active.title} project={active} reduceMotion={Boolean(reduceMotion)} />
                   <ul className="gl-workbench__tags" aria-label={`${active.title} technologies`}>
                     {active.tags.map((tag) => <li key={tag}>{tag}</li>)}
                   </ul>
