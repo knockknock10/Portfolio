@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type KeyboardEvent } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { publicUrl } from "@/lib/public-url"
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "./icons"
@@ -159,6 +159,17 @@ export function Work({ repoCount }: { repoCount: number | null }) {
   const active = projects[activeIndex]
   const previous = () => setActiveIndex((index) => (index - 1 + projects.length) % projects.length)
   const next = () => setActiveIndex((index) => (index + 1) % projects.length)
+  const moveProject = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const nextIndex = event.key === "ArrowDown" || event.key === "ArrowRight"
+      ? (index + 1) % projects.length
+      : event.key === "ArrowUp" || event.key === "ArrowLeft"
+        ? (index - 1 + projects.length) % projects.length
+        : event.key === "Home" ? 0 : event.key === "End" ? projects.length - 1 : -1
+    if (nextIndex < 0) return
+    event.preventDefault()
+    setActiveIndex(nextIndex)
+    document.getElementById(`work-tab-${nextIndex}`)?.focus()
+  }
 
   return (
     <section className="sk-section gl-work-section" id="work" aria-labelledby="work-title">
@@ -188,8 +199,9 @@ export function Work({ repoCount }: { repoCount: number | null }) {
               <div className="gl-workbench__project-list" role="tablist" aria-label="Choose a project" aria-orientation="vertical">
                 {projects.map((project, index) => (
                   <button type="button" role="tab" id={`work-tab-${index}`} aria-controls="work-stage"
+                    tabIndex={activeIndex === index ? 0 : -1}
                     aria-selected={activeIndex === index} className="gl-workbench__project-tab" key={project.title}
-                    onClick={() => setActiveIndex(index)}>
+                    onKeyDown={(event) => moveProject(event, index)} onClick={() => setActiveIndex(index)}>
                     <span className="gl-workbench__project-number">{String(index + 1).padStart(2, "0")}</span>
                     <span className="gl-workbench__project-name">{project.title}</span>
                     <span className="gl-workbench__project-status">{project.status}</span>
