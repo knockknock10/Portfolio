@@ -239,8 +239,8 @@
   .sk-portrait__signal--top { left:-2%; }
 }
 @media(prefers-reduced-motion:reduce) {
-  .gl-workbench__project,.gl-workbench__flow-detail,.gl-experience-item__content,.sk-hero__focus-preview,.gl-skill-detail { animation:none!important; }
-  .gl-workbench__project-tab,.gl-workbench__flow-step,.gl-workbench__arrows button,.gl-skill { transition:none!important; }
+   .gl-workbench__project,.gl-workbench__flow-detail,.gl-experience-item__content,.sk-hero__focus-preview,.gl-skill-detail,.gl-kg-explorer__detail { animation:none!important; }
+   .gl-workbench__project-tab,.gl-workbench__flow-step,.gl-workbench__arrows button,.gl-skill,.gl-kg-node { transition:none!important; }
 }
 
 /* SonicMap: click through a real research model, one stage at a time. */
