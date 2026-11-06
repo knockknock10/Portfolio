@@ -50,7 +50,7 @@ export function Certificates({ items }: { items: CertificateView[] }) {
               const initials = (item.issuer ?? "Credential").split(/\s+/).map(part => part[0]).join("").slice(0,3).toUpperCase()
               return (
                 <li key={item.title + (item.file ?? "")}>
-                  <article className="gl-cert" data-tilt>
+                  <article className="gl-cert">
                     <button type="button" className="gl-cert__preview" onClick={() => setOpen(item)} aria-label={`View details for ${item.title}`}>
                       {src && !item.isPdf ? <img src={src} alt={`${item.title} certificate`} loading="lazy" /> : (
                         <span className={item.isPdf ? "gl-cert__pdf" : "gl-cert__record"} aria-hidden="true">
