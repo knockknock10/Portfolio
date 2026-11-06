@@ -1,77 +1,76 @@
+"use client"
+
+import { useState } from "react"
+import type { CSSProperties } from "react"
 import type { SignalStats } from "@/lib/signals"
 import { ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
 
 const profiles = [
-  { label:"LeetCode",mark:"LC",detail:"Interview problems and submissions",href:"https://leetcode.com/u/knockknock10/" },
-  { label:"Codeforces",mark:"CF",detail:"Competitive programming contests",href:"https://codeforces.com/profile/knockknock10" },
-  { label:"HackerRank",mark:"HR",detail:"Structured skills practice",href:"https://www.hackerrank.com/profile/knockknock10" },
-  { label:"NeetCode",mark:"N",detail:"Interview preparation roadmap",href:"https://neetcode.io/user/DigitalTrill950" },
-  { label:"GeeksforGeeks",mark:"GFG",detail:"Data structures and algorithms",href:"https://www.geeksforgeeks.org/profile/karthikjaihh0z" },
-]
+  {
+    id: "codeforces",
+    label: "Codeforces",
+    mark: "CF",
+    logo: "codeforces",
+    accent: "#3b82b5",
+    detail: "Timed contests and algorithmic implementation",
+    focus: "Contest practice",
+    href: "https://codeforces.com/profile/knockknock10",
+  },
+  {
+    id: "hackerrank",
+    label: "HackerRank",
+    mark: "HR",
+    logo: "hackerrank",
+    accent: "#25865d",
+    detail: "Language tracks and structured assessments",
+    focus: "Skill tracks",
+    href: "https://www.hackerrank.com/profile/knockknock10",
+  },
+  {
+    id: "neetcode",
+    label: "NeetCode",
+    mark: "N",
+    logo: null,
+    accent: "#7b6e9e",
+    detail: "Interview patterns and a curated roadmap",
+    focus: "Interview prep",
+    href: "https://neetcode.io/user/DigitalTrill950",
+  },
+  {
+    id: "geeksforgeeks",
+    label: "GeeksforGeeks",
+    mark: "GFG",
+    logo: "geeksforgeeks",
+    accent: "#4e8965",
+    detail: "DSA practice and concept references",
+    focus: "DSA library",
+    href: "https://www.geeksforgeeks.org/profile/karthikjaihh0z",
+  },
+] as const
 
 function num(value: number | "MISSING", digits = 0): string | null {
-  return typeof value === "number" ? value.toLocaleString("en-US", { maximumFractionDigits: digits }) : null
+  return typeof value === "number"
+    ? value.toLocaleString("en-US", { maximumFractionDigits: digits })
+    : null
 }
 
-function CircularProgress({
-  value,
-  max,
-  size = 120,
-  strokeWidth = 8,
-  children,
-}: {
-  value: number
-  max: number
-  size?: number
-  strokeWidth?: number
-  children?: React.ReactNode
-}) {
-  const radius = (size - strokeWidth) / 2
-  const circumference = radius * 2 * Math.PI
-  const progress = Math.min(value / max, 1)
-  const dashOffset = circumference - progress * circumference
+function PlatformMark({ profile }: { profile: (typeof profiles)[number] }) {
+  const [failed, setFailed] = useState(false)
 
   return (
-    <div
-      className="sk-progress-ring"
-      style={{ width: size, height: size, position: "relative" }}
-    >
-      <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke="var(--rule)"
-          strokeWidth={strokeWidth}
+    <span className="gl-practice-platform__mark" data-platform={profile.id} aria-hidden="true">
+      {profile.logo && !failed ? (
+        <img
+          src={`https://cdn.simpleicons.org/${profile.logo}`}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(true)}
         />
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth={strokeWidth}
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={dashOffset}
-          style={{ transition: "stroke-dashoffset 0.8s ease-out" }}
-        />
-      </svg>
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {children}
-      </div>
-    </div>
+      ) : null}
+      {!profile.logo || failed ? <span>{profile.mark}</span> : null}
+    </span>
   )
 }
 
@@ -91,34 +90,16 @@ function DifficultyBar({
   const hardPct = (hard / total) * 100
 
   return (
-    <div className="sk-difficulty-bar">
-      <div className="sk-difficulty-bar__track">
-        <div
-          className="sk-difficulty-bar__fill sk-difficulty-bar__fill--easy"
-          style={{ width: `${easyPct}%` }}
-        />
-        <div
-          className="sk-difficulty-bar__fill sk-difficulty-bar__fill--medium"
-          style={{ width: `${mediumPct}%` }}
-        />
-        <div
-          className="sk-difficulty-bar__fill sk-difficulty-bar__fill--hard"
-          style={{ width: `${hardPct}%` }}
-        />
+    <div className="sk-difficulty-bar gl-practice-difficulty">
+      <div className="sk-difficulty-bar__track" aria-label="Solved problem difficulty breakdown">
+        <div className="sk-difficulty-bar__fill sk-difficulty-bar__fill--easy" style={{ width: `${easyPct}%` }} />
+        <div className="sk-difficulty-bar__fill sk-difficulty-bar__fill--medium" style={{ width: `${mediumPct}%` }} />
+        <div className="sk-difficulty-bar__fill sk-difficulty-bar__fill--hard" style={{ width: `${hardPct}%` }} />
       </div>
       <div className="sk-difficulty-bar__legend">
-        <span className="sk-difficulty-bar__label">
-          <span className="sk-difficulty-bar__dot sk-difficulty-bar__dot--easy" />
-          Easy {easy}
-        </span>
-        <span className="sk-difficulty-bar__label">
-          <span className="sk-difficulty-bar__dot sk-difficulty-bar__dot--medium" />
-          Med {medium}
-        </span>
-        <span className="sk-difficulty-bar__label">
-          <span className="sk-difficulty-bar__dot sk-difficulty-bar__dot--hard" />
-          Hard {hard}
-        </span>
+        <span className="sk-difficulty-bar__label"><span className="sk-difficulty-bar__dot sk-difficulty-bar__dot--easy" />Easy <strong>{easy}</strong></span>
+        <span className="sk-difficulty-bar__label"><span className="sk-difficulty-bar__dot sk-difficulty-bar__dot--medium" />Medium <strong>{medium}</strong></span>
+        <span className="sk-difficulty-bar__label"><span className="sk-difficulty-bar__dot sk-difficulty-bar__dot--hard" />Hard <strong>{hard}</strong></span>
       </div>
     </div>
   )
@@ -131,7 +112,8 @@ function MiniCalendar({
 }) {
   if (!data || data.length === 0) return null
   const days = data.slice(-35)
-  const maxSubs = Math.max(...days.map((d) => d.submissions), 1)
+  const maxSubs = Math.max(...days.map((day) => day.submissions), 1)
+
   const getLevel = (count: number) => {
     if (count === 0) return 0
     const pct = count / maxSubs
@@ -142,13 +124,13 @@ function MiniCalendar({
   }
 
   return (
-    <div className="sk-mini-calendar">
+    <div className="sk-mini-calendar gl-practice-calendar">
       <div className="sk-mini-calendar__grid">
-        {days.map((day, i) => {
+        {days.map((day) => {
           const level = getLevel(day.submissions)
           return (
             <div
-              key={day.date + i}
+              key={day.date}
               className={`sk-mini-calendar__cell sk-mini-calendar__cell--level${level}`}
               title={`${day.date}: ${day.submissions} submissions`}
             />
@@ -156,14 +138,12 @@ function MiniCalendar({
         })}
       </div>
       <div className="sk-mini-calendar__footer">
-        <span>Last 5 weeks</span>
+        <span>Last five weeks</span>
         <div className="sk-mini-calendar__legend">
           <span>Less</span>
-          <div className="sk-mini-calendar__cell sk-mini-calendar__cell--level0" />
-          <div className="sk-mini-calendar__cell sk-mini-calendar__cell--level1" />
-          <div className="sk-mini-calendar__cell sk-mini-calendar__cell--level2" />
-          <div className="sk-mini-calendar__cell sk-mini-calendar__cell--level3" />
-          <div className="sk-mini-calendar__cell sk-mini-calendar__cell--level4" />
+          {[0, 1, 2, 3, 4].map((level) => (
+            <div key={level} className={`sk-mini-calendar__cell sk-mini-calendar__cell--level${level}`} />
+          ))}
           <span>More</span>
         </div>
       </div>
@@ -174,46 +154,127 @@ function MiniCalendar({
 function ContestSparkline({
   history,
 }: {
-  history: Array<{ ratingAfterContest: number | "MISSING"; date: string }>
+  history: SignalStats["leetcode"]["contestHistory"]
 }) {
   const validPoints = history
-    .filter((p): p is { ratingAfterContest: number; date: string } =>
-      typeof p.ratingAfterContest === "number"
+    .filter((point): point is typeof point & { ratingAfterContest: number } =>
+      typeof point.ratingAfterContest === "number"
     )
     .slice(-20)
 
   if (validPoints.length < 2) return null
-  const ratings = validPoints.map((p) => p.ratingAfterContest)
+  const ratings = validPoints.map((point) => point.ratingAfterContest)
   const min = Math.min(...ratings)
   const max = Math.max(...ratings)
   const range = max - min || 1
-  const width = 200
-  const height = 50
-  const padding = 4
-  const points = validPoints.map((p, i) => {
-    const x = (i / (validPoints.length - 1)) * width
-    const y = height - padding - ((p.ratingAfterContest - min) / range) * (height - 2 * padding)
+  const points = validPoints.map((point, index) => {
+    const x = (index / (validPoints.length - 1)) * 200
+    const y = 46 - ((point.ratingAfterContest - min) / range) * 38
     return `${x},${y}`
   })
 
   return (
-    <div className="sk-contest-sparkline">
-      <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
-        <polyline
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth="2"
-          points={points.join(" ")}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <div className="sk-contest-sparkline__labels">
-        <span>{min}</span>
+    <div className="gl-practice-trend">
+      <div className="gl-practice-trend__top">
         <span>Contest rating trend</span>
-        <span>{max}</span>
+        <span>{min.toLocaleString("en-US")} — {max.toLocaleString("en-US")}</span>
       </div>
+      <svg viewBox="0 0 200 52" role="img" aria-label={`Contest rating trend, ranging from ${min} to ${max}`}>
+        <polyline fill="none" stroke="currentColor" strokeWidth="2.5" points={points.join(" ")} strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
     </div>
+  )
+}
+
+function LeetCodeFeature({
+  stats,
+  snapshotLabel,
+}: {
+  stats: SignalStats["leetcode"]
+  snapshotLabel: string | null
+}) {
+  const solved = num(stats.totalSolved)
+  const totalQuestions = num(stats.totalQuestions)
+  const easy = typeof stats.easySolved === "number" ? stats.easySolved : null
+  const medium = typeof stats.mediumSolved === "number" ? stats.mediumSolved : null
+  const hard = typeof stats.hardSolved === "number" ? stats.hardSolved : null
+  const solvedBreakdown = easy !== null && medium !== null && hard !== null
+  const solvedTotal = solvedBreakdown ? easy + medium + hard : 0
+  const acceptance = stats.acceptanceRate !== "MISSING" ? stats.acceptanceRate : null
+  const rating = num(stats.contestRating)
+  const attended = num(stats.contestAttendedCount)
+  const hasActivity = Boolean(stats.dailySubmissionCalendar?.length)
+  const hasTrend = stats.contestHistory.length > 1
+
+  return (
+    <article className="gl-practice-feature" aria-labelledby="practice-leetcode-title">
+      <div className="gl-practice-feature__top">
+        <div className="gl-practice-feature__identity">
+          <span className="gl-practice-feature__brand" aria-hidden="true">LC</span>
+          <div>
+            <span className="gl-practice-feature__eyebrow">Primary practice log</span>
+            <h4 id="practice-leetcode-title">LeetCode</h4>
+          </div>
+        </div>
+        <span className="gl-practice-feature__snapshot">
+          <i aria-hidden="true" /> Snapshot · {snapshotLabel ?? "Date not recorded"}
+        </span>
+      </div>
+
+      <div className="gl-practice-feature__body">
+        <div className="gl-practice-feature__score">
+          <strong>{solved ?? "—"}</strong>
+          <span>problems solved</span>
+          {totalQuestions ? <small>of {totalQuestions} in the saved catalogue</small> : null}
+        </div>
+
+        <div className="gl-practice-feature__breakdown">
+          {solvedBreakdown && solvedTotal > 0 ? (
+            <>
+              <span className="gl-practice-feature__label">Difficulty mix</span>
+              <DifficultyBar easy={easy} medium={medium} hard={hard} total={solvedTotal} />
+            </>
+          ) : (
+            <p className="gl-practice-feature__muted">Difficulty breakdown is not present in this snapshot.</p>
+          )}
+        </div>
+      </div>
+
+      <div className="gl-practice-feature__metrics">
+        {acceptance ? (
+          <div><strong>{acceptance}</strong><span>Acceptance</span></div>
+        ) : null}
+        {rating ? (
+          <div><strong>{rating}</strong><span>Contest rating</span></div>
+        ) : null}
+        {attended ? (
+          <div><strong>{attended}</strong><span>Contests attended</span></div>
+        ) : null}
+        {num(stats.profileRank) ? (
+          <div><strong>#{num(stats.profileRank)}</strong><span>Profile rank</span></div>
+        ) : null}
+      </div>
+
+      {hasActivity || hasTrend ? (
+        <details className="gl-practice-feature__details">
+          <summary>
+            Explore the activity snapshot
+            <span aria-hidden="true">＋</span>
+          </summary>
+          <div className="gl-practice-feature__activity">
+            {hasActivity ? <MiniCalendar data={stats.dailySubmissionCalendar} /> : null}
+            {hasTrend ? <ContestSparkline history={stats.contestHistory} /> : null}
+          </div>
+        </details>
+      ) : null}
+
+      <div className="gl-practice-feature__footer">
+        <span>Public profile snapshot, not a live counter</span>
+        <a href="https://leetcode.com/u/knockknock10/" target="_blank" rel="noreferrer">
+          Open LeetCode <ArrowUpRight />
+        </a>
+      </div>
+    </article>
   )
 }
 
@@ -224,16 +285,6 @@ export function Practice({
   stats: SignalStats["leetcode"]
   snapshotDate: string | null
 }) {
-  const solved = num(stats.totalSolved)
-  const totalQuestions = typeof stats.totalQuestions === "number" ? stats.totalQuestions : 3500
-  const solvedNum = typeof stats.totalSolved === "number" ? stats.totalSolved : 0
-  const rating = num(stats.contestRating)
-  const attended = num(stats.contestAttendedCount)
-  const easy = typeof stats.easySolved === "number" ? stats.easySolved : 0
-  const medium = typeof stats.mediumSolved === "number" ? stats.mediumSolved : 0
-  const hard = typeof stats.hardSolved === "number" ? stats.hardSolved : 0
-  const acceptance = typeof stats.acceptanceRate === "string" ? stats.acceptanceRate : null
-  const hasContestHistory = Array.isArray(stats.contestHistory) && stats.contestHistory.length > 0
   const snapshotLabel = snapshotDate
     ? new Date(`${snapshotDate}T00:00:00Z`).toLocaleDateString("en-GB", {
         day: "numeric",
@@ -245,81 +296,58 @@ export function Practice({
 
   return (
     <Reveal>
-      <div className="sk-practice">
-        <div className="sk-practice__intro">
-          <h3>Problem solving</h3>
-          <p className="sk-lede" style={{ margin: 0 }}>
-            I practise data structures and algorithms regularly. It keeps the fundamentals sharp for
-            the systems I build.
+      <section className="sk-practice gl-practice-hub" aria-labelledby="practice-title">
+        <div className="gl-practice-hub__intro">
+          <div>
+            <p className="sk-eyebrow">Practice · problem solving</p>
+            <h3 id="practice-title">The work behind the work.</h3>
+          </div>
+          <p className="sk-lede">
+            Different platforms sharpen different skills. Here&apos;s the public trail of interview practice,
+            timed problem solving and structured learning.
           </p>
         </div>
 
-        <div className="sk-practice__visuals">
-          <div className="sk-practice-glow sk-practice-glow--1" aria-hidden="true" />
-          <div className="sk-practice-glow sk-practice-glow--2" aria-hidden="true" />
-          <div className="sk-practice-glow sk-practice-glow--3" aria-hidden="true" />
-          <div className="sk-practice__stat">
-            <CircularProgress value={solvedNum} max={totalQuestions}>
-              <span className="sk-practice__stat-value">{solved}</span>
-              <span className="sk-practice__stat-label">solved</span>
-            </CircularProgress>
-            {acceptance && <span className="sk-practice__stat-meta">{acceptance} acceptance</span>}
-          </div>
+        <div className="gl-practice-hub__layout">
+          <LeetCodeFeature stats={stats} snapshotLabel={snapshotLabel} />
 
-          {(easy > 0 || medium > 0 || hard > 0) && (
-            <div className="sk-practice__breakdown">
-              <DifficultyBar easy={easy} medium={medium} hard={hard} total={solvedNum || 1} />
-            </div>
-          )}
-
-          {hasContestHistory && rating && (
-            <div className="sk-practice__contests">
-              <div className="sk-contest-header">
-                <span className="sk-contest-rating">{rating}</span>
-                <span className="sk-contest-label">rating</span>
+          <div className="gl-practice-directory">
+            <div className="gl-practice-directory__heading">
+              <div>
+                <span className="gl-practice-directory__eyebrow">More practice spaces</span>
+                <h4>Different ways to think.</h4>
               </div>
-              <ContestSparkline history={stats.contestHistory} />
-              <span className="sk-contest-meta">{attended} contests attended</span>
+              <span className="gl-practice-directory__count">04 profiles</span>
             </div>
-          )}
 
-          {stats.dailySubmissionCalendar && stats.dailySubmissionCalendar.length > 0 && (
-            <div className="sk-practice__calendar">
-              <MiniCalendar data={stats.dailySubmissionCalendar} />
+            <div className="gl-practice-directory__grid">
+              {profiles.map((profile, index) => (
+                <a
+                  className="gl-practice-platform"
+                  key={profile.id}
+                  href={profile.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-platform={profile.id}
+                  style={{ "--platform-accent": profile.accent, "--platform-index": index } as CSSProperties}
+                  aria-label={`Open ${profile.label} profile in a new tab`}
+                >
+                  <div className="gl-practice-platform__top">
+                    <PlatformMark profile={profile} />
+                    <span>{String(index + 2).padStart(2, "0")}</span>
+                  </div>
+                  <strong>{profile.label}</strong>
+                  <p>{profile.detail}</p>
+                  <span className="gl-practice-platform__footer">
+                    {profile.focus}
+                    <ArrowUpRight />
+                  </span>
+                </a>
+              ))}
             </div>
-          )}
+          </div>
         </div>
-
-        <div className="sk-practice__foot">
-          <span>
-            {snapshotLabel
-              ? `LeetCode profile snapshot: ${snapshotLabel}.`
-              : "Figures are from the last saved public LeetCode profile snapshot."}
-          </span>
-        </div>
-        <div className="sk-practice__profiles" aria-label="Problem-solving profiles">
-          {profiles.map((profile, index) => (
-            <a
-              className="sk-profile-card"
-              key={profile.href}
-              href={profile.href}
-              target="_blank"
-              rel="noreferrer"
-              data-tilt
-              style={{ "--profile-index": index } as React.CSSProperties}
-              aria-label={`Open ${profile.label} profile in a new tab`}
-            >
-              <span className="sk-profile-card__mark" aria-hidden="true">{profile.mark}</span>
-              <span className="sk-profile-card__copy">
-                <strong>{profile.label}</strong>
-                <small>{profile.detail}</small>
-                <em>Open profile</em>
-              </span>
-              <span className="sk-profile-card__arrow" aria-hidden="true"><ArrowUpRight /></span>
-            </a>
-          ))}
-        </div>
-      </div>
+      </section>
     </Reveal>
   )
 }
