@@ -5,6 +5,14 @@ function list(value: string[] | "MISSING"): string[] {
   return Array.isArray(value) ? value : []
 }
 
+function experiencePeriod(entry: Internship): string | null {
+  const start = entry.startDate !== "MISSING" ? entry.startDate : null
+  const end = entry.endDate !== "MISSING" ? entry.endDate : null
+  const period = start && end ? `${start} – ${end}` : start ? `${start} – Present` : null
+  const duration = entry.duration !== "MISSING" ? entry.duration : null
+  return [period, duration].filter(Boolean).join(" · ") || null
+}
+
 export function Experience({ internships }: { internships: Internship[] }) {
   return (
     <section className="sk-section sk-section--tight-bottom gl-experience-section" id="experience" aria-labelledby="experience-title">
@@ -13,11 +21,10 @@ export function Experience({ internships }: { internships: Internship[] }) {
           <div className="sk-head">
             <div>
               <p className="sk-eyebrow">Experience</p>
-              <h2 className="sk-h2" id="experience-title">Research &amp; university work</h2>
+              <h2 className="sk-h2" id="experience-title">Experience</h2>
             </div>
             <p className="sk-lede">
-              Open an entry to see the responsibilities, context and tools. Each one is described by the work itself,
-              not an inflated job title.
+              A few things I've worked on outside my own projects.
             </p>
           </div>
         </Reveal>
@@ -26,6 +33,7 @@ export function Experience({ internships }: { internships: Internship[] }) {
           {internships.map((entry, index) => {
             const bullets = list(entry.responsibilities)
             const stack = list(entry.stack)
+            const period = experiencePeriod(entry)
             return (
               <Reveal key={entry.company + entry.role}>
                 <details className="gl-experience-item">
@@ -38,6 +46,7 @@ export function Experience({ internships }: { internships: Internship[] }) {
                     <span className="gl-experience-item__action">Explore <i aria-hidden="true">＋</i></span>
                   </summary>
                   <div className="gl-experience-item__content">
+                    {period ? <p className="gl-experience-item__period">{period}</p> : null}
                     {entry.summary !== "MISSING" ? <p>{entry.summary}</p> : null}
                     {bullets.length ? (
                       <ul className="sk-bullets">
