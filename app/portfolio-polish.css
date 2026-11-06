@@ -20,7 +20,7 @@
 /* Keep cards still: no pointer-following tilt or magnetic movement. */
 [data-tilt] {
   transform: none !important;
-  transition: none !important;
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease) !important;
 }
 
 /* Decorative blur glows and pulsing loaders are not part of the active design. */
