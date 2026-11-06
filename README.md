@@ -6,8 +6,8 @@ This is my personal portfolio. I use it to keep a few projects, research work, o
 
 ## What's on the site
 
-- **Projects:** Aevor, CommitHub, SemBind-Audio and FailureScope, with links to their repositories.
-- **Research:** The SemBind-Audio approach, the experiments I've run so far, the paper draft and the limitations found during testing.
+- **Projects:** Aevor, CommitHub, Wandera, NovaFest and ConvergenceGuard.
+- **Research:** SemBind-Audio and SonicMap RQ1. The research section links to the work and explains what has been tested, what did not work and what is still being worked on.
 - **Open source:** Links to contributions in the projects I've worked with.
 - **Problem solving:** Coding profiles and saved statistics. Numbers are shown with the date they were recorded.
 - **About and contact:** Education, background, résumé and ways to reach me.
@@ -52,7 +52,7 @@ The site is hosted under `/Portfolio/`, so keep that base path when changing ass
 
 ## Updating the content
 
-The text shown on the site is kept in `lib/portfolio-data.ts`. When updating coding-profile numbers or other changing information, keep the date of the saved snapshot with it rather than presenting an old value as live.
+The main project and profile text is kept in `lib/portfolio-data.ts`. The research and experience sections use the records in `PORTFOLIO-DATA.md`. When updating coding-profile numbers or other changing information, keep the date of the saved snapshot with it rather than presenting an old value as live.
 
 Only put files in `public/` that are meant to be publicly accessible. Don't commit API keys, tokens or private documents.
 
