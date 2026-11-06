@@ -144,7 +144,7 @@ function ProjectVisual({ project, reduceMotion }: { project: Project; reduceMoti
       </div>
       <AnimatePresence mode="wait" initial={false}>
         <motion.p key={selected} className="gl-workbench__flow-detail"
-          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }}
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -5 }}
           transition={{ duration: reduceMotion ? 0 : 0.22 }} aria-live="polite">
           {selected}
         </motion.p>
