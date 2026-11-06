@@ -3,11 +3,11 @@ import { ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
 
 const profiles = [
-  { label: "LeetCode", href: "https://leetcode.com/u/knockknock10/" },
-  { label: "Codeforces", href: "https://codeforces.com/profile/knockknock10" },
-  { label: "HackerRank", href: "https://www.hackerrank.com/profile/knockknock10" },
-  { label: "NeetCode", href: "https://neetcode.io/user/DigitalTrill950" },
-  { label: "GeeksforGeeks", href: "https://www.geeksforgeeks.org/profile/karthikjaihh0z" },
+  { label:"LeetCode",mark:"LC",detail:"Interview problems and submissions",href:"https://leetcode.com/u/knockknock10/" },
+  { label:"Codeforces",mark:"CF",detail:"Competitive programming contests",href:"https://codeforces.com/profile/knockknock10" },
+  { label:"HackerRank",mark:"HR",detail:"Structured skills practice",href:"https://www.hackerrank.com/profile/knockknock10" },
+  { label:"NeetCode",mark:"N",detail:"Interview preparation roadmap",href:"https://neetcode.io/user/DigitalTrill950" },
+  { label:"GeeksforGeeks",mark:"GFG",detail:"Data structures and algorithms",href:"https://www.geeksforgeeks.org/profile/karthikjaihh0z" },
 ]
 
 function num(value: number | "MISSING", digits = 0): string | null {
@@ -311,19 +311,15 @@ export function Practice({
               ? `LeetCode profile snapshot: ${snapshotLabel}.`
               : "Figures are from the last saved public LeetCode profile snapshot."}
           </span>
-          <span className="sk-practice__links">
-            {profiles.map((profile) => (
-              <a
-                className="sk-text-link"
-                key={profile.href}
-                href={profile.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {profile.label} <ArrowUpRight />
-              </a>
-            ))}
-          </span>
+        </div>
+        <div className="sk-practice__profiles" aria-label="Problem-solving profiles">
+          {profiles.map(profile => (
+            <a className="sk-profile-card" key={profile.href} href={profile.href} target="_blank" rel="noreferrer">
+              <span className="sk-profile-card__mark" aria-hidden="true">{profile.mark}</span>
+              <span className="sk-profile-card__copy"><strong>{profile.label}</strong><small>{profile.detail}</small></span>
+              <span className="sk-profile-card__arrow" aria-hidden="true"><ArrowUpRight /></span>
+            </a>
+          ))}
         </div>
       </div>
     </Reveal>
