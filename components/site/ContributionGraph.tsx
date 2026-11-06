@@ -11,14 +11,6 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 const CELL = 12
 const GAP = 4
 
-const palettes = [
-  { id:"emerald",label:"Emerald",swatch:"#2da274" },
-  { id:"ocean",label:"Ocean",swatch:"#2786c7" },
-  { id:"violet",label:"Violet",swatch:"#8766d8" },
-  { id:"amber",label:"Amber",swatch:"#d58a2b" },
-  { id:"rose",label:"Rose",swatch:"#d45a78" },
-] as const
-
 async function load(): Promise<Payload | null> {
   // 1) the snapshot written when the site was built, 2) the live public source.
   for (const url of [`${BASE}/api/github-contributions.json`, LIVE_SOURCE]) {
@@ -57,7 +49,6 @@ export function ContributionGraph({ profileUrl }: { profileUrl: string }) {
   const [data, setData] = useState<Payload | null>(null)
   const [state, setState] = useState<"loading" | "ready" | "error">("loading")
   const [year, setYear] = useState<string>("last")
-  const [palette, setPalette] = useState<(typeof palettes)[number]["id"]>("emerald")
   const [hover, setHover] = useState<{ day: Day; x: number; y: number } | null>(null)
   const scroller = useRef<HTMLDivElement>(null)
 
@@ -119,7 +110,7 @@ export function ContributionGraph({ profileUrl }: { profileUrl: string }) {
   }, [weeks])
 
   return (
-    <div className="gl-panel gl-graph" data-state={state} data-palette={palette}>
+    <div className="gl-panel gl-graph" data-state={state}>
       <div className="gl-graph__head">
         <div>
           <h3>Contribution graph</h3>
@@ -131,27 +122,15 @@ export function ContributionGraph({ profileUrl }: { profileUrl: string }) {
                 : "The activity feed isn't available right now."}
           </p>
         </div>
-        <div className="gl-graph__controls">
-          {state === "ready" ? (
-            <div className="gl-segment" role="group" aria-label="Choose a period">
-              {["last", ...years.slice(0, 4)].map((value) => (
-                <button type="button" key={value} aria-pressed={year === value} onClick={() => setYear(value)}>
-                  {value === "last" ? "Last year" : value}
-                </button>
-              ))}
-            </div>
-          ) : null}
-          <div className="gl-palette" role="group" aria-label="Contribution graph colour">
-            <span className="gl-palette__label">Colour</span>
-            {palettes.map(item => (
-              <button type="button" key={item.id} className="gl-palette__swatch" data-active={palette === item.id}
-                aria-label={item.label + " contribution colours"} aria-pressed={palette === item.id}
-                title={item.label} onClick={() => setPalette(item.id)}>
-                <span style={{backgroundColor:item.swatch}} />
+        {state === "ready" ? (
+          <div className="gl-segment" role="group" aria-label="Choose a period">
+            {["last", ...years.slice(0, 4)].map((value) => (
+              <button type="button" key={value} aria-pressed={year === value} onClick={() => setYear(value)}>
+                {value === "last" ? "Last year" : value}
               </button>
             ))}
           </div>
-        </div>
+        ) : null}
       </div>
 
       {state === "ready" ? (
