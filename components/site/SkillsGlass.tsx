@@ -19,7 +19,7 @@ const skillLogos: Record<string, { slug: string; color: string }> = {
 function SkillLogo({name}:{name:string}) {
   const [failed,setFailed]=useState(false)
   const logo=skillLogos[name]
-  const fallback=name.split(/[\\s.+-]/).filter(Boolean).map(part=>part[0]).join("").slice(0,2).toUpperCase()
+  const fallback=name.split(/[\s.+-]/).filter(Boolean).map(part=>part[0]).join("").slice(0,2).toUpperCase()
   return <span className="gl-skill__logo" aria-hidden="true">
     {logo && !failed ? <img src={`https://cdn.simpleicons.org/${logo.slug}/${logo.color}`} alt="" loading="lazy" decoding="async" onError={()=>setFailed(true)} /> : null}
     {!logo || failed ? <span>{fallback}</span> : null}
@@ -94,9 +94,23 @@ export function SkillsGlass({ children }: { children?: ReactNode }) {
           <div className="gl-panel gl-skills">
             <div className="gl-skills__toolbar">
               <div className="gl-tabs" role="tablist" aria-label="Skill groups">
-                {groups.map((item) => (
+                {groups.map((item, index) => (
                   <button type="button" role="tab" key={item.id} id={`tab-${item.id}`}
+                    tabIndex={active === item.id ? 0 : -1}
                     aria-selected={active === item.id} aria-controls="skills-panel"
+                    onKeyDown={(event) => {
+                      const next = event.key === "ArrowRight" || event.key === "ArrowDown"
+                        ? (index + 1) % groups.length
+                        : event.key === "ArrowLeft" || event.key === "ArrowUp"
+                          ? (index - 1 + groups.length) % groups.length
+                          : event.key === "Home" ? 0 : event.key === "End" ? groups.length - 1 : -1
+                      if (next < 0) return
+                      event.preventDefault()
+                      setActive(groups[next].id)
+                      setSelected(null)
+                      setQuery("")
+                      document.getElementById(`tab-${groups[next].id}`)?.focus()
+                    }}
                     onClick={() => { setActive(item.id); setSelected(null); setQuery("") }}>
                     {item.label}
                     <small>{item.items.length + (item.learning?.length ?? 0)}</small>
