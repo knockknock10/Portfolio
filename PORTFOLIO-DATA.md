@@ -19,8 +19,8 @@ Optional environment variables: GITHUB_TOKEN, GITHUB_USERNAME, LEETCODE_USERNAME
 
 ## Source reconciliation
 
-- CONTENT-INVENTORY.md and AUDIT.md are from an older main snapshot at commit 41fa20ccb4d34b8c5e044a471f9645d28876c8be, a Vite/React application. Current feature branch source is Next.js/TypeScript, so current source/config is authoritative for technical metadata.
-- Current project data has Aevor, CommitHub, SemBind-Audio and FailureScope. The résumé also describes a Go-based VCS named CommitHub, which conflicts with the current collaboration-platform entry. These records are kept separate pending owner confirmation.
+- The old AUDIT.md and CONTENT-INVENTORY.md files described an earlier Vite/React version of this site. They are no longer part of the current root documentation.
+- The active CommitHub repository and current portfolio entry refer to the React, Node.js, Express and MongoDB collaboration platform. An older résumé snapshot used the same name for a Go CLI/VCS description; that old record is not included as a current project.
 - public/favicon.svg is the only image-format asset. CSS gradients are not project screenshot or cover assets.
 - Public API metrics can change and should be refreshed before displaying new numbers.
 
@@ -2667,29 +2667,6 @@ Project fields are based on lib/portfolio-data.ts. Unavailable values are MISSIN
 ]
 ~~~
 
-### Additional résumé-only / conflicting project records
-
-#### CommitHub — Custom Version Control System
-- Technologies: Go, CLI, file system, hashing.
-- Résumé describes init/add/commit/branch/checkout/merge/log/status/revert, a content-addressable store, and a commit-history DAG.
-- Relationship to the current collaboration-platform entry: MISSING — owner confirmation needed.
-
-#### Wandera — Travel Experience Platform
-- Source describes authentication, content management, location-based search, lazy loading, code-splitting, dynamic routing and responsive UI.
-- Technologies: React.js, Node.js, Express.js, MongoDB, REST APIs, Tailwind CSS.
-- Repository: https://github.com/knockknock10/Wandera
-- Year/client/images/verified numeric outcomes: MISSING.
-
-#### FailureScope — résumé record
-- Technologies: Node.js, JavaScript and DevOps.
-- Source describes event-stream ingestion, temporal failure-pattern correlation and reliability metrics.
-- Year/client/images/verified numeric outcomes: MISSING.
-
-#### Nanosensor Network Communication Simulator
-- Tool: MATLAB.
-- Source describes multi-hop sensor communication simulation, delay/link-efficiency/reliability analysis and routing bottleneck analysis.
-- Repository/year/client/images/numeric outcomes: MISSING.
-
 ## 6. Profile and social data
 
 ### Profile
@@ -2975,7 +2952,7 @@ Other public files are public/resume.pdf and public/robots.txt. No real project 
 - Public GitHub email — MISSING; GitHub reports null.
 - LinkedIn URL — configured as https://www.linkedin.com/in/sanjeev-kumar-ba567133a/ after checking the URL linked from the public GitHub profile on 17 Oct 2026. The older `/in/-sanjeev-kr` value was replaced in `lib/portfolio-data.ts`.
 - Canonical email — MISSING as a resolved choice; current site and résumé addresses differ.
-- CommitHub identity/content relationship — MISSING as a resolved owner decision; résumé and site describe different project types.
+- The older Go CLI/VCS description that used the CommitHub name has been left out of the current project list; the active CommitHub entry describes the public MERN collaboration platform.
 - Other social platforms not present in checked sources were omitted.
 - Project screenshots, process images, covers and Open Graph image — MISSING; no real images found. Do not substitute stock or generated imagery.
 - GitHub byte-share language percentages — MISSING; only repository-count primary-language percentages were available.
@@ -3036,29 +3013,23 @@ The records below are sourced from the project inventory and the résumé's Rese
 
 ## SECTION 10 — INTERNSHIPS
 
-The experience descriptions below are based on Sanjeev's direct account. Dates, official role names, logos, team size and external links were not supplied, so they remain unspecified rather than inferred.
+The entries below describe work I have done outside my personal projects. Where I don't have a confirmed detail, I have left it out instead of filling it in.
 
 ~~~json
 [
   {
-    "company": "SRM University AP",
-    "role": "Research Intern (Summer)",
-    "location": "Amaravati, Andhra Pradesh, India",
-    "start date": "MISSING",
-    "end date": "MISSING",
-    "duration": "MISSING",
-    "summary": "Research internship during which I continued SemBind-Audio, a semantic-aware speech-watermarking study using transformer-based audio representations, STFT-based embedding placement and SHA-256 payload binding. I also worked on a MATLAB nanosensor-network communication simulator focused on routing and packet propagation.",
+    "company": "CCC Digital Pvt. Ltd.",
+    "role": "Software Intern",
+    "location": "MISSING",
+    "start date": "June 2026",
+    "end date": "July 2026",
+    "duration": "2 months",
+    "summary": "Worked on an AI coding coach focused on helping people understand programming problems and work through possible solutions.",
     "responsibilities": [
-      "Continued implementation and evaluation work on SemBind-Audio",
-      "Worked with transformer-based audio representations, STFT and cryptographic payload binding",
-      "Built and analyzed MATLAB simulations for nanosensor-network routing and packet propagation"
+      "Contributed to building the AI coding-coach application.",
+      "Worked on features related to programming problem-solving and solution guidance."
     ],
-    "stack": [
-      "SemBind-Audio",
-      "HuBERT / STFT",
-      "SHA-256 binding",
-      "MATLAB · nanosensor networks"
-    ],
+    "stack": "MISSING",
     "team size": "MISSING",
     "link": "MISSING",
     "logo": "MISSING"
@@ -3070,11 +3041,11 @@ The experience descriptions below are based on Sanjeev's direct account. Dates, 
     "start date": "MISSING",
     "end date": "MISSING",
     "duration": "MISSING",
-    "summary": "Worked with IRHS at SRM University AP on protocols for planned initiatives. The work connected digital outreach and marketing with operational planning: structuring repeatable workflows, documenting procedures and making the steps for future activities easier to coordinate. This is described as protocol and workflow work, not as a software-engineering job title.",
+    "summary": "Worked with IRHS at SRM University AP on protocols for planned initiatives. The work connected digital outreach and marketing with operational planning: documenting procedures and making future activities easier to coordinate.",
     "responsibilities": [
-      "Designed and documented protocols for planned initiatives",
-      "Structured repeatable steps for digital outreach and coordination",
-      "Translated broad initiative needs into clearer workflows and procedures"
+      "Designed and documented protocols for planned initiatives.",
+      "Structured repeatable steps for digital outreach and coordination.",
+      "Turned broad initiative needs into clearer workflows and procedures."
     ],
     "stack": [
       "Protocol design",
@@ -3126,7 +3097,7 @@ These entries appear in the supplied résumé records. They are shown as self-re
 ### Institutional experience and research internship
 
 - IRHS official title, dates and duration — MISSING: the description records protocol design, workflow documentation and digital-outreach planning, but no official title or dates were supplied.
-- SRM University AP research internship dates and duration — MISSING: the user described it as a summer research internship; the year, month and duration were not supplied.
+- CCC Digital Pvt. Ltd. — Software Intern, June–July 2026, two months. Exact calendar days, location, team size and technology stack were not supplied.
 - Team size, official organization links and logos — MISSING: no verified links or assets were provided.
 - The two entries are based on the user's account. Descriptive portfolio labels are not presented as employer-issued titles.
 
