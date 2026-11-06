@@ -21,7 +21,7 @@ Optional environment variables: GITHUB_TOKEN, GITHUB_USERNAME, LEETCODE_USERNAME
 
 - The old AUDIT.md and CONTENT-INVENTORY.md files described an earlier Vite/React version of this site. They are no longer part of the current root documentation.
 - The active CommitHub repository and current portfolio entry refer to the React, Node.js, Express and MongoDB collaboration platform. An older résumé snapshot used the same name for a Go CLI/VCS description; that old record is not included as a current project.
-- public/favicon.svg is the only image-format asset. CSS gradients are not project screenshot or cover assets.
+- The current site includes project and profile imagery under public/images/, including the Wandera and NovaFest project covers. Older inventory notes that describe the favicon as the only image asset are no longer accurate.
 - Public API metrics can change and should be refreshed before displaying new numbers.
 
 ## 1. GitHub data
