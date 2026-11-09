@@ -6,6 +6,7 @@ import { Research } from "@/components/site/Research"
 import { OpenSourceGlass } from "@/components/site/OpenSourceGlass"
 import { LiquidField } from "@/components/site/LiquidField"
 import { Interactions } from "@/components/site/Interactions"
+import { Premium } from "@/components/site/Premium"
 // import { CursorLens } from "@/components/site/CursorLens" // Preserved, intentionally inactive: no pointer-following cursor effect.
 import { Certificates, type CertificateView } from "@/components/site/Certificates"
 import { SkillsGlass } from "@/components/site/SkillsGlass"
@@ -93,6 +94,13 @@ export default async function HomePage() {
       <Interactions />
       {/* <CursorLens /> Preserved but disabled: no pointer-following lens. */}
       <Header name={name} links={navLinks} resumeHref={resumeHref} email={email} />
+      <Premium
+        sections={navLinks.map(({ id, label }) => ({ id, label }))}
+        email={email}
+        resumeHref={resumeHref}
+        github={github}
+        linkedin={linkedin}
+      />
       <main id="main-content" tabIndex={-1}>
         <Hero email={email} resumeHref={resumeHref} github={github} linkedin={linkedin} leetcode={leetcode} facts={facts} />
         <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
