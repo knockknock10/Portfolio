@@ -1341,3 +1341,12 @@ main > .sk-section .sk-eyebrow::before {
 
 @keyframes gl-fade { from { opacity: 0; } }
 @keyframes gl-pop { from { opacity: 0; transform: translateY(12px) scale(0.98); } }
+
+/* Certificates without a scan show the issuer's initial on a plain tile */
+.gl-cert__pdf {
+  font-size: 4.5rem;
+  letter-spacing: -0.02em;
+  background: rgba(255, 255, 255, 0.7);
+}
+.gl-cert:not(:has(img)) .gl-cert__preview { cursor: pointer; }
+.gl-cert:not(:has(img)) .gl-cert__preview { aspect-ratio: 16 / 7; }

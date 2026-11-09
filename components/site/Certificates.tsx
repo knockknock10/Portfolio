@@ -41,7 +41,7 @@ export function Certificates({ items }: { items: CertificateView[] }) {
                 Courses and certifications
               </h2>
             </div>
-            <p className="sk-lede">Open any certificate to see it full size.</p>
+            <p className="sk-lede">Open a certificate to see it full size, or follow the link to check it on Credly.</p>
           </div>
         </Reveal>
 
@@ -55,14 +55,14 @@ export function Certificates({ items }: { items: CertificateView[] }) {
                     <button
                       type="button"
                       className="gl-cert__preview"
-                      onClick={() => (item.isPdf && src ? window.open(src, "_blank", "noopener") : setOpen(item))}
+                      onClick={() => (item.isPdf && src ? window.open(src, "_blank", "noopener") : src ? setOpen(item) : item.credentialUrl ? window.open(item.credentialUrl, "_blank", "noopener") : undefined)}
                       aria-label={`Open ${item.title}`}
                     >
                       {src && !item.isPdf ? (
                         <img src={src} alt={`${item.title} certificate`} loading="lazy" />
                       ) : (
                         <span className="gl-cert__pdf" aria-hidden="true">
-                          PDF
+                          {item.isPdf ? "PDF" : (item.issuer ?? item.title).slice(0, 1)}
                         </span>
                       )}
                     </button>
@@ -82,7 +82,7 @@ export function Certificates({ items }: { items: CertificateView[] }) {
                       ) : null}
                       {item.credentialUrl ? (
                         <a className="sk-text-link" href={item.credentialUrl} target="_blank" rel="noreferrer">
-                          Verify credential <ArrowUpRight />
+                          {item.file ? "Verify credential" : "View on Credly"} <ArrowUpRight />
                         </a>
                       ) : null}
                     </div>
