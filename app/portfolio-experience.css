@@ -514,6 +514,7 @@
 .gl-workbench__rail,
 .gl-workbench__stage,
 .gl-practice-feature,
+.gl-practice-platform,
 .gl-experience-item,
 .gl-skill,
 .gl-cert {
@@ -526,6 +527,7 @@
   .gl-workbench__rail::after,
   .gl-workbench__stage::after,
   .gl-practice-feature::after,
+  .gl-practice-platform::after,
   .gl-experience-item::after,
   .gl-skill::after,
   .gl-cert::after {
@@ -542,6 +544,7 @@
   .gl-workbench__rail:hover::after,
   .gl-workbench__stage:hover::after,
   .gl-practice-feature:hover::after,
+  .gl-practice-platform:hover::after,
   .gl-experience-item:hover::after,
   .gl-skill:hover::after,
   .gl-cert:hover::after {
@@ -592,6 +595,7 @@
   .gl-workbench__rail,
   .gl-workbench__stage,
   .gl-practice-feature,
+  .gl-practice-platform,
   .gl-experience-item,
   .gl-skill,
   .gl-cert,
