@@ -82,6 +82,13 @@ export function Header({ name, links, resumeHref, email }: HeaderProps) {
     ? { duration: 0 }
     : { type: "spring" as const, stiffness: 420, damping: 34, mass: 0.9 }
 
+  /*
+   * Previous mobile-menu animation retained as a reference, intentionally inactive:
+   * initial={{ clipPath: "circle(0% at calc(100% - 56px) 36px)" }}
+   * animate={{ clipPath: "circle(150% at calc(100% - 56px) 36px)" }}
+   * exit={{ clipPath: "circle(0% at calc(100% - 56px) 36px)" }}
+   * transition={{ duration: 0.75, ease: [0.76, 0, 0.24, 1] }}
+   */
   return (
     <header className="sk-header">
       <div className="sk-header__inner">
@@ -135,10 +142,11 @@ export function Header({ name, links, resumeHref, email }: HeaderProps) {
             role="dialog"
             aria-modal="true"
             aria-label="Site menu"
-            initial={{ clipPath: "circle(0% at calc(100% - 56px) 36px)" }}
-            animate={{ clipPath: "circle(150% at calc(100% - 56px) 36px)" }}
-            exit={{ clipPath: "circle(0% at calc(100% - 56px) 36px)" }}
-            transition={reduceMotion ? { duration: 0 } : { duration: 0.75, ease: [0.76, 0, 0.24, 1] }}
+            initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: reduceMotion ? 0 : 4 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.18, ease: "easeOut" }}
+
           >
             <div className="sk-sheet__top">
               <a className="sk-mark" href="#top" onClick={(event) => goTo(event, "top")}>

@@ -125,12 +125,7 @@ export function ContributionGraph({ profileUrl }: { profileUrl: string }) {
         {state === "ready" ? (
           <div className="gl-segment" role="group" aria-label="Choose a period">
             {["last", ...years.slice(0, 4)].map((value) => (
-              <button
-                type="button"
-                key={value}
-                aria-pressed={year === value}
-                onClick={() => setYear(value)}
-              >
+              <button type="button" key={value} aria-pressed={year === value} onClick={() => setYear(value)}>
                 {value === "last" ? "Last year" : value}
               </button>
             ))}

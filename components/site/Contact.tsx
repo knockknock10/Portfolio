@@ -22,9 +22,10 @@ export function Contact({ email, location, links }: ContactProps) {
           <h2 className="sk-contact__title" id="contact-title">
             Let&apos;s talk about working together.
           </h2>
+          {/* Previous contact copy retained; it advertised full-time availability and promised a reply to every message. */}
           <p className="sk-contact__lede">
-            I&apos;m open to software engineering internships and full-time roles. The quickest way to reach me is email,
-            and I reply to every message.
+            I&apos;m currently looking for software engineering internships. Email is the best way to reach me; my GitHub,
+            LinkedIn and résumé are below.
           </p>
           {email ? (
             <a className="sk-email" href={`mailto:${email}`}>

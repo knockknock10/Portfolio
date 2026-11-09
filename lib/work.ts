@@ -176,6 +176,8 @@ export interface WorkStats {
 }
 
 export interface WorkData {
+  /** Date of the saved source-data snapshot, not a claim of live profile data. */
+  snapshotDate: string | null
   items: WorkItem[]
   projects: ProjectRecord[]
   repos: RepoRecord[]
@@ -390,6 +392,7 @@ function repoOwner(url: DataValue<string>): string | null {
 
 export function getWorkData(): WorkData {
   const markdown = readFileSync(join(process.cwd(), "PORTFOLIO-DATA.md"), "utf8")
+  const snapshotDate = markdown.match(/^Snapshot date:\s*(\d{4}-\d{2}-\d{2})/m)?.[1] ?? null
   const github = markedBlock(markdown, "GITHUB-DATA")
   const aggregateRows = tableAfterHeading(github, "### Aggregate statistics").length
     ? tableAfterHeading(github, "### Aggregate statistics")
@@ -486,7 +489,7 @@ export function getWorkData(): WorkData {
     return dateB - dateA || a.title.localeCompare(b.title)
   })
 
-  return { items, repos, projects, organizations, contributionCalendar: calendar, leetCode, stats }
+  return { snapshotDate, items, repos, projects, organizations, contributionCalendar: calendar, leetCode, stats }
 }
 
 export function isAvailable<T>(value: DataValue<T> | null | undefined): value is T {
