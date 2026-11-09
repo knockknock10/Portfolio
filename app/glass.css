@@ -1139,3 +1139,205 @@ main > .sk-section .sk-eyebrow::before {
     padding-left: 22px;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Premium layer: pointer light, header behaviour, quick menu, stack   */
+/* ------------------------------------------------------------------ */
+
+.sk-header {
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sk-header[data-hidden="true"] {
+  transform: translateY(-120%);
+}
+
+/* Soft light that follows the pointer across glass. Solid white, blurred, no gradient. */
+.sk-project,
+.sk-entry,
+.gl-org,
+.gl-pr,
+.gl-graph,
+.sk-fact,
+.sk-contact__row {
+  --mx: 50%;
+  --my: 0%;
+  isolation: isolate;
+}
+@media (hover: hover) and (pointer: fine) {
+  .sk-project::before,
+  .gl-org::before,
+  .gl-pr::before,
+  .gl-graph::before,
+  .sk-fact::before,
+  .sk-contact__row::before {
+    content: "";
+    position: absolute;
+    left: var(--mx);
+    top: var(--my);
+    width: 260px;
+    height: 260px;
+    margin: -130px 0 0 -130px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
+    filter: blur(46px);
+    opacity: 0;
+    transition: opacity 0.35s var(--ease);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .sk-project:hover::before,
+  .gl-org:hover::before,
+  .gl-pr:hover::before,
+  .gl-graph:hover::before,
+  .sk-fact:hover::before,
+  .sk-contact__row:hover::before {
+    opacity: 1;
+  }
+}
+.sk-entry,
+.gl-org,
+.gl-pr,
+.gl-graph,
+.sk-fact,
+.sk-contact__row {
+  position: relative;
+}
+
+/* Blobs drift with scroll */
+.lq-blob {
+  translate: 0 calc(var(--sy, 0) * -1px);
+}
+
+/* Projects stack as you scroll on roomy screens */
+@media (min-width: 1000px) and (min-height: 780px) and (prefers-reduced-motion: no-preference) {
+  .sk-project {
+    position: sticky;
+    top: calc(92px + var(--stack, 0) * 14px);
+    background: rgba(246, 249, 252, 0.82);
+  }
+  .sk-project:nth-child(1) { --stack: 0; }
+  .sk-project:nth-child(2) { --stack: 1; }
+  .sk-project:nth-child(3) { --stack: 2; }
+  .sk-project:nth-child(4) { --stack: 3; }
+  .sk-project:nth-child(5) { --stack: 4; }
+  .sk-project:nth-child(6) { --stack: 5; }
+  .sk-project:hover { transform: none; }
+}
+
+/* Quick menu */
+.gl-kbd {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 40;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px 9px 16px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  border: 1px solid var(--glass-edge);
+  border-radius: 999px;
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 14px 30px -18px var(--glass-shade);
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gl-kbd:hover { transform: translateY(-2px); }
+.gl-kbd kbd {
+  font: inherit;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(16, 22, 29, 0.08);
+}
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+  .gl-kbd { display: inline-flex; }
+}
+
+.gl-palette {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: start center;
+  padding-top: 16vh;
+  background: rgba(16, 22, 29, 0.28);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: gl-fade 0.2s var(--ease);
+}
+.gl-palette__panel {
+  width: min(560px, calc(100vw - 32px));
+  overflow: hidden;
+  border: 1px solid var(--glass-edge);
+  border-radius: 24px;
+  background: rgba(244, 247, 250, 0.82);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 40px 80px -30px rgba(16, 22, 29, 0.55);
+  animation: gl-pop 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gl-palette__input {
+  width: 100%;
+  padding: 20px 24px;
+  font: inherit;
+  font-size: 17px;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(16, 22, 29, 0.1);
+  outline: none;
+}
+.gl-palette__list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  max-height: 46vh;
+  overflow: auto;
+}
+.gl-palette__list button {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 14px;
+  cursor: pointer;
+}
+.gl-palette__list button[data-active="true"] {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 16px -10px rgba(16, 22, 29, 0.4);
+}
+.gl-palette__list small { font-size: 12px; opacity: 0.55; }
+.gl-palette__empty { padding: 16px; opacity: 0.6; }
+
+.gl-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 110;
+  padding: 11px 20px;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 999px;
+  background: rgba(16, 22, 29, 0.88);
+  transform: translate(-50%, 24px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
+}
+.gl-toast[data-show="true"] { transform: translate(-50%, 0); opacity: 1; }
+
+@keyframes gl-fade { from { opacity: 0; } }
+@keyframes gl-pop { from { opacity: 0; transform: translateY(12px) scale(0.98); } }

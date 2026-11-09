@@ -7,6 +7,7 @@ import { OpenSourceGlass } from "@/components/site/OpenSourceGlass"
 import { LiquidField } from "@/components/site/LiquidField"
 import { Interactions } from "@/components/site/Interactions"
 import { CursorLens } from "@/components/site/CursorLens"
+import { Premium } from "@/components/site/Premium"
 import { Certificates, type CertificateView } from "@/components/site/Certificates"
 import { SkillsGlass } from "@/components/site/SkillsGlass"
 import { getCertificationsData } from "@/lib/certifications"
@@ -90,6 +91,7 @@ export default async function HomePage() {
       <LiquidField />
       <Interactions />
       <CursorLens />
+      <Premium sections={links} email={email} resumeHref={resumeHref} github={github} linkedin={linkedin} />
       <Header name={name} links={links} resumeHref={resumeHref} email={email} />
       <main id="main-content" tabIndex={-1}>
         <Hero email={email} resumeHref={resumeHref} github={github} linkedin={linkedin} leetcode={leetcode} facts={facts} />
