@@ -1504,6 +1504,10 @@ main > .sk-section { padding-top: clamp(36px, 4.6vw, 64px); padding-bottom: clam
   color: var(--accent);
 }
 .gl-marquee__track[data-tone="outline"] span {
+  color: transparent;
+  -webkit-text-stroke: 1.4px var(--ink);
+}
+.gl-marquee__track[data-tone="outline"] b { -webkit-text-stroke: 0; }
   color: rgba(16, 22, 29, 0.28);
 }
 
