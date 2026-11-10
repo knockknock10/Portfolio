@@ -1727,3 +1727,25 @@ html { scrollbar-width: thin; scrollbar-color: rgba(16, 22, 29, 0.35) transparen
   height: 100%;
   pointer-events: none;
 }
+
+/* Real 3D: the portrait is a stack of layers in space, and cards turn toward the pointer */
+/* portfolio-polish.css turned the old tilt off; this layer replaces it, so it has to outrank that rule. */
+html .sk-portrait[data-tilt] {
+  transform: perspective(1200px) rotateX(calc(var(--dy, 0) * -6deg)) rotateY(calc(var(--dx, 0) * 9deg)) !important;
+  transform-style: preserve-3d;
+  transition: none !important;
+}
+.sk-portrait__shape { translate: calc(var(--dx) * 16px) calc(var(--dy) * 12px) -60px; }
+.sk-portrait__photo { translate: calc(var(--dx) * -9px) calc(var(--dy) * -7px) 0; }
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html .gl-org, html .sk-fact, html .gl-pr, html .gl-cert, html .sk-entry, html .sk-contact__row {
+    transform: perspective(900px) rotateX(var(--card-x, 0deg)) rotateY(var(--card-y, 0deg)) !important;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s, border-color 0.3s, background-color 0.3s !important;
+  }
+  html .sk-project {
+    transform: perspective(1400px) rotateX(var(--card-x, 0deg)) rotateY(var(--card-y, 0deg)) !important;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s !important;
+  }
+  [data-depth="true"] { box-shadow: 0 30px 50px -30px rgba(16, 22, 29, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.9); }
+}

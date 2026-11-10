@@ -77,7 +77,7 @@ export function Kinetic() {
         if (scrollY < window.innerHeight * 1.6) {
           floatingCards.forEach((element, index) => {
             const direction = index % 2 === 0 ? 1 : -1
-            element.style.translate = `0 ${direction * scrollY * 0.07}px`
+            element.style.translate = `0 ${direction * scrollY * 0.07}px 70px`
           })
         }
 

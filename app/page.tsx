@@ -12,6 +12,7 @@ import { Kinetic } from "@/components/site/Kinetic"
 import { SideRail } from "@/components/site/SideRail"
 import { LetterField } from "@/components/site/LetterField"
 import { PortraitDepth } from "@/components/site/PortraitDepth"
+import { DepthCards } from "@/components/site/DepthCards"
 // import { CursorLens } from "@/components/site/CursorLens" // Preserved, intentionally inactive: no pointer-following cursor effect.
 import { Certificates, type CertificateView } from "@/components/site/Certificates"
 import { SkillsGlass } from "@/components/site/SkillsGlass"
@@ -139,6 +140,7 @@ export default async function HomePage() {
       <SideRail sections={links} />
       <LetterField />
       <PortraitDepth />
+      <DepthCards />
       {/* <CursorLens /> Preserved but disabled: no pointer-following lens. */}
       <Header name={name} links={navLinks} resumeHref={resumeHref} email={email} />
       <Premium
