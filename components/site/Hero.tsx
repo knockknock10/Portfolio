@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { publicUrl } from "@/lib/public-url"
 import { useLiveGithub } from "./useLiveGithub"
+import { WaveField } from "./WaveField"
 import { ArrowRight, ArrowUpRight, Download, GitHub, LinkedIn, Code } from "./icons"
 
 export type Fact = { value: string; label: string; live?: "merged" | "projects" }
@@ -54,6 +55,7 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts: bui
 
   return (
     <section className="sk-hero" id="top" aria-labelledby="hero-title">
+      <WaveField />
       <div className="sk-wrap">
         <div className="sk-hero__grid">
           <div>
