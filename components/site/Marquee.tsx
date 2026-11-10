@@ -22,8 +22,8 @@ export function Marquee({ projects, stack }: { projects: string[]; stack: string
   const stackKey = stack.join("\u001f")
 
   const rows: Row[] = [
-    { items: projectKey ? projectKey.split("\u001f") : [], direction: -1, tone: "solid", label: "Open-source projects" },
-    { items: stackKey ? stackKey.split("\u001f") : [], direction: 1, tone: "outline", label: "Technologies used" },
+    { items: projectKey ? projectKey.split("\u001f") : [], direction: -1 as const, tone: "solid" as const, label: "Open-source projects" },
+    { items: stackKey ? stackKey.split("\u001f") : [], direction: 1 as const, tone: "outline" as const, label: "Technologies used" },
   ].filter((row) => row.items.length > 0)
 
   const trackRefs = useRef<(HTMLDivElement | null)[]>([])
