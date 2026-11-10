@@ -38,7 +38,7 @@ export function Marquee({ projects, stack }: { projects: string[]; stack: string
     let lastY = window.scrollY
     let frame = 0
     let inViewport = false
-    let drag = 0 // pixels the visitor has dragged since the last frame
+    let drag = 0 // pixels dragged since the last frame
     let dragging = false
 
     const schedule = () => {
