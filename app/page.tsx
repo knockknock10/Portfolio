@@ -93,8 +93,14 @@ export default async function HomePage() {
       <LiquidField />
       <Interactions />
       {/* <CursorLens /> Preserved but disabled: no pointer-following lens. */}
-      <Premium sections={navLinks} email={email} resumeHref={resumeHref} github={github} linkedin={linkedin} />
       <Header name={name} links={navLinks} resumeHref={resumeHref} email={email} />
+      <Premium
+        sections={navLinks.map(({ id, label }) => ({ id, label }))}
+        email={email}
+        resumeHref={resumeHref}
+        github={github}
+        linkedin={linkedin}
+      />
       <main id="main-content" tabIndex={-1}>
         <Hero email={email} resumeHref={resumeHref} github={github} linkedin={linkedin} leetcode={leetcode} facts={facts} />
         <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />

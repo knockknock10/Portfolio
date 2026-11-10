@@ -126,7 +126,7 @@ export function Premium({ sections, email, resumeHref, github, linkedin }: Premi
     let cleanupPointer = () => {}
     if (!reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
       const sel =
-        ".sk-project, .sk-entry, .gl-org, .gl-pr, .gl-graph, .sk-fact, .sk-paper, .sk-contact__row, .sk-practice, .gl-cert"
+        ".gl-workbench__rail, .gl-workbench__stage, .gl-practice-feature, .gl-practice-platform, .gl-research-entry, .gl-research-card, .gl-experience-item, .gl-skill, .gl-org, .gl-pr, .gl-graph, .sk-fact, .sk-contact__row, .sk-practice, .gl-cert"
       const onMove = (event: PointerEvent) => {
         const el = (event.target as HTMLElement | null)?.closest<HTMLElement>(sel)
         if (!el) return
@@ -165,7 +165,7 @@ export function Premium({ sections, email, resumeHref, github, linkedin }: Premi
     <>
       <button type="button" className="gl-kbd" onClick={() => setOpen(true)} aria-label="Open quick menu">
         <span>Quick menu</span>
-        <kbd>Ctrl K</kbd>
+        <kbd>⌘ / Ctrl K</kbd>
       </button>
 
       {open ? (
