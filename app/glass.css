@@ -1581,3 +1581,43 @@ main > .sk-section { padding-top: clamp(36px, 4.6vw, 64px); padding-bottom: clam
   transition: color 0.6s var(--ease);
 }
 .sk-footer:hover .gl-wordmark { color: rgba(16, 22, 29, 0.16); }
+
+
+/* Keep the oversized footer signature inside the viewport on narrow screens. */
+.gl-wordmark {
+  font-size: clamp(3rem, 11.5vw, 12rem);
+}
+
+@media (max-width: 600px) {
+  .gl-wordmark {
+    font-size: clamp(2.1rem, 10.2vw, 3.8rem);
+    letter-spacing: -0.06em;
+  }
+}
+
+/* Every new motion layer must honour the visitor's system preference. */
+@media (prefers-reduced-motion: reduce) {
+  .sk-hero h1 .gl-letters i,
+  .sk-h2[data-split] .gl-w > span,
+  .gl-wave i,
+  .gl-wordmark {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .sk-h2[data-split] .gl-w > span,
+  .gl-wave i {
+    transform: none !important;
+  }
+
+  .gl-marquee__track {
+    transform: none !important;
+  }
+
+  .gl-ring,
+  .sk-portrait__signal {
+    rotate: none !important;
+    translate: none !important;
+    transform: none !important;
+  }
+}
