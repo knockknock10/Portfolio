@@ -1621,3 +1621,57 @@ main > .sk-section { padding-top: clamp(36px, 4.6vw, 64px); padding-bottom: clam
     transform: none !important;
   }
 }
+
+/* Marquee: grab and pull */
+.gl-marquee { cursor: grab; touch-action: pan-y; }
+.gl-marquee[data-dragging="true"] { cursor: grabbing; }
+
+/* Section rail */
+.gl-rail {
+  position: fixed;
+  right: 18px;
+  top: 50%;
+  z-index: 30;
+  display: none;
+  transform: translateY(-50%);
+}
+@media (min-width: 1280px) and (hover: hover) { .gl-rail { display: block; } }
+.gl-rail ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.gl-rail button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 100%;
+  padding: 5px 0;
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.gl-rail__label {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 0.25s, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.gl-rail__mark {
+  min-width: 26px;
+  text-align: right;
+  opacity: 0.38;
+  font-variant-numeric: tabular-nums;
+  transition: opacity 0.25s, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s;
+}
+.gl-rail:hover .gl-rail__label,
+.gl-rail button:focus-visible .gl-rail__label { opacity: 1; transform: none; }
+.gl-rail button[data-active="true"] .gl-rail__mark { opacity: 1; color: var(--accent); transform: translateX(-4px); font-weight: 600; }
+.gl-rail button:hover .gl-rail__mark { opacity: 1; }
+.sk-hero h1 .gl-letters i { transition: translate 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s; }

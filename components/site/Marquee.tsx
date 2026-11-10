@@ -38,6 +38,8 @@ export function Marquee({ projects, stack }: { projects: string[]; stack: string
     let lastY = window.scrollY
     let frame = 0
     let inViewport = false
+    let drag = 0 // pixels the visitor has dragged since the last frame
+    let dragging = false
 
     const schedule = () => {
       if (!frame && inViewport && !document.hidden && !motionPreference.matches) {
@@ -56,12 +58,15 @@ export function Marquee({ projects, stack }: { projects: string[]; stack: string
         const half = track.scrollWidth / 2
         if (half <= 0) return
 
-        offsets[index] = (offsets[index] + 0.7 + boost * 0.35) % half
+        const pulled = row.direction === -1 ? -drag : drag
+        offsets[index] = (((offsets[index] + 0.7 + boost * 0.35 + pulled) % half) + half) % half
         const shift = row.direction === -1 ? -offsets[index] : offsets[index] - half
         const skew = Math.max(-6, Math.min(6, -velocity * 0.1))
         track.style.transform = `translate3d(${shift}px, 0, 0) skewX(${skew}deg)`
       })
 
+      if (drag) velocity = Math.max(-60, Math.min(60, velocity - drag * 0.6))
+      drag = 0
       velocity *= 0.88
       schedule()
     }
@@ -111,6 +116,30 @@ export function Marquee({ projects, stack }: { projects: string[]; stack: string
       else inViewport = true
     }
 
+    // Grab the band and pull it sideways; it carries on with the momentum.
+    const band = bandRef.current
+    let lastX = 0
+    const onDown = (event: PointerEvent) => {
+      dragging = true
+      lastX = event.clientX
+      band?.setPointerCapture(event.pointerId)
+      band?.setAttribute("data-dragging", "true")
+    }
+    const onMove = (event: PointerEvent) => {
+      if (!dragging) return
+      drag += event.clientX - lastX
+      lastX = event.clientX
+      schedule()
+    }
+    const onUp = () => {
+      dragging = false
+      band?.removeAttribute("data-dragging")
+    }
+    band?.addEventListener("pointerdown", onDown)
+    band?.addEventListener("pointermove", onMove)
+    band?.addEventListener("pointerup", onUp)
+    band?.addEventListener("pointercancel", onUp)
+
     window.addEventListener("scroll", onScroll, { passive: true })
     document.addEventListener("visibilitychange", onVisibilityChange)
     motionPreference.addEventListener("change", onMotionPreferenceChange)
@@ -118,6 +147,10 @@ export function Marquee({ projects, stack }: { projects: string[]; stack: string
     return () => {
       if (frame) window.cancelAnimationFrame(frame)
       observer?.disconnect()
+      band?.removeEventListener("pointerdown", onDown)
+      band?.removeEventListener("pointermove", onMove)
+      band?.removeEventListener("pointerup", onUp)
+      band?.removeEventListener("pointercancel", onUp)
       window.removeEventListener("scroll", onScroll)
       document.removeEventListener("visibilitychange", onVisibilityChange)
       motionPreference.removeEventListener("change", onMotionPreferenceChange)
@@ -127,7 +160,7 @@ export function Marquee({ projects, stack }: { projects: string[]; stack: string
   if (!rows.length) return null
 
   return (
-    <div className="gl-marquee">
+    <div className="gl-marquee" ref={bandRef}>
       {rows.map((row, index) => (
         <div className="gl-marquee__row" key={row.tone} role="group" aria-label={row.label}>
           <div
