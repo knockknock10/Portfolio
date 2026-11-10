@@ -58,9 +58,18 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts: bui
         <div className="sk-hero__grid">
           <div>
             <p className="sk-hero__kicker">Computer science student at SRM University AP</p>
-            <h1 id="hero-title">
-              <span>Sanjeev</span>
-              <span>Kumar</span>
+            {/* Previous heading: <h1 id="hero-title"><span>Sanjeev</span><span>Kumar</span></h1>
+                Letters now rise one after another; the label keeps it readable for screen readers. */}
+            <h1 id="hero-title" aria-label="Sanjeev Kumar">
+              {["Sanjeev", "Kumar"].map((word, line) => (
+                <span key={word} aria-hidden="true" className="gl-letters">
+                  {[...word].map((letter, index) => (
+                    <i key={index} style={{ "--i": index + line * 7 } as React.CSSProperties}>
+                      {letter}
+                    </i>
+                  ))}
+                </span>
+              ))}
             </h1>
             <p className="sk-hero__lede">
               I build backend services and developer tools, contribute fixes to open-source projects, and research
@@ -133,6 +142,14 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts: bui
 
           <div className="sk-portrait" data-tilt>
             <div className="sk-portrait__shape" aria-hidden="true" />
+            <svg className="gl-ring" viewBox="0 0 200 200" aria-hidden="true">
+              <defs>
+                <path id="gl-ring-path" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
+              </defs>
+              <text>
+                <textPath href="#gl-ring-path">Open to internships · Backend · Open source · Speech research · </textPath>
+              </text>
+            </svg>
             <div className="sk-portrait__photo">
               <img
                 src={publicUrl("/images/sanjeev-portrait.webp")}

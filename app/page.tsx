@@ -7,6 +7,8 @@ import { OpenSourceGlass } from "@/components/site/OpenSourceGlass"
 import { LiquidField } from "@/components/site/LiquidField"
 import { Interactions } from "@/components/site/Interactions"
 import { Premium } from "@/components/site/Premium"
+import { Marquee } from "@/components/site/Marquee"
+import { Kinetic } from "@/components/site/Kinetic"
 // import { CursorLens } from "@/components/site/CursorLens" // Preserved, intentionally inactive: no pointer-following cursor effect.
 import { Certificates, type CertificateView } from "@/components/site/Certificates"
 import { SkillsGlass } from "@/components/site/SkillsGlass"
@@ -130,6 +132,7 @@ export default async function HomePage() {
     <>
       <LiquidField />
       <Interactions />
+      <Kinetic />
       {/* <CursorLens /> Preserved but disabled: no pointer-following lens. */}
       <Header name={name} links={navLinks} resumeHref={resumeHref} email={email} />
       <Premium
@@ -141,6 +144,10 @@ export default async function HomePage() {
       />
       <main id="main-content" tabIndex={-1}>
         <Hero email={email} resumeHref={resumeHref} github={github} linkedin={linkedin} leetcode={leetcode} facts={facts} />
+        <Marquee
+          projects={upstream.available ? upstream.projects.map((project) => project.name) : []}
+          stack={["Go", "Java", "C++", "Python", "React", "Node.js", "MongoDB", "PostgreSQL", "Docker", "Linux"]}
+        />
         <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
         <Research paper={paper} other={otherResearch} />
         {/*
