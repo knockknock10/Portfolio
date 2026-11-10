@@ -2,9 +2,10 @@
 
 import { useState } from "react"
 import { publicUrl } from "@/lib/public-url"
+import { useLiveGithub } from "./useLiveGithub"
 import { ArrowRight, ArrowUpRight, Download, GitHub, LinkedIn, Code } from "./icons"
 
-export type Fact = { value: string; label: string }
+export type Fact = { value: string; label: string; live?: "merged" | "projects" }
 
 type HeroProps = {
   email: string | null
@@ -39,7 +40,15 @@ const focusAreas = [
   },
 ]
 
-export function Hero({ email, resumeHref, github, linkedin, leetcode, facts }: HeroProps) {
+export function Hero({ email, resumeHref, github, linkedin, leetcode, facts: builtFacts }: HeroProps) {
+  const live = useLiveGithub()
+  const facts = builtFacts.map((fact) =>
+    live && fact.live === "merged"
+      ? { ...fact, value: String(live.upstream.mergedCount) }
+      : live && fact.live === "projects"
+        ? { ...fact, value: String(live.upstream.projectCount) }
+        : fact,
+  )
   const [activeFocus, setActiveFocus] = useState("research")
   const selected = focusAreas.find((item) => item.id === activeFocus) ?? focusAreas[2]
 

@@ -6,6 +6,7 @@ import { publicUrl } from "@/lib/public-url"
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
 import { BackgroundSVG } from "./BackgroundSVG"
+import { useLiveGithub } from "./useLiveGithub"
 import { CurvedLineBetween } from "./CurvedLineBetween"
 
 type ProjectLink = { label: string; href: string; primary?: boolean }
@@ -153,7 +154,9 @@ function ProjectVisual({ project, reduceMotion }: { project: Project; reduceMoti
   )
 }
 
-export function Work({ repoCount }: { repoCount: number | null }) {
+export function Work({ repoCount: builtRepoCount }: { repoCount: number | null }) {
+  const liveGithub = useLiveGithub()
+  const repoCount = liveGithub?.repoCount ?? builtRepoCount
   const [activeIndex, setActiveIndex] = useState(0)
   const reduceMotion = useReducedMotion()
   const active = projects[activeIndex]

@@ -110,10 +110,11 @@ export default async function HomePage() {
 
   // LeetCode figures stay in the practice section with their source snapshot date.
   // The hero only carries contribution metrics built from the upstream PR index.
-  const facts: Fact[] = [
-    upstream.available ? { value: String(upstream.mergedCount), label: "pull requests merged upstream" } : null,
-    upstream.available ? { value: String(upstream.projectCount), label: "upstream projects contributed to" } : null,
-  ].filter((fact): fact is Fact => fact !== null)
+  const factList: (Fact | null)[] = [
+    upstream.available ? { value: String(upstream.mergedCount), label: "pull requests merged upstream", live: "merged" as const } : null,
+    upstream.available ? { value: String(upstream.projectCount), label: "upstream projects contributed to", live: "projects" as const } : null,
+  ]
+  const facts = factList.filter((fact): fact is Fact => fact !== null)
 
   const paper = research.find((item) => /sembind/i.test(item.title)) ?? research[0] ?? null
   const otherResearch = research.filter((item) => item !== paper)

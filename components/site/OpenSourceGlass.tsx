@@ -6,6 +6,7 @@ import { ArrowUpRight } from "./icons"
 import { ContributionGraph } from "./ContributionGraph"
 import { OrgLogo } from "./OrgLogo"
 import { Reveal } from "./Reveal"
+import { useLiveGithub } from "./useLiveGithub"
 
 const PAGE = 6
 const dateFormat = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })
@@ -23,7 +24,10 @@ function counts(project: Pick<UpstreamProject, "mergedCount" | "openCount">) {
   return parts.join(" · ")
 }
 
-export function OpenSourceGlass({ data, profileUrl }: { data: UpstreamSummary; profileUrl: string }) {
+export function OpenSourceGlass({ data: snapshot, profileUrl }: { data: UpstreamSummary; profileUrl: string }) {
+  // Build-time snapshot first; swapped for current GitHub data as soon as it arrives.
+  const live = useLiveGithub()
+  const data = live?.upstream ?? snapshot
   const [selected, setSelected] = useState<string | null>(null)
   const [shown, setShown] = useState(PAGE)
 
@@ -172,8 +176,10 @@ export function OpenSourceGlass({ data, profileUrl }: { data: UpstreamSummary; p
                 {data.own
                   ? `I'm also building Aevor, where ${data.own.mergedCount} pull requests have been merged. Those aren't counted above. `
                   : ""}
-                Closed pull requests that were not merged are left out. Counts were generated when this site was built
-                {data.generatedAt ? ` (${formatDate(data.generatedAt)})` : ""}.{" "}
+                Closed pull requests that were not merged are left out.{" "}
+                {live
+                  ? `Read from GitHub today at ${new Date(live.fetchedAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}.`
+                  : `Counts come from the last site build${data.generatedAt ? ` (${formatDate(data.generatedAt)})` : ""}.`}{" "}
                 <a className="sk-text-link" href={profileUrl} target="_blank" rel="noreferrer">
                   Full history on GitHub <ArrowUpRight />
                 </a>

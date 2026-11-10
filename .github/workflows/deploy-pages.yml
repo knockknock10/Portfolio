@@ -9,8 +9,8 @@ on:
       - main
   workflow_dispatch:
   schedule:
-    # Rebuild daily so new Credly badges appear without a code change.
-    - cron: "17 3 * * *"
+    # Rebuild hourly so Credly badges and the build-time snapshots stay current.
+    - cron: "7 * * * *"
 
 permissions:
   contents: read
