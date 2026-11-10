@@ -76,11 +76,15 @@ export function fetchLiveGithub(signal: AbortSignal): Promise<LiveGithub> {
     try {
       const profile = (await json(`https://api.github.com/users/${USER}`, signal)) as { public_repos?: number }
       repoCount = typeof profile.public_repos === "number" ? profile.public_repos : null
-    } catch {}
+    } catch {
+      // The repository count is optional.
+    }
     const value: LiveGithub = { upstream: groupUpstream(raw, new Date().toISOString()), repoCount, fetchedAt: Date.now() }
     try {
       sessionStorage.setItem("live-github", JSON.stringify(value))
-    } catch {}
+    } catch {
+      // Storage can be unavailable; the data still renders.
+    }
     return value
   })().finally(() => {
     inflight = null
