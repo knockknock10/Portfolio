@@ -11,6 +11,7 @@ import { Premium } from "@/components/site/Premium"
 import { Certificates, type CertificateView } from "@/components/site/Certificates"
 import { SkillsGlass } from "@/components/site/SkillsGlass"
 import { getCertificationsData } from "@/lib/certifications"
+import { getCredly } from "@/lib/credly.server"
 import { Experience } from "@/components/site/Experience"
 // import { Skills } from "@/components/site/Skills"
 import { Practice } from "@/components/site/Practice"
@@ -45,21 +46,57 @@ export default async function HomePage() {
   const research = getResearchData()
   const internships = getInternshipsData()
   const upstream = await getUpstream()
-  const certificates: CertificateView[] = getCertificationsData().map((item) => {
+  const credly = getCredly()
+  const norm = (text: string) =>
+    text.toLowerCase().replace(/\b(skill|training) badge\b/g, "").replace(/[^a-z0-9]+/g, " ").trim()
+  const monthYear = (iso: string | null) => {
+    if (!iso) return null
+    const d = new Date(iso)
+    return Number.isNaN(d.getTime()) ? null : d.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" })
+  }
+  const used = new Set<string>()
+  const fromRecords: CertificateView[] = getCertificationsData().map((item) => {
     const value = (field: string | "MISSING") => (field === "MISSING" ? null : field)
     const file = value(item.certificateImage)
+    const key = norm(item.title)
+    const badge = credly.badges.find((b) => {
+      const n = norm(b.name)
+      return n.includes(key) || key.includes(n)
+    })
+    if (badge) used.add(badge.name)
     return {
       title: item.title,
-      issuer: value(item.issuer),
-      date: value(item.issueDate),
+      issuer: value(item.issuer) ?? badge?.issuer ?? null,
+      date: value(item.issueDate) ?? monthYear(badge?.issuedAt ?? null),
+      sortDate: badge?.issuedAt ?? null,
       credentialId: value(item.credentialId),
-      credentialUrl: value(item.credentialUrl),
+      credentialUrl: value(item.credentialUrl) ?? badge?.url ?? null,
       skills: Array.isArray(item.skillsCovered) ? item.skillsCovered : [],
-      verificationStatus: item.verificationStatus,
+      verificationStatus: badge ? "verified" : item.verificationStatus,
+      badge: badge?.image ?? null,
       file,
       isPdf: file ? /\.pdf$/i.test(file) : false,
     }
   })
+  // Anything newly earned on Credly appears here without editing the site.
+  const fromCredly: CertificateView[] = credly.badges
+    .filter((b) => !used.has(b.name))
+    .map((b) => ({
+      title: b.name,
+      issuer: b.issuer,
+      date: monthYear(b.issuedAt),
+      sortDate: b.issuedAt,
+      credentialId: null,
+      credentialUrl: b.url,
+      skills: [],
+      verificationStatus: "verified" as const,
+      badge: b.image,
+      file: null,
+      isPdf: false,
+    }))
+  const certificates: CertificateView[] = [...fromRecords, ...fromCredly].sort(
+    (a, b) => (b.sortDate ?? "").localeCompare(a.sortDate ?? ""),
+  )
 
   // Do not show navigation for a section that has no certificate entries.
   const navLinks = links.filter((link) => link.id !== "certificates" || certificates.length > 0)
@@ -120,7 +157,7 @@ export default async function HomePage() {
         <SkillsGlass>
           <Practice stats={signals.leetcode} snapshotDate={signals.snapshotDate} />
         </SkillsGlass>
-        <Certificates items={certificates} />
+        <Certificates items={certificates} profileUrl={credly.profile} syncedAt={credly.syncedAt} />
         <About location={content.contact.location} />
         <Contact email={email} location={content.contact.location} links={contactLinks} />
       </main>
