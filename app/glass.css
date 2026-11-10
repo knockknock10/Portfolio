@@ -1412,3 +1412,28 @@ main > .sk-section .sk-eyebrow::before {
   filter: drop-shadow(0 14px 18px rgba(16, 22, 29, 0.22));
 }
 .gl-certificate-viewer__badge { width: 180px; height: auto; }
+
+/* Tighter vertical rhythm */
+.sk-section {
+  padding-top: clamp(36px, 4.6vw, 64px);
+  padding-bottom: clamp(36px, 4.6vw, 64px);
+}
+main > .sk-section { padding-top: clamp(36px, 4.6vw, 64px); padding-bottom: clamp(36px, 4.6vw, 64px); }
+.sk-head { margin-bottom: clamp(24px, 3.5vw, 44px); }
+.sk-hero { padding-top: clamp(96px, 11vw, 132px); padding-bottom: clamp(32px, 5vw, 64px); }
+.sk-project { margin-bottom: 16px; }
+.gl-certbar { margin-bottom: 16px; }
+.gl-certs { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+.gl-cert__preview { aspect-ratio: 16 / 10; }
+.sk-practice .sk-eyebrow::before { content: none; }
+.gl-cert__details {
+  justify-self: start;
+  width: auto;
+  padding: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  cursor: pointer;
+}
