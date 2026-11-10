@@ -74,7 +74,7 @@ function durationBetween(startValue: string, endValue: string): string {
   }
   const years = Math.floor(months / 12)
   const remainder = months % 12
-  const parts = []
+  const parts: string[] = []
   if (years) parts.push(years + (years === 1 ? " year" : " years"))
   if (remainder) parts.push(remainder + (remainder === 1 ? " month" : " months"))
   return parts.join(", ")
@@ -124,13 +124,14 @@ export function getInternshipsData(): Internship[] {
       const endDateRaw = stringField(record, "end date")
       const normalizedEnd = endDateRaw === "MISSING" ? stringField(record, "endDate") : endDateRaw
       const summary = stringField(record, "summary")
+      const recordedDuration = stringField(record, "duration")
       return [{
         company,
         role: stringField(record, "role"),
         location: stringField(record, "location"),
         startDate: normalizedStart,
         endDate: normalizedEnd,
-        duration: durationBetween(normalizedStart, normalizedEnd),
+        duration: recordedDuration !== "MISSING" ? recordedDuration : durationBetween(normalizedStart, normalizedEnd),
         summary,
         responsibilities: stringArray(record.responsibilities),
         stack: stringArray(record.stack ?? record.tools ?? record["stack or tools used"]),

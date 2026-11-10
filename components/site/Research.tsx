@@ -2,152 +2,155 @@ import { publicUrl } from "@/lib/public-url"
 import type { ResearchItem } from "@/lib/research"
 import { ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
-import { Wave } from "./Wave"
-import { BackgroundSVG } from "./BackgroundSVG"
-
-/*
-  Result figures below are the ones already published on the previous Research
-  section (clean-reference E1 benchmark, n = 2,620). They are shown as-is.
-*/
-const results = [
-  { method: "Joint (semantic + spectral)", success: "100%", snr: "75.37" },
-  { method: "Semantic only", success: "100%", snr: "73.30" },
-  { method: "Spectral only", success: "100%", snr: "77.16" },
-  { method: "Random", success: "99.96%", snr: "74.25" },
-]
-
-const numbers = [
-  { value: "2,620", label: "audio samples (LibriSpeech test-clean)" },
-  { value: "40", label: "speakers" },
-  { value: "5.40 hrs", label: "of 16 kHz speech" },
-  { value: "3", label: "replicas of each payload bit" },
-]
+import { PaperViewer } from "./PaperViewer"
+import { KnowledgeGraphExplorer } from "./KnowledgeGraphExplorer"
 
 function isText(value: string | string[] | undefined | null): value is string {
   return typeof value === "string" && value !== "MISSING" && value.trim() !== ""
 }
 
+function Metadata({ item }: { item: ResearchItem }) {
+  const authors = Array.isArray(item.authors) ? item.authors.join(", ") : null
+  return (
+    <div className="gl-research-meta">
+      {authors ? <span>{authors}</span> : null}
+      {isText(item.year) ? <span>{item.year}</span> : null}
+    </div>
+  )
+}
+
 export function Research({ paper, other }: { paper: ResearchItem | null; other: ResearchItem[] }) {
   const pdf = paper && isText(paper.pdf) ? publicUrl("/" + paper.pdf.replace(/^\/+/, "")) : null
   const code = paper && isText(paper.link) ? paper.link : null
-  const authors = paper && Array.isArray(paper.authors) ? paper.authors.join(", ") : null
 
   return (
-    <section className="sk-section sk-dark" id="research" aria-labelledby="research-title">
-      <Wave edge="top" />
-      <Wave edge="bottom" />
-      <BackgroundSVG variant="blob2" className="sk-moving-svg sk-moving-svg--projects-middle" />
+    <section className="sk-section sk-dark sk-research-section" id="research" aria-labelledby="research-title">
       <div className="sk-wrap">
         <Reveal>
           <div className="sk-head">
             <div>
-              <p className="sk-eyebrow">Research</p>
+              <p className="sk-eyebrow">Research & exploration</p>
               <h2 className="sk-h2" id="research-title">
-                Watermarking speech
+                Sound, space & temporal intelligence
               </h2>
             </div>
             <p className="sk-lede">
-              My first-author paper looks at where to hide a watermark in speech so that it survives, and whether a
-              self-supervised model can help choose the spot.
+              From protecting speech content to building audio systems that remember how a scene changes over time.
+              These are the research questions I am working through.
             </p>
           </div>
         </Reveal>
 
-        {paper ? (
-          <div className="sk-research">
-            <Reveal>
-              <div>
-                <h3 className="sk-paper-title">{paper.title}</h3>
-                <dl className="sk-meta-list">
-                  {authors ? (
-                    <div>
-                      <dt>Authors</dt>
-                      <dd>{authors}</dd>
-                    </div>
-                  ) : null}
-                  {isText(paper.venue) ? (
-                    <div>
-                      <dt>Venue</dt>
-                      <dd>{isText(paper.status) ? paper.status : paper.venue}</dd>
-                    </div>
-                  ) : null}
-                  {isText(paper.year) ? (
-                    <div>
-                      <dt>Year</dt>
-                      <dd>{paper.year}</dd>
-                    </div>
-                  ) : null}
-                </dl>
-                {isText(paper.abstract) ? <p>{paper.abstract}</p> : null}
-                <div className="sk-hero__actions">
-                  {pdf ? (
-                    <a className="sk-btn sk-btn--light sk-btn--small" href={pdf} target="_blank" rel="noreferrer">
+        <div className="gl-research-grid">
+          {paper ? (
+            <Reveal delay={0.04}>
+              <article className="gl-research-entry">
+                <div className="gl-research-topline">
+                  <span className="gl-research-status"><i /> First-author manuscript</span>
+                  <span className="gl-research-year">{isText(paper.year) ? paper.year : "Research"}</span>
+                </div>
+                {pdf ? (
+                  <PaperViewer
+                    pdf={pdf}
+                    title={paper.title}
+                    className="gl-research-card gl-research-card--paper"
+                    ariaLabel={`Open submitted paper: ${paper.title}`}
+                  >
+                    <span className="gl-research-card__eyebrow">Submitted · not yet published</span>
+                    <span className="gl-research-card__title">{paper.title}</span>
+                    <span className="gl-research-card__abstract">
+                      {isText(paper.abstract) ? paper.abstract : "A research study on reference-based speech watermarking."}
+                    </span>
+                    <span className="gl-research-card__tags">
+                      {(paper.tags ?? []).slice(0, 5).map((tag) => <span key={tag}>{tag}</span>)}
+                    </span>
+                    <span className="gl-research-card__action">
                       Read the paper <ArrowUpRight />
-                    </a>
-                  ) : null}
-                  {code ? (
-                    <a className="sk-btn sk-btn--light sk-btn--small" href={code} target="_blank" rel="noreferrer">
-                      Code <ArrowUpRight />
-                    </a>
-                  ) : null}
+                    </span>
+                  </PaperViewer>
+                ) : (
+                  <div className="gl-research-card gl-research-card--paper">
+                    <span className="gl-research-card__title">{paper.title}</span>
+                    {isText(paper.abstract) ? <span className="gl-research-card__abstract">{paper.abstract}</span> : null}
+                  </div>
+                )}
+                <div className="gl-research-entry__footer">
+                  <Metadata item={paper} />
+                  {isText(paper.venue) ? <span>{isText(paper.status) ? paper.status : paper.venue}</span> : null}
+                  {code ? <a href={code} target="_blank" rel="noreferrer">Source code <ArrowUpRight /></a> : null}
                 </div>
-              </div>
+              </article>
             </Reveal>
+          ) : null}
 
-            <Reveal delay={0.08}>
-              <div className="sk-card">
-                <h3>Placement rules compared</h3>
-                <p>Clean-reference benchmark across all 2,620 test-clean utterances.</p>
-                <table className="sk-table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Placement rule</th>
-                      <th scope="col">Payload recovered</th>
-                      <th scope="col">Mean SNR (dB)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {results.map((row) => (
-                      <tr key={row.method}>
-                        <th scope="row">{row.method}</th>
-                        <td>{row.success}</td>
-                        <td>{row.snr}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <div className="sk-stat-grid">
-                  {numbers.map((item) => (
-                    <div key={item.label}>
-                      <strong>{item.value}</strong>
-                      <span>{item.label}</span>
-                    </div>
-                  ))}
-                </div>
+          <Reveal delay={0.1}>
+            <article className="gl-research-entry gl-research-entry--sonicmap">
+              <div className="gl-research-topline">
+                <span className="gl-research-status gl-research-status--active"><i /> Active research</span>
+                <span className="gl-research-year">2026</span>
               </div>
-            </Reveal>
-          </div>
-        ) : null}
-
-        <Reveal>
-          <p className="sk-note" style={{ color: "var(--on-dark-muted)", marginTop: "clamp(28px, 4vw, 44px)" }}>
-            What I found: the model&apos;s contribution map is a useful signal, but in the current tests local spectral
-            suitability was the stronger criterion, and the joint method did not consistently beat spectral-only. The paper
-            has been submitted and is not yet published.
-          </p>
-        </Reveal>
-
-        {other.map((item) => (
-          <Reveal key={item.title}>
-            <div className="sk-side">
-              <h3>{item.title}</h3>
-              <div>
-                {isText(item.abstract) ? <p>{item.abstract}</p> : null}
-                {item.tags.length ? <p style={{ marginTop: 10 }}>{item.tags.join(" · ")}</p> : null}
+              <div className="gl-research-card gl-research-card--kg">
+                <KnowledgeGraphExplorer />
+                <span className="gl-research-card__eyebrow">SonicMap RQ1 · research prototype</span>
+                <span className="gl-research-card__title">Causal-temporal audio knowledge graphs</span>
+                <span className="gl-research-card__abstract">
+                  I'm working on tracking sound-source observations across a recording and keeping the relationships
+                  between them over time. The main audio pipeline and the late-arrival timing tests are being evaluated
+                  separately for now.
+                </span>
+                <span className="gl-research-card__tags">
+                  <span>Multichannel audio</span>
+                  <span>Source tracking</span>
+                  <span>Temporal relations</span>
+                  <span>Event-time queries</span>
+                </span>
+                <details className="gl-kg-details">
+                  <summary>What I am investigating <span aria-hidden="true">＋</span></summary>
+                  <div>
+                    <p>
+                      One question is how to handle evidence that arrives late. A query about an earlier moment should
+                      not use information the system had not received yet. The current graph path stores event-time
+                      relations; the separate knowledge-time work is still being developed.
+                    </p>
+                    <p>
+                      I have a deterministic delayed-arrival test using synthetic observations. It compares log and
+                      graph query paths, but it does not yet feed predicted audio detections into a bitemporal graph.
+                    </p>
+                    <small>
+                      The current system is a research prototype, not a validated real-time end-to-end system.
+                      The relation-extraction results are still weak, and the research novelty has not been established.
+                    </small>
+                  </div>
+                </details>
               </div>
+              <div className="gl-research-entry__footer">
+                <span>Audio tracking and temporal graph queries</span>
+                <span>In progress</span>
+                <a href="https://github.com/knockknock10/Portfolio/blob/main/SONICMAP-RQ1.md" target="_blank" rel="noreferrer">
+                  Research notes <ArrowUpRight />
+                </a>
+              </div>
+            </article>
+          </Reveal>
+        </div>
+
+        {other.length ? (
+          <Reveal delay={0.14}>
+            <div className="gl-research-archive">
+              <p className="gl-research-archive__label">Earlier research experience</p>
+              {other.map((item) => (
+                <article className="gl-research-archive__item" key={item.title}>
+                  <div>
+                    <h3>{item.title}</h3>
+                    {isText(item.abstract) ? <p>{item.abstract}</p> : null}
+                    {item.tags.length ? <p className="gl-research-archive__tags">{item.tags.join(" · ")}</p> : null}
+                  </div>
+                  <span>{isText(item.year) ? item.year : "Experience"}</span>
+                </article>
+              ))}
             </div>
           </Reveal>
-        ))}
+        ) : null}
       </div>
     </section>
   )

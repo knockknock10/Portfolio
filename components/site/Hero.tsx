@@ -1,5 +1,8 @@
+"use client"
+
+import { useState } from "react"
 import { publicUrl } from "@/lib/public-url"
-import { ArrowRight, Download, GitHub, LinkedIn, Code } from "./icons"
+import { ArrowRight, ArrowUpRight, Download, GitHub, LinkedIn, Code } from "./icons"
 
 export type Fact = { value: string; label: string }
 
@@ -12,7 +15,34 @@ type HeroProps = {
   facts: Fact[]
 }
 
+const focusAreas = [
+  {
+    id: "systems",
+    label: "Backend & systems",
+    title: "Designing the parts beneath the interface",
+    note: "Service boundaries, APIs, databases and dependable backend workflows.",
+    href: "#work",
+  },
+  {
+    id: "open-source",
+    label: "Open source",
+    title: "Learning in codebases shared by everyone",
+    note: "Issue investigation, focused fixes, tests and collaboration with maintainers.",
+    href: "#open-source",
+  },
+  {
+    id: "research",
+    label: "Audio intelligence",
+    title: "Teaching software to remember a sound scene",
+    note: "Speech watermarking and temporal audio knowledge graphs.",
+    href: "#research",
+  },
+]
+
 export function Hero({ email, resumeHref, github, linkedin, leetcode, facts }: HeroProps) {
+  const [activeFocus, setActiveFocus] = useState("research")
+  const selected = focusAreas.find((item) => item.id === activeFocus) ?? focusAreas[2]
+
   return (
     <section className="sk-hero" id="top" aria-labelledby="hero-title">
       <div className="sk-wrap">
@@ -24,25 +54,53 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts }: H
               <span>Kumar</span>
             </h1>
             <p className="sk-hero__lede">
-              I build backend systems, send pull requests to open-source projects, and do research on speech
-              watermarking.
+              I build backend services and developer tools, contribute fixes to open-source projects, and research
+              speech and audio intelligence.
             </p>
-            <p className="sk-hero__status">
-              Open to software engineering internships and full-time roles.
-            </p>
+            <p className="sk-hero__status">Open to software engineering internships.</p>
 
             <div className="sk-hero__actions">
-              <a className="sk-btn sk-btn--solid" href="#work">
+              <a className="sk-btn sk-btn--solid" href="#work" data-magnetic>
                 See my work <ArrowRight />
               </a>
-              <a className="sk-btn" href={resumeHref} target="_blank" rel="noreferrer">
+              <a className="sk-btn" href={resumeHref} target="_blank" rel="noreferrer" data-magnetic>
                 Résumé <Download />
               </a>
               {email ? (
-                <a className="sk-btn" href={`mailto:${email}`}>
+                <a className="sk-btn" href={`mailto:${email}`} data-magnetic>
                   Email me
                 </a>
               ) : null}
+            </div>
+
+            <div className="sk-hero__explorer">
+              <div className="sk-hero__explorer-head">
+                <span>Choose a thread to explore</span>
+                <span>01 — 03</span>
+              </div>
+              <nav className="sk-hero__focus" aria-label="Explore my focus areas">
+                {focusAreas.map((item, index) => (
+                  <a
+                    className="sk-hero__focus-chip"
+                    key={item.id}
+                    href={item.href}
+                    data-active={activeFocus === item.id}
+                    onMouseEnter={() => setActiveFocus(item.id)}
+                    onFocus={() => setActiveFocus(item.id)}
+                    onClick={() => setActiveFocus(item.id)}
+                  >
+                    <span className="sk-hero__focus-index">{String(index + 1).padStart(2, "0")}</span>
+                    <span>{item.label}</span>
+                    <ArrowUpRight />
+                  </a>
+                ))}
+              </nav>
+              <div className="sk-hero__focus-preview" aria-live="polite" key={selected.id}>
+                <span className="sk-hero__focus-preview-label">A little more about this thread</span>
+                <strong>{selected.title}</strong>
+                <p>{selected.note}</p>
+                <a href={selected.href}>Explore this part <ArrowRight /></a>
+              </div>
             </div>
 
             <div className="sk-hero__links">
@@ -75,13 +133,23 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts }: H
                 fetchPriority="high"
               />
             </div>
+            <div className="sk-portrait__signal sk-portrait__signal--top" aria-live="polite">
+              <span>Currently exploring</span>
+              <strong>{selected.label}</strong>
+              <small>{selected.note}</small>
+            </div>
+            <div className="sk-portrait__signal sk-portrait__signal--bottom">
+              <span className="sk-portrait__signal-dot" aria-hidden="true" />
+              <strong>Building in public</strong>
+              <span>Code · research · systems</span>
+            </div>
           </div>
         </div>
 
         {facts.length ? (
           <dl className="sk-facts">
             {facts.map((fact) => (
-              <div className="sk-fact" key={fact.label}>
+              <div className="sk-fact" key={fact.label} data-tilt>
                 <dt style={{ display: "none" }}>{fact.label}</dt>
                 <dd>
                   <strong>{fact.value}</strong>

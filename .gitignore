@@ -14,3 +14,7 @@ dist-ssr
 .next/
 out/
 *.tsbuildinfo
+
+# Local browser captures and developer-specific MCP settings
+.playwright-mcp/
+.continue/mcpServers/
