@@ -9,6 +9,8 @@ import { Interactions } from "@/components/site/Interactions"
 import { Premium } from "@/components/site/Premium"
 import { Marquee } from "@/components/site/Marquee"
 import { Kinetic } from "@/components/site/Kinetic"
+import { SideRail } from "@/components/site/SideRail"
+import { LetterField } from "@/components/site/LetterField"
 // import { CursorLens } from "@/components/site/CursorLens" // Preserved, intentionally inactive: no pointer-following cursor effect.
 import { Certificates, type CertificateView } from "@/components/site/Certificates"
 import { SkillsGlass } from "@/components/site/SkillsGlass"
@@ -133,6 +135,8 @@ export default async function HomePage() {
       <LiquidField />
       <Interactions />
       <Kinetic />
+      <SideRail sections={links} />
+      <LetterField />
       {/* <CursorLens /> Preserved but disabled: no pointer-following lens. */}
       <Header name={name} links={navLinks} resumeHref={resumeHref} email={email} />
       <Premium
