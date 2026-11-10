@@ -1675,3 +1675,42 @@ main > .sk-section { padding-top: clamp(36px, 4.6vw, 64px); padding-bottom: clam
 .gl-rail button[data-active="true"] .gl-rail__mark { opacity: 1; color: var(--accent); transform: translateX(-4px); font-weight: 600; }
 .gl-rail button:hover .gl-rail__mark { opacity: 1; }
 .sk-hero h1 .gl-letters i { transition: translate 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s; }
+
+/* ------------------------------------------------------------------ */
+/* Depth and entrance polish                                           */
+/* ------------------------------------------------------------------ */
+
+.sk-portrait { --dx: 0; --dy: 0; }
+.sk-portrait__photo { translate: calc(var(--dx) * -9px) calc(var(--dy) * -7px); }
+.sk-portrait__shape { translate: calc(var(--dx) * 16px) calc(var(--dy) * 12px); }
+
+::selection { background: var(--accent); color: #fff; }
+html { scrollbar-width: thin; scrollbar-color: rgba(16, 22, 29, 0.35) transparent; }
+
+/* Section heads draw a hairline beneath them, and cards rise in a staggered way (scroll-driven, no JS) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    main .sk-head { position: relative; }
+    main .sk-head::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: calc(clamp(24px, 3.5vw, 44px) * -0.5);
+      height: 1px;
+      background: rgba(16, 22, 29, 0.16);
+      transform-origin: left;
+      animation: gl-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 20% entry 90%;
+    }
+    @keyframes gl-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    .gl-org, .sk-fact, .gl-cert, .gl-pr, .sk-entry {
+      animation: gl-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+    @keyframes gl-rise { from { opacity: 0; translate: 0 34px; } to { opacity: 1; translate: 0 0; } }
+  }
+}

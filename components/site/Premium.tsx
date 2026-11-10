@@ -163,10 +163,12 @@ export function Premium({ sections, email, resumeHref, github, linkedin }: Premi
 
   return (
     <>
+      {/* Removed on request: the floating "Quick menu" button. Ctrl/⌘ + K still opens the menu.
       <button type="button" className="gl-kbd" onClick={() => setOpen(true)} aria-label="Open quick menu">
         <span>Quick menu</span>
         <kbd>⌘ / Ctrl K</kbd>
       </button>
+      */}
 
       {open ? (
         <div className="gl-palette" role="dialog" aria-modal="true" aria-label="Quick menu" onMouseDown={() => setOpen(false)}>
