@@ -1508,6 +1508,8 @@ main > .sk-section { padding-top: clamp(36px, 4.6vw, 64px); padding-bottom: clam
   -webkit-text-stroke: 1.4px var(--ink);
 }
 .gl-marquee__track[data-tone="outline"] b { -webkit-text-stroke: 0; }
+  color: rgba(16, 22, 29, 0.28);
+}
 
 /* Ring of text around the portrait */
 .sk-portrait { position: relative; }
@@ -1553,5 +1555,73 @@ main > .sk-section { padding-top: clamp(36px, 4.6vw, 64px); padding-bottom: clam
       animation-range: entry 0% entry 40%;
     }
     @keyframes gl-fade-in { from { opacity: 0; } }
+  }
+}
+
+/* Email: letters ripple on hover */
+.gl-wave { display: inline-flex; flex-wrap: wrap; }
+.gl-wave i {
+  display: inline-block;
+  font-style: normal;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s;
+  transition-delay: calc(var(--i, 0) * 18ms);
+}
+.gl-wave:hover i { transform: translateY(-0.14em); color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .gl-wave i { transition: none; } }
+
+/* Footer wordmark */
+.gl-wordmark {
+  margin: 0 auto;
+  max-width: var(--max, 1200px);
+  padding: clamp(8px, 2vw, 24px) var(--gutter, 24px) 0;
+  font-size: clamp(3.5rem, 15.5vw, 15rem);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  color: rgba(16, 22, 29, 0.09);
+  user-select: none;
+  transition: color 0.6s var(--ease);
+}
+.sk-footer:hover .gl-wordmark { color: rgba(16, 22, 29, 0.16); }
+
+
+/* Keep the oversized footer signature inside the viewport on narrow screens. */
+.gl-wordmark {
+  font-size: clamp(3rem, 11.5vw, 12rem);
+}
+
+@media (max-width: 600px) {
+  .gl-wordmark {
+    font-size: clamp(2.1rem, 10.2vw, 3.8rem);
+    letter-spacing: -0.06em;
+  }
+}
+
+/* Every new motion layer must honour the visitor's system preference. */
+@media (prefers-reduced-motion: reduce) {
+  .sk-hero h1 .gl-letters i,
+  .sk-h2[data-split] .gl-w > span,
+  .gl-wave i,
+  .gl-wordmark {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .sk-h2[data-split] .gl-w > span,
+  .gl-wave i {
+    transform: none !important;
+  }
+
+  .gl-marquee__track {
+    transform: none !important;
+  }
+
+  .gl-ring,
+  .sk-portrait__signal {
+    rotate: none !important;
+    translate: none !important;
+    transform: none !important;
   }
 }

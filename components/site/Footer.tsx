@@ -4,6 +4,9 @@ export function SiteFooter({ name }: { name: string }) {
   return (
     <footer className="sk-footer">
       <BackToTop />
+      <p className="gl-wordmark" aria-hidden="true">
+        {name}
+      </p>
       <div className="sk-footer__inner">
         <span>
           © {new Date().getFullYear()} {name}

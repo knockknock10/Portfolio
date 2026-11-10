@@ -28,8 +28,12 @@ export function Contact({ email, location, links }: ContactProps) {
             LinkedIn and résumé are below.
           </p>
           {email ? (
-            <a className="sk-email" href={`mailto:${email}`}>
-              {email}
+            <a className="sk-email gl-wave" href={`mailto:${email}`} aria-label={email}>
+              {[...email].map((character, index) => (
+                <i key={index} aria-hidden="true" style={{ "--i": index } as React.CSSProperties}>
+                  {character}
+                </i>
+              ))}
             </a>
           ) : null}
         </Reveal>
