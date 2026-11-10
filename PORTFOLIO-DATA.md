@@ -3062,14 +3062,103 @@ The entries below describe work I have done outside my personal projects. Where 
 
 ## SECTION 11 — CERTIFICATIONS
 
-These entries appear in the supplied résumé records. They are shown as self-reported credentials until a certificate file or issuer verification URL is added. No course-certificate scans or verification URLs are currently hosted in this repository.
+Source: certificate files supplied by the owner and the owner's Credly profile (https://www.credly.com/users/sanjeev-kumar.390a21e2).
 
 ~~~json
 [
-  {"title":"CS50's Introduction to Programming with Python","issuer":"Harvard University","issueDate":"2026","expiryDate":"MISSING","credentialId":"MISSING","credentialUrl":"MISSING","skillsCovered":["Python","Programming fundamentals"],"badgeImage":"MISSING","certificateImage":"MISSING","verificationStatus":"self-reported"},
-  {"title":"Alpha — Data Structures & Algorithms with Java","issuer":"Apna College","issueDate":"2024–2025","expiryDate":"MISSING","credentialId":"MISSING","credentialUrl":"MISSING","skillsCovered":["Java","Data structures","Algorithms"],"badgeImage":"MISSING","certificateImage":"MISSING","verificationStatus":"self-reported"},
-  {"title":"MERN Stack Development","issuer":"Apna College","issueDate":"2024–2025","expiryDate":"MISSING","credentialId":"MISSING","credentialUrl":"MISSING","skillsCovered":["MongoDB","Express","React","Node.js"],"badgeImage":"MISSING","certificateImage":"MISSING","verificationStatus":"self-reported"},
-  {"title":"SQL (Intermediate)","issuer":"HackerRank","issueDate":"2025","expiryDate":"MISSING","credentialId":"MISSING","credentialUrl":"MISSING","skillsCovered":["SQL"],"badgeImage":"MISSING","certificateImage":"MISSING","verificationStatus":"self-reported"}
+  {
+    "title": "MongoDB Associate Developer",
+    "issuer": "MongoDB",
+    "issueDate": "May 2026",
+    "credentialUrl": "https://www.credly.com/go/uARglSeS",
+    "verificationStatus": "verified",
+    "skillsCovered": [
+      "MongoDB",
+      "Data modeling",
+      "CRUD",
+      "Indexes"
+    ],
+    "certificateImage": "certificates/mongodb-associate-developer.png"
+  },
+  {
+    "title": "Red Hat System Administration I (RH124)",
+    "issuer": "Red Hat",
+    "issueDate": "Sep 2026",
+    "credentialUrl": "https://www.credly.com/badges/2b5e34f7-035e-45b1-b233-8b913130270a",
+    "verificationStatus": "verified",
+    "skillsCovered": [
+      "Linux",
+      "Command line",
+      "Users and permissions"
+    ],
+    "certificateImage": "certificates/red-hat-rh124.png"
+  },
+  {
+    "title": "Alpha: DSA with Java",
+    "issuer": "Apna College",
+    "credentialId": "6809c2aa00d234587305abd7",
+    "skillsCovered": [
+      "Java",
+      "Data structures",
+      "Algorithms"
+    ],
+    "certificateImage": "certificates/apna-college-dsa-java.png"
+  },
+  {
+    "title": "Delta: Full Stack Web Development",
+    "issuer": "Apna College",
+    "credentialId": "6a2923dba330191a760e9262",
+    "skillsCovered": [
+      "React",
+      "Node.js",
+      "MongoDB",
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "certificateImage": "certificates/apna-college-full-stack.png"
+  },
+  {
+    "title": "Set Up a Google Cloud Network",
+    "issuer": "Google Cloud",
+    "issueDate": "May 2026",
+    "credentialUrl": "https://www.credly.com/users/sanjeev-kumar.390a21e2",
+    "skillsCovered": [
+      "Google Cloud",
+      "Networking"
+    ]
+  },
+  {
+    "title": "Use Machine Learning APIs on Google Cloud",
+    "issuer": "Google Cloud",
+    "issueDate": "May 2026",
+    "credentialUrl": "https://www.credly.com/users/sanjeev-kumar.390a21e2",
+    "skillsCovered": [
+      "Google Cloud",
+      "Machine learning APIs"
+    ]
+  },
+  {
+    "title": "AWS Knowledge: Cloud Essentials",
+    "issuer": "Amazon Web Services",
+    "issueDate": "May 2026",
+    "credentialUrl": "https://www.credly.com/users/sanjeev-kumar.390a21e2",
+    "skillsCovered": [
+      "AWS",
+      "Cloud basics"
+    ]
+  },
+  {
+    "title": "MongoDB Basics for Students",
+    "issuer": "MongoDB",
+    "issueDate": "Apr 2026",
+    "credentialUrl": "https://www.credly.com/users/sanjeev-kumar.390a21e2",
+    "skillsCovered": [
+      "MongoDB"
+    ]
+  },
+  {"title":"CS50's Introduction to Programming with Python","issuer":"Harvard University","issueDate":"2026","skillsCovered":["Python","Programming fundamentals"],"verificationStatus":"self-reported"},
+  {"title":"SQL (Intermediate)","issuer":"HackerRank","issueDate":"2025","skillsCovered":["SQL"],"verificationStatus":"self-reported"}
 ]
 ~~~
 

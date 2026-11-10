@@ -8,6 +8,9 @@ on:
     branches:
       - main
   workflow_dispatch:
+  schedule:
+    # Rebuild daily so new Credly badges appear without a code change.
+    - cron: "17 3 * * *"
 
 permissions:
   contents: read
@@ -35,6 +38,10 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Refresh Credly badges
+        continue-on-error: true
+        run: node scripts/sync-credly.mjs
 
       - name: Lint
         run: npm run lint
@@ -100,7 +107,7 @@ jobs:
 
   deploy:
     name: Publish GitHub Pages
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
     needs: build
     runs-on: ubuntu-latest
     permissions:
