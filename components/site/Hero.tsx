@@ -142,6 +142,7 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts: bui
 
           <div className="sk-portrait" data-tilt>
             <div className="sk-portrait__shape" aria-hidden="true" />
+            {/* Removed on request: the rotating text ring beside the portrait.
             <svg className="gl-ring" viewBox="0 0 200 200" aria-hidden="true">
               <defs>
                 <path id="gl-ring-path" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
@@ -150,6 +151,7 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts: bui
                 <textPath href="#gl-ring-path">Open to internships · Backend · Open source · Speech research · </textPath>
               </text>
             </svg>
+            */}
             <div className="sk-portrait__photo">
               <img
                 src={publicUrl("/images/sanjeev-portrait.webp")}
