@@ -24,7 +24,7 @@ export function Kinetic() {
                 if (!entry.isIntersecting) continue
                 const heading = entry.target as HTMLElement
                 heading.dataset.in = "true"
-                observer.unobserve(heading)
+                observer?.unobserve(heading)
               }
             },
             { threshold: 0.35 },
