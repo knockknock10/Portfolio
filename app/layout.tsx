@@ -33,13 +33,30 @@ export const metadata: Metadata = {
     type: "website",
     title: brandName + " | Software engineer",
     description,
+    images: [{ url: publicUrl("/images/og.png"), width: 1200, height: 630, alt: brandName + ", software engineer" }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: brandName + " | Software engineer",
     description,
+    images: [publicUrl("/images/og.png")],
   },
   icons: { icon: publicUrl("/favicon.svg") },
+}
+
+// Structured data so search engines and link previews know who this page is about.
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Sanjeev Kumar",
+  jobTitle: "Software engineer (student)",
+  affiliation: { "@type": "CollegeOrUniversity", name: "SRM University AP" },
+  url: "https://knockknock10.github.io/Portfolio/",
+  sameAs: [
+    "https://github.com/knockknock10",
+    "https://www.linkedin.com/in/sanjeev-kumar-ba567133a/",
+  ],
+  knowsAbout: ["Backend engineering", "Open source", "Speech watermarking", "Go", "Java", "Python"],
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -55,6 +72,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
       </head>
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }} />
         {/* Earlier version: a plain curtain
         <div className="gl-intro" aria-hidden="true"><span>Sanjeev Kumar</span></div> */}
         <Intro />

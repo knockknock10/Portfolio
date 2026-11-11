@@ -1960,3 +1960,57 @@ html:not([data-intro="play"]) .gl-open { display: none; }
   .gl-marquee { transform: skewX(calc(var(--vel, 0) * -0.18deg)); }
   .sk-head { will-change: translate; }
 }
+
+/* ---- About: lead paragraph + working habits ---- */
+.gl-about-prose > p:first-child {
+  font-size: clamp(1.25rem, 1.9vw, 1.6rem);
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+}
+.gl-habits {
+  list-style: none;
+  margin: clamp(32px, 5vw, 56px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line, rgba(22, 26, 32, .16));
+}
+.gl-habit {
+  position: relative;
+  padding: 26px 28px 30px 0;
+  transition: transform .5s cubic-bezier(.2, .7, .2, 1);
+}
+.gl-habit + .gl-habit { padding-left: 28px; border-left: 1px solid var(--line, rgba(22, 26, 32, .16)); }
+.gl-habit__n {
+  font: 500 12px/1 ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: .08em;
+  color: #c4622a;
+}
+.gl-habit h3 {
+  margin: 14px 0 8px;
+  font-size: clamp(1.2rem, 1.6vw, 1.5rem);
+  letter-spacing: -0.02em;
+  transition: transform .5s cubic-bezier(.2, .7, .2, 1);
+}
+.gl-habit p { margin: 0; max-width: 32ch; color: var(--muted, #5b6470); line-height: 1.55; }
+.gl-habit::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -1px;
+  height: 2px;
+  background: #c4622a;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .6s cubic-bezier(.2, .7, .2, 1);
+}
+.gl-habit + .gl-habit::before { left: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .gl-habit:hover::before { transform: scaleX(1); }
+  .gl-habit:hover h3 { transform: translateX(6px); }
+}
+@media (max-width: 760px) {
+  .gl-habits { grid-template-columns: 1fr; }
+  .gl-habit, .gl-habit + .gl-habit { padding: 22px 0; border-left: 0; border-bottom: 1px solid var(--line, rgba(22, 26, 32, .16)); }
+}
