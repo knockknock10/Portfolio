@@ -8,7 +8,7 @@ import { useEffect, useRef } from "react"
  * disturbs it with ripples and scrolling tilts the camera. Plain lines, no fills or gradients.
  * Pauses when off-screen or hidden; draws a single still frame for reduced motion.
  */
-export function WaveField() {
+export function WaveField({ ink = "16, 22, 29", accent = "210, 68, 30" }: { ink?: string; accent?: string } = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -95,9 +95,9 @@ export function WaveField() {
         }
         const alpha = 0.05 + depth * 0.26
         if (touched > 0.32) {
-          ctx.strokeStyle = `rgba(210, 68, 30, ${Math.min(0.75, alpha + touched * 0.35)})`
+          ctx.strokeStyle = `rgba(${accent}, ${Math.min(0.75, alpha + touched * 0.35)})`
         } else {
-          ctx.strokeStyle = `rgba(16, 22, 29, ${alpha})`
+          ctx.strokeStyle = `rgba(${ink}, ${alpha})`
         }
         ctx.lineWidth = 0.7 + depth * 1.1
         ctx.stroke()

@@ -1784,9 +1784,9 @@ html[data-intro="play"] .gl-intro span {
   100% { opacity: 0; transform: translateY(-30%); }
 }
 /* Hero entrance waits for the curtain */
-html[data-intro="play"] .sk-hero h1 .gl-letters i { animation-delay: calc(var(--i, 0) * 55ms + 1900ms); }
+html[data-intro="play"] .sk-hero h1 .gl-letters i,
 html[data-intro="play"] .sk-hero__grid > div:first-child,
-html[data-intro="play"] .sk-portrait { animation-delay: 1.9s; }
+html[data-intro="play"] .sk-portrait { animation-play-state: paused; }
 
 .gl-statement { padding: clamp(64px, 9vw, 128px) 0; }
 .gl-statement__text {
@@ -1809,3 +1809,80 @@ html[data-intro="play"] .sk-portrait { animation-delay: 1.9s; }
   .gl-intro { display: none !important; }
   html { transition: none; }
 }
+
+/* Opening screen */
+.gl-open {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  padding: clamp(20px, 3vw, 40px);
+  color: #f1ede5;
+  background: #1c1b17;
+  cursor: pointer;
+  transition: transform 0.95s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.gl-open[data-leaving="true"] { transform: translateY(-100%); }
+.gl-open .gl-wavefield { z-index: 0; opacity: 0.9; }
+.gl-open > *:not(canvas) { position: relative; z-index: 1; }
+.gl-open__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.gl-open__name {
+  align-self: end;
+  margin: 0;
+  font-size: clamp(3.6rem, 13vw, 12.5rem);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+}
+.gl-open__line { display: block; overflow: hidden; padding-bottom: 0.08em; }
+.gl-open__line i {
+  display: inline-block;
+  font-style: normal;
+  animation: gl-letter-up 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 60ms + 150ms);
+}
+.gl-open__role {
+  margin: clamp(14px, 2vw, 26px) 0 clamp(18px, 3vw, 40px);
+  font-size: clamp(0.95rem, 1.5vw, 1.25rem);
+  opacity: 0.75;
+}
+.gl-open__bottom {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(14px, 3vw, 40px);
+}
+.gl-open__count {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.gl-open__bar { height: 1px; background: rgba(241, 237, 229, 0.22); }
+.gl-open__bar b { display: block; height: 100%; background: #f1ede5; transform-origin: left; }
+.gl-open__enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  font: inherit;
+  font-size: 0.95rem;
+  color: #1c1b17;
+  background: #f1ede5;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gl-open__enter:hover { transform: translateY(2px); }
+html:not([data-intro="play"]) .gl-open { display: none; }
+@media (prefers-reduced-motion: reduce) { .gl-open { display: none !important; } }

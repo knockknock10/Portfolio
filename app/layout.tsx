@@ -1,3 +1,4 @@
+import { Intro } from "@/components/site/Intro"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { getContent } from "@/lib/content.server"
@@ -54,9 +55,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
       </head>
       <body>
-        <div className="gl-intro" aria-hidden="true">
-          <span>Sanjeev Kumar</span>
-        </div>
+        {/* Earlier version: a plain curtain
+        <div className="gl-intro" aria-hidden="true"><span>Sanjeev Kumar</span></div> */}
+        <Intro />
         <a className="sk-skip" href="#main-content">
           Skip to content
         </a>
