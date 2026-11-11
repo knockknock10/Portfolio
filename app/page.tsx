@@ -9,6 +9,7 @@ import { Interactions } from "@/components/site/Interactions"
 import { Premium } from "@/components/site/Premium"
 import { Marquee } from "@/components/site/Marquee"
 import { Kinetic } from "@/components/site/Kinetic"
+import { Motion } from "@/components/site/Motion"
 import { SideRail } from "@/components/site/SideRail"
 import { LetterField } from "@/components/site/LetterField"
 import { PortraitDepth } from "@/components/site/PortraitDepth"
@@ -139,6 +140,7 @@ export default async function HomePage() {
       <LiquidField />
       <Interactions />
       <Kinetic />
+      <Motion />
       <SideRail sections={links} />
       <LetterField />
       <PortraitDepth />

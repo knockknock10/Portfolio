@@ -1935,3 +1935,28 @@ html:not([data-intro="play"]) .gl-open { display: none; }
 .gl-localtime strong { color: #f1ede5; }
 .gl-rail button[data-active="true"] .gl-rail__mark { color: #fff; }
 .gl-wordmark { width: min(1160px, calc(100% - 48px)); max-width: none; padding-inline: 0; }
+
+/* ---- Pointer ring (fine pointers only; see Motion.tsx) ---- */
+.gl-ring-cur { display: none; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .gl-ring-cur {
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9998;
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s ease, background-color .25s ease;
+  }
+  html.gl-cur-on .gl-ring-cur { opacity: .85; }
+  .gl-ring-cur.is-link { background: rgba(255, 255, 255, .22); }
+  /* marquee leans into scroll speed */
+  .gl-marquee { transform: skewX(calc(var(--vel, 0) * -0.18deg)); }
+  .sk-head { will-change: translate; }
+}
