@@ -1,3 +1,4 @@
+import { LocalTime } from "./LocalTime"
 import { ArrowUpRight } from "./icons"
 import { Reveal } from "./Reveal"
 import { Wave } from "./Wave"
@@ -50,6 +51,7 @@ export function Contact({ email, location, links }: ContactProps) {
             ))}
           </div>
           {location ? <p className="sk-contact__where">Based in {location}.</p> : null}
+          <LocalTime />
         </Reveal>
       </div>
     </section>
