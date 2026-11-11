@@ -1994,7 +1994,7 @@ html:not([data-intro="play"]) .gl-open { display: none; }
   letter-spacing: -0.02em;
   transition: transform .5s cubic-bezier(.2, .7, .2, 1);
 }
-.gl-habit p { margin: 0; max-width: 32ch; color: var(--muted, #5b6470); line-height: 1.55; }
+.gl-habit p { margin: 0; max-width: 32ch; color: var(--ink-2); line-height: 1.55; }
 .gl-habit::before {
   content: "";
   position: absolute;
