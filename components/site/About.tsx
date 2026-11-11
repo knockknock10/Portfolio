@@ -19,7 +19,7 @@ export function About({ location }: { location: string | null }) {
 
         <div className="sk-about">
           <Reveal>
-            <div className="sk-prose">
+            <div className="sk-prose gl-about-prose">
               {/* Previous About copy retained for reference:
 <p>
                 I&apos;m a third-year B.Tech student in Computer Science and Engineering at SRM University AP. Most of what
@@ -81,6 +81,21 @@ export function About({ location }: { location: string | null }) {
             </div>
           </Reveal>
         </div>
+
+        {/* Working habits, taken from the copy above and laid out as a scannable row. */}
+        <ol className="gl-habits">
+          {[
+            ["Read the code", "Other people's codebases teach faster than tutorials. I read before I change."],
+            ["Test the edges", "A demo that works once is not done. I look for the input that breaks it."],
+            ["Say what it shows", "Results get reported with their limits, not rounded up."],
+          ].map(([title, body], i) => (
+            <li key={title} className="gl-habit">
+              <span className="gl-habit__n">{String(i + 1).padStart(2, "0")}</span>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )
