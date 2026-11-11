@@ -1749,3 +1749,63 @@ html .sk-portrait[data-tilt] {
   }
   [data-depth="true"] { box-shadow: 0 30px 50px -30px rgba(16, 22, 29, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.9); }
 }
+
+/* ------------------------------------------------------------------ */
+/* Opening curtain, statement, ambient colour                          */
+/* ------------------------------------------------------------------ */
+
+html { transition: background-color 1.4s ease; }
+
+.gl-intro { display: none; }
+html[data-intro="play"] .gl-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: var(--paper);
+  animation: gl-curtain 0.95s cubic-bezier(0.76, 0, 0.24, 1) 1.25s both;
+  pointer-events: none;
+}
+html[data-intro="play"] .gl-intro span {
+  overflow: hidden;
+  font-size: clamp(1.6rem, 4.2vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  animation: gl-intro-text 1.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes gl-curtain {
+  to { transform: translateY(-100%); visibility: hidden; }
+}
+@keyframes gl-intro-text {
+  0% { opacity: 0; transform: translateY(40%); }
+  35%, 80% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-30%); }
+}
+/* Hero entrance waits for the curtain */
+html[data-intro="play"] .sk-hero h1 .gl-letters i { animation-delay: calc(var(--i, 0) * 55ms + 1900ms); }
+html[data-intro="play"] .sk-hero__grid > div:first-child,
+html[data-intro="play"] .sk-portrait { animation-delay: 1.9s; }
+
+.gl-statement { padding: clamp(64px, 9vw, 128px) 0; }
+.gl-statement__text {
+  max-width: 22em;
+  margin: 0;
+  font-size: clamp(1.9rem, 4.6vw, 4.1rem);
+  font-weight: 560;
+  line-height: 1.12;
+  letter-spacing: -0.032em;
+  text-wrap: balance;
+}
+.gl-statement__text span {
+  --lit: 1;
+  color: rgba(16, 22, 29, calc(0.14 + var(--lit) * 0.86));
+}
+.gl-statement__text span[data-mark="true"] {
+  color: color-mix(in srgb, var(--accent) calc(var(--lit) * 100%), rgba(16, 22, 29, 0.14));
+}
+@media (prefers-reduced-motion: reduce) {
+  .gl-intro { display: none !important; }
+  html { transition: none; }
+}

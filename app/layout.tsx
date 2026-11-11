@@ -43,8 +43,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={interTight.variable}>
+    <html lang="en" className={interTight.variable} suppressHydrationWarning>
+      <head>
+        {/* Plays the short opening curtain once per browser session; no-op without JS or storage. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(!sessionStorage.getItem('gl-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.dataset.intro='play';sessionStorage.setItem('gl-intro','1')}}catch(e){}",
+          }}
+        />
+      </head>
       <body>
+        <div className="gl-intro" aria-hidden="true">
+          <span>Sanjeev Kumar</span>
+        </div>
         <a className="sk-skip" href="#main-content">
           Skip to content
         </a>

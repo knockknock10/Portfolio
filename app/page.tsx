@@ -13,6 +13,8 @@ import { SideRail } from "@/components/site/SideRail"
 import { LetterField } from "@/components/site/LetterField"
 import { PortraitDepth } from "@/components/site/PortraitDepth"
 import { DepthCards } from "@/components/site/DepthCards"
+import { Statement } from "@/components/site/Statement"
+import { AmbientTone } from "@/components/site/AmbientTone"
 // import { CursorLens } from "@/components/site/CursorLens" // Preserved, intentionally inactive: no pointer-following cursor effect.
 import { Certificates, type CertificateView } from "@/components/site/Certificates"
 import { SkillsGlass } from "@/components/site/SkillsGlass"
@@ -141,6 +143,7 @@ export default async function HomePage() {
       <LetterField />
       <PortraitDepth />
       <DepthCards />
+      <AmbientTone />
       {/* <CursorLens /> Preserved but disabled: no pointer-following lens. */}
       <Header name={name} links={navLinks} resumeHref={resumeHref} email={email} />
       <Premium
@@ -155,6 +158,10 @@ export default async function HomePage() {
         <Marquee
           projects={upstream.available ? upstream.projects.map((project) => project.name) : []}
           stack={["Go", "Java", "C++", "Python", "React", "Node.js", "MongoDB", "PostgreSQL", "Docker", "Linux"]}
+        />
+        <Statement
+          label="How I like to work"
+          text="I like going *beyond a working demo*: understanding the data flow, testing *edge cases*, and being clear about what the results do and do not show."
         />
         <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
         <Research paper={paper} other={otherResearch} />
