@@ -10,6 +10,7 @@ import { Premium } from "@/components/site/Premium"
 import { Marquee } from "@/components/site/Marquee"
 import { Kinetic } from "@/components/site/Kinetic"
 import { Motion } from "@/components/site/Motion"
+import { Terminal } from "@/components/site/Terminal"
 import { SideRail } from "@/components/site/SideRail"
 import { LetterField } from "@/components/site/LetterField"
 import { PortraitDepth } from "@/components/site/PortraitDepth"
@@ -166,6 +167,12 @@ export default async function HomePage() {
           text="I like going *beyond a working demo*: understanding the data flow, testing *edge cases*, and being clear about what the results do and do not show."
         />
         <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
+        <Terminal
+          email={email}
+          github={github}
+          resumeHref={resumeHref}
+          snapshot={upstream.available ? { merged: upstream.mergedCount, open: upstream.openCount, orgs: upstream.projectCount, repos: typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null } : null}
+        />
         <Research paper={paper} other={otherResearch} />
         {/*
           Previous OpenSource section retained for reference, not rendered:
