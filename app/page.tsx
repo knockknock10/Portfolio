@@ -1,6 +1,6 @@
 import { Header, type NavLink } from "@/components/site/Header"
 import { Hero, type Fact } from "@/components/site/Hero"
-import { Work } from "@/components/site/Work"
+// import { Work } from "@/components/site/Work" // replaced by ProjectScroll; kept for reference
 import { Research } from "@/components/site/Research"
 // import { OpenSource } from "@/components/site/OpenSource"
 import { OpenSourceGlass } from "@/components/site/OpenSourceGlass"
@@ -10,6 +10,7 @@ import { Premium } from "@/components/site/Premium"
 import { Marquee } from "@/components/site/Marquee"
 import { Kinetic } from "@/components/site/Kinetic"
 import { Motion } from "@/components/site/Motion"
+import { ProjectScroll } from "@/components/site/ProjectScroll"
 import { Terminal } from "@/components/site/Terminal"
 import { Ask } from "@/components/site/Ask"
 import { SideRail } from "@/components/site/SideRail"
@@ -167,7 +168,9 @@ export default async function HomePage() {
           label="How I like to work"
           text="I like going *beyond a working demo*: understanding the data flow, testing *edge cases*, and being clear about what the results do and do not show."
         />
-        <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
+        {/* Previous workbench kept for reference, replaced by the scroll showcase:
+        <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} /> */}
+        <ProjectScroll repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
         <Ask />
         <Terminal
           email={email}
