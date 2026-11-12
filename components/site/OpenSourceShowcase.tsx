@@ -21,7 +21,6 @@ export function OpenSourceShowcase({ data: snapshot, profileUrl }: { data: Upstr
   const live = useLiveGithub()
   const data = live?.upstream ?? snapshot
   const best = useMemo(() => [...data.projects].sort((a, b) => b.mergedCount - a.mergedCount).slice(0, 3), [data.projects])
-  const more = Math.max(0, data.projects.length - best.length)
 
   return (
     <section className="gl-oss" id="open-source" aria-labelledby="oss-title">
@@ -30,7 +29,7 @@ export function OpenSourceShowcase({ data: snapshot, profileUrl }: { data: Upstr
           <p className="sk-eyebrow">Open source</p>
           <h2 id="oss-title">Fixes that got merged.</h2>
           <p>
-            Pull requests I have sent to projects other teams maintain. Below are the three where most of my work landed.
+            Pull requests I have sent to projects other teams maintain. The three where most of my work landed come first, then every other project.
             Each one links straight to the review, so you can read the code and the feedback yourself.
           </p>
         </header>
@@ -72,8 +71,31 @@ export function OpenSourceShowcase({ data: snapshot, profileUrl }: { data: Upstr
               ))}
             </div>
 
+            <div className="gl-oss__wall fx-clip">
+              <h3>Every project I have contributed to</h3>
+              <ul>
+                {data.own ? (
+                  <li>
+                    <a href={`https://github.com/${data.own.owner}`} target="_blank" rel="noreferrer" data-own="true">
+                      <OrgLogo owner={data.own.owner} name="Aevor" size={56} />
+                      <b>Aevor</b>
+                      <span>My organisation · {data.own.mergedCount} merged</span>
+                    </a>
+                  </li>
+                ) : null}
+                {data.projects.map((project) => (
+                  <li key={project.owner}>
+                    <a href={project.searchUrl} target="_blank" rel="noreferrer">
+                      <OrgLogo owner={project.owner} name={project.name} size={56} />
+                      <b>{project.name}</b>
+                      <span>{project.mergedCount ? `${project.mergedCount} merged` : ""}{project.mergedCount && project.openCount ? " · " : ""}{project.openCount ? `${project.openCount} open` : ""}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <p className="gl-oss__foot fx-clip">
-              {more > 0 ? `Plus ${more} more projects. ` : ""}
               <a href={profileUrl} target="_blank" rel="noreferrer">The full history is on GitHub ↗</a>
               {data.own ? <span> · My own organisation, Aevor, has {data.own.mergedCount} merged pull requests of its own.</span> : null}
             </p>

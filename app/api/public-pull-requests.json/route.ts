@@ -103,6 +103,8 @@ function normalizePullRequest(item: GitHubSearchPullRequest): PublicPullRequest 
   const repository = repositoryParts[2]
   // The portfolio should highlight contributions to other owners' projects, not PRs in Sanjeev's own repositories.
   if (owner.toLowerCase() === "knockknock10") return null
+  // Classmates' and personal repositories are never published on the site.
+  if (owner.toLowerCase() === "pavanimandla09") return null
   const mergedAt = item.pull_request?.merged_at ?? null
 
   return {

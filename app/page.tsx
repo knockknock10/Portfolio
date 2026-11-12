@@ -28,7 +28,8 @@ import { getCertificationsData } from "@/lib/certifications"
 import { getCredly } from "@/lib/credly.server"
 import { Experience } from "@/components/site/Experience"
 // import { Skills } from "@/components/site/Skills"
-import { Practice } from "@/components/site/Practice"
+// import { Practice } from "@/components/site/Practice" // replaced by CodingProfiles
+import { CodingProfiles } from "@/components/site/CodingProfiles"
 import { About } from "@/components/site/About"
 import { Contact, type ContactLink } from "@/components/site/Contact"
 import { SiteFooter } from "@/components/site/Footer"
@@ -43,6 +44,7 @@ const links: NavLink[] = [
   { id: "work", label: "Work" },
   { id: "research", label: "Research" },
   { id: "open-source", label: "Open source" },
+  { id: "profiles", label: "Profiles" },
   { id: "experience", label: "Experience" },
   { id: "skills", label: "Skills" },
   { id: "certificates", label: "Certificates" },
@@ -188,6 +190,7 @@ export default async function HomePage() {
         */}
         {/* <OpenSourceGlass data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} /> */}
         <OpenSourceShowcase data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} />
+        <CodingProfiles githubUrl={github ?? "https://github.com/knockknock10"} />
         <Experience internships={internships} />
         {/*
           Previous Skills wrapper retained for reference, not rendered:
@@ -195,9 +198,9 @@ export default async function HomePage() {
             <Practice stats={signals.leetcode} snapshotDate={signals.snapshotDate} />
           </Skills>
         */}
-        <SkillsGlass>
-          <Practice stats={signals.leetcode} snapshotDate={signals.snapshotDate} />
-        </SkillsGlass>
+        <SkillsGlass>{null}</SkillsGlass>
+        {/* Practice moved to CodingProfiles:
+          <Practice stats={signals.leetcode} snapshotDate={signals.snapshotDate} /> */}
         <Certificates items={certificates} profileUrl={credly.profile} syncedAt={credly.syncedAt} />
         <About location={content.contact.location} />
         <Contact email={email} location={content.contact.location} links={contactLinks} />
