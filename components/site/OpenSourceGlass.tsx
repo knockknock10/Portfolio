@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import { CountUp } from "./CountUp"
 import type { UpstreamProject, UpstreamSummary } from "@/lib/upstream.server"
 import { ArrowUpRight } from "./icons"
 import { ContributionGraph } from "./ContributionGraph"
@@ -64,15 +65,15 @@ export function OpenSourceGlass({ data: snapshot, profileUrl }: { data: Upstream
             <Reveal>
               <div className="sk-oss-totals gl-totals">
                 <div className="gl-panel gl-totals__item">
-                  <strong>{data.mergedCount}</strong>
+                  <strong><CountUp value={data.mergedCount} /></strong>
                   <span>pull requests merged</span>
                 </div>
                 <div className="gl-panel gl-totals__item">
-                  <strong>{data.openCount}</strong>
+                  <strong><CountUp value={data.openCount} /></strong>
                   <span>open, in review</span>
                 </div>
                 <div className="gl-panel gl-totals__item">
-                  <strong>{data.projectCount}</strong>
+                  <strong><CountUp value={data.projectCount} /></strong>
                   <span>organisations and projects</span>
                 </div>
               </div>

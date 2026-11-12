@@ -2293,3 +2293,17 @@ html[data-theme="dark"] .gl-ps__browser, html[data-theme="dark"] .gl-ps__flow { 
   .gl-ps__ticks button[data-active="true"] span { opacity: 0; }
   .gl-ps__ticks button:hover span { opacity: 1; transform: none; }
 }
+
+/* Hero leaves the way a product page does: the copy lifts and softens as you scroll past. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sk-hero__grid {
+      animation: gl-hero-out linear both;
+      animation-timeline: view();
+      animation-range: exit 18% exit 92%;
+    }
+    @keyframes gl-hero-out {
+      to { opacity: .0; transform: translateY(-9vh) scale(.965); }
+    }
+  }
+}
