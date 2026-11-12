@@ -169,7 +169,7 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts: bui
               <small>{selected.note}</small>
             </div>
             <div className="sk-portrait__signal sk-portrait__signal--bottom">
-              <span className="sk-portrait__signal-dot" aria-hidden="true" />
+              {/* Status dot removed: no live-style indicators. <span className="sk-portrait__signal-dot" aria-hidden="true" /> */}
               <strong>Building in public</strong>
               <span>Code · research · systems</span>
             </div>

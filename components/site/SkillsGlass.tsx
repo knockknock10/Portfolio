@@ -139,7 +139,8 @@ export function SkillsGlass({ children }: { children?: ReactNode }) {
                 ) : <p className="gl-skills__empty">No matching technology. Try another term.</p>}
               </div>
             ) : (
-              <ul className="gl-skills__items" id="skills-panel" role="tabpanel" aria-labelledby={`tab-${group.id}`} key={group.id}>
+              <div id="skills-panel" role="tabpanel" aria-labelledby={`tab-${group.id}`} key={group.id} style={{ display: "contents" }}>
+              <ul className="gl-skills__items">
                 {group.items.map((item) => (
                   <SkillTile key={item} item={item} category={group.label} learning={false}
                     selected={selected?.name === item && selected.category === group.label} onSelect={choose} />
@@ -149,6 +150,7 @@ export function SkillsGlass({ children }: { children?: ReactNode }) {
                     selected={selected?.name === item && selected.category === group.label} onSelect={choose} />
                 ))}
               </ul>
+              </div>
             )}
 
             {selected ? (
