@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react"
 import { useLiveGithub } from "./useLiveGithub"
 import { applyTheme } from "./ThemeToggle"
+import { askKb } from "@/lib/ask-kb"
 import { useLenis } from "@/components/SmoothScrollProvider"
 
 type Line = { kind: "in" | "out" | "dim"; text: string }
@@ -16,7 +17,7 @@ type Props = {
 const PROJECTS = ["Aevor", "CommitHub", "Wandera", "NovaFest", "ConvergenceGuard"]
 const STACK = "Go · Java · C++ · Python · React · Node.js · MongoDB · PostgreSQL · Docker · Linux"
 const SECTIONS = ["work", "research", "open-source", "experience", "skills", "certificates", "about", "contact"]
-const COMMANDS = ["help", "whoami", "projects", "stack", "stats", "contact", "resume", "goto", "theme", "clear"]
+const COMMANDS = ["help", "ask", "whoami", "projects", "stack", "stats", "contact", "resume", "goto", "theme", "clear"]
 const BOOT: Line[] = [
   { kind: "dim", text: "sanjeev@portfolio — type a command, or press a chip below" },
   { kind: "dim", text: "try: whoami · projects · stats · goto work · theme dark" },
@@ -64,8 +65,13 @@ export function Terminal({ email, github, resumeHref, snapshot }: Props) {
     let res: Line[] = []
     switch (name) {
       case "help":
-        res = out(["help      list commands", "whoami    who this is", "projects  things I have built", "stack     tools I use", "stats     live open-source numbers", "contact   ways to reach me", "resume    open the résumé", "goto <section>   jump there", "theme dark|light", "clear"])
+        res = out(["help      list commands", "ask <question>   ask about me", "whoami    who this is", "projects  things I have built", "stack     tools I use", "stats     live open-source numbers", "contact   ways to reach me", "resume    open the résumé", "goto <section>   jump there", "theme dark|light", "clear"])
         break
+      case "ask": {
+        const hit = askKb(rest.join(" "))
+        res = out(hit ? hit.answer : rest.length ? "No answer for that on this site. Try: ask is he open to internships" : "Usage: ask <question>")
+        break
+      }
       case "whoami":
         res = out(["Sanjeev Kumar", "Third-year B.Tech, Computer Science and Engineering, SRM University AP.", "Backend services, open-source contributions, speech-watermarking research."])
         break
