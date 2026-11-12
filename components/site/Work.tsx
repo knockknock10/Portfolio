@@ -10,7 +10,7 @@ import { useLiveGithub } from "./useLiveGithub"
 import { CurvedLineBetween } from "./CurvedLineBetween"
 
 type ProjectLink = { label: string; href: string; primary?: boolean }
-export type Project = {
+type Project = {
   title: string
   status: string
   role?: string
@@ -21,7 +21,7 @@ export type Project = {
   steps?: { title: string; items: string[] }
 }
 
-export const projects: Project[] = [
+const projects: Project[] = [
   {
     title: "Aevor",
     status: "In development",
