@@ -17,10 +17,10 @@ type Props = {
 const PROJECTS = ["Aevor", "CommitHub", "Wandera", "NovaFest", "ConvergenceGuard"]
 const STACK = "Go · Java · C++ · Python · React · Node.js · MongoDB · PostgreSQL · Docker · Linux"
 const SECTIONS = ["work", "research", "open-source", "experience", "skills", "certificates", "about", "contact"]
-const COMMANDS = ["help", "ask", "whoami", "projects", "stack", "stats", "contact", "resume", "goto", "theme", "clear"]
+const COMMANDS = ["help", "ask", "whoami", "projects", "stack", "stats", "contact", "resume", "goto", "clear"]
 const BOOT: Line[] = [
   { kind: "dim", text: "sanjeev@portfolio — type a command, or press a chip below" },
-  { kind: "dim", text: "try: whoami · projects · stats · goto work · theme dark" },
+  { kind: "dim", text: "try: whoami · projects · stats · goto work" },
 ]
 
 export function Terminal({ email, github, resumeHref, snapshot }: Props) {
@@ -65,7 +65,7 @@ export function Terminal({ email, github, resumeHref, snapshot }: Props) {
     let res: Line[] = []
     switch (name) {
       case "help":
-        res = out(["help      list commands", "ask <question>   ask about me", "whoami    who this is", "projects  things I have built", "stack     tools I use", "stats     live open-source numbers", "contact   ways to reach me", "resume    open the résumé", "goto <section>   jump there", "theme dark|light", "clear"])
+        res = out(["help      list commands", "ask <question>   ask about me", "whoami    who this is", "projects  things I have built", "stack     tools I use", "stats     live open-source numbers", "contact   ways to reach me", "resume    open the résumé", "goto <section>   jump there", "clear"])
         break
       case "ask": {
         const hit = askKb(rest.join(" "))
@@ -100,8 +100,7 @@ export function Terminal({ email, github, resumeHref, snapshot }: Props) {
         break
       }
       case "theme":
-        if (arg === "dark" || arg === "light") { applyTheme(arg); res = out(`Theme set to ${arg}.`) }
-        else res = out("Usage: theme dark | theme light")
+        res = out("The site is light only now.")
         break
       case "clear":
         setLines([])
@@ -159,7 +158,7 @@ export function Terminal({ email, github, resumeHref, snapshot }: Props) {
             </label>
           </div>
           <div className="gl-term__chips">
-            {["whoami", "projects", "stats", "stack", "contact", "theme dark"].map((c) => (
+            {["whoami", "projects", "stats", "stack", "contact"].map((c) => (
               <button key={c} type="button" onClick={() => run(c)}>{c}</button>
             ))}
           </div>

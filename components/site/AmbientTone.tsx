@@ -3,15 +3,15 @@
 import { useEffect } from "react"
 
 const TONES: Record<string, string> = {
-  top: "#f1ede5",
-  work: "#efebe3",
-  research: "#e8e8e5",
-  "open-source": "#edefe9",
-  experience: "#f1ede5",
-  skills: "#ebe9ee",
-  certificates: "#f0ece4",
-  about: "#f1ede5",
-  contact: "#e9e7e3",
+  top: "#f5f5f7",
+  work: "#f2f4f8",
+  research: "#eef1f8",
+  "open-source": "#f1f5f4",
+  experience: "#f6f4f9",
+  skills: "#f0f3f8",
+  certificates: "#f6f5f2",
+  about: "#f4f6f8",
+  contact: "#eef0f5",
 }
 
 /** The page colour moves a few shades from one section to the next, so scrolling has a mood. */
