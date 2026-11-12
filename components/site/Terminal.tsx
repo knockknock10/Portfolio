@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react"
 import { useLiveGithub } from "./useLiveGithub"
-import { applyTheme } from "./ThemeToggle"
+// import { applyTheme } from "./ThemeToggle" // dark theme retired
 import { askKb } from "@/lib/ask-kb"
 import { useLenis } from "@/components/SmoothScrollProvider"
 
