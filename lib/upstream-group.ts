@@ -11,7 +11,9 @@ const OWN_OWNERS = new Set(["aevor", "knockknock10"])
 const PERSONAL_OWNER_PATTERNS = [/^ap\d+$/i]
 
 /** Owners that are never shown or counted on the site (private choice: classmates' and personal repositories). */
-const EXCLUDED_OWNERS = new Set(["pavanimandla09"])
+// Owner exclusion now happens in app/api/public-pull-requests.json/route.ts at build time,
+// so the name is never shipped in client code.
+const EXCLUDED_OWNERS = new Set<string>()
 
 /** Friendlier names for a few owners. Anything not listed is shown exactly as it appears on GitHub. */
 const DISPLAY_NAMES: Record<string, string> = {
