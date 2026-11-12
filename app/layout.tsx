@@ -63,6 +63,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={interTight.variable} suppressHydrationWarning>
       <head>
+        {/* Picks the saved (or system) theme before first paint so there is no flash. */}
+        <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem("gl-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.dataset.theme=t}catch(e){}` }} />
         {/* Plays the short opening curtain once per browser session; no-op without JS or storage. */}
         <script
           dangerouslySetInnerHTML={{

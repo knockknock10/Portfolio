@@ -2014,3 +2014,136 @@ html:not([data-intro="play"]) .gl-open { display: none; }
   .gl-habits { grid-template-columns: 1fr; }
   .gl-habit, .gl-habit + .gl-habit { padding: 22px 0; border-left: 0; border-bottom: 1px solid var(--line, rgba(22, 26, 32, .16)); }
 }
+
+/* ======================= Dark theme =======================
+   Warm charcoal, not pure black. Set by ThemeToggle / the head script. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #14130f;
+  --paper-2: #1b1a15;
+  --surface: rgba(38, 36, 30, 0.62);
+  --ink: #efeae0;
+  --ink-2: #cfc9bb;
+  --muted: #a39d8f;
+  --rule: rgba(239, 234, 224, 0.14);
+  --accent: #e08a62;
+  --accent-deep: #f0a47f;
+  --glass: rgba(40, 38, 32, 0.55);
+  --glass-strong: rgba(48, 45, 38, 0.74);
+  --glass-edge: rgba(255, 255, 255, 0.09);
+  --glass-shade: rgba(0, 0, 0, 0.45);
+  --blob-a: #2b3a33;
+  --blob-b: #4a3226;
+  --blob-c: #2c2f40;
+  --blob-d: #403824;
+  --blob-e: #3d2c2b;
+  --dark: #0d0c09;
+  --dark-2: #171611;
+}
+html[data-theme="dark"] body { background: var(--paper); color: var(--ink); }
+html[data-theme="dark"] .gl-open { background: #0d0c09; }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }
+html { transition: background-color .5s ease; }
+
+.gl-theme {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: var(--glass);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform .4s cubic-bezier(.22, 1, .36, 1), background-color .3s;
+}
+.gl-theme:hover { transform: rotate(18deg) scale(1.06); background: var(--glass-strong); }
+.gl-theme:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Dark surfaces for panels that hardcode light fills (generated from the light rules). */
+html[data-theme="dark"] .sk-chip { background: rgba(255,255,255,0.083); }
+html[data-theme="dark"] .sk-portrait__shape { background: rgba(255,255,255,0.060); }
+html[data-theme="dark"] .gl-logo { background: rgba(255,255,255,0.128); }
+html[data-theme="dark"] .gl-chip-button { background: rgba(255,255,255,0.090); }
+html[data-theme="dark"] .gl-pr:hover { background: rgba(255,255,255,0.075); }
+html[data-theme="dark"] .gl-tabs button { background: rgba(255,255,255,0.083); }
+html[data-theme="dark"] .gl-tabs button[aria-selected="true"] small { background: rgba(255,255,255,0.030); }
+html[data-theme="dark"] .gl-skill { background: rgba(255,255,255,0.063); }
+html[data-theme="dark"] .gl-cert__preview { background: rgba(255,255,255,0.090); }
+html[data-theme="dark"] .sk-project__visual { background: rgba(255,255,255,0.075); }
+html[data-theme="dark"] .sk-contact__row::before { background: rgba(255,255,255,0.083); }
+html[data-theme="dark"] .gl-cert__pdf { background: rgba(255,255,255,0.105); }
+html[data-theme="dark"] .gl-cert__badge { background: rgba(255,255,255,0.112); }
+html[data-theme="dark"] .gl-workbench__stage { background: rgba(255,255,255,0.084); }
+html[data-theme="dark"] .gl-workbench__project-tab[aria-selected="true"] { background: rgba(255,255,255,0.126); }
+html[data-theme="dark"] .gl-workbench__project-tab:hover { background: rgba(255,255,255,0.102); }
+html[data-theme="dark"] .gl-workbench__image { background: rgba(255,255,255,0.096); }
+html[data-theme="dark"] .gl-workbench__flow-step { background: rgba(255,255,255,0.007); }
+html[data-theme="dark"] .gl-workbench__tags li { background: rgba(255,255,255,0.081); }
+html[data-theme="dark"] .gl-workbench__arrows button { background: rgba(255,255,255,0.087); }
+html[data-theme="dark"] .gl-workbench__arrows button:hover { background: #2a2822; }
+html[data-theme="dark"] .sk-hero__focus-preview { background: rgba(255,255,255,0.078); }
+html[data-theme="dark"] .gl-experience-item { background: rgba(255,255,255,0.087); }
+html[data-theme="dark"] .gl-experience-item[open] { background: rgba(255,255,255,0.117); }
+html[data-theme="dark"] .gl-skills__search { background: rgba(255,255,255,0.080); }
+html[data-theme="dark"] .gl-skill[data-selected="true"] { background: rgba(255,255,255,0.129); }
+html[data-theme="dark"] .gl-skill-detail__mark .gl-skill__logo { background: rgba(255,255,255,0.120); }
+html[data-theme="dark"] .gl-skill-detail>button { background: rgba(255,255,255,0.093); }
+html[data-theme="dark"] .gl-practice-feature { background: rgba(255,255,255,0.114); }
+html[data-theme="dark"] .gl-practice-platform { background: rgba(255,255,255,0.103); }
+html[data-theme="dark"] .gl-practice-platform__mark { background: rgba(255,255,255,0.123); }
+html[data-theme="dark"] .gl-practice-platform:hover { background: rgba(255,255,255,0.137); }
+html[data-theme="dark"] .gl-palette { background: rgba(255,255,255,0.072); }
+html[data-theme="dark"] .gl-skill__logo { background: rgba(255,255,255,0.117); }
+html[data-theme="dark"] .gl-skill:hover { background: rgba(255,255,255,0.108); }
+html[data-theme="dark"] .sk-profile-card { background: rgba(255,255,255,0.081); }
+html[data-theme="dark"] .sk-profile-card:hover { background: rgba(255,255,255,0.114); }
+html[data-theme="dark"] .gl-cert { background: rgba(255,255,255,0.072); }
+html[data-theme="dark"] .gl-cert__preview img { background: rgba(255,255,255,0.072); }
+html[data-theme="dark"] .gl-cert__record strong { background: rgba(255,255,255,0.108); }
+html[data-theme="dark"] .gl-certificate-viewer__pdf { background: #2a2822; }
+html[data-theme="dark"] .gl-certificate-viewer__mark { background: rgba(255,255,255,0.123); }
+html[data-theme="dark"] .gl-paper-viewer__frame { background: #2a2822; }
+html[data-theme="dark"] .sk-hero__focus-chip { background: rgba(255,255,255,0.057); }
+html[data-theme="dark"] .sk-hero__focus-chip:hover { background: rgba(255,255,255,0.108); }
+html[data-theme="dark"] .gl-logo, html[data-theme="dark"] .gl-skill__logo, html[data-theme="dark"] .gl-cert__badge { background: rgba(255,255,255,.9); }
+
+/* ---- Interactive terminal ---- */
+.gl-term-sec { padding: clamp(24px, 4vw, 48px) 0; }
+.gl-term {
+  background: #12110d;
+  color: #e9e4d8;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, .08);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .5);
+  overflow: hidden;
+  font: 400 14px/1.6 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  max-width: 880px;
+  margin-inline: auto;
+}
+.gl-term__bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
+}
+.gl-term__bar span { width: 11px; height: 11px; border-radius: 50%; background: #3a382f; }
+.gl-term__bar b { margin-left: 10px; font-weight: 500; font-size: 12px; color: #8d8878; letter-spacing: .04em; }
+.gl-term__body { height: 280px; overflow-y: auto; padding: 16px 18px; scrollbar-width: thin; }
+.gl-term__line { margin: 0; white-space: pre-wrap; word-break: break-word; }
+.gl-term__line--dim { color: #8d8878; }
+.gl-term__line--in { color: #fff; }
+.gl-term__ps { color: #e08a62; margin-right: 10px; user-select: none; }
+.gl-term__prompt { display: flex; align-items: center; }
+.gl-term__prompt input {
+  flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: #fff;
+  font: inherit; caret-color: #e08a62; padding: 0;
+}
+.gl-term__chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px 16px; border-top: 1px solid rgba(255, 255, 255, .07); }
+.gl-term__chips button {
+  font: inherit; font-size: 12px; color: #cfc9bb; background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .1); border-radius: 999px; padding: 5px 12px; cursor: pointer;
+  transition: background-color .25s, color .25s, transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+.gl-term__chips button:hover { background: rgba(255, 255, 255, .14); color: #fff; transform: translateY(-2px); }
+@media (max-width: 560px) { .gl-term { font-size: 12.5px; } .gl-term__body { height: 240px; } }

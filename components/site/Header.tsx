@@ -1,6 +1,7 @@
 "use client"
 
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion"
+import { ThemeToggle } from "./ThemeToggle"
 import { useCallback, useEffect, useState, type MouseEvent } from "react"
 import { useLenis } from "@/components/SmoothScrollProvider"
 
@@ -119,6 +120,7 @@ export function Header({ name, links, resumeHref, email }: HeaderProps) {
         </nav>
 
         <div className="sk-header__actions">
+          <ThemeToggle />
           <a className="sk-resume-link" href={resumeHref} target="_blank" rel="noreferrer">
             Résumé
           </a>

@@ -24,14 +24,17 @@ export function AmbientTone() {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) root.style.setProperty("--paper", TONES[entry.target.id] ?? TONES.top)
+          if (entry.isIntersecting && root.dataset.theme !== "dark") root.style.setProperty("--paper", TONES[entry.target.id] ?? TONES.top)
         }
       },
       { rootMargin: "-45% 0px -50% 0px" },
     )
     targets.forEach((el) => observer.observe(el))
+    const clear = () => { if (root.dataset.theme === "dark") root.style.removeProperty("--paper") }
+    window.addEventListener("gl-theme", clear)
     return () => {
       observer.disconnect()
+      window.removeEventListener("gl-theme", clear)
       root.style.removeProperty("--paper")
     }
   }, [])
