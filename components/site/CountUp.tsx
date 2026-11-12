@@ -14,7 +14,7 @@ export function CountUp({ value, duration = 1400 }: { value: number; duration?: 
     const el = ref.current
     if (!el) return
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const write = (n: number) => { el.textContent = String(Math.round(n)) }
+    const write = (n: number) => { el.textContent = Math.round(n).toLocaleString("en-US") }
     if (calm || !("IntersectionObserver" in window)) { write(value); shown.current = value; return }
 
     let raf = 0
@@ -38,5 +38,5 @@ export function CountUp({ value, duration = 1400 }: { value: number; duration?: 
     return () => { io.disconnect(); cancelAnimationFrame(raf) }
   }, [value, duration])
 
-  return <span ref={ref}>{value}</span>
+  return <span ref={ref}>{value.toLocaleString("en-US")}</span>
 }

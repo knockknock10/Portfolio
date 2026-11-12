@@ -1,9 +1,11 @@
 import { Header, type NavLink } from "@/components/site/Header"
 import { Hero, type Fact } from "@/components/site/Hero"
 // import { Work } from "@/components/site/Work" // replaced by ProjectScroll; kept for reference
-import { Research } from "@/components/site/Research"
+// import { Research } from "@/components/site/Research" // replaced by ResearchShowcase; kept for reference
+import { ResearchShowcase } from "@/components/site/ResearchShowcase"
 // import { OpenSource } from "@/components/site/OpenSource"
-import { OpenSourceGlass } from "@/components/site/OpenSourceGlass"
+// import { OpenSourceGlass } from "@/components/site/OpenSourceGlass" // replaced by OpenSourceShowcase
+import { OpenSourceShowcase } from "@/components/site/OpenSourceShowcase"
 import { LiquidField } from "@/components/site/LiquidField"
 import { Interactions } from "@/components/site/Interactions"
 import { Premium } from "@/components/site/Premium"
@@ -178,12 +180,14 @@ export default async function HomePage() {
           resumeHref={resumeHref}
           snapshot={upstream.available ? { merged: upstream.mergedCount, open: upstream.openCount, orgs: upstream.projectCount, repos: typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null } : null}
         />
-        <Research paper={paper} other={otherResearch} />
+        {/* <Research paper={paper} other={otherResearch} /> */}
+        <ResearchShowcase paper={paper} other={otherResearch} />
         {/*
           Previous OpenSource section retained for reference, not rendered:
           <OpenSource data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} />
         */}
-        <OpenSourceGlass data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} />
+        {/* <OpenSourceGlass data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} /> */}
+        <OpenSourceShowcase data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} />
         <Experience internships={internships} />
         {/*
           Previous Skills wrapper retained for reference, not rendered:
