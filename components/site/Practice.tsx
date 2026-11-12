@@ -91,7 +91,7 @@ function DifficultyBar({
 
   return (
     <div className="sk-difficulty-bar gl-practice-difficulty">
-      <div className="sk-difficulty-bar__track" aria-label="Solved problem difficulty breakdown">
+      <div className="sk-difficulty-bar__track" role="img" aria-label="Solved problem difficulty breakdown">
         <div className="sk-difficulty-bar__fill sk-difficulty-bar__fill--easy" style={{ width: `${easyPct}%` }} />
         <div className="sk-difficulty-bar__fill sk-difficulty-bar__fill--medium" style={{ width: `${mediumPct}%` }} />
         <div className="sk-difficulty-bar__fill sk-difficulty-bar__fill--hard" style={{ width: `${hardPct}%` }} />

@@ -1666,7 +1666,7 @@ main > .sk-section { padding-top: clamp(36px, 4.6vw, 64px); padding-bottom: clam
 .gl-rail__mark {
   min-width: 26px;
   text-align: right;
-  opacity: 0.38;
+  opacity: 0.62;
   font-variant-numeric: tabular-nums;
   transition: opacity 0.25s, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s;
 }
