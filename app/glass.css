@@ -2638,3 +2638,32 @@ html, body { overflow-x: clip; }
 
 section.gl-ps .gl-ps__stage, section.gl-ps .gl-ps__layer { overflow-x: clip; }
 section.gl-ps .gl-ps__layer, section.gl-ps .gl-ps__stage { overflow-x: clip !important; }
+
+/* ---------- Profiles: identity row, certificates, chips ---------- */
+.gl-cp__who { display: flex; align-items: center; gap: 16px; }
+.gl-cp__avatar { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 10px 28px -10px rgba(29,29,31,.4); transition: transform .6s cubic-bezier(.22,1,.36,1); }
+.gl-cp__who:hover .gl-cp__avatar { transform: scale(1.08) rotate(-3deg); }
+.gl-cp__who b { display: block; font-size: 1.25rem; letter-spacing: -0.02em; }
+.gl-cp__who a, .gl-cp__who span { color: var(--muted); font-size: .95rem; text-decoration: none; }
+.gl-cp__who a:hover { color: var(--accent-deep); }
+.gl-cp__badges--certs a { width: 220px; padding: 18px 16px; text-align: center; }
+.gl-cp__badges--certs b { font-size: 1rem; }
+.gl-cp__chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.gl-cp__chips li { padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.9); box-shadow: inset 0 1px 0 #fff, 0 6px 14px -8px rgba(29,29,31,.2); font-size: .9rem; font-weight: 500; }
+
+/* ---------- Pointer light on glass panes, magnetic buttons, readable clock ---------- */
+/* (pointer light removed: no gradients on this site) */
+.gl-btn { transition: translate .35s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s, background .3s; }
+html .gl-localtime strong { color: var(--ink); }
+html .gl-localtime span, html .gl-localtime small { opacity: 1; color: var(--muted); }
+
+/* ---------- Review fixes: tabs wrap on phones, avatar and reader respect reduced motion ---------- */
+.gl-cp__tabs { flex-wrap: wrap; max-width: 100%; border-radius: 28px; }
+@media (max-width: 520px) { .gl-cp__tabs button { padding: 10px 16px; } }
+.gl-cp__avatar { transition: none; }
+.gl-cp__who:hover .gl-cp__avatar { transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .gl-cp__avatar { transition: transform .6s cubic-bezier(.22,1,.36,1); }
+  .gl-cp__who:hover .gl-cp__avatar { transform: scale(1.08) rotate(-3deg); }
+}
+@media (prefers-reduced-motion: reduce) { .gl-reader, .gl-reader__sheet { animation: none; } .gl-btn { transition: none; } }
