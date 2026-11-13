@@ -2631,3 +2631,10 @@ html .gl-ps__ghost { font-family: var(--font), system-ui, sans-serif; font-weigh
 .gl-cp .gl-btn { justify-self: start; }
 .gl-cp__snap { margin: 16px 4px 0; font-size: .8rem; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { .gl-cp__panel, .gl-cp__levels i::after { animation: none; } }
+
+/* Off-screen showcase layers and marquees must never widen the page. */
+main, .gl-ps { overflow-x: clip; }
+html, body { overflow-x: clip; }
+
+section.gl-ps .gl-ps__stage, section.gl-ps .gl-ps__layer { overflow-x: clip; }
+section.gl-ps .gl-ps__layer, section.gl-ps .gl-ps__stage { overflow-x: clip !important; }
