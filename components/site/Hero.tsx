@@ -59,7 +59,7 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts: bui
       <div className="sk-wrap">
         <div className="sk-hero__grid">
           <div>
-            <p className="sk-hero__kicker">Computer science student at SRM University AP</p>
+            <p className="sk-hero__kicker">Third-year computer science student · SRM University AP</p>
             {/* Previous heading: <h1 id="hero-title"><span>Sanjeev</span><span>Kumar</span></h1>
                 Letters now rise one after another; the label keeps it readable for screen readers. */}
             <h1 id="hero-title" aria-label="Sanjeev Kumar">
@@ -74,10 +74,10 @@ export function Hero({ email, resumeHref, github, linkedin, leetcode, facts: bui
               ))}
             </h1>
             <p className="sk-hero__lede">
-              I build backend services and developer tools, contribute fixes to open-source projects, and research
-              speech and audio intelligence.
+              I build backend systems, get fixes merged into open-source projects other teams depend on, and research
+              how to protect and understand speech audio.
             </p>
-            <p className="sk-hero__status">Open to software engineering internships.</p>
+            <p className="sk-hero__status">Looking for a software engineering internship.</p>
 
             <div className="sk-hero__actions">
               <a className="sk-btn sk-btn--solid" href="#work" data-magnetic>

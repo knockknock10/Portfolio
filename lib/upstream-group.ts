@@ -10,6 +10,11 @@ const OWN_OWNERS = new Set(["aevor", "knockknock10"])
 /** Owners that are personal/classroom repositories rather than real upstream projects (for example a student ID). */
 const PERSONAL_OWNER_PATTERNS = [/^ap\d+$/i]
 
+/** Owners that are never shown or counted on the site (private choice: classmates' and personal repositories). */
+// Owner exclusion now happens in app/api/public-pull-requests.json/route.ts at build time,
+// so the name is never shipped in client code.
+const EXCLUDED_OWNERS = new Set<string>()
+
 /** Friendlier names for a few owners. Anything not listed is shown exactly as it appears on GitHub. */
 const DISPLAY_NAMES: Record<string, string> = {
   "kestra-io": "Kestra",
@@ -96,6 +101,7 @@ export function groupUpstream(contributions: RawPullRequest[], generatedAt: stri
       else ownOpen += 1
       continue
     }
+    if (EXCLUDED_OWNERS.has(ownerKey)) continue
     if (PERSONAL_OWNER_PATTERNS.some((pattern) => pattern.test(item.owner))) continue
 
     let project = upstream.get(item.owner)
