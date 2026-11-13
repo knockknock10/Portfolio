@@ -1,3 +1,5 @@
+import { isExcludedOwner } from "@/lib/upstream-group"
+
 export const dynamic = "force-static"
 
 const SEARCH_ENDPOINT = "https://api.github.com/search/issues"
@@ -104,7 +106,7 @@ function normalizePullRequest(item: GitHubSearchPullRequest): PublicPullRequest 
   // The portfolio should highlight contributions to other owners' projects, not PRs in Sanjeev's own repositories.
   if (owner.toLowerCase() === "knockknock10") return null
   // Classmates' and personal repositories are never published on the site.
-  if (owner.toLowerCase() === "pavanimandla09") return null
+  if (isExcludedOwner(owner)) return null
   const mergedAt = item.pull_request?.merged_at ?? null
 
   return {

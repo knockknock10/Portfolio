@@ -36,6 +36,20 @@ export function Motion() {
       target = text ? 0 : hit ? 1.9 : 1
       el?.classList.toggle("is-link", !!hit && !text)
     }
+    // Buttons lean toward the pointer.
+    let pulled: HTMLElement | null = null
+    const onLight = (e: PointerEvent) => {
+      const t = e.target as Element | null
+      const btn = t?.closest<HTMLElement>(".gl-btn")
+      if (pulled && pulled !== btn) pulled.style.translate = ""
+      pulled = btn ?? null
+      if (btn) {
+        const r = btn.getBoundingClientRect()
+        const dx = (e.clientX - (r.left + r.width / 2)) / r.width
+        const dy = (e.clientY - (r.top + r.height / 2)) / r.height
+        btn.style.translate = `${(dx * 8).toFixed(1)}px ${(dy * 6).toFixed(1)}px`
+      }
+    }
     const onDown = () => { target *= 0.7 }
     const onUp = () => { target = el?.classList.contains("is-link") ? 1.9 : 1 }
     const onLeave = () => root.classList.remove("gl-cur-on")
@@ -62,6 +76,7 @@ export function Motion() {
     }
 
     window.addEventListener("pointermove", onMove, { passive: true })
+    window.addEventListener("pointermove", onLight, { passive: true })
     window.addEventListener("pointerdown", onDown)
     window.addEventListener("pointerup", onUp)
     document.documentElement.addEventListener("pointerleave", onLeave)
@@ -69,6 +84,8 @@ export function Motion() {
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener("pointermove", onMove)
+      window.removeEventListener("pointermove", onLight)
+      if (pulled) pulled.style.translate = ""
       window.removeEventListener("pointerdown", onDown)
       window.removeEventListener("pointerup", onUp)
       document.documentElement.removeEventListener("pointerleave", onLeave)

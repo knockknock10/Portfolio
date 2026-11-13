@@ -29,7 +29,7 @@ import { getCredly } from "@/lib/credly.server"
 import { Experience } from "@/components/site/Experience"
 // import { Skills } from "@/components/site/Skills"
 // import { Practice } from "@/components/site/Practice" // replaced by CodingProfiles
-import { CodingProfiles } from "@/components/site/CodingProfiles"
+import { CodingProfiles, GithubProfile } from "@/components/site/CodingProfiles"
 import { About } from "@/components/site/About"
 import { Contact, type ContactLink } from "@/components/site/Contact"
 import { SiteFooter } from "@/components/site/Footer"
@@ -44,7 +44,8 @@ const links: NavLink[] = [
   { id: "work", label: "Work" },
   { id: "research", label: "Research" },
   { id: "open-source", label: "Open source" },
-  { id: "profiles", label: "Profiles" },
+  { id: "github", label: "GitHub" },
+  { id: "profiles", label: "Practice" },
   { id: "experience", label: "Experience" },
   { id: "skills", label: "Skills" },
   { id: "certificates", label: "Certificates" },
@@ -190,7 +191,8 @@ export default async function HomePage() {
         */}
         {/* <OpenSourceGlass data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} /> */}
         <OpenSourceShowcase data={upstream} profileUrl={github ?? "https://github.com/knockknock10"} />
-        <CodingProfiles githubUrl={github ?? "https://github.com/knockknock10"} />
+        <GithubProfile githubUrl={github ?? "https://github.com/knockknock10"} />
+        <CodingProfiles />
         <Experience internships={internships} />
         {/*
           Previous Skills wrapper retained for reference, not rendered:
