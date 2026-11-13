@@ -75,6 +75,7 @@ export function ResearchShowcase({ paper }: { paper: ResearchItem | null; other:
                     </span>
                   </span>
                 ) : null}
+                {pdf ? <a className="gl-btn" href={pdf} target="_blank" rel="noreferrer">PDF ↗</a> : null}
                 {code ? <a className="gl-btn" href={code} target="_blank" rel="noreferrer">Code ↗</a> : null}
               </div>
             </article>
