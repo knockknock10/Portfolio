@@ -123,14 +123,23 @@ export function CodingProfiles() {
           <p>Contests, ratings and certificates from the sites I practise on. Pick one.</p>
         </header>
 
-        <div className="gl-cp__tabs" role="tablist" aria-label="Coding profiles">
-          <button role="tab" aria-selected={tab === "leetcode"} data-on={tab === "leetcode"} onClick={() => setTab("leetcode")}>
+        <div className="gl-cp__tabs" role="tablist" aria-label="Coding profiles" onKeyDown={(e) => {
+          const order: Tab[] = ["leetcode", "codeforces", "hackerrank"]
+          const i = order.indexOf(tab)
+          if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+            e.preventDefault()
+            const next = order[(i + (e.key === "ArrowRight" ? 1 : order.length - 1)) % order.length]
+            setTab(next)
+            document.getElementById(`cp-tab-${next}`)?.focus()
+          }
+        }}>
+          <button role="tab" id="cp-tab-leetcode" aria-controls="cp-panel" aria-selected={tab === "leetcode"} tabIndex={tab === "leetcode" ? 0 : -1} data-on={tab === "leetcode"} onClick={() => setTab("leetcode")}>
             <Img src={LC_LOGO} size={22} /> LeetCode
           </button>
-          <button role="tab" aria-selected={tab === "codeforces"} data-on={tab === "codeforces"} onClick={() => setTab("codeforces")}>
+          <button role="tab" id="cp-tab-codeforces" aria-controls="cp-panel" aria-selected={tab === "codeforces"} tabIndex={tab === "codeforces" ? 0 : -1} data-on={tab === "codeforces"} onClick={() => setTab("codeforces")}>
             <Img src={CF_LOGO} size={22} /> Codeforces
           </button>
-          <button role="tab" aria-selected={tab === "hackerrank"} data-on={tab === "hackerrank"} onClick={() => setTab("hackerrank")}>
+          <button role="tab" id="cp-tab-hackerrank" aria-controls="cp-panel" aria-selected={tab === "hackerrank"} tabIndex={tab === "hackerrank" ? 0 : -1} data-on={tab === "hackerrank"} onClick={() => setTab("hackerrank")}>
             <Img src={HR_LOGO} size={22} /> HackerRank
           </button>
         </div>
@@ -139,7 +148,7 @@ export function CodingProfiles() {
           <Img className="gl-cp__mark" src={logo} size={460} />
 
           {tab === "leetcode" ? (
-            <div className="gl-cp__panel" key="lc" role="tabpanel">
+            <div className="gl-cp__panel" key="lc" id="cp-panel" role="tabpanel" aria-labelledby="cp-tab-leetcode">
               <div className="gl-cp__row">
                 <div className="gl-cp__big">
                   <strong><CountUp value={1997} /></strong>
@@ -178,7 +187,7 @@ export function CodingProfiles() {
               <a className="gl-btn" href={LC_URL} target="_blank" rel="noreferrer">Open LeetCode profile ↗</a>
             </div>
           ) : tab === "codeforces" ? (
-            <div className="gl-cp__panel" key="cf" role="tabpanel">
+            <div className="gl-cp__panel" key="cf" id="cp-panel" role="tabpanel" aria-labelledby="cp-tab-codeforces">
               <div className="gl-cp__who">
                 <Img className="gl-cp__avatar" src={CF_AVATAR} size={96} />
                 <div><b>knockknock10</b><span>Newbie · Codeforces</span></div>
@@ -198,7 +207,7 @@ export function CodingProfiles() {
               <a className="gl-btn" href={CF_URL} target="_blank" rel="noreferrer">Open Codeforces profile ↗</a>
             </div>
           ) : (
-            <div className="gl-cp__panel" key="hr" role="tabpanel">
+            <div className="gl-cp__panel" key="hr" id="cp-panel" role="tabpanel" aria-labelledby="cp-tab-hackerrank">
               <div className="gl-cp__who">
                 <Img className="gl-cp__avatar" src={HR_AVATAR} size={96} />
                 <div><b>Sanjeev Kumar</b><span>@knockknock10 · HackerRank</span></div>

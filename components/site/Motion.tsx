@@ -52,7 +52,10 @@ export function Motion() {
     }
     const onDown = () => { target *= 0.7 }
     const onUp = () => { target = el?.classList.contains("is-link") ? 1.9 : 1 }
-    const onLeave = () => root.classList.remove("gl-cur-on")
+    const onLeave = () => {
+      root.classList.remove("gl-cur-on")
+      if (pulled) { pulled.style.translate = ""; pulled = null }
+    }
 
     const tick = () => {
       x += (tx - x) * 0.2

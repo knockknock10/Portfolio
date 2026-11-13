@@ -11,13 +11,21 @@ const OWN_OWNERS = new Set(["aevor", "knockknock10"])
 const PERSONAL_OWNER_PATTERNS = [/^ap\d+$/i]
 
 /** Owners that are never shown or counted on the site (private choice: classmates' and personal repositories). */
-// Stored as hashes so the names themselves are never shipped in the page. The same check runs in the
+// Stored as 53-bit hashes so the names are not readable in the shipped page. This is not secret (anyone can
+// test a guess against the algorithm); it only keeps the names out of the text. The same check runs in the
 // build-time route and in the browser, so the live GitHub fetch cannot bring these owners back.
-const EXCLUDED_OWNER_HASHES = new Set<number>([1914881146, 862025918])
+const EXCLUDED_OWNER_HASHES = new Set<number>([1547575549078839, 6993789943835639])
 function ownerHash(value: string): number {
-  let hash = 5381
-  for (const char of value.toLowerCase()) hash = ((hash << 5) + hash + char.charCodeAt(0)) >>> 0
-  return hash
+  let h1 = 0xdeadbeef
+  let h2 = 0x41c6ce57
+  for (const char of value.toLowerCase()) {
+    const code = char.charCodeAt(0)
+    h1 = Math.imul(h1 ^ code, 2654435761)
+    h2 = Math.imul(h2 ^ code, 1597334677)
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909)
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909)
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0)
 }
 export function isExcludedOwner(owner: string): boolean {
   return EXCLUDED_OWNER_HASHES.has(ownerHash(owner))

@@ -2656,3 +2656,14 @@ section.gl-ps .gl-ps__layer, section.gl-ps .gl-ps__stage { overflow-x: clip !imp
 .gl-btn { transition: translate .35s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s, background .3s; }
 html .gl-localtime strong { color: var(--ink); }
 html .gl-localtime span, html .gl-localtime small { opacity: 1; color: var(--muted); }
+
+/* ---------- Review fixes: tabs wrap on phones, avatar and reader respect reduced motion ---------- */
+.gl-cp__tabs { flex-wrap: wrap; max-width: 100%; border-radius: 28px; }
+@media (max-width: 520px) { .gl-cp__tabs button { padding: 10px 16px; } }
+.gl-cp__avatar { transition: none; }
+.gl-cp__who:hover .gl-cp__avatar { transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .gl-cp__avatar { transition: transform .6s cubic-bezier(.22,1,.36,1); }
+  .gl-cp__who:hover .gl-cp__avatar { transform: scale(1.08) rotate(-3deg); }
+}
+@media (prefers-reduced-motion: reduce) { .gl-reader, .gl-reader__sheet { animation: none; } .gl-btn { transition: none; } }
