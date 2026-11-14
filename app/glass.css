@@ -2961,3 +2961,6 @@ html .ll-field { display: none; }
 
 /* Lusion-style 3D world replaces the old wire-wave field (kept in code, hidden). */
 html body .gl-wavefield, html body .gl-open .gl-wavefield { display: none; }
+
+/* No 3D shapes over the hero; they fade in after it. */
+.sc-host[data-hero="1"] { opacity: 0 !important; }
