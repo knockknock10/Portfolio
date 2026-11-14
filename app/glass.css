@@ -2958,3 +2958,6 @@ html .ll-field { display: none; }
 .sc-host { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
 .sc-host[data-ready="1"] { opacity: 1; }
 .sc-host canvas { display: block; width: 100%; height: 100%; }
+
+/* Lusion-style 3D world replaces the old wire-wave field (kept in code, hidden). */
+html body .gl-wavefield, html body .gl-open .gl-wavefield { display: none; }

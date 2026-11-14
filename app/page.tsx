@@ -9,7 +9,8 @@ import { OpenSourceShowcase } from "@/components/site/OpenSourceShowcase"
 import { LiquidField } from "@/components/site/LiquidField"
 import { Liquid } from "@/components/site/Liquid"
 import { LiquidLines } from "@/components/site/LiquidLines"
-import { Scene3D } from "@/components/site/Scene3D"
+// import { Scene3D } from "@/components/site/Scene3D" // earlier ball-pit scene, kept for reference
+import { Cosmos3D } from "@/components/site/Cosmos3D"
 import { Interactions } from "@/components/site/Interactions"
 import { Premium } from "@/components/site/Premium"
 import { Marquee } from "@/components/site/Marquee"
@@ -150,7 +151,8 @@ export default async function HomePage() {
     <>
       <LiquidField />
       <LiquidLines />
-      <Scene3D />
+      {/* <Scene3D /> */}
+      <Cosmos3D />
       <Interactions />
       <Kinetic />
       <Motion />
