@@ -2868,3 +2868,60 @@ html .gl-ask input, html .gl-ask__field { background: rgba(255,255,255,.4); }
   html .sk-fact, html .sk-hero__focus-preview, html .sk-portrait__signal, html .gl-term, html .gl-panel,
   html .gl-experience-item, html .gl-certbar__chips, html .gl-cert, html .sk-panel, html .sk-contact__row { background: rgba(255,255,255,.85); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
+
+/* =====================================================================
+   TWO COLOURS ONLY: one blue, one coral. Everything else is glass, white and ink.
+   ===================================================================== */
+html:root {
+  --c-blue: #4a86ff;
+  --c-coral: #ff8c72;
+  --blob-a: var(--c-blue); --blob-b: var(--c-coral); --blob-c: var(--c-blue); --blob-d: var(--c-coral); --blob-e: var(--c-blue);
+  --blob-f: var(--c-coral); --blob-g: var(--c-blue); --blob-h: var(--c-coral);
+  --paper: #f4f6fc;
+  --accent: #2f6df6; --accent-deep: #1f57d6;
+}
+html body .lq-blob { opacity: .9; }
+/* Problem-solving bars use the same two colours instead of traffic-light colours. */
+.gl-cp__levels i { background: rgba(255,255,255,.55); box-shadow: inset 0 1px 2px rgba(29,29,31,.12); }
+.gl-cp__levels li[data-level="easy"] i::after { background: var(--c-blue); }
+.gl-cp__levels li[data-level="medium"] i::after { background: var(--c-coral); }
+.gl-cp__levels li[data-level="hard"] i::after { background: var(--ink); }
+/* Small labels must stay readable on top of the blue and coral shapes. */
+html .sk-eyebrow, html .sk-head__label, html [class*="eyebrow"] { color: var(--ink-2); }
+
+/* The scene leans toward the pointer. */
+html body .lq-blob--a { transform: translate(calc(var(--px) * 90px), calc(var(--py) * 70px)); }
+html body .lq-blob--b { transform: translate(calc(var(--px) * -110px), calc(var(--py) * 80px)); }
+html body .lq-blob--c { transform: translate(calc(var(--px) * 70px), calc(var(--py) * -100px)); }
+html body .lq-blob--d { transform: translate(calc(var(--px) * 130px), calc(var(--py) * -60px)); }
+html body .lq-blob--e { transform: translate(calc(var(--px) * -80px), calc(var(--py) * -110px)); }
+html body .lq-blob--f { transform: translate(calc(var(--px) * -170px), calc(var(--py) * 140px)); }
+html body .lq-blob--g { transform: translate(calc(var(--px) * 150px), calc(var(--py) * -130px)); }
+html body .lq-blob--h { transform: translate(calc(var(--px) * -140px), calc(var(--py) * -150px)); }
+
+/* The cursor is a droplet of glass that stretches as it travels. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .gl-ring-cur {
+    width: 58px; height: 58px; border: 0; mix-blend-mode: normal;
+    background: rgba(255,255,255,.10);
+    box-shadow: var(--lg-rim);
+    -webkit-backdrop-filter: blur(1px) saturate(1.6) brightness(1.08);
+    backdrop-filter: blur(1px) saturate(1.6) brightness(1.08);
+  }
+  html[data-lens] .gl-ring-cur { -webkit-backdrop-filter: url(#gl-lens-s) blur(1px) saturate(1.6) brightness(1.08); backdrop-filter: url(#gl-lens-s) blur(1px) saturate(1.6) brightness(1.08); }
+  html.gl-cur-on .gl-ring-cur { opacity: 1; }
+  .gl-ring-cur.is-link { background: rgba(255,255,255,.22); }
+}
+
+/* Hover: controls swell with a spring; cards breathe into an organic outline; scroll speed tilts the glass. */
+@keyframes gl-blobby {
+  0%, 100% { border-radius: 30px 30px 30px 30px; }
+  25% { border-radius: 38px 26px 34px 28px / 28px 36px 26px 34px; }
+  50% { border-radius: 28px 36px 26px 38px / 36px 28px 38px 26px; }
+  75% { border-radius: 34px 28px 38px 26px / 26px 34px 28px 36px; }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .gl-btn:hover, .gl-cp__tabs button:hover, .gl-cp__chips li:hover, .gl-cp__badges a:hover, .gl-oss__wall a:hover, .sk-menu-button:hover { transform: scale(1.07, 1.04); }
+  .gl-pane:hover, .gl-cert:hover, .gl-experience-item:hover, .sk-fact:hover, .sk-contact__row:hover { animation: gl-blobby 5s ease-in-out infinite; }
+  .gl-pane, .gl-cert, .gl-experience-item, .sk-fact { rotate: calc(var(--vel, 0) * -0.02deg); }
+}
