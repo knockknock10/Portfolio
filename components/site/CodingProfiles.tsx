@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useLayoutEffect, useRef, useState } from "react"
 import { CountUp } from "./CountUp"
 import { ContributionGraph } from "./ContributionGraph"
 
@@ -112,6 +112,18 @@ export function GithubProfile({ githubUrl }: { githubUrl: string }) {
 /** Problem-solving sites, one at a time: LeetCode, Codeforces, HackerRank. */
 export function CodingProfiles() {
   const [tab, setTab] = useState<Tab>("leetcode")
+  const tabsRef = useRef<HTMLDivElement>(null)
+  const [thumb, setThumb] = useState({ x: 0, w: 0 })
+  // The droplet that slides under the active tab.
+  useLayoutEffect(() => {
+    const place = () => {
+      const el = document.getElementById(`cp-tab-${tab}`)
+      if (el) setThumb({ x: el.offsetLeft, w: el.offsetWidth })
+    }
+    place()
+    window.addEventListener("resize", place)
+    return () => window.removeEventListener("resize", place)
+  }, [tab])
   const logo = tab === "leetcode" ? LC_LOGO : tab === "codeforces" ? CF_LOGO : HR_LOGO
 
   return (
@@ -123,7 +135,7 @@ export function CodingProfiles() {
           <p>Contests, ratings and certificates from the sites I practise on. Pick one.</p>
         </header>
 
-        <div className="gl-cp__tabs" role="tablist" aria-label="Coding profiles" onKeyDown={(e) => {
+        <div ref={tabsRef} className="gl-cp__tabs" role="tablist" aria-label="Coding profiles" data-liquid onKeyDown={(e) => {
           const order: Tab[] = ["leetcode", "codeforces", "hackerrank"]
           const i = order.indexOf(tab)
           if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
@@ -133,6 +145,7 @@ export function CodingProfiles() {
             document.getElementById(`cp-tab-${next}`)?.focus()
           }
         }}>
+          <i className="gl-thumb" aria-hidden="true" style={{ transform: `translateX(${thumb.x}px)`, width: thumb.w }} />
           <button role="tab" id="cp-tab-leetcode" aria-controls="cp-panel" aria-selected={tab === "leetcode"} tabIndex={tab === "leetcode" ? 0 : -1} data-on={tab === "leetcode"} onClick={() => setTab("leetcode")}>
             <Img src={LC_LOGO} size={22} /> LeetCode
           </button>
