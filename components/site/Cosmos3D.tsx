@@ -53,6 +53,10 @@ export function Cosmos3D() {
       sun.position.set(5, 9, 8)
       scene.add(sun)
 
+      // a light that follows the pointer, so every shape catches a moving highlight
+      const cursorLight = new THREE.PointLight(0xffffff, 90, 40, 1.6)
+      scene.add(cursorLight)
+
       const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 140)
 
       const gloss = (color: number, rough = 0.26, extra: Record<string, number> = {}) =>
@@ -110,16 +114,18 @@ export function Cosmos3D() {
         g.add(leg, boot)
         astro.add(g)
       }
+      // astronaut kept in code but not shown (owner preference)
+      astro.visible = false
       scene.add(astro)
 
       // ---------- the endless field ----------
       type Drift = { mesh: import("three").Mesh; spin: [number, number, number] }
       const drifts: Drift[] = []
-      const count = lite ? 22 : small ? 36 : 64
+      const count = lite ? 26 : small ? 44 : 84
       const rand = (a: number, b: number) => a + Math.random() * (b - a)
       const place = (d: Drift, camZ: number, initial: boolean) => {
         const theta = rand(0, Math.PI * 2)
-        const rho = rand(3.2, 15)
+        const rho = rand(2.2, 13)
         d.mesh.position.set(Math.cos(theta) * rho * 1.35, Math.sin(theta) * rho * 0.8, initial ? camZ - rand(6, 104) : camZ - rand(96, 112))
       }
       for (let i = 0; i < count; i++) {
@@ -181,6 +187,8 @@ export function Cosmos3D() {
         camera.updateProjectionMatrix()
         camera.position.set(ptr.sx * 1.4, ptr.sy * 0.9, camZ)
         camera.lookAt(ptr.sx * 0.4, ptr.sy * 0.25, camZ - 20)
+
+        cursorLight.position.set(camera.position.x + ptr.sx * 9, camera.position.y + ptr.sy * 6, camZ - 7)
 
         for (const d of drifts) {
           d.mesh.rotation.x += d.spin[0]
