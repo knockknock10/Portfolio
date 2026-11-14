@@ -2950,3 +2950,6 @@ html .gl-ring-cur, html.gl-cur-on .gl-ring-cur { display: none !important; }
 @keyframes ll-flow { from { translate: 0 0; } to { translate: -800px 0; } }
 @media (prefers-reduced-motion: reduce) { .ll-line { animation: none; } }
 html:root { --paper: #f6f7fc; }
+
+/* ---- Lusion-style direction: the flowing lines are retired (code kept), the scene becomes 3D objects. ---- */
+html .ll-field { display: none; }
