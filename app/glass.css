@@ -2925,3 +2925,28 @@ html body .lq-blob--h { transform: translate(calc(var(--px) * -140px), calc(var(
   .gl-pane:hover, .gl-cert:hover, .gl-experience-item:hover, .sk-fact:hover, .sk-contact__row:hover { animation: gl-blobby 5s ease-in-out infinite; }
   .gl-pane, .gl-cert, .gl-experience-item, .sk-fact { rotate: calc(var(--vel, 0) * -0.02deg); }
 }
+
+/* No cursor ring or droplet, and no small floating dots: they read as cheap. The code stays, hidden. */
+html .gl-ring-cur, html.gl-cur-on .gl-ring-cur { display: none !important; }
+html body .lq-blob--f, html body .lq-blob--g, html body .lq-blob--h { display: none; }
+
+/* =====================================================================
+   THE SCENE, TAKE TWO: no circles. Flowing contour lines in blue and coral.
+   ===================================================================== */
+html body .lq-blob { display: none; }
+html .gl-ring-cur, html.gl-cur-on .gl-ring-cur { display: none !important; }
+.ll-field { z-index: 0; }
+.ll-svg { position: absolute; left: -8%; top: -6%; width: 116%; height: 112%; overflow: visible; }
+.ll-g { transform: translate(calc(var(--px, 0) * 40px), calc(var(--py, 0) * 30px)); will-change: transform; }
+.ll-g--1 { transform: translate(calc(var(--px, 0) * -60px), calc(var(--py, 0) * 24px)); }
+.ll-g--2 { transform: translate(calc(var(--px, 0) * 80px), calc(var(--py, 0) * -34px)); }
+.ll-g--3 { transform: translate(calc(var(--px, 0) * -30px), calc(var(--py, 0) * -50px)); }
+.ll-g--4 { transform: translate(calc(var(--px, 0) * 50px), calc(var(--py, 0) * 44px)); }
+.ll-line { animation: ll-flow 46s linear infinite; }
+.ll-g--1 .ll-line { animation-duration: 38s; animation-direction: reverse; }
+.ll-g--2 .ll-line { animation-duration: 54s; }
+.ll-g--3 .ll-line { animation-duration: 41s; animation-direction: reverse; }
+.ll-g--4 .ll-line { animation-duration: 60s; }
+@keyframes ll-flow { from { translate: 0 0; } to { translate: -800px 0; } }
+@media (prefers-reduced-motion: reduce) { .ll-line { animation: none; } }
+html:root { --paper: #f6f7fc; }
