@@ -2953,3 +2953,8 @@ html:root { --paper: #f6f7fc; }
 
 /* ---- Lusion-style direction: the flowing lines are retired (code kept), the scene becomes 3D objects. ---- */
 html .ll-field { display: none; }
+
+/* The 3D scene: full-screen, behind everything, never catches the pointer. */
+.sc-host { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
+.sc-host[data-ready="1"] { opacity: 1; }
+.sc-host canvas { display: block; width: 100%; height: 100%; }
