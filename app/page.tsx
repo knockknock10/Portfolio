@@ -7,6 +7,7 @@ import { ResearchShowcase } from "@/components/site/ResearchShowcase"
 // import { OpenSourceGlass } from "@/components/site/OpenSourceGlass" // replaced by OpenSourceShowcase
 import { OpenSourceShowcase } from "@/components/site/OpenSourceShowcase"
 import { LiquidField } from "@/components/site/LiquidField"
+import { Liquid } from "@/components/site/Liquid"
 import { Interactions } from "@/components/site/Interactions"
 import { Premium } from "@/components/site/Premium"
 import { Marquee } from "@/components/site/Marquee"
@@ -149,6 +150,7 @@ export default async function HomePage() {
       <Interactions />
       <Kinetic />
       <Motion />
+      <Liquid />
       <SideRail sections={links} />
       <LetterField />
       <PortraitDepth />

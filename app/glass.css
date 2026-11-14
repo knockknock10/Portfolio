@@ -2667,3 +2667,107 @@ html .gl-localtime span, html .gl-localtime small { opacity: 1; color: var(--mut
   .gl-cp__who:hover .gl-cp__avatar { transform: scale(1.08) rotate(-3deg); }
 }
 @media (prefers-reduced-motion: reduce) { .gl-reader, .gl-reader__sheet { animation: none; } .gl-btn { transition: none; } }
+
+/* =====================================================================
+   Liquid glass: refraction, rim light, pointer specular, jelly release.
+   No gradients: every highlight is a shadow, a flat blurred disc or a filter.
+   ===================================================================== */
+.gl-lens-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* Rim: bright top edge, soft inner glow, cool/warm fringe on the sides like light splitting at the edge. */
+:root {
+  --lg-rim:
+    inset 0 1.5px 0 rgba(255,255,255,.95),
+    inset 0 -1px 0 rgba(255,255,255,.35),
+    inset 0 14px 22px -16px rgba(255,255,255,.95),
+    inset 0 -16px 22px -18px rgba(29,29,31,.16),
+    inset 3px 0 8px -4px rgba(255,150,140,.28),
+    inset -3px 0 8px -4px rgba(110,160,255,.30),
+    0 1px 1px rgba(29,29,31,.04),
+    0 14px 30px -14px rgba(29,29,31,.22);
+}
+.gl-pane { box-shadow: var(--lg-rim), 0 40px 70px -30px rgba(29,29,31,.20); }
+.gl-btn, .sk-nav, .sk-menu-button, .sk-resume-link, .gl-top, .gl-cp__tabs, .gl-cp__chips li, .gl-cp__badges a, .gl-oss__wall a {
+  box-shadow: var(--lg-rim);
+}
+
+/* Refraction on Chromium. Anything else keeps the plain blur. */
+html[data-lens] .gl-pane,
+html[data-lens] .gl-cp__tabs,
+html[data-lens] .sk-nav,
+html[data-lens] .gl-top {
+  -webkit-backdrop-filter: url(#gl-lens) blur(14px) saturate(1.9) brightness(1.04);
+  backdrop-filter: url(#gl-lens) blur(14px) saturate(1.9) brightness(1.04);
+}
+
+/* Specular disc under the pointer, clipped to the control. */
+.gl-btn, .gl-cp__tabs button, .sk-menu-button, .sk-resume-link, .gl-cp__chips li, .gl-cp__badges a, .gl-oss__wall a {
+  position: relative; overflow: hidden; isolation: isolate;
+}
+.sk-nav { overflow: hidden; isolation: isolate; }
+.gl-btn::after, .gl-cp__tabs button::after, .sk-nav::after, .sk-menu-button::after, .sk-resume-link::after,
+.gl-top::after, .gl-cp__chips li::after, .gl-cp__badges a::after, .gl-oss__wall a::after {
+  content: ""; position: absolute; left: var(--lx, 50%); top: var(--ly, -60%);
+  width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%;
+  background: rgba(255,255,255,.85); filter: blur(22px); opacity: 0; pointer-events: none; z-index: -1;
+  transition: opacity .4s ease;
+}
+.gl-btn:hover::after, .gl-cp__tabs button:hover::after, .sk-nav:hover::after, .sk-menu-button:hover::after,
+.sk-resume-link:hover::after, .gl-top:hover::after, .gl-cp__chips li:hover::after, .gl-cp__badges a:hover::after,
+.gl-oss__wall a:hover::after { opacity: .9; }
+.gl-top { overflow: hidden; isolation: isolate; }
+
+/* The droplet under the active tab: stretches as it travels, settles with a small overshoot. */
+.gl-cp__tabs { position: relative; }
+.gl-cp__tabs .gl-thumb {
+  position: absolute; top: 6px; bottom: 6px; left: 0; border-radius: 999px; pointer-events: none;
+  background: rgba(255,255,255,.92); box-shadow: var(--lg-rim), 0 8px 20px -8px rgba(29,29,31,.3);
+  transition: transform .7s cubic-bezier(.34,1.45,.5,1), width .7s cubic-bezier(.34,1.45,.5,1);
+}
+.gl-cp__tabs button { position: relative; z-index: 1; }
+.gl-cp__tabs button[data-on="true"] { background: transparent; box-shadow: none; }
+
+/* Press squeezes the glass, release wobbles back like a drop of water. */
+.gl-btn, .gl-cp__tabs button, .sk-menu-button, .sk-resume-link, .gl-cp__badges a, .gl-oss__wall a, .gl-top {
+  transition-property: transform, box-shadow, background-color, translate, opacity;
+  transition-duration: .5s, .5s, .3s, .35s, .35s;
+  transition-timing-function: cubic-bezier(.34,1.56,.64,1);
+}
+.gl-btn:active, .gl-cp__tabs button:active, .sk-menu-button:active, .sk-resume-link:active,
+.gl-cp__badges a:active, .gl-oss__wall a:active, .gl-top:active { transform: scale(.93, .9); transition-duration: .12s; }
+@keyframes gl-jelly {
+  0% { transform: scale(.93, .9); } 30% { transform: scale(1.07, 1.1); } 52% { transform: scale(.98, .97); }
+  72% { transform: scale(1.02, 1.015); } 100% { transform: scale(1); }
+}
+.gl-jelly { animation: gl-jelly .8s cubic-bezier(.22,1,.36,1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .gl-jelly { animation: none; }
+  .gl-cp__tabs .gl-thumb { transition: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  html[data-lens] .gl-pane, html[data-lens] .gl-cp__tabs, html[data-lens] .sk-nav, html[data-lens] .gl-top { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* ---- Clearer glass: let the colour behind it show and bend ---- */
+.gl-pane { background: rgba(255,255,255,.38); }
+.gl-btn, .sk-menu-button, .gl-cp__badges a, .gl-oss__wall a, .gl-cp__chips li { background: rgba(255,255,255,.42); }
+/* The résumé pill stays dark: a dark drop of glass with a light rim. */
+.sk-resume-link { background: var(--ink); color: var(--paper); }
+.sk-resume-link:hover { background: var(--accent); }
+html[data-lens] .gl-pane,
+html[data-lens] .gl-cp__tabs,
+html[data-lens] .sk-nav,
+html[data-lens] .gl-top {
+  -webkit-backdrop-filter: url(#gl-lens) blur(10px) saturate(2.2) brightness(1.06);
+  backdrop-filter: url(#gl-lens) blur(10px) saturate(2.2) brightness(1.06);
+}
+html[data-lens] .gl-btn,
+html[data-lens] .sk-menu-button,
+html[data-lens] .gl-cp__badges a,
+html[data-lens] .gl-oss__wall a,
+html[data-lens] .gl-cp__chips li {
+  -webkit-backdrop-filter: url(#gl-lens-s) blur(6px) saturate(2.2) brightness(1.08);
+  backdrop-filter: url(#gl-lens-s) blur(6px) saturate(2.2) brightness(1.08);
+}
+.gl-btn--solid { background: var(--accent); }
