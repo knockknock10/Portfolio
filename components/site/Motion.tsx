@@ -57,11 +57,27 @@ export function Motion() {
       if (pulled) { pulled.style.translate = ""; pulled = null }
     }
 
+    const field = document.querySelector<HTMLElement>(".lq-field")
+    let fx = 0, fy = 0
     const tick = () => {
-      x += (tx - x) * 0.2
-      y += (ty - y) * 0.2
+      const lagX = tx - x
+      const lagY = ty - y
+      x += lagX * 0.2
+      y += lagY * 0.2
       scale += (target - scale) * 0.18
-      if (el) el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${scale.toFixed(3)})`
+      // The droplet stretches along its direction of travel, like a bead of water being dragged.
+      const speed = Math.min(Math.hypot(lagX, lagY), 70)
+      const angle = Math.atan2(lagY, lagX)
+      const sx = scale * (1 + speed / 60)
+      const sy = scale * (1 - speed / 200)
+      if (el) el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(${angle.toFixed(3)}rad) scale(${sx.toFixed(3)}, ${sy.toFixed(3)})`
+      // The coloured shapes behind the glass lean toward the pointer.
+      if (field) {
+        fx += ((x / window.innerWidth - 0.5) * 2 - fx) * 0.06
+        fy += ((y / window.innerHeight - 0.5) * 2 - fy) * 0.06
+        field.style.setProperty("--px", fx.toFixed(4))
+        field.style.setProperty("--py", fy.toFixed(4))
+      }
 
       const dy = window.scrollY - lastY
       lastY = window.scrollY

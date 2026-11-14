@@ -56,14 +56,14 @@ export function Liquid() {
         {/* Refraction: warp the backdrop with slow noise, then soften. Text sits above and is not warped. */}
         <filter id="gl-lens" x="-5%" y="-5%" width="110%" height="110%" colorInterpolationFilters="sRGB">
           <feTurbulence type="fractalNoise" baseFrequency="0.005 0.009" numOctaves="2" seed="7" result="noise" />
-          <feGaussianBlur in="noise" stdDeviation="2" result="soft" />
-          <feDisplacementMap in="SourceGraphic" in2="soft" scale="64" xChannelSelector="R" yChannelSelector="G" />
+          <feGaussianBlur in="noise" stdDeviation="3" result="soft" />
+          <feDisplacementMap in="SourceGraphic" in2="soft" scale="96" xChannelSelector="R" yChannelSelector="G" />
         </filter>
         {/* Smaller lens for buttons and chips. */}
         <filter id="gl-lens-s" x="-5%" y="-5%" width="110%" height="110%" colorInterpolationFilters="sRGB">
           <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="3" result="noise" />
           <feGaussianBlur in="noise" stdDeviation="1.5" result="soft" />
-          <feDisplacementMap in="SourceGraphic" in2="soft" scale="26" xChannelSelector="R" yChannelSelector="G" />
+          <feDisplacementMap in="SourceGraphic" in2="soft" scale="40" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </defs>
     </svg>

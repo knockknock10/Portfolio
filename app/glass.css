@@ -2771,3 +2771,193 @@ html[data-lens] .gl-cp__chips li {
   backdrop-filter: url(#gl-lens-s) blur(6px) saturate(2.2) brightness(1.08);
 }
 .gl-btn--solid { background: var(--accent); }
+
+/* =====================================================================
+   FULL LIQUID: a vivid, moving scene behind everything, glass in front.
+   Flat solid shapes with hard edges, so the lens has edges to bend.
+   ===================================================================== */
+html:root {
+  --blob-a: #4f9dff; --blob-b: #a98bff; --blob-c: #ff8aa5; --blob-d: #4fdcb8; --blob-e: #ffc24d;
+  --blob-f: #ff6fd0; --blob-g: #62d8ff; --blob-h: #ff9f5a;
+  --muted: #4a4a50;
+  --paper: #eef1fb;
+}
+html body .lq-field { position: fixed; z-index: 0; }
+html body .lq-blob { opacity: 1; will-change: translate, border-radius; }
+html body .lq-blob--a { width: 52vmax; height: 52vmax; left: -16vmax; top: -14vmax; }
+html body .lq-blob--b { width: 46vmax; height: 46vmax; right: -16vmax; top: 4vh; }
+html body .lq-blob--c { width: 54vmax; height: 54vmax; left: 18vw; bottom: -30vmax; }
+html body .lq-blob--d { width: 34vmax; height: 34vmax; left: -8vmax; bottom: 2vh; }
+html body .lq-blob--e { width: 38vmax; height: 38vmax; right: 2vw; bottom: -14vmax; }
+html body .lq-blob--f { background: var(--blob-f); width: 16vmax; height: 16vmax; left: 38vw; top: 14vh; animation-duration: 17s; }
+html body .lq-blob--g { background: var(--blob-g); width: 13vmax; height: 13vmax; left: 66vw; top: 48vh; animation-duration: 21s; }
+html body .lq-blob--h { background: var(--blob-h); width: 11vmax; height: 11vmax; left: 8vw; top: 58vh; animation-duration: 15s; }
+
+/* The scene travels as you scroll, each shape at its own pace, so glass always has something new to bend. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html body .lq-blob--a { animation: lq-morph 28s ease-in-out infinite alternate, lq-t-a linear both; animation-timeline: auto, scroll(root); }
+    html body .lq-blob--b { animation: lq-morph 27s ease-in-out infinite alternate, lq-t-b linear both; animation-timeline: auto, scroll(root); }
+    html body .lq-blob--c { animation: lq-morph 31s ease-in-out infinite alternate, lq-t-c linear both; animation-timeline: auto, scroll(root); }
+    html body .lq-blob--d { animation: lq-morph 19s ease-in-out infinite alternate, lq-t-d linear both; animation-timeline: auto, scroll(root); }
+    html body .lq-blob--e { animation: lq-morph 25s ease-in-out infinite alternate, lq-t-e linear both; animation-timeline: auto, scroll(root); }
+    html body .lq-blob--f { animation: lq-morph 17s ease-in-out infinite alternate, lq-t-f linear both; animation-timeline: auto, scroll(root); }
+    html body .lq-blob--g { animation: lq-morph 21s ease-in-out infinite alternate, lq-t-g linear both; animation-timeline: auto, scroll(root); }
+    html body .lq-blob--h { animation: lq-morph 15s ease-in-out infinite alternate, lq-t-h linear both; animation-timeline: auto, scroll(root); }
+    @keyframes lq-t-a { to { translate: 38vw 70vh; } }
+    @keyframes lq-t-b { to { translate: -44vw 90vh; } }
+    @keyframes lq-t-c { to { translate: -30vw -80vh; } }
+    @keyframes lq-t-d { to { translate: 60vw -50vh; } }
+    @keyframes lq-t-e { to { translate: -50vw -60vh; } }
+    @keyframes lq-t-f { to { translate: -30vw 110vh; } }
+    @keyframes lq-t-g { to { translate: -40vw -70vh; } }
+    @keyframes lq-t-h { to { translate: 70vw -80vh; } }
+  }
+}
+
+/* Thicker bezel, stronger rim, lighter body: this is what makes it read as glass and not frost. */
+:root {
+  --lg-rim:
+    inset 0 2px 0 rgba(255,255,255,.98),
+    inset 0 0 0 1.5px rgba(255,255,255,.55),
+    inset 0 -2px 0 rgba(255,255,255,.4),
+    inset 0 18px 26px -18px rgba(255,255,255,.95),
+    inset 0 -20px 26px -20px rgba(20,30,60,.22),
+    inset 4px 0 10px -5px rgba(255,140,130,.40),
+    inset -4px 0 10px -5px rgba(100,150,255,.45),
+    0 1px 1px rgba(20,30,60,.05),
+    0 18px 36px -14px rgba(20,30,60,.30);
+}
+.gl-pane { background: rgba(255,255,255,.22); border-color: rgba(255,255,255,.7); }
+.gl-btn, .sk-menu-button, .gl-cp__badges a, .gl-oss__wall a, .gl-cp__chips li { background: rgba(255,255,255,.26); }
+html[data-lens] .gl-pane,
+html[data-lens] .gl-cp__tabs,
+html[data-lens] .sk-nav,
+html[data-lens] .gl-top {
+  -webkit-backdrop-filter: url(#gl-lens) blur(3px) saturate(1.7) brightness(1.08);
+  backdrop-filter: url(#gl-lens) blur(3px) saturate(1.7) brightness(1.08);
+}
+html[data-lens] .gl-btn, html[data-lens] .sk-menu-button, html[data-lens] .gl-cp__badges a,
+html[data-lens] .gl-oss__wall a, html[data-lens] .gl-cp__chips li {
+  -webkit-backdrop-filter: url(#gl-lens-s) blur(2px) saturate(1.8) brightness(1.1);
+  backdrop-filter: url(#gl-lens-s) blur(2px) saturate(1.8) brightness(1.1);
+}
+/* Without the lens (Safari, Firefox) keep enough blur to stay readable and still look like glass. */
+.gl-pane { -webkit-backdrop-filter: blur(18px) saturate(1.9); backdrop-filter: blur(18px) saturate(1.9); }
+
+/* ---- Everything is glass: the older cards and rows get the same rim and clear body ---- */
+html body .lq-blob { opacity: .84; }
+html body .lq-blob--f { width: 12vmax; height: 12vmax; }
+html body .lq-blob--g { width: 10vmax; height: 10vmax; }
+html body .lq-blob--h { width: 8vmax; height: 8vmax; }
+html .sk-fact, html .sk-hero__focus-preview, html .sk-portrait__signal, html .gl-term, html .gl-panel,
+html .gl-experience-item, html .gl-certbar__chips, html .gl-cert, html .sk-panel, html .sk-contact__row,
+html .gl-ps__flow, html .gl-ps__browser {
+  background: rgba(255,255,255,.26);
+  border-color: rgba(255,255,255,.7);
+  box-shadow: var(--lg-rim);
+  -webkit-backdrop-filter: blur(10px) saturate(1.8) brightness(1.06);
+  backdrop-filter: blur(10px) saturate(1.8) brightness(1.06);
+}
+html .sk-nav { background: rgba(255,255,255,.34); }
+html .gl-top { background: rgba(255,255,255,.3); }
+html .gl-cp__tabs { background: rgba(255,255,255,.28); }
+html .gl-ask input, html .gl-ask__field { background: rgba(255,255,255,.4); }
+@media (prefers-reduced-transparency: reduce) {
+  html body .lq-blob { opacity: .5; }
+  html .sk-fact, html .sk-hero__focus-preview, html .sk-portrait__signal, html .gl-term, html .gl-panel,
+  html .gl-experience-item, html .gl-certbar__chips, html .gl-cert, html .sk-panel, html .sk-contact__row { background: rgba(255,255,255,.85); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* =====================================================================
+   TWO COLOURS ONLY: one blue, one coral. Everything else is glass, white and ink.
+   ===================================================================== */
+html:root {
+  --c-blue: #4a86ff;
+  --c-coral: #ff8c72;
+  --blob-a: var(--c-blue); --blob-b: var(--c-coral); --blob-c: var(--c-blue); --blob-d: var(--c-coral); --blob-e: var(--c-blue);
+  --blob-f: var(--c-coral); --blob-g: var(--c-blue); --blob-h: var(--c-coral);
+  --paper: #f4f6fc;
+  --accent: #2f6df6; --accent-deep: #1f57d6;
+}
+html body .lq-blob { opacity: .9; }
+/* Problem-solving bars use the same two colours instead of traffic-light colours. */
+.gl-cp__levels i { background: rgba(255,255,255,.55); box-shadow: inset 0 1px 2px rgba(29,29,31,.12); }
+.gl-cp__levels li[data-level="easy"] i::after { background: var(--c-blue); }
+.gl-cp__levels li[data-level="medium"] i::after { background: var(--c-coral); }
+.gl-cp__levels li[data-level="hard"] i::after { background: var(--ink); }
+/* Small labels must stay readable on top of the blue and coral shapes. */
+html .sk-eyebrow, html .sk-head__label, html [class*="eyebrow"] { color: var(--ink-2); }
+
+/* The scene leans toward the pointer. */
+html body .lq-blob--a { transform: translate(calc(var(--px) * 90px), calc(var(--py) * 70px)); }
+html body .lq-blob--b { transform: translate(calc(var(--px) * -110px), calc(var(--py) * 80px)); }
+html body .lq-blob--c { transform: translate(calc(var(--px) * 70px), calc(var(--py) * -100px)); }
+html body .lq-blob--d { transform: translate(calc(var(--px) * 130px), calc(var(--py) * -60px)); }
+html body .lq-blob--e { transform: translate(calc(var(--px) * -80px), calc(var(--py) * -110px)); }
+html body .lq-blob--f { transform: translate(calc(var(--px) * -170px), calc(var(--py) * 140px)); }
+html body .lq-blob--g { transform: translate(calc(var(--px) * 150px), calc(var(--py) * -130px)); }
+html body .lq-blob--h { transform: translate(calc(var(--px) * -140px), calc(var(--py) * -150px)); }
+
+/* The cursor is a droplet of glass that stretches as it travels. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .gl-ring-cur {
+    width: 58px; height: 58px; border: 0; mix-blend-mode: normal;
+    background: rgba(255,255,255,.10);
+    box-shadow: var(--lg-rim);
+    -webkit-backdrop-filter: blur(1px) saturate(1.6) brightness(1.08);
+    backdrop-filter: blur(1px) saturate(1.6) brightness(1.08);
+  }
+  html[data-lens] .gl-ring-cur { -webkit-backdrop-filter: url(#gl-lens-s) blur(1px) saturate(1.6) brightness(1.08); backdrop-filter: url(#gl-lens-s) blur(1px) saturate(1.6) brightness(1.08); }
+  html.gl-cur-on .gl-ring-cur { opacity: 1; }
+  .gl-ring-cur.is-link { background: rgba(255,255,255,.22); }
+}
+
+/* Hover: controls swell with a spring; cards breathe into an organic outline; scroll speed tilts the glass. */
+@keyframes gl-blobby {
+  0%, 100% { border-radius: 30px 30px 30px 30px; }
+  25% { border-radius: 38px 26px 34px 28px / 28px 36px 26px 34px; }
+  50% { border-radius: 28px 36px 26px 38px / 36px 28px 38px 26px; }
+  75% { border-radius: 34px 28px 38px 26px / 26px 34px 28px 36px; }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .gl-btn:hover, .gl-cp__tabs button:hover, .gl-cp__chips li:hover, .gl-cp__badges a:hover, .gl-oss__wall a:hover, .sk-menu-button:hover { transform: scale(1.07, 1.04); }
+  .gl-pane:hover, .gl-cert:hover, .gl-experience-item:hover, .sk-fact:hover, .sk-contact__row:hover { animation: gl-blobby 5s ease-in-out infinite; }
+  .gl-pane, .gl-cert, .gl-experience-item, .sk-fact { rotate: calc(var(--vel, 0) * -0.02deg); }
+}
+
+/* No cursor ring or droplet, and no small floating dots: they read as cheap. The code stays, hidden. */
+html .gl-ring-cur, html.gl-cur-on .gl-ring-cur { display: none !important; }
+html body .lq-blob--f, html body .lq-blob--g, html body .lq-blob--h { display: none; }
+
+/* =====================================================================
+   THE SCENE, TAKE TWO: no circles. Flowing contour lines in blue and coral.
+   ===================================================================== */
+html body .lq-blob { display: none; }
+html .gl-ring-cur, html.gl-cur-on .gl-ring-cur { display: none !important; }
+.ll-field { z-index: 0; }
+.ll-svg { position: absolute; left: -8%; top: -6%; width: 116%; height: 112%; overflow: visible; }
+.ll-g { transform: translate(calc(var(--px, 0) * 40px), calc(var(--py, 0) * 30px)); will-change: transform; }
+.ll-g--1 { transform: translate(calc(var(--px, 0) * -60px), calc(var(--py, 0) * 24px)); }
+.ll-g--2 { transform: translate(calc(var(--px, 0) * 80px), calc(var(--py, 0) * -34px)); }
+.ll-g--3 { transform: translate(calc(var(--px, 0) * -30px), calc(var(--py, 0) * -50px)); }
+.ll-g--4 { transform: translate(calc(var(--px, 0) * 50px), calc(var(--py, 0) * 44px)); }
+.ll-line { animation: ll-flow 46s linear infinite; }
+.ll-g--1 .ll-line { animation-duration: 38s; animation-direction: reverse; }
+.ll-g--2 .ll-line { animation-duration: 54s; }
+.ll-g--3 .ll-line { animation-duration: 41s; animation-direction: reverse; }
+.ll-g--4 .ll-line { animation-duration: 60s; }
+@keyframes ll-flow { from { translate: 0 0; } to { translate: -800px 0; } }
+@media (prefers-reduced-motion: reduce) { .ll-line { animation: none; } }
+html:root { --paper: #f6f7fc; }
+
+/* ---- Lusion-style direction: the flowing lines are retired (code kept), the scene becomes 3D objects. ---- */
+html .ll-field { display: none; }
+
+/* The 3D scene: full-screen, behind everything, never catches the pointer. */
+.sc-host { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
+.sc-host[data-ready="1"] { opacity: 1; }
+.sc-host canvas { display: block; width: 100%; height: 100%; }
+
+/* Lusion-style 3D world replaces the old wire-wave field (kept in code, hidden). */
+html body .gl-wavefield, html body .gl-open .gl-wavefield { display: none; }

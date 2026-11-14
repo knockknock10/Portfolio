@@ -10,6 +10,10 @@ export function LiquidField() {
       <span className="lq-blob lq-blob--c" />
       <span className="lq-blob lq-blob--d" />
       <span className="lq-blob lq-blob--e" />
+      {/* Smaller orbs: their hard edges are what the glass visibly bends. */}
+      <span className="lq-blob lq-blob--f" />
+      <span className="lq-blob lq-blob--g" />
+      <span className="lq-blob lq-blob--h" />
     </div>
   )
 }
