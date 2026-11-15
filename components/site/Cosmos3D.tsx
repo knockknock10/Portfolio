@@ -209,6 +209,12 @@ export function Cosmos3D() {
         legL.rotation.x = sw * 0.3; legR.rotation.x = -sw * 0.3
         astro.scale.setScalar(1.15)
 
+        // hero stays clean: the 3D layer only shows once the hero has scrolled away
+        const heroEl = document.getElementById("top")
+        const heroBottom = heroEl ? heroEl.getBoundingClientRect().bottom : 0
+        const hide = heroBottom > window.innerHeight * 0.5
+        if (el.dataset.hero !== (hide ? "1" : "0")) el.dataset.hero = hide ? "1" : "0"
+
         renderer.render(scene, camera)
       }
       const loop = () => { if (!running) return; frame(); raf = requestAnimationFrame(loop) }
