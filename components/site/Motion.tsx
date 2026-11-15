@@ -60,9 +60,19 @@ export function Motion() {
       })
       pulled = next
     }
+    let tilted: HTMLElement | null = null
+    const TILT = ".gl-pane, .gl-cert, .sk-fact, .gl-experience-item, .gl-term, .sk-panel"
     const onLight = (e: PointerEvent) => {
       if (e.pointerType === "touch") return
       mx = e.clientX; my = e.clientY
+      const card = (e.target as Element | null)?.closest<HTMLElement>(TILT) ?? null
+      if (tilted && tilted !== card) { tilted.style.setProperty("--trx", "0deg"); tilted.style.setProperty("--try", "0deg") }
+      tilted = card
+      if (card && card.getBoundingClientRect().width < 1000) {
+        const r = card.getBoundingClientRect()
+        card.style.setProperty("--trx", `${((0.5 - (e.clientY - r.top) / r.height) * 6).toFixed(2)}deg`)
+        card.style.setProperty("--try", `${(((e.clientX - r.left) / r.width - 0.5) * 8).toFixed(2)}deg`)
+      }
       if (!pullRaf) pullRaf = requestAnimationFrame(pull)
     }
     const onDown = () => { target *= 0.7 }
@@ -70,6 +80,7 @@ export function Motion() {
     const onLeave = () => {
       root.classList.remove("gl-cur-on")
       pulled.forEach((b) => { b.style.translate = "" }); pulled = []
+      if (tilted) { tilted.style.setProperty("--trx", "0deg"); tilted.style.setProperty("--try", "0deg"); tilted = null }
     }
 
     const field = document.querySelector<HTMLElement>(".lq-field")
