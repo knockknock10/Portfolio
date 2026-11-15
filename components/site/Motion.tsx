@@ -36,25 +36,40 @@ export function Motion() {
       target = text ? 0 : hit ? 1.9 : 1
       el?.classList.toggle("is-link", !!hit && !text)
     }
-    // Buttons lean toward the pointer.
-    let pulled: HTMLElement | null = null
+    // Buttons and cards are pulled toward the pointer when it comes near, then settle back.
+    let pulled: HTMLElement[] = []
+    let mx = 0, my = 0, pullRaf = 0
+    const pull = () => {
+      pullRaf = 0
+      const next: HTMLElement[] = []
+      document.querySelectorAll<HTMLElement>(".gl-btn, .gl-magnet, .sk-contact__row").forEach((b) => {
+        const r = b.getBoundingClientRect()
+        if (r.bottom < -200 || r.top > window.innerHeight + 200) return
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2
+        const dx = mx - cx, dy = my - cy
+        const reach = Math.max(r.width, r.height) * 0.5 + 110
+        const dist = Math.hypot(dx, dy)
+        if (dist < reach) {
+          const k = (1 - dist / reach) ** 1.2
+          const big = r.width > 360 ? 0.08 : 0.32
+          b.style.translate = `${(dx * big * k).toFixed(1)}px ${(dy * big * k).toFixed(1)}px`
+          next.push(b)
+        } else if (b.style.translate) {
+          b.style.translate = ""
+        }
+      })
+      pulled = next
+    }
     const onLight = (e: PointerEvent) => {
-      const t = e.target as Element | null
-      const btn = t?.closest<HTMLElement>(".gl-btn")
-      if (pulled && pulled !== btn) pulled.style.translate = ""
-      pulled = btn ?? null
-      if (btn) {
-        const r = btn.getBoundingClientRect()
-        const dx = (e.clientX - (r.left + r.width / 2)) / r.width
-        const dy = (e.clientY - (r.top + r.height / 2)) / r.height
-        btn.style.translate = `${(dx * 8).toFixed(1)}px ${(dy * 6).toFixed(1)}px`
-      }
+      if (e.pointerType === "touch") return
+      mx = e.clientX; my = e.clientY
+      if (!pullRaf) pullRaf = requestAnimationFrame(pull)
     }
     const onDown = () => { target *= 0.7 }
     const onUp = () => { target = el?.classList.contains("is-link") ? 1.9 : 1 }
     const onLeave = () => {
       root.classList.remove("gl-cur-on")
-      if (pulled) { pulled.style.translate = ""; pulled = null }
+      pulled.forEach((b) => { b.style.translate = "" }); pulled = []
     }
 
     const field = document.querySelector<HTMLElement>(".lq-field")
@@ -104,7 +119,7 @@ export function Motion() {
       cancelAnimationFrame(raf)
       window.removeEventListener("pointermove", onMove)
       window.removeEventListener("pointermove", onLight)
-      if (pulled) pulled.style.translate = ""
+      pulled.forEach((b) => { b.style.translate = "" })
       window.removeEventListener("pointerdown", onDown)
       window.removeEventListener("pointerup", onUp)
       document.documentElement.removeEventListener("pointerleave", onLeave)

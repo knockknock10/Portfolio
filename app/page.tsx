@@ -10,13 +10,14 @@ import { LiquidField } from "@/components/site/LiquidField"
 import { Liquid } from "@/components/site/Liquid"
 import { LiquidLines } from "@/components/site/LiquidLines"
 // import { Scene3D } from "@/components/site/Scene3D" // earlier ball-pit scene, kept for reference
-import { Cosmos3D } from "@/components/site/Cosmos3D"
+// import { Cosmos3D } from "@/components/site/Cosmos3D" // floating shapes removed (owner preference); kept for reference
 import { Interactions } from "@/components/site/Interactions"
 import { Premium } from "@/components/site/Premium"
 import { Marquee } from "@/components/site/Marquee"
 import { Kinetic } from "@/components/site/Kinetic"
 import { Motion } from "@/components/site/Motion"
-import { ProjectScroll } from "@/components/site/ProjectScroll"
+// import { ProjectScroll } from "@/components/site/ProjectScroll" // pinned scroll version, replaced
+import { ProjectShowcase } from "@/components/site/ProjectShowcase"
 import { Terminal } from "@/components/site/Terminal"
 import { Ask } from "@/components/site/Ask"
 import { SideRail } from "@/components/site/SideRail"
@@ -152,7 +153,7 @@ export default async function HomePage() {
       <LiquidField />
       <LiquidLines />
       {/* <Scene3D /> */}
-      <Cosmos3D />
+      {/* <Cosmos3D /> */}
       <Interactions />
       <Kinetic />
       <Motion />
@@ -183,7 +184,7 @@ export default async function HomePage() {
         />
         {/* Previous workbench kept for reference, replaced by the scroll showcase:
         <Work repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} /> */}
-        <ProjectScroll repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
+        <ProjectShowcase repoCount={typeof signals.github.totalRepos === "number" ? signals.github.totalRepos : null} />
         <Ask />
         <Terminal
           email={email}
