@@ -3072,3 +3072,41 @@ html body .sk-contact__row:hover > span svg { transform: translate(4px, -4px) ro
     box-shadow: var(--lg-rim), 0 46px 70px -28px rgba(29,29,31,.34);
   }
 }
+
+/* ===================================================================== */
+/* Water pass: thicker glass edge, springy settle, organic hover shapes    */
+/* ===================================================================== */
+:root {
+  --water-spring: cubic-bezier(.34,1.56,.64,1);
+  --water-ease: cubic-bezier(.22,1,.36,1);
+  --lg-rim:
+    inset 0 2px 0 rgba(255,255,255,.98),
+    inset 0 -1.5px 0 rgba(255,255,255,.5),
+    inset 0 18px 26px -16px rgba(255,255,255,.98),
+    inset 0 -22px 28px -18px rgba(29,29,31,.14),
+    inset 0 0 0 1px rgba(255,255,255,.35),
+    inset 4px 0 10px -4px rgba(255,150,140,.34),
+    inset -4px 0 10px -4px rgba(110,160,255,.36),
+    0 1px 1px rgba(29,29,31,.05),
+    0 18px 36px -16px rgba(29,29,31,.26);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  /* pills and chips squash like a drop, then spring back */
+  html body .gl-btn, html body .gl-cp__chips li, html body .gl-pj__tags li, html body .gl-cp__badges a, html body .gl-oss__wall a {
+    transition: translate .4s var(--water-ease), transform .7s var(--water-spring), box-shadow .5s, background .3s;
+  }
+  html body .gl-btn:hover, html body .gl-cp__chips li:hover, html body .gl-pj__tags li:hover, html body .gl-cp__badges a:hover, html body .gl-oss__wall a:hover {
+    transform: scale(1.06, .96);
+  }
+  html body .gl-btn:active { transform: scale(.94, 1.06); }
+  /* project chips and cards take an organic outline on hover */
+  html body .gl-pj__chip:hover:not([data-active="true"]) { translate: 6px 0; }
+  html body .gl-pj__stage { transition: transform .8s var(--water-ease), border-radius 1.2s var(--water-ease); }
+  html body .gl-pj__stage:hover { border-radius: 52px 36px 48px 40px; }
+  html body .gl-cert, html body .gl-experience-item, html body .sk-fact { transition-property: transform, box-shadow, border-radius; transition-duration: .5s, .5s, 1s; }
+  html body .gl-cert:hover, html body .gl-experience-item:hover, html body .sk-fact:hover { border-radius: 34px 26px 32px 28px; }
+}
+/* the selector droplet overshoots a little when it lands */
+html body .gl-pj__drop, html body .gl-thumb { transition-timing-function: var(--water-spring); }
+/* long, glassy panels get a faint wet shine along the top */
+html body .gl-pj__stage, html body .gl-pj__list { box-shadow: var(--lg-rim), 0 46px 80px -40px rgba(29,29,31,.3); }

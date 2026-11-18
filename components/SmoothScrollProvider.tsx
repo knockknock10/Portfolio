@@ -28,7 +28,7 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       const nextLenis = new Lenis({
         autoRaf: true,
         anchors: false,
-        lerp: motionPreference.matches ? 1 : 0.085,
+        lerp: motionPreference.matches ? 1 : 0.075,
         smoothWheel: !motionPreference.matches,
         wheelMultiplier: 0.9,
         syncTouch: false,
