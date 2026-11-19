@@ -14,6 +14,7 @@ import { LiquidLines } from "@/components/site/LiquidLines"
 import { Interactions } from "@/components/site/Interactions"
 import { Premium } from "@/components/site/Premium"
 import { Marquee } from "@/components/site/Marquee"
+import { Glance } from "@/components/site/Glance"
 import { Kinetic } from "@/components/site/Kinetic"
 import { Motion } from "@/components/site/Motion"
 // import { ProjectScroll } from "@/components/site/ProjectScroll" // pinned scroll version, replaced
@@ -178,6 +179,7 @@ export default async function HomePage() {
           projects={upstream.available ? upstream.projects.map((project) => project.name) : []}
           stack={["Go", "Java", "C++", "Python", "React", "Node.js", "MongoDB", "PostgreSQL", "Docker", "Linux"]}
         />
+        <Glance merged={upstream.available ? upstream.mergedCount : null} orgs={upstream.available ? upstream.projectCount : null} projectCount={5} />
         <Statement
           label="How I like to work"
           text="I like going *beyond a working demo*: understanding the data flow, testing *edge cases*, and being clear about what the results do and do not show."
