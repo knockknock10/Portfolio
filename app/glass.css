@@ -2968,7 +2968,7 @@ html body .sc-host[data-hero="1"], html body .sc-host[data-hero="1"][data-ready=
 /* ===================================================================== */
 /* Projects switcher                                                      */
 /* ===================================================================== */
-.gl-pj { position: relative; z-index: 1; padding: clamp(72px, 10vw, 140px) 0; }
+.gl-pj { position: relative; z-index: 1; padding: clamp(72px, 10vw, 140px) var(--gutter); }
 .gl-pj__grid { display: grid; grid-template-columns: minmax(220px, 280px) 1fr; gap: clamp(16px, 2.4vw, 32px); align-items: start; margin-top: clamp(28px, 4vw, 56px); }
 .gl-pj__list { position: relative; display: grid; gap: 10px; padding: 10px; border-radius: 32px; background: rgba(255,255,255,.24); -webkit-backdrop-filter: blur(14px) saturate(1.5); backdrop-filter: blur(14px) saturate(1.5); box-shadow: var(--lg-rim); border: 1px solid rgba(255,255,255,.7); }
 .gl-pj__drop { position: absolute; left: 0; top: 0; width: var(--dw, 0); height: var(--dh, 0); transform: translate(var(--dx, 0), var(--dy, 0)); border-radius: 24px; background: rgba(255,255,255,.92); box-shadow: var(--lg-rim), 0 14px 30px -14px rgba(47,109,246,.5); transition: transform .6s cubic-bezier(.34,1.45,.5,1), width .5s, height .5s; pointer-events: none; }
@@ -3072,3 +3072,65 @@ html body .sk-contact__row:hover > span svg { transform: translate(4px, -4px) ro
     box-shadow: var(--lg-rim), 0 46px 70px -28px rgba(29,29,31,.34);
   }
 }
+
+/* ===================================================================== */
+/* Water pass: thicker glass edge, springy settle, organic hover shapes    */
+/* ===================================================================== */
+:root {
+  --water-spring: cubic-bezier(.34,1.56,.64,1);
+  --water-ease: cubic-bezier(.22,1,.36,1);
+  --lg-rim:
+    inset 0 2px 0 rgba(255,255,255,.98),
+    inset 0 -1.5px 0 rgba(255,255,255,.5),
+    inset 0 18px 26px -16px rgba(255,255,255,.98),
+    inset 0 -22px 28px -18px rgba(29,29,31,.14),
+    inset 0 0 0 1px rgba(255,255,255,.35),
+    inset 4px 0 10px -4px rgba(255,150,140,.34),
+    inset -4px 0 10px -4px rgba(110,160,255,.36),
+    0 1px 1px rgba(29,29,31,.05),
+    0 18px 36px -16px rgba(29,29,31,.26);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  /* pills and chips squash like a drop, then spring back */
+  html body .gl-btn, html body .gl-cp__chips li, html body .gl-pj__tags li, html body .gl-cp__badges a, html body .gl-oss__wall a {
+    transition: translate .4s var(--water-ease), transform .7s var(--water-spring), box-shadow .5s, background .3s;
+  }
+  html body .gl-btn:hover, html body .gl-cp__chips li:hover, html body .gl-pj__tags li:hover, html body .gl-cp__badges a:hover, html body .gl-oss__wall a:hover {
+    transform: scale(1.06, .96);
+  }
+  html body .gl-btn:active { transform: scale(.94, 1.06); }
+  /* project chips and cards take an organic outline on hover */
+  html body .gl-pj__chip:hover:not([data-active="true"]) { translate: 6px 0; }
+  html body .gl-pj__stage { transition: transform .8s var(--water-ease), border-radius 1.2s var(--water-ease); }
+  html body .gl-pj__stage:hover { border-radius: 52px 36px 48px 40px; }
+  html body .gl-cert, html body .gl-experience-item, html body .sk-fact { transition-property: transform, box-shadow, border-radius; transition-duration: .5s, .5s, 1s; }
+  html body .gl-cert:hover, html body .gl-experience-item:hover, html body .sk-fact:hover { border-radius: 34px 26px 32px 28px; }
+}
+/* the selector droplet overshoots a little when it lands */
+html body .gl-pj__drop, html body .gl-thumb { transition-timing-function: var(--water-spring); }
+/* long, glassy panels get a faint wet shine along the top */
+html body .gl-pj__stage, html body .gl-pj__list { box-shadow: var(--lg-rim), 0 46px 80px -40px rgba(29,29,31,.3); }
+
+/* Blocks pour in: they rise, un-blur and settle with a soft overshoot. */
+@keyframes gl-pour { 0% { opacity: 0; transform: translateY(36px) scale(.975); filter: blur(10px); } 60% { opacity: 1; filter: blur(0); } 100% { opacity: 1; transform: none; filter: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  html body .sk-reveal[data-visible="true"] { animation: gl-pour 1.05s var(--water-ease) both; animation-delay: var(--reveal-delay, 0s); }
+}
+
+/* ===================================================================== */
+/* At a glance                                                            */
+/* ===================================================================== */
+.gl-glance { position: relative; z-index: 1; padding: clamp(40px, 6vw, 88px) var(--gutter) clamp(8px, 2vw, 24px); }
+.gl-glance__plain { margin: 14px 0 0; max-width: 46ch; font-size: clamp(22px, 2.6vw, 34px); line-height: 1.3; letter-spacing: -.02em; color: var(--ink); }
+.gl-glance__grid { list-style: none; margin: clamp(24px, 3vw, 40px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.gl-glance__tile { display: flex; flex-direction: column; gap: 10px; height: 100%; padding: 24px 24px 20px; border-radius: 30px; text-decoration: none; color: var(--ink); background: rgba(255,255,255,.3); -webkit-backdrop-filter: blur(14px) saturate(1.5); backdrop-filter: blur(14px) saturate(1.5); border: 1px solid rgba(255,255,255,.75); box-shadow: var(--lg-rim); transition: translate .4s var(--water-ease), transform .7s var(--water-spring), box-shadow .5s, border-radius 1s; }
+.gl-glance__tile strong { font-size: clamp(40px, 4.4vw, 60px); line-height: 1; letter-spacing: -.04em; font-weight: 700; color: var(--accent); }
+.gl-glance__tile span { font-size: 15.5px; line-height: 1.45; }
+.gl-glance__tile em { margin-top: auto; font-style: normal; font-size: 13px; color: var(--ink-2); }
+.gl-glance__tile b { display: inline-block; transition: transform .5s var(--water-spring); }
+.gl-glance__tile:hover { transform: translateY(-6px); border-radius: 38px 24px 34px 26px; box-shadow: var(--lg-rim), 0 40px 60px -26px rgba(47,109,246,.4); }
+.gl-glance__tile:hover b { transform: translateY(4px); }
+.gl-glance__tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 980px) { .gl-glance__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .gl-glance__grid { grid-template-columns: 1fr; } .gl-glance__tile { padding: 20px; } }
+@media (prefers-reduced-motion: reduce) { .gl-glance__tile, .gl-glance__tile b { transition: none; } .gl-glance__tile:hover { transform: none; } }
