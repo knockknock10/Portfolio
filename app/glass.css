@@ -3110,3 +3110,9 @@ html body .sk-contact__row:hover > span svg { transform: translate(4px, -4px) ro
 html body .gl-pj__drop, html body .gl-thumb { transition-timing-function: var(--water-spring); }
 /* long, glassy panels get a faint wet shine along the top */
 html body .gl-pj__stage, html body .gl-pj__list { box-shadow: var(--lg-rim), 0 46px 80px -40px rgba(29,29,31,.3); }
+
+/* Blocks pour in: they rise, un-blur and settle with a soft overshoot. */
+@keyframes gl-pour { 0% { opacity: 0; transform: translateY(36px) scale(.975); filter: blur(10px); } 60% { opacity: 1; filter: blur(0); } 100% { opacity: 1; transform: none; filter: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  html body .sk-reveal[data-visible="true"] { animation: gl-pour 1.05s var(--water-ease) both; animation-delay: var(--reveal-delay, 0s); }
+}
